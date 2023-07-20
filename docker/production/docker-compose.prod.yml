@@ -1,6 +1,6 @@
 services:
   web:
-    build: .
+    build: ./Dockerfile.prod
     ports:
       - "8000:3000"
   redis:
