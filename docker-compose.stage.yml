@@ -1,16 +1,16 @@
 services:
-  web:
+  web-stage:
     build:
       context: .
-      dockerfile: production.Dockerfile
+      dockerfile: staging.Dockerfile
     ports:
-      - "3000:3000"
+      - "6060:6060"
     restart: on-failure
 
-  redis:
+  redis-stage:
     image: "redis:alpine"
   
-  mongo:
+  mongo-stage:
     image: mongo
     restart: on-failure
     volumes:
@@ -19,7 +19,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       
-  mongo-express:
+  mongo-express-stage:
     image: mongo-express
     restart: on-failure
     ports:

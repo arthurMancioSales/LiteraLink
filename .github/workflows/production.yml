@@ -11,4 +11,4 @@ jobs:
         run: docker compose -f ./docker-compose.prod.yml down
   
       - name: Deploy to stage
-        run: docker compose -f ./docker-compose.prod.yml up -d
+        run: docker compose -f ./docker-compose.prod.yml up -d --build
