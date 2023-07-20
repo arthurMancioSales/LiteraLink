@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ApiResponse, IUserUpdate } from "@/src/interfaces/interface";
+import { cookies } from "next/dist/client/components/headers";
+import jwt from "jsonwebtoken";
+import { IUserUpdate } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/service/customError";
 import { Response } from "@/src/utils/response";
-import { auth } from "../../../src/middlewares/auth";
+import { auth } from "../../../src/functions/middlewares/auth";
 import { updateUser } from "@/src/service/user/updateUser";
 
 export async function PATCH(req: NextRequest) {
@@ -23,9 +25,11 @@ export async function PATCH(req: NextRequest) {
         if (request.password) {
             body.password = request.password;
         }
-       
         const userUpdate = await updateUser(id, body);
-        
+        const jwt_cookie: string = jwt.sign({ id: userUpdate }, JSON.stringify(process.env.secretKey));
+        cookies().delete("Session");
+        cookies().set("Session", jwt_cookie);
+        return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
         Response.message = "Error";
         Response.status = e.status;

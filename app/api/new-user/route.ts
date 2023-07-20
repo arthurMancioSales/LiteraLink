@@ -11,9 +11,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
     };
     try {
         const user = await req.json();
-        const { id, name, email, password } = user;
+        // const { id, name, email, password } = user;
 
-        const result = await registerUser(user);
+        // const result = await registerUser(user);
 
 
         return NextResponse.json(apiResponse, { status: apiResponse.status });
