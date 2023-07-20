@@ -1,10 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { config } from "dotenv";
 
 import "./globals.css";
 import { checkIsPublicRoute } from "@/src/functions/checkIsPublicRoute";
-
+config();
 
 export default function RootLayout({
     children,
