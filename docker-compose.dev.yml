@@ -2,11 +2,11 @@ version: '3.2'
 
 services:
   web-dev:
-    build: docker\development\
+    build: docker/development/
     volumes:
       - .:/app
     ports:
-      - "8000:3000"
+      - "8000:4000"
 
   redis-dev:
     image: "redis:alpine"
