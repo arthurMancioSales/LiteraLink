@@ -1,9 +1,9 @@
 export interface ApiResponse {
     message: string;
     status: number;
-    data: null | Object | Object[];
+    data: null | object | object[];
     error: null | string;
-};
+}
 
 export interface IUser {
     id: number;

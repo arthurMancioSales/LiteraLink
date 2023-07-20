@@ -10,26 +10,26 @@ export async function PATCH(req: NextRequest) {
         const id = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length === 0) {
-            throw new CustomError('Error: nenhum campo foi selecionado', 500);
+            throw new CustomError("Error: nenhum campo foi selecionado", 500);
         }
         // preciso escrever os validators para validar os campos de name, email, password;
-        const body: IUserUpdate = {}
+        const body: IUserUpdate = {};
         if (request.name) {
-            body.name = request.name
+            body.name = request.name;
         }
         if (request.email) {
-            body.email = request.email
+            body.email = request.email;
         }
         if (request.password) {
-            body.password = request.password
+            body.password = request.password;
         }
        
         const userUpdate = await updateUser(id, body);
         
     } catch (e: any) {
-        Response.message = 'Error';
+        Response.message = "Error";
         Response.status = e.status;
         Response.error = e.message;
         return NextResponse.json(Response, {status: Response.status});
     }
-};
+}

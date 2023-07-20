@@ -4,7 +4,7 @@ import { ApiResponse } from "@/src/interfaces/interface";
 
 export async function POST(req: NextRequest, res: NextResponse) {
     const apiResponse : ApiResponse = {
-        message: 'Success',
+        message: "Success",
         status: 201,
         data: null,
         error: null
@@ -19,9 +19,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         return NextResponse.json(apiResponse, { status: apiResponse.status });
 
     } catch (error: any) {
-        apiResponse.message = 'Error on sign up.';
+        apiResponse.message = "Error on sign up.";
         apiResponse.status = error.status;
         apiResponse.error = error.message;
-        return NextResponse.json(apiResponse, {status: apiResponse.status})
+        return NextResponse.json(apiResponse, {status: apiResponse.status});
     }
-};
+}
