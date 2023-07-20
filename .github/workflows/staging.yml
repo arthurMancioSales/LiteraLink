@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     needs: build
 
@@ -47,16 +47,11 @@ jobs:
     needs: [build, test]
     if: github.ref == 'refs/heads/main'
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-    - name: Deploy to stage
-      uses: fjogeleit/http-request-action@v1
-      id: deployStaging
-      with:
-        url: "${{ secrets.STAGING_URL }}&ref=${{ github.sha }}"
-        
-    - name: Show Response
-      run: |
-        echo ${{ steps.deployStaging.outputs.response }}
-        echo ${{ steps.deployStaging.outputs.headers }}
+      - name: Clear previous containers
+        run: docker compose -f ./docker-compose.dev.yml down
+    
+      - name: Deploy to stage
+        run: docker compose -f ./docker-compose.dev.yml up -d
