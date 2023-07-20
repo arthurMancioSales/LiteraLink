@@ -1,8 +1,8 @@
 services:
   web:
-    build: ./Dockerfile.prod
+    build: docker/production/
     ports:
-      - "8000:3000"
+      - "6000:3000"
   redis:
     image: "redis:alpine"
   
