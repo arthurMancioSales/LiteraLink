@@ -7,13 +7,14 @@ services:
       - .:/app
     ports:
       - "8000:4000"
+    restart: on-failure
 
   redis-dev:
     image: "redis:alpine"
   
   mongo-dev:
     image: mongo
-    restart: always
+    restart: on-failure
     volumes:
       - mongo-data:/data/db
     environment:
@@ -22,7 +23,7 @@ services:
       
   mongo-express-dev:
     image: mongo-express
-    restart: always
+    restart: on-failure
     ports:
       - 8081:8081
     environment:
