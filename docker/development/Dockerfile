@@ -4,15 +4,10 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 ENV NODE_ENV development
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+EXPOSE 4000
 
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT 3000
+ENV PORT 4000
 
 WORKDIR /app
 
-CMD ["npm", "run dev"]
+CMD ["npm", "run", "dev"]
