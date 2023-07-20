@@ -12,6 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Grant permission
+        run: chown -R arthur ./ 
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -25,9 +28,6 @@ jobs:
 
       - name: Build the project
         run: npm run build 
-      
-      - name: Give permission to vm's user
-        run: chmod 777 .next 
 
   test:
     runs-on: self-hosted
