@@ -3,12 +3,14 @@ services:
     build: docker/production/
     ports:
       - "6000:3000"
+    restart: on-failure
+
   redis:
     image: "redis:alpine"
   
   mongo:
     image: mongo
-    restart: always
+    restart: on-failure
     volumes:
       - mongo-data:/data/db
     environment:
@@ -17,7 +19,7 @@ services:
       
   mongo-express:
     image: mongo-express
-    restart: always
+    restart: on-failure
     ports:
       - 8081:8081
     environment:

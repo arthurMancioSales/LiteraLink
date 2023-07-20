@@ -9,6 +9,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Grant permission
+        run: chown -R arthur ./ 
+        
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -19,12 +22,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+     
+      - name: Lint project
+        run: npm run lint -- --fix
 
       - name: Build the project
         run: npm run build 
-      
-      - name: Give permission to vm's user
-        run: chmod 777 .next 
 
   test:
     runs-on: self-hosted

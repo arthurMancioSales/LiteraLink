@@ -1,6 +1,6 @@
-import { IUserUpdate } from '@/src/interfaces/interface';
-import { users } from '../../repository/users'
-import { CustomError } from '../customError';
+import { IUserUpdate } from "@/src/interfaces/interface";
+import { users } from "../../repository/users";
+import { CustomError } from "../customError";
 
 export async function updateUser (id: number | string, body: IUserUpdate) {
     try {
@@ -8,6 +8,7 @@ export async function updateUser (id: number | string, body: IUserUpdate) {
         
 
     } catch (e: any) {
-        throw e;
+        console.log(e);
+        
     }
-};
+}

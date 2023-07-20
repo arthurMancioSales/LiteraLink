@@ -4,16 +4,17 @@ import jwt from "jsonwebtoken";
 
 export async function auth(req: NextRequest) {
     try {
-        const userCookie = req.cookies.get('Session')?.value;
+        const userCookie = req.cookies.get("Session")?.value;
         if (!userCookie) {
-            throw new CustomError('Error: usuário não está logado', 403);
+            throw new CustomError("Error: usuário não está logado", 403);
         }
         const decodedJwt = jwt.verify(userCookie, JSON.stringify(process.env.secretKey));
-        if (typeof decodedJwt === 'string') {
-            throw new CustomError('Error: Cookie inválido.', 500);
+        if (typeof decodedJwt === "string") {
+            throw new CustomError("Error: Cookie inválido.", 500);
         }
         return decodedJwt.id;
     } catch (e: any) {
-        throw e;
+        console.log(e);
+
     }
-};
+}
