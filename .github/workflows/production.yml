@@ -7,6 +7,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Test
+        run: ls -l .
+      
+      - name: Test
+        run: ls -l ..
+
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.prod.yml down
   
