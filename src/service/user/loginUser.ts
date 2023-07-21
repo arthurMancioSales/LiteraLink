@@ -1,5 +1,5 @@
-import { users } from '../../repository/users'
-import { CustomError } from '../customError';
+import { users } from "../../repository/users";
+import { CustomError } from "../customError";
 
 export async function login (email: string, password: string ) {
     try {
@@ -8,10 +8,11 @@ export async function login (email: string, password: string ) {
             if (user.password === password) {
                 return user.id;
             }
-            throw new CustomError('Error: Senha incorreta!', 401);
+            throw new CustomError("Error: Senha incorreta!", 401);
         }
-        throw new CustomError('Error: O usuário não existe!', 404);
+        throw new CustomError("Error: O usuário não existe!", 404);
     } catch (e: any) {
-        throw e;
+        console.log(e);
+
     }
-};
+}
