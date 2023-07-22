@@ -26,9 +26,10 @@ export async function PATCH(req: NextRequest) {
             body.password = request.password;
         }
         const userUpdate = await updateUser(id, body);
-        const jwt_cookie: string = jwt.sign({ id: userUpdate }, JSON.stringify(process.env.secretKey));
+        const jwt_cookie: string = jwt.sign({ id: userUpdate._id }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
         cookies().set("Session", jwt_cookie);
+        Response.data = userUpdate;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
         Response.message = "Error";
