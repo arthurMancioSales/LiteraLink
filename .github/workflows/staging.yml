@@ -5,8 +5,8 @@ on:
   pull_request:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  buildAndTest:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
@@ -20,31 +20,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
-        run: npm run build
-
-  test:
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-            node-version: 'latest'
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Run tests with Jest
         run: npm run test
 
+      - name: Build the project
+        run: npm run build 
+
   deploy-staging:
-    needs: [build, test]
+    needs: [buildAndTest]
     if: github.ref == 'refs/heads/main'
 
     runs-on: ubuntu-latest
