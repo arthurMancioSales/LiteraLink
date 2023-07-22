@@ -14,9 +14,12 @@ export default function RootLayout({
 }) {
     const pathname = usePathname();
 
+    // const darkMode = "dark";
+    const darkMode = false;
+
     const isPublicPage = checkIsPublicRoute(pathname!);
     return (
-        <html lang="pt-br">
+        <html lang="pt-br" data-mode={darkMode}>
             <body>{children}</body>
         </html>
     );
