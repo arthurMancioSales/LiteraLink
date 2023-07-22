@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/dist/client/components/headers";
 import { Response } from "@/src/utils/response";
 import { auth } from "@/src/functions/middlewares/auth";
+import { CustomError } from "@/src/service/customError";
 
 export async function POST(req: NextRequest) {
     try{
@@ -10,6 +11,7 @@ export async function POST(req: NextRequest) {
             cookies().delete("Session");
             return NextResponse.json(Response, {status: Response.status});
         }
+        throw new CustomError('Erro interno do servidor', 500);
     }
     catch(error: any) {
         Response.message = "Error";

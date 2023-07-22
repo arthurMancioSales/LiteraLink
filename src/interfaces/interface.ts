@@ -30,3 +30,18 @@ export interface IStatistic {
     actualSequence: number;
     goalsAchieved: number;
 };
+
+export interface IBook {
+    id: string | number;
+    status?: "lido" | "lendo" | "ler";
+    chaptersRead?: number;
+    favorite?: boolean;
+    lastSequence?: Date;
+    goals?: IGoals[];
+};
+
+export interface IGoals {
+    type: "days" | "time" | "pages";
+    partial: number;
+    total: number;
+};

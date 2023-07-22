@@ -6,7 +6,7 @@ export async function login (email: string, password: string ) {
         const user = users.find(_user => _user.email === email);
         if (user) {
             if (user.password === password) {
-                return user.id;
+                return user._id;
             }
             throw new CustomError("Error: Senha incorreta!", 401);
         }
