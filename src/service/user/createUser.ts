@@ -6,7 +6,7 @@ export async function registerUser( requestUser: IUser ) {
     // refatorar, ta errado!
     // try {
     const user = users.find(_user => _user.email === requestUser.email);
-    const id = users.find(_user => _user.id === requestUser.id); // temporario
+    const id = users.find(_user => _user._id === requestUser.id); // temporario
     if(user) {
         throw new CustomError("Error: email já cadastrado.", 401);
     }
