@@ -15,16 +15,7 @@ export async function PATCH(req: NextRequest) {
             throw new CustomError("Error: nenhum campo foi selecionado", 500);
         }
         // preciso escrever os validators para validar os campos de name, email, password;
-        const body: IUserUpdate = {};
-        if (request.name) {
-            body.name = request.name;
-        }
-        if (request.email) {
-            body.email = request.email;
-        }
-        if (request.password) {
-            body.password = request.password;
-        }
+        const body = formattedBody(request);
         const userUpdate = await updateUser(id, body);
         const jwt_cookie: string = jwt.sign({ id: userUpdate._id }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
@@ -37,4 +28,18 @@ export async function PATCH(req: NextRequest) {
         Response.error = e.message;
         return NextResponse.json(Response, {status: Response.status});
     }
-}
+};
+
+function formattedBody(requestBody: IUserUpdate) {
+    const body: IUserUpdate = {};
+    if (requestBody.name) {
+        body.name = requestBody.name;
+    }
+    if (requestBody.email) {
+        body.email = requestBody.email;
+    }
+    if (requestBody.password) {
+        body.password = requestBody.password;
+    }
+    return body;
+};
