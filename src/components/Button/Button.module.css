@@ -1,0 +1,11 @@
+.root {
+    @apply px-2.5 py-2.5 gap-2 rounded-lg text-sm font-medium hover:bg-buttonHover inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800;
+}
+
+.primary {
+    @apply bg-transparent text-light dark:text-dark;
+}
+
+.secondary {
+    @apply bg-black text-yellow-500 hover:bg-slate-800;
+}
