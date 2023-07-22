@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { CustomError } from "@/src/service/customError";
+import { CustomError } from "@/src/utils/customError";
 import { Response } from "@/src/utils/response";
 import { getUser } from "@/src/service/user/getUser";
 

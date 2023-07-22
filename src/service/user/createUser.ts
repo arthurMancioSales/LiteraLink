@@ -1,5 +1,5 @@
 import { users } from "../../repository/users";
-import { CustomError } from "../customError";
+import { CustomError } from "../../utils/customError";
 import { IUser } from "@/src/interfaces/interface";
 
 export async function registerUser( requestUser: IUser ) {

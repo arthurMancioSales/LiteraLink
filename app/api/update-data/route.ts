@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Response } from "@/src/utils/response";
 import { IStatistic } from "@/src/interfaces/interface";
-import { CustomError } from "@/src/service/customError";
+import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/functions/middlewares/auth";
 import { postStatics } from "@/src/service/user/postStatics";
 

@@ -1,6 +1,6 @@
 import { users } from "@/src/repository/users";
 import { communities } from "@/src/repository/community";
-import { CustomError } from "../customError";
+import { CustomError } from "../../utils/customError";
 
 export async function getQuery(query: string) {
     try {

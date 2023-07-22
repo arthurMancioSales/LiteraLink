@@ -1,6 +1,6 @@
 import { IBook } from "@/src/interfaces/interface";
 import { users } from "@/src/repository/users";
-import { CustomError } from "../customError";
+import { CustomError } from "../../utils/customError";
 
 
 export async function patchBook(id: string | number, body: IBook) {

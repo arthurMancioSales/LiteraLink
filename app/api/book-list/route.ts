@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Response } from "@/src/utils/response";
-import { CustomError } from "@/src/service/customError";
+import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/functions/middlewares/auth";
 import { patchBook } from "@/src/service/book/patchBook";
 import { IBook } from "@/src/interfaces/interface";

@@ -1,6 +1,6 @@
 import { IUserUpdate } from "@/src/interfaces/interface";
 import { users } from "../../repository/users";
-import { CustomError } from "../customError";
+import { CustomError } from "../../utils/customError";
 
 export async function updateUser (id: number | string, body: IUserUpdate) {
     try {

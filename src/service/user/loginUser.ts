@@ -1,5 +1,5 @@
 import { users } from "../../repository/users";
-import { CustomError } from "../customError";
+import { CustomError } from "../../utils/customError";
 
 export async function login (email: string, password: string ) {
     try {

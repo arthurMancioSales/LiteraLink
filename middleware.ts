@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { CustomError } from "./src/service/customError";
+import { CustomError } from "./src/utils/customError";
 import { Response } from "./src/utils/response";
 
 export async function middleware(req: NextRequest) {

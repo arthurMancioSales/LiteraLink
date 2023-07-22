@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { CustomError } from "@/src/service/customError";
+import { CustomError } from "@/src/utils/customError";
 import jwt from "jsonwebtoken";
 
 export async function auth(req: NextRequest) {
