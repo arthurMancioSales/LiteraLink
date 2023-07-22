@@ -3,6 +3,6 @@ import { Button } from "@/src/components/Button";
 
 export default function Home() {
     return (
-        <Button icon={<AiFillApple size={25}/>}>Teste</Button>
+        <Button icon={<AiFillApple size={25}/>} onClick={() => console.log()}>Teste</Button>
     );
 }
