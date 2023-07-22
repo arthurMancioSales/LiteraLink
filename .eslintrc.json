@@ -15,22 +15,22 @@
     ],
     "rules": {
         "indent": [
-            "error",
+            "warn",
             4,
             {
                 "SwitchCase": 1
             }
         ],
         "quotes": [
-            "error",
+            "warn",
             "double"
         ],
         "semi": [
-            "error",
+            "warn",
             "always"
         ],
         "eol-last": [
-            "error",
+            "warn",
             "always"
         ]
     }

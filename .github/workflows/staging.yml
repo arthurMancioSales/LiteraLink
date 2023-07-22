@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  buildAndTest:
     runs-on: self-hosted
 
     steps:
@@ -26,31 +26,14 @@ jobs:
       - name: Lint project
         run: npm run lint -- --fix
 
-      - name: Build the project
-        run: npm run build 
-
-  test:
-    runs-on: self-hosted
-
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-            node-version: 'latest'
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Run tests with Jest
         run: npm run test
 
+      - name: Build the project
+        run: npm run build 
+
   deploy-staging:
-    needs: [build, test]
+    needs: [buildAndTest]
     if: github.ref == 'refs/heads/main'
 
     runs-on: self-hosted
