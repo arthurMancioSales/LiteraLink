@@ -3,25 +3,25 @@ export interface ApiResponse {
     status: number;
     data: null | object | object[];
     error: null | string;
-};
+}
 
 export interface IUser {
     id: number;
     name: string;
     email: string;
     password: string;
-};
+}
 
 export interface IUserUpdate {
     name?: string;
     email?: string;
     password?: string;
-};
+}
 
 export interface ApiError {
     message: string;
     status: number;
-};
+}
 
 export interface IStatistic {
     lastSequence: Date;
@@ -29,7 +29,7 @@ export interface IStatistic {
     maxSequence: number;
     actualSequence: number;
     goalsAchieved: number;
-};
+}
 
 export interface IBook {
     id: string | number;
@@ -38,10 +38,10 @@ export interface IBook {
     favorite?: boolean;
     lastSequence?: Date;
     goals?: IGoals[];
-};
+}
 
 export interface IGoals {
     type: "days" | "time" | "pages";
     partial: number;
     total: number;
-};
+}

@@ -10,7 +10,7 @@ export async function PATCH(req: NextRequest) {
         const id = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length === 0) {
-            throw new CustomError('Erro na requisição', 500);
+            throw new CustomError("Erro na requisição", 500);
         }
         // preciso escrever um validator para garantir que o ID do livro existe;
         // Além disso, se o cliente está tentando alterar pelo menos 1 campo;
@@ -25,7 +25,7 @@ export async function PATCH(req: NextRequest) {
         Response.error = e.message;
         return NextResponse.json(Response, {status: Response.status});
     }
-};
+}
 
 function formattedBody(requestBody: IBook) {
     const body: IBook = {
@@ -47,4 +47,4 @@ function formattedBody(requestBody: IBook) {
         body.goals = requestBody.goals;
     }
     return body;
-};
+}

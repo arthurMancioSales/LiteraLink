@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest) {
         Response.error = e.message;
         return NextResponse.json(Response, {status: Response.status});
     }
-};
+}
 
 function formattedBody(requestBody: IUserUpdate) {
     const body: IUserUpdate = {};
@@ -42,4 +42,4 @@ function formattedBody(requestBody: IUserUpdate) {
         body.password = requestBody.password;
     }
     return body;
-};
+}

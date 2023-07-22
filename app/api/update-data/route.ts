@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
         const id = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length !== 5) {
-            throw new CustomError('Error: Faltou um campo ser mandado na requisição', 400);
+            throw new CustomError("Error: Faltou um campo ser mandado na requisição", 400);
         }
         const body: IStatistic = {
             lastSequence: request.lastSequence,
@@ -28,4 +28,4 @@ export async function POST(req: NextRequest) {
         Response.error = e.message;
         return NextResponse.json(Response, {status: Response.status});
     }
-};
+}

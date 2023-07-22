@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
             cookies().delete("Session");
             return NextResponse.json(Response, {status: Response.status});
         }
-        throw new CustomError('Erro interno do servidor', 500);
+        throw new CustomError("Erro interno do servidor", 500);
     }
     catch(error: any) {
         Response.message = "Error";

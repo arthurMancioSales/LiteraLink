@@ -14,4 +14,4 @@ export async function GET(req: NextRequest, {params}: {params: { query: string}}
         Response.error = e.message;
         return NextResponse.json(Response, {status: Response.status});
     }
-};
+}
