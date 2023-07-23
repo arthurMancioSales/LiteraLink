@@ -21,7 +21,7 @@ export function CardBooks({title, description, progress, total, variant="primary
  
     return (
         <div className={
-            `w-full px-3.5 py-2 rounded-lg bg-primaryLight dark:bg-secondaryDark ${onClick ? "cursor-pointer" : ""}`
+            `w-full px-3.5 py-2 rounded-lg bg-primaryLight dark:bg-secondaryDark ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
         }
         onClick={onClick}>
             {title && (
