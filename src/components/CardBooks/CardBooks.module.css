@@ -7,5 +7,5 @@
 }
 
 .secondary {
-    @apply text-light dark:text-dark;
+    @apply text-light dark:text-dark cursor-pointer;
 }

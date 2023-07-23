@@ -6,6 +6,7 @@ type PropsTypes = {
     description: string;
     progress: number;
     total: number;
+    onClick?: React.MouseEventHandler
 };
 
 const variantMap: {primary: string; secondary: string} = {
@@ -14,12 +15,15 @@ const variantMap: {primary: string; secondary: string} = {
 };
 
 
-export function CardBooks({title, description, progress, total, variant="primary"}: PropsTypes) {
+export function CardBooks({title, description, progress, total, variant="primary", onClick}: PropsTypes) {
     const progressPercent = `${Math.round((progress/total)*100)}%`;
     const className: string[] = [styles.root, variantMap[variant]];
-    
+ 
     return (
-        <div className="w-full px-3.5 py-2 rounded-lg bg-primaryLight dark:bg-secondaryDark">
+        <div className={
+            `w-full px-3.5 py-2 rounded-lg bg-primaryLight dark:bg-secondaryDark ${onClick ? "cursor-pointer" : ""}`
+        }
+        onClick={onClick}>
             {title && (
                 <div className="mb-1 text-title font-medium dark:text-dark">{title}</div>
             )}
