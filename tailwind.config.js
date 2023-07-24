@@ -14,9 +14,14 @@ module.exports = {
                 lg: "976px",
                 xl: "1440px",
             },
+            fontSize: {
+                title: "2rem",
+                card: "1rem"
+            },
             colors: {
                 dark: "#FFFFFF",
                 light: "#000000",
+                secondaryLight: "#D4C8AE",
             },
             fontFamily: {
                 sans: ["Graphik", "sans-serif"],

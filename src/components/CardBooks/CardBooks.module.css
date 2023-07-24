@@ -1,0 +1,11 @@
+.root {
+    @apply flex w-full place-content-between mb-1 text-card font-medium;
+}
+
+.primary {
+    @apply text-secondaryLight dark:text-dark dark:opacity-70;
+}
+
+.secondary {
+    @apply text-light dark:text-dark cursor-pointer;
+}
