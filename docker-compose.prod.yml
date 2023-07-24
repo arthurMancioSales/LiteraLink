@@ -7,12 +7,12 @@ services:
       - "3000:3000"
     restart: on-failure
     networks:
-      - stage-network
+      - prod-network
 
   redis:
     image: "redis:alpine"
     networks:
-      - stage-network
+      - prod-network
   
   mongo:
     image: mongo
@@ -20,18 +20,18 @@ services:
     volumes:
       - mongo-data-prod:/data/db
     networks:
-      - stage-network
+      - prod-network
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       
   mongo-express:
     image: mongo-express
-    restart: on-failure
+    restart: always
     ports:
-      - 8081:8081
+      - 8082:8081
     networks:
-      - stage-network
+      - prod-network
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
