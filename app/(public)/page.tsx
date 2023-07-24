@@ -8,7 +8,7 @@ export default function Home() {
         <>
             <CardBooks title="Título" description="Capítulos" progress={7} total={14}/>
             <CardBooks description="Capítulos" progress={7} total={14} onClick={() => console.log("Clicou")} variant="secondary"/>
-            <Sidebar/>
+            <Sidebar user="Usuário" imageUser="/images/image.jpg"/>
         </>
     );
 }

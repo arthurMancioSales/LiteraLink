@@ -1,21 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Toggle() {
     const [check, setCheck] = useState(false);
 
     const darkMode = check ? "dark" : "false";
-    
-    const html = document.querySelector("html");
-    
-    if(html) {
-        html.dataset["mode"] = darkMode;
-    }
 
     function handleCheck() {
         setCheck(!check);
     }
+    
+    useEffect(() => {
+        const html = document.querySelector("html");
+        if(html) {
+            html.dataset["mode"] = darkMode;
+        }
+    }, [darkMode]);
 
     return (
         <label className="relative inline-flex items-center mr-5 cursor-pointer">
