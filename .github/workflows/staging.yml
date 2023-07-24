@@ -9,6 +9,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Grant permission
+        run: chown -R arthur ./ 
+        
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -19,6 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+     
+      - name: Lint project
+        run: npm run lint -- --fix
 
       - name: Run tests with Jest
         run: npm run test
@@ -30,16 +36,11 @@ jobs:
     needs: [buildAndTest]
     if: github.ref == 'refs/heads/main'
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-    - name: Deploy to stage
-      uses: fjogeleit/http-request-action@v1
-      id: deployStaging
-      with:
-        url: "${{ secrets.STAGING_URL }}&ref=${{ github.sha }}"
-        
-    - name: Show Response
-      run: |
-        echo ${{ steps.deployStaging.outputs.response }}
-        echo ${{ steps.deployStaging.outputs.headers }}
+      - name: Clear previous containers
+        run: docker compose -f ./docker-compose.stage.yml down
+    
+      - name: Deploy to stage
+        run: docker compose -f ./docker-compose.stage.yml up -d --build
