@@ -6,15 +6,21 @@ services:
     ports:
       - "3000:3000"
     restart: on-failure
+    networks:
+      - stage-network
 
   redis:
     image: "redis:alpine"
+    networks:
+      - stage-network
   
   mongo:
     image: mongo
     restart: on-failure
     volumes:
-      - mongo-data:/data/db
+      - mongo-data-prod:/data/db
+    networks:
+      - stage-network
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -24,10 +30,15 @@ services:
     restart: on-failure
     ports:
       - 8081:8081
+    networks:
+      - stage-network
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
 
 volumes:
-  mongo-data:
+  mongo-data-prod:
+  
+networks:
+  prod-network:
