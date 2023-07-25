@@ -1,7 +1,7 @@
 import styles from "./Button.module.css";
 import { ReactNode } from "react";
 
-type ButtonProps = {
+type PropTypes = {
     variant?: "primary" | "secondary";
     icon?: ReactNode;
     onClick: React.MouseEventHandler;
@@ -14,7 +14,7 @@ const variantMap: {primary: string; secondary: string} = {
 };
 
 
-export function Button({children, icon, onClick, variant = "primary"}: ButtonProps) {
+export function Button({children, icon, onClick, variant = "primary"}: PropTypes) {
 
     const className: string[] = [styles.root, variantMap[variant]];
     
