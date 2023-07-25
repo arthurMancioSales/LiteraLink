@@ -1,14 +1,14 @@
 export const APP_ROUTES = {
     private: {
-        dashboard: {
-            name: "/dashboard"
-        },
-        unauthorized: {
-            name: "unauthorized"
-        }
+        dashboard: "/dashboard",
+        profile: "/profile",
+        search: "/search",
+        community: "/community",
+        unauthorized: "unauthorized"
     },
     public: {
-        login: "/",
-        forgetPassword: "/forget-password"
+        home: "/",
+        signIn: "/sign-in",
+        signUp: "/sign-up",
     }
 };
