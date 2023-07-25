@@ -1,5 +1,6 @@
 "use client";
 
+import { Accordion } from "@/src/components/Accordion";
 import { Button } from "@/src/components/Button";
 import { CardBooks } from "@/src/components/CardBooks";
 import { Sidebar } from "@/src/components/Sidebar";
@@ -35,6 +36,22 @@ export default function Home() {
             <CardBooks description="Capítulos" progress={7} total={14} onClick={() => console.log("Clicou")} variant="secondary"/>
             <Button onClick={apiFetch}>Fetch</Button>
             <Sidebar user="Usuário" imageUser="/images/image.jpg" communities={communities}/>
+            <Accordion
+                readingBooks={[
+                    {
+                        id: 1,
+                        title: "Livro",
+                        chaptersRead: 7,
+                        chaptersTotal: 14,
+                    },
+                    {
+                        id: 1,
+                        title: "Livro2",
+                        chaptersRead: 4,
+                        chaptersTotal: 14,
+                    }
+                ]}
+            />
         </>
     );
 }
