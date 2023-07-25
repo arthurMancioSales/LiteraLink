@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: production.Dockerfile
-    ports:
-      - "3000:3000"
     restart: on-failure
     networks:
       - prod-network
@@ -36,6 +34,19 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.prod.Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - prod-network
+    volumes:
+      - ./ssl:/ssl
+    restart: always
 
 volumes:
   mongo-data-prod:
