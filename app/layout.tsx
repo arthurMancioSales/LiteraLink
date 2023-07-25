@@ -13,8 +13,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
     const pathname = usePathname();
-
-    // const darkMode = "dark";
+    
     const darkMode = false;
 
     const isPublicPage = checkIsPublicRoute(pathname!);

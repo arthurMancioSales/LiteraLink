@@ -16,7 +16,7 @@ export function Avatar({src, alt, size}: PropsTypes) {
             }}
         >
             <Image
-                className="rounded-full object-contain"
+                className="rounded-full object-cover"
                 src={src}
                 alt={alt ? alt : ""}
                 fill
