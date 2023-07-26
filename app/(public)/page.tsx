@@ -48,6 +48,10 @@ export default function Home() {
             <CardBooks description="Capítulos" progress={7} total={14} onClick={() => console.log("Clicou")} variant="secondary"/>
             <Button onClick={apiFetch}>Fetch</Button>
             <Sidebar user="Usuário" imageUser="/images/image.jpg" communities={communities}/>
+
+            <CardCommunity imageUser="/images/image.jpg" idcommunity="COMUNIDADE 1" generocommunity="teste"/>
+
+
             <Accordion
                 readingBooks={[
                     {

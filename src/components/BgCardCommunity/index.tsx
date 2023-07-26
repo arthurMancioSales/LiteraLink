@@ -17,7 +17,7 @@ export function BgCardCommunity({src, alt, size}: PropsTypes) {
             }}
         >
             <Image
-                className="object-cover"
+                className="object-cover rounded-t-lg"
                 src={src}
                 alt={alt ? alt : ""}
                 fill
