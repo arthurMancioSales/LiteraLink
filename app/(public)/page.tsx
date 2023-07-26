@@ -1,15 +1,17 @@
 "use client";
 
-import { Accordion } from "@/src/components/Accordion";
 import { Button } from "@/src/components/Button";
-import { CardBooks } from "@/src/components/CardBooks";
-import { Sidebar } from "@/src/components/Sidebar";
+import { useState } from "react";
+
+
 import { UserGoals } from "@/src/components/UserGoals";
 import { AiFillAndroid } from "react-icons/ai";
 
 export default function Home() {
-    function apiFetch() {
-        fetch("http://localhost:3000/api/login", {
+    const [auth, setAuth] = useState(false);
+    
+    async function apiFetch() {
+        const req = await fetch("/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -19,49 +21,22 @@ export default function Home() {
                 "password": "senha123"
             })
         });
-    }
 
-    const communities = [
-        {
-            id: 1,
-            name: "Teste"
-        },
-        {
-            id: 2,
-            name: "Teste2"
-        },
-        {
-            id: 3,
-            name: "Teste2"
-        },
-        {
-            id: 4,
-            name: "Teste2"
+        const auth = await req.json();
+        console.log(auth);
+
+        if (req.ok) {
+            setAuth(true);
         }
-    ];
+    }
 
     return (
         <>
-            <CardBooks title="Título" description="Capítulos" progress={7} total={14}/>
-            <CardBooks description="Capítulos" progress={7} total={14} onClick={() => console.log("Clicou")} variant="secondary"/>
-            <Button onClick={apiFetch}>Fetch</Button>
-            <Sidebar user="Usuário" imageUser="/images/image.jpg" communities={communities}/>
-            <Accordion
-                readingBooks={[
-                    {
-                        id: 1,
-                        title: "Livro",
-                        chaptersRead: 7,
-                        chaptersTotal: 14,
-                    },
-                    {
-                        id: 1,
-                        title: "Livro2",
-                        chaptersRead: 4,
-                        chaptersTotal: 14,
-                    }
-                ]}
-            />
+            <p>home</p>
+            {auth ? <p>Logado</p> : <p>Não logado</p> }
+            <Button onClick={apiFetch}>Login</Button>
+            <Button redirectTo="/dashboard">Dashboard</Button>
+
             <UserGoals
                 icon={<AiFillAndroid size={50}/>}
                 value={99}>

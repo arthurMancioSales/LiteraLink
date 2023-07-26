@@ -3,7 +3,7 @@
 }
 
 .primary {
-    @apply bg-transparent text-light dark:text-dark;
+    @apply bg-transparent text-light-text dark:text-dark-text;
 }
 
 .secondary {

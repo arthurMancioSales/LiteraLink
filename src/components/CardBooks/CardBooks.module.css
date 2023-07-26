@@ -3,9 +3,9 @@
 }
 
 .primary {
-    @apply text-secondaryLight dark:text-dark dark:opacity-70;
+    @apply text-light-secondary dark:text-dark-text dark:opacity-70;
 }
 
 .secondary {
-    @apply text-light dark:text-dark cursor-pointer;
+    @apply text-light-text dark:text-dark-text cursor-pointer;
 }

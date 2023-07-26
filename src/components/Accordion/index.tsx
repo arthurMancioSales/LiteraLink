@@ -61,7 +61,7 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
     };
 
     return (
-        <div id="accordion-collapse" data-accordion="collapse">
+        <div id="accordion-collapse" data-accordion="collapse" className="w-full">
             {accordionOptions.map((section, index) => (
                 <div key={section.id}>
                     <h2
@@ -69,7 +69,7 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
                     >
                         <button
                             type="button"
-                            className="flex items-center justify-between w-full p-5 font-medium text-left text-light bg-primaryLight  rounded-t-xl hover:bg-gray-100 dark:focus:ring-gray-800 dark:border-gray-700 dark:bg-primaryDark dark:text-dark  dark:hover:bg-gray-800"
+                            className="flex items-center justify-between w-full p-5 font-medium text-left text-light-text bg-light-primary hover:bg-gray-100 dark:focus:ring-gray-800 dark:border-gray-700 dark:bg-dark-primary dark:text-dark-text dark:hover:bg-gray-800"
                             data-accordion-target={`#accordion-collapse-body-${section.id}`}
                             aria-expanded={activeAccordion === index}
                             aria-controls={`accordion-collapse-body-${section.id}`}
@@ -99,7 +99,7 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
                         className={`${activeAccordion === index ? "active" : "hidden"}`}
                         aria-labelledby={`accordion-collapse-heading-${section.id}`}
                     >
-                        <div className="p-5 border border-b-0 bg-tertiaryLight border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                        <div className="p-5 border border-b-0 border-gray-200 bg-light-tertiary dark:border-gray-700 dark:bg-gray-900">
                             <div className="flex flex-col gap-2 mb-2 text-gray-500 dark:text-gray-400">
                                 {section.content}
                             </div>
