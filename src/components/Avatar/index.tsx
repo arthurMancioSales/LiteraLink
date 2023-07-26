@@ -20,6 +20,7 @@ export function Avatar({src, alt, size}: PropsTypes) {
                 src={src}
                 alt={alt ? alt : ""}
                 fill
+                priority
             />
         </div>
     );
