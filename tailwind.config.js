@@ -19,26 +19,33 @@ module.exports = {
                 card: "1rem"
             },
             colors: {
-                dark: "#FFFFFF",
-                light: "#000000",
-                secondaryLight: "#D4C8AE",
+                
+                dark: {
+                    text: "#fff",
+                    primary: "#150F1B",
+                    secondary: "#413D46",
+                    tertiary: "#2A2530",
+                },
+                light: {
+                    text: "#000",
+                    primary: "#FEF7E7",
+                    secondary: "#D4C8AE",
+                    tertiary: "#EDE4D1",
+                },
+                brand: "#8B5CF6",
+                status: {
+                    success: "#22C55E",
+                    warning: "#F59E0B",
+                    info: "#0EA5E9",
+                    error: "#EF4444",
+                },
             },
             fontFamily: {
                 sans: ["Graphik", "sans-serif"],
                 serif: ["Merriweather", "serif"],
             },
             backgroundColor: {
-                brand: "#8B5CF6",
                 buttonHover: "#E5E5E5",
-                primaryLight: "#FEF7E7",
-                secondaryLight: "#D4C8AE",
-                tertiaryLight: "#EDE4D1",
-                primaryDark: "#150F1B",
-                secondaryDark: "#413D46",
-                tertiaryDark: "#2A2530",
-                success: "#22C55E",
-                warning: "#F59E0B",
-                info: "#0EA5E9",
             },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
