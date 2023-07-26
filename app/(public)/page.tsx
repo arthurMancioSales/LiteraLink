@@ -4,6 +4,8 @@ import { Accordion } from "@/src/components/Accordion";
 import { Button } from "@/src/components/Button";
 import { CardBooks } from "@/src/components/CardBooks";
 import { Sidebar } from "@/src/components/Sidebar";
+import { UserGoals } from "@/src/components/UserGoals";
+import { AiFillAndroid } from "react-icons/ai";
 
 export default function Home() {
     function apiFetch() {
@@ -26,6 +28,14 @@ export default function Home() {
         },
         {
             id: 2,
+            name: "Teste2"
+        },
+        {
+            id: 3,
+            name: "Teste2"
+        },
+        {
+            id: 4,
             name: "Teste2"
         }
     ];
@@ -52,6 +62,11 @@ export default function Home() {
                     }
                 ]}
             />
+            <UserGoals
+                icon={<AiFillAndroid size={50}/>}
+                value={99}>
+                    Maior sequência
+            </UserGoals>
         </>
     );
 }

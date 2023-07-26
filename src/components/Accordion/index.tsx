@@ -54,7 +54,7 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
         },
     ];
 
-    const [activeAccordion, setActiveAccordion] = useState<number | null>(null);
+    const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
 
     const toggleAccordion = (index: number | null) => {
         setActiveAccordion(activeAccordion === index ? null : index);
@@ -96,7 +96,7 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
                     </h2>
                     <div
                         id={`accordion-collapse-body-${section.id}`}
-                        className={`${activeAccordion === index || index === 0 ? "active" : "hidden"}`}
+                        className={`${activeAccordion === index ? "active" : "hidden"}`}
                         aria-labelledby={`accordion-collapse-heading-${section.id}`}
                     >
                         <div className="p-5 border border-b-0 bg-tertiaryLight border-gray-200 dark:border-gray-700 dark:bg-gray-900">
