@@ -4,6 +4,8 @@ import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/functions/middlewares/auth";
 import { patchBook } from "@/src/service/book/patchBook";
 import { IBook } from "@/src/interfaces/interface";
+import { postBook } from "@/src/service/book/postBook";
+import { deleteBook } from "@/src/service/book/deleteBook";
 
 export async function PATCH(req: NextRequest) {
     try {
@@ -23,6 +25,45 @@ export async function PATCH(req: NextRequest) {
         Response.message = "Error";
         Response.status = e.status;
         Response.error = e.message;
+        return NextResponse.json(Response, {status: Response.status});
+    }
+}
+
+export async function POST(req: NextRequest) {
+    try {
+        const id = await auth(req);
+        const request = await req.json();
+        console.log(request);
+        
+        const postedBook = await postBook(id, request);
+        console.log("Livro adicionado: ", postedBook);
+
+        return NextResponse.json(Response, {status:Response.status});
+    } catch (error: any) {
+        console.log(error);
+        Response.message = "Error";
+        Response.status = error.status;
+        Response.error = error.message;
+        return NextResponse.json(Response, {status: Response.status});
+    }
+}
+
+export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém o req com DELETE depois de alguma att. do Next não consegue ser parseado e retorna um erro;
+    try {
+        const userId = await auth(req);
+        const id = await req.json();
+                
+        console.log("Request: ", req);
+        
+        const newBookList = await deleteBook(userId, id);
+        console.log("book list: ", newBookList);
+
+        return NextResponse.json(Response, {status: Response.status});
+    } catch (error : any) {
+        console.log(error);
+        Response.message = "Error";
+        Response.status = error.status;
+        Response.error = error.message;
         return NextResponse.json(Response, {status: Response.status});
     }
 }

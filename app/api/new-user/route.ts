@@ -1,8 +1,10 @@
 import { NextResponse, NextRequest } from "next/server";
 import { registerUser } from "@/src/service/user/createUser";
 import { ApiResponse } from "@/src/interfaces/interface";
+import { Response } from "@/src/utils/response";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+
+export async function POST(req: NextRequest) {
     const apiResponse : ApiResponse = {
         message: "Success",
         status: 201,
@@ -11,11 +13,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     };
     try {
         const user = await req.json();
-        // const { id, name, email, password } = user;
-
-        // const result = await registerUser(user);
-
-
+        //const { name, email, password } = user;
+        const result = await registerUser(user);
         return NextResponse.json(apiResponse, { status: apiResponse.status });
 
     } catch (error: any) {
