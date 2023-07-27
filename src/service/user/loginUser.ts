@@ -12,7 +12,7 @@ export async function login (email: string, password: string ) {
         }
         throw new CustomError("Error: O usuário não existe!", 404);
     } catch (e: any) {
-        console.log(e);
+        return e
 
     }
 }

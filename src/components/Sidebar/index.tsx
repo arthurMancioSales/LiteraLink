@@ -24,19 +24,19 @@ export function Sidebar({user, imageUser, communities}: PropsTypes) {
     const iconSize = 25;
 
     return (
-        <div className="flex flex-col w-[260px] px-2 py-2 gap-2 text-light bg-primaryLight dark:text-dark dark:bg-primaryDark">
+        <div className="flex flex-col w-[260px] px-2 py-2 gap-2 text-light-text bg-light-primary dark:text-dark-text dark:bg-dark-primary">
             <div>
                 <div className="flex justify-between">
                     <Toggle/>
                     <Link href="/" className="text-red-600" title="Logout" passHref><BiLogOut size={iconSize}/></Link>
                 </div>
-                <div className="flex flex-col justify-center items-center">
-                    <Avatar src={imageUser} size={200}/>
-                    <p>{user}</p>
+                <div className="flex flex-col items-center justify-center pt-3">
+                    <Avatar src={imageUser} size={150}/>
+                    <p className="pt-3">{user}</p>
                 </div>
                 <Button icon={<BiSolidBookAdd size={iconSize}/>} redirectTo="/profile">Novo Registro</Button>
             </div>
-            <div className="py-2 border-solid border-y-2 border-light dark:border-dark">
+            <div className="py-2 border-solid border-y-2 border-light-text dark:border-dark-text">
                 <Button icon={<TbLayoutDashboard size={iconSize}/>} redirectTo="/dashboard">DashBoard</Button>
                 <Button icon={<AiOutlineSearch size={iconSize}/>} redirectTo="/search/default">Pesquisar</Button>
                 <Button icon={<BsFillPersonFill size={iconSize}/>} redirectTo="/profile">Meu perfil</Button>

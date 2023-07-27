@@ -21,18 +21,18 @@ export function CardBooks({title, description, progress, total, variant="primary
  
     return (
         <div className={
-            `w-full px-3.5 py-2 rounded-lg bg-primaryLight dark:bg-secondaryDark ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
+            `w-full px-3.5 py-2 rounded-lg bg-light-primary dark:bg--dark-secondary ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
         }
         onClick={onClick}>
             {title && (
-                <div className="mb-1 text-title font-medium dark:text-dark">{title}</div>
+                <div className="mb-1 font-medium text-title dark:text-dark-text">{title}</div>
             )}
             <div className={className.join(" ")}>
                 <p>{description}</p>
                 <p>{`${progress}/${total}`}</p>
             </div>
-            <div className="w-full h-4 mb-4 bg-tertiaryLight rounded-full dark:bg-dark">
-                <div style={{width: `${progressPercent}`}} className="h-4 bg-secondaryLight rounded-full dark:bg-tertiaryDark"></div>
+            <div className="w-full h-4 mb-4 rounded-full bg-light-tertiary dark:bg-dark-text">
+                <div style={{width: `${progressPercent}`}} className="h-4 rounded-full bg-light-secondary dark:bg-dark-tertiary"></div>
             </div>
         </div>
     );
