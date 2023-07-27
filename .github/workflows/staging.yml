@@ -31,7 +31,7 @@ jobs:
 
       - name: Build the project
         run: npm run build 
-
+        
   deploy-staging:
     needs: [buildAndTest]
     if: github.ref == 'refs/heads/main'
@@ -39,8 +39,17 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: create ssl crt
+        run: echo "${{secrets.crt}}" > literalink.crt
+        
+      - name: create ssl key
+        run: echo "${{secrets.key}}" > literalink.key
+        
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.stage.yml down
     
       - name: Deploy to stage
         run: docker compose -f ./docker-compose.stage.yml up -d --build
+      
+      - name: clear previous ssl files
+        run: rm ./literalink.crt && rm ./literalink.key
