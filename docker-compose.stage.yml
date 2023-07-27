@@ -44,8 +44,6 @@ services:
       - "6061:443"
     networks:
       - stage-network
-    volumes:
-      - ./ssl:/ssl
     restart: always
 
 volumes:
