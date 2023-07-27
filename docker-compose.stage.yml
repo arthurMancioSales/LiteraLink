@@ -19,9 +19,10 @@ services:
       - mongo-data-stage:/data/db
     networks:
       - stage-network
+    env_file: .env.local
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: .env.local
+      MONGO_INITDB_ROOT_PASSWORD: .env.local
       
   mongo-express-stage:
     image: mongo-express
@@ -30,9 +31,10 @@ services:
       - 8081:8081
     networks:
       - stage-network
+    env_file: .env.local
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_ADMINUSERNAME: .env.local
+      ME_CONFIG_MONGODB_ADMINPASSWORD: .env.local
       ME_CONFIG_MONGODB_URL: mongodb://root:example@literalink-mongo-stage-1:27017/
 
   nginx-stage:
