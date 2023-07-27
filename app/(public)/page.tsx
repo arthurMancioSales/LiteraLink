@@ -6,9 +6,16 @@ import { useState } from "react";
 
 import { UserGoals } from "@/src/components/UserGoals";
 import { AiFillAndroid } from "react-icons/ai";
+import { SearchForm } from "@/src/components/SearchBar";
 
 export default function Home() {
     const [auth, setAuth] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+
+    const handleSearch = (value: string) => {
+        setSearchValue(value);
+        console.log("Realizar a busca com o valor:", value);
+    };
     
     async function apiFetch() {
         const req = await fetch("/api/login", {
@@ -42,6 +49,7 @@ export default function Home() {
                 value={99}>
                     Maior sequência
             </UserGoals>
+            <SearchForm onSearch={handleSearch} value={searchValue}/>
         </>
     );
 }
