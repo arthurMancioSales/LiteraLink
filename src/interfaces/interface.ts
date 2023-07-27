@@ -61,3 +61,9 @@ export interface IGoals {
     partial: number;
     total: number;
 }
+
+export interface IQuery {
+    type: 'GET' | 'POST' | 'PATCH' | 'DELETE',
+    text: string,
+    value: Object
+}
