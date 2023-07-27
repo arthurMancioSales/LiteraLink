@@ -12,6 +12,17 @@ export interface IUser {
     password: string;
 }
 
+export interface INewUser {
+    id?: number;
+    name: string;
+    email: string;
+    password: string;
+    image?: string;
+    communities?: ICommunity[];
+    books?: IBook[];
+    statistics?: IStatistic;
+}
+
 export interface IUserUpdate {
     name?: string;
     email?: string;
@@ -21,6 +32,11 @@ export interface IUserUpdate {
 export interface ApiError {
     message: string;
     status: number;
+}
+
+export interface ICommunity {
+    id: number;
+    name: string;
 }
 
 export interface IStatistic {
@@ -37,7 +53,7 @@ export interface IBook {
     chaptersRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
-    goals?: IGoals[];
+    goals?: IGoals;
 }
 
 export interface IGoals {

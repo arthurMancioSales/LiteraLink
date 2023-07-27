@@ -2,17 +2,24 @@ import Link from "next/link";
 import styles from "./Button.module.css";
 import { ReactNode } from "react";
 
+export type VariantButton = "primary" | "success";
+
+type VariantMap = {
+    primary: string;
+    success: string;
+}
+
 type PropTypes = {
-    variant?: "primary" | "secondary";
+    variant?: VariantButton;
     icon?: ReactNode;
     redirectTo?: string;
     onClick?: React.MouseEventHandler;
     children: ReactNode;
 };
 
-const variantMap: {primary: string; secondary: string} = {
+const variantMap: VariantMap = {
     primary: styles.primary,
-    secondary: styles.secondary
+    success: styles.success
 };
 
 

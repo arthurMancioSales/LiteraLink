@@ -141,13 +141,18 @@ export default function SearchCommunity() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 h-screen w-screen p-4 bg-light-secondary">
+        <div className="flex flex-col items-center justify-center gap-4 h-screen w-screen p-4 bg-light-secondary dark:bg-dark-tertiary">
             <SearchForm onSearch={handleSearch} value={searchValue}/>
-            <div className="h-full w-full p-4 rounded-lg overflow-auto bg-light-tertiary">
+            <div className="h-full w-full p-4 rounded-lg overflow-auto bg-light-tertiary dark:bg-transparent">
                 <div className="h-full w-full grid grid-cols-5 gap-3">
                     {
                         communities.map((community) =>(
-                            <CardCommunity key={community.id} community={community}/>
+                            <CardCommunity
+                                key={community.id}
+                                page={`/c/${community.id}`}
+                                community={community}
+                                variantButton="success"
+                            />
                         ))
                     }
                 </div>
@@ -155,13 +160,3 @@ export default function SearchCommunity() {
         </div>
     );
 }
-
-// <>
-//     <p>Search</p>
-//     {auth ? <p>Logado</p> : <p>Não logado</p> }
-//     <Button onClick={apiFetch}>Login</Button>
-// </>
-
-// flex flex-col items-center justify-center gap-4
-
-// grid grid-cols-5
