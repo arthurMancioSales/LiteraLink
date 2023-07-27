@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CardBooks } from "../CardBooks";
+import * as Accordion from "@radix-ui/react-accordion";
 
 type CardBook = {
     id: number;
@@ -16,7 +17,7 @@ type PropsTypes = {
     readBooks?: CardBook[];
 };
 
-export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) => {
+export const BookAccordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) => {
 
     function renderBooks(books?: CardBook[]) {
         return (
@@ -61,52 +62,43 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
     };
 
     return (
-        <div id="accordion-collapse" data-accordion="collapse" className="w-full">
-            {accordionOptions.map((section, index) => (
-                <div key={section.id}>
-                    <h2
-                        id={`accordion-collapse-heading-${section.id}`}
-                    >
-                        <button
-                            type="button"
-                            className="flex items-center justify-between w-full p-5 font-medium text-left text-light-text bg-light-primary hover:bg-gray-100 dark:focus:ring-gray-800 dark:border-gray-700 dark:bg-dark-primary dark:text-dark-text dark:hover:bg-gray-800"
-                            data-accordion-target={`#accordion-collapse-body-${section.id}`}
-                            aria-expanded={activeAccordion === index}
-                            aria-controls={`accordion-collapse-body-${section.id}`}
-                            onClick={() => toggleAccordion(index)}
-                        >
+        <>
+            <Accordion.Root
+                className="w-full h-full"
+                type="single"
+                defaultValue="item-1"
+                collapsible
+            >
+                {accordionOptions.map((section) => (
+                    <Accordion.Item key={section.id} value={`option-${section.id}`} className="mt-px overflow-hidden first:mt-0 first:rounded-t-md last:rounded-b-md focus-within:relative focus-within:z-10 focus-within:shadow-[0_0_0_1px]">
+                        <Accordion.Trigger 
+                            id={`accordion-collapse-heading-${section.id}`} 
+                            className="group flex flex-1 cursor-default items-center justify-between w-full p-4 border-b-2 border-light-secondary border-solid text-left text-[15px] leading-none text-light-text bg-light-primary hover:bg-gray-100 dark:focus:ring-gray-800 dark:border-gray-700 dark:bg-dark-primary dark:text-dark-text dark:hover:bg-gray-800">
                             <span>{section.title}</span>
-                            <svg
-                                data-accordion-icon
-                                className="w-3 h-3 rotate-180 shrink-0"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 10 6"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M9 5 5 1 1 5"
-                                />
-                            </svg>
-                        </button>
-                    </h2>
-                    <div
-                        id={`accordion-collapse-body-${section.id}`}
-                        className={`${activeAccordion === index ? "active" : "hidden"}`}
-                        aria-labelledby={`accordion-collapse-heading-${section.id}`}
-                    >
-                        <div className="p-5 border border-b-0 border-gray-200 bg-light-tertiary dark:border-gray-700 dark:bg-gray-900">
-                            <div className="flex flex-col gap-2 mb-2 text-gray-500 dark:text-gray-400">
-                                {section.content}
+                        </Accordion.Trigger>
+                        <Accordion.Content className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden">
+                            <div className="h-full p-5 border border-b-2 border-light-secondary bg-light-tertiary dark:border-gray-700 dark:bg-gray-900">
+                                <div className="flex flex-col gap-2 mb-2 text-gray-500 dark:text-gray-400">
+                                    {section.content}
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
+                        </Accordion.Content>
+                    </Accordion.Item>
+                    
+                    //     <div
+                    //         id={`accordion-collapse-body-${section.id}`}
+                    //         className={`${activeAccordion === index ? "active" : "hidden"}`}
+                    //         aria-labelledby={`accordion-collapse-heading-${section.id}`}
+                    //     >
+                    //         <div className="h-full p-5 border border-b-2 border-light-secondary bg-light-tertiary dark:border-gray-700 dark:bg-gray-900">
+                    //             <div className="flex flex-col gap-2 mb-2 text-gray-500 dark:text-gray-400">
+                    //                 {section.content}
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // </div>
+                ))}
+            </Accordion.Root>
+        </>
     );
 };
