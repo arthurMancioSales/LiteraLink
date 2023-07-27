@@ -1,26 +1,26 @@
 import Image from "next/image";
 
+
 type PropsTypes = {
     src: string;
     alt?: string;
     size?: number;
 };
 
-export function Avatar({src, alt, size}: PropsTypes) { 
+export function BgCardCommunity({src, alt, size}: PropsTypes) { 
     return (
         <div
             className="overflow-hidden relative"
             style={{
-                width: `${size}px`,
+                width: '100%',
                 height: `${size}px`               
             }}
         >
             <Image
-                className="rounded-full object-cover"
+                className="object-cover rounded-t-lg"
                 src={src}
                 alt={alt ? alt : ""}
                 fill
-                priority
             />
         </div>
     );

@@ -4,14 +4,23 @@ on:
 
 jobs:
   deploy-production:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      
+      - name: create ssl crt
+        run: echo "${{secrets.crt}}" > literalink.crt
+        
+      - name: create ssl key
+        run: echo "${{secrets.key}}" > literalink.key
 
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.prod.yml down
   
-      - name: Deploy to stage
+      - name: Deploy to production
         run: docker compose -f ./docker-compose.prod.yml up -d --build
+
+      - name: clear previous ssl files
+        run: rm ./literalink.crt && rm ./literalink.key
