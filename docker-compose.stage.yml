@@ -40,7 +40,6 @@ services:
       context: .
       dockerfile: nginx.stage.Dockerfile
     ports:
-      - "6060:80"
       - "6061:443"
     networks:
       - stage-network
