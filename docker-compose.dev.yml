@@ -26,8 +26,8 @@ services:
     networks:
       - dev-network
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: literalink
+      MONGO_INITDB_ROOT_PASSWORD: abacate
       
   mongo-express-dev:
     image: mongo-express
@@ -37,8 +37,8 @@ services:
     networks:
       - dev-network
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_ADMINUSERNAME: literalink
+      ME_CONFIG_MONGODB_ADMINPASSWORD: abacate
       ME_CONFIG_MONGODB_URL: mongodb://root:example@literalink-mongo-dev-1:27017/
       
 
