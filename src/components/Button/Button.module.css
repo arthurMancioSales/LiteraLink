@@ -3,10 +3,10 @@
 }
 
 .primary {
-    @apply bg-transparent text-light-text dark:text-dark-text;
+    @apply bg-transparent text-light-text dark:text-dark-text dark:hover:bg-dark-secondary;
 }
 
-.secondary {
-    @apply bg-black text-yellow-500 hover:bg-slate-800;
+.success {
+    @apply bg-status-success text-light-text;
 }
 

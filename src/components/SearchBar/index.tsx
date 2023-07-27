@@ -14,7 +14,7 @@ export const SearchForm = ({value, onSearch}: PropTypes) => {
       
     return (
         <form className="w-full">
-            <div className="flex justify-between p-1 gap-2 rounded-lg bg-light-primary">
+            <div className="flex justify-between p-1 gap-2 rounded-lg bg-light-primary dark:bg-dark-text">
                 <select id="searchBar" className="bg-transparent">
                     <option value="1">Comunidades</option>
                     <option value="2">Autor</option>
