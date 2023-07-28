@@ -66,6 +66,17 @@ export interface IBook {
     goalsAchieved: number;
 }
 
+export interface IPatchBook {
+    id: string | number;
+    status?: "lido" | "lendo" | "ler";
+    chaptersRead?: number;
+    favorite?: boolean;
+    lastSequence?: Date;
+    goals?: IGoals[];
+    goalExpire?: Date;
+    goalsAchieved?: number;
+}
+
 export interface IGoals {
     type: "days" | "time" | "pages";
     partial: number;
