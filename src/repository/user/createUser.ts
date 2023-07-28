@@ -1,11 +1,12 @@
 import { dbConnect } from "@/src/database/mongodb";
-import { IUser } from "@/src/interfaces/interface";
+import { INewUser, IUser } from "@/src/interfaces/interface";
 
 
-export async function createUser(user: IUser) {
+export async function createUser(user: INewUser) {    
     const client = await dbConnect.connect();
+    const collection = client.db("literalink-dev").collection("users");
     try{ 
-        const registeredUser = await client.db("literalink-dev").collection("users").insertOne(user);
+        const registeredUser = await collection.insertOne(user);
         console.log("Documento inserido em users: ", user);
     
         return registeredUser;
