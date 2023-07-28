@@ -1,18 +1,22 @@
-import { users } from "../../repository/users";
 import { CustomError } from "../../utils/customError";
+import bcrypt from "bcrypt";
+import { loginRepository } from "@/src/repository/user/loginRepository";
 
 export async function login (email: string, password: string ) {
     try {
-        const user = users.find(_user => _user.email === email);
+        const user = await loginRepository(email);
         if (user) {
-            if (user.password === password) {
+            const isPasswordValid = bcrypt.compareSync(
+                password,
+                user.password
+              );
+            if (isPasswordValid) {
                 return user._id;
             }
-            throw new CustomError("Error: Senha incorreta!", 401);
+            throw new CustomError("Senha incorreta!", 401);
         }
-        throw new CustomError("Error: O usuário não existe!", 404);
+        throw new CustomError("O usuário não existe!", 404);
     } catch (e: any) {
-        return e
-
+        throw e;
     }
 }
