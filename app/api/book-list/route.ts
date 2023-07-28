@@ -3,7 +3,7 @@ import { Response } from "@/src/utils/response";
 import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/functions/middlewares/auth";
 import { patchBook } from "@/src/service/book/patchBook";
-import { IBook } from "@/src/interfaces/interface";
+import { IBook, IGoals, IPatchBook } from "@/src/interfaces/interface";
 import { postBook } from "@/src/service/book/postBook";
 import { deleteBook } from "@/src/service/book/deleteBook";
 
@@ -68,8 +68,9 @@ export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém
     }
 }
 
-function formattedBody(requestBody: IBook) {
-    const body: IBook = {
+
+function formattedBody(requestBody: IPatchBook) {
+    const body: IPatchBook = {
         id: requestBody.id,
     };
     if (requestBody.status) {
@@ -86,6 +87,12 @@ function formattedBody(requestBody: IBook) {
     }
     if (requestBody.goals) {
         body.goals = requestBody.goals;
+    }
+    if (requestBody.goalExpire) {
+        body.goalExpire = requestBody.goalExpire;
+    }
+    if (requestBody.goalsAchieved) {
+        body.goalsAchieved = requestBody.goalsAchieved;
     }
     return body;
 }

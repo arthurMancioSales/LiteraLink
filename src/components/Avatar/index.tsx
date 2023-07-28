@@ -1,7 +1,8 @@
 import Image from "next/image";
+import { FaRegUserCircle } from "react-icons/fa";
 
 type PropsTypes = {
-    src: string;
+    src: string | undefined;
     alt?: string;
     size?: number;
 };
@@ -15,13 +16,18 @@ export function Avatar({src, alt, size}: PropsTypes) {
                 height: `${size}px`               
             }}
         >
-            <Image
-                className="rounded-full object-cover"
-                src={src}
-                alt={alt ? alt : ""}
-                fill
-                priority
-            />
+            {src ? 
+                <Image
+                    className="rounded-full object-cover"
+                    src={src}
+                    alt={alt ? alt : ""}
+                    fill
+                    priority
+                /> 
+                : 
+                <FaRegUserCircle/>
+            }
+            
         </div>
     );
 }
