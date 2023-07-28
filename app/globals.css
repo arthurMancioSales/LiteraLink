@@ -1,11 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@use 'three-dots';
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --accordionTitle: 15px;
+  --accordionHeight: calc(32px + var(--accordionTitle) + 2px);
+  --doubleAccordionHeight: calc(var(--accordionHeight)*2)
 }
 
 @media (prefers-color-scheme: dark) {

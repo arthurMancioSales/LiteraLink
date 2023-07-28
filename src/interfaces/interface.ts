@@ -10,6 +10,10 @@ export interface IUser {
     name: string;
     email: string;
     password: string;
+    image?: string;
+    communities: ICommunity[];
+    books: IBook[];
+    statistics: IStatistic;
 }
 
 export interface INewUser {
@@ -41,6 +45,7 @@ export interface ICommunity {
 
 export interface IStatistic {
     lastSequence: Date;
+    booksRead: number;
     readingTime: number;
     maxSequence: number;
     actualSequence: number;
@@ -49,11 +54,16 @@ export interface IStatistic {
 
 export interface IBook {
     id: string | number;
-    status?: "lido" | "lendo" | "ler";
+    title: string;
+    image: string;
+    status: "lido" | "lendo" | "ler";
+    totalChapter: number;
     chaptersRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
-    goals?: IGoals;
+    goalExpire: Date;
+    goals?: IGoals[];
+    goalsAchieved: number;
 }
 
 export interface IGoals {

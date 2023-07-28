@@ -53,18 +53,36 @@ module.exports = {
                     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
             },
             keyframes: {
+                slideDownAccordionContainer: {
+                    from: { height: "var(--accordionHeight)" },
+                    to: { height: "calc(100% - var(--doubleAccordionHeight))" },
+                },
+                slideUpAccordionContainer: {
+                    from: { height: "calc(100% - var(--doubleAccordionHeight))" },
+                    to: { height: "var(--accordionHeight)" },
+                },
                 slideDown: {
                     from: { height: 0 },
-                    to: { height: "var(--radix-accordion-content-height)" },
+                    to: { height: "calc(100% - var(--accordionHeight))" },
                 },
                 slideUp: {
-                    from: { height: "var(--radix-accordion-content-height)" },
+                    from: { height: "calc(100% - var(--accordionHeight))" },
                     to: { height: 0 },
+                },
+                jumpingAnimation: {
+                    "0": { transform: "translate3d(0, 0, 0)" },
+                    "50%": { transform: "translate3d(0, 15px, 0)" },
+                    "100%": { transform: "translate3d(0, 0, 0)" }
                 },
             },
             animation: {
-                slideDown: "slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+                slideDownAccordionContainer: "slideDownAccordionContainer 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+                slideUpAccordionContainer: "slideUpAccordionContainer 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+                slideDown: "slideDown 200ms cubic-bezier(0.87, 0, 0.13, 1)",
                 slideUp: "slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+                jumpingAnimation1: "jumpingAnimation 800ms 0.1s ease-in infinite",
+                jumpingAnimation2: "jumpingAnimation 800ms 0.2s ease-in infinite",
+                jumpingAnimation3: "jumpingAnimation 800ms 0.3s ease-in infinite",
             },
         },
     },
