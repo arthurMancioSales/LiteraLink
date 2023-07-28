@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
         }
         const body: IStatistic = {
             lastSequence: request.lastSequence,
+            booksRead: request.booksRead,
             readingTime: request.readingTime,
             maxSequence: request.maxSequence,
             actualSequence: request.actualSequence,

@@ -1,37 +1,52 @@
 "use client";
 
-import { useState } from "react";
 import { CardBooks } from "../CardBooks";
+import * as Accordion from "@radix-ui/react-accordion";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { BiChevronDown } from "react-icons/bi";
+import { IBook } from "@/src/interfaces/interface";
+import { CardBooksSkeleton } from "../CardBooks/skeleton";
 
-type CardBook = {
-    id: number;
-    title: string,
-    chaptersRead: number,
-    chaptersTotal: number,
+interface IBookAccordion {
+    userBooks: IBook[] | undefined;
+    loading: boolean;
 }
 
-type PropsTypes = {
-    readingBooks?: CardBook[];
-    booksToRead?: CardBook[];
-    readBooks?: CardBook[];
-};
-
-export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) => {
-
-    function renderBooks(books?: CardBook[]) {
+export function BookAccordion({userBooks, loading} : IBookAccordion) {
+    
+    function renderBooks(books: IBook[] | undefined) {
         return (
             <>
-                {books ?
-                    books.map((book) => (
-                        <CardBooks
-                            key={book.id}
-                            title={book.title}
-                            description="Capítulos"
-                            progress={book.chaptersRead}
-                            total={book.chaptersTotal}
-                        />
-                    )) : <p>Não há livros</p>
+                {loading 
+                    ? 
+                    <CardBooksSkeleton/>
+                    :
+                    (
+                        books && books.length > 0
+                            ?
+                            books.map((book) => (
+                                book.favorite 
+                                    ?
+                                    ""
+                                    :
+                                    <div
+                                        key={book.id}
+                                        className="mt-4 first:mb-4 first:mt-0"
+                                    >
+                                        <CardBooks
+                                            
+                                            title={book.title}
+                                            description="Capítulos"
+                                            progress={book.chaptersRead ? book.chaptersRead : 0}
+                                            total={book.totalChapter}
+                                        />
+                                    </div>
+                            )) 
+                            : 
+                            <p>Não há livros</p>
+                    )
                 }
+                
             </>
         );                        
     }
@@ -40,73 +55,57 @@ export const Accordion = ({readingBooks, booksToRead, readBooks}: PropsTypes) =>
         {
             id: 1,
             title: "Lendo",
-            content: renderBooks(readingBooks),
+            content: renderBooks(userBooks?.filter(book => book.status == "lido")),
         },
         {
             id: 2,
             title: "A ler",
-            content: renderBooks(booksToRead),
+            content: renderBooks(userBooks?.filter(book => book.status == "lendo")),
         },
         {
             id: 3,
             title: "Lido",
-            content: renderBooks(readBooks),
+            content: renderBooks(userBooks?.filter(book => book.status == "ler")),
         },
     ];
 
-    const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
+    
 
-    const toggleAccordion = (index: number | null) => {
-        setActiveAccordion(activeAccordion === index ? null : index);
-    };
 
     return (
-        <div id="accordion-collapse" data-accordion="collapse" className="w-full">
-            {accordionOptions.map((section, index) => (
-                <div key={section.id}>
-                    <h2
-                        id={`accordion-collapse-heading-${section.id}`}
-                    >
-                        <button
-                            type="button"
-                            className="flex items-center justify-between w-full p-5 font-medium text-left text-light-text bg-light-primary hover:bg-gray-100 dark:focus:ring-gray-800 dark:border-gray-700 dark:bg-dark-primary dark:text-dark-text dark:hover:bg-gray-800"
-                            data-accordion-target={`#accordion-collapse-body-${section.id}`}
-                            aria-expanded={activeAccordion === index}
-                            aria-controls={`accordion-collapse-body-${section.id}`}
-                            onClick={() => toggleAccordion(index)}
-                        >
+        <>
+            <Accordion.Root
+                className="w-full h-full overflow-hidden"
+                type="single"
+                defaultValue="option-0"
+                collapsible
+            >
+                {accordionOptions.map((section, index) => (
+                    <Accordion.Item key={`option-${index}`} value={`option-${index}`} className="mt-px overflow-hidden first:mt-0 first:rounded-t-md last:rounded-b-md focus-within:relative focus-within:z-10 focus-within:shadow-[0_0_0_1px] data-[state=open]:h-[calc(100%-(var(--accordionHeight)*2))] data-[state=open]:animate-slideDownAccordionContainer data-[state=closed]:animate-slideUpAccordionContainer ">
+                        <Accordion.Trigger 
+                            id={`accordion-collapse-heading-${section.id}`} 
+                            className="group flex flex-1 cursor-default items-center justify-between w-full p-4 border-b-2 border-light-secondary dark:border-dark-secondary border-solid text-left text-[var(--accordionTitle)] leading-none text-light-text bg-light-primary hover:bg-gray-100 dark:focus:ring-dark-secondary dark:bg-dark-primary dark:text-dark-text dark:hover:bg-gray-800">
                             <span>{section.title}</span>
-                            <svg
-                                data-accordion-icon
-                                className="w-3 h-3 rotate-180 shrink-0"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 10 6"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M9 5 5 1 1 5"
-                                />
-                            </svg>
-                        </button>
-                    </h2>
-                    <div
-                        id={`accordion-collapse-body-${section.id}`}
-                        className={`${activeAccordion === index ? "active" : "hidden"}`}
-                        aria-labelledby={`accordion-collapse-heading-${section.id}`}
-                    >
-                        <div className="p-5 border border-b-0 border-gray-200 bg-light-tertiary dark:border-gray-700 dark:bg-gray-900">
-                            <div className="flex flex-col gap-2 mb-2 text-gray-500 dark:text-gray-400">
-                                {section.content}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
+                            <BiChevronDown className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180"></BiChevronDown>
+                        </Accordion.Trigger>
+                        <Accordion.Content className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden h-[calc(100%-(var(--accordionHeight)))]">
+                            <ScrollArea.Root className="h-full p-5 overflow-hidden border border-b-2 border-light-secondary bg-light-tertiary dark:bg-dark-primary">
+                                <ScrollArea.Viewport className="w-[90%] max-h-full rounded flex flex-col mb-2 text-gray-500 dark:text-gray-400">
+                                    {section.content}
+                                </ScrollArea.Viewport>
+                                <ScrollArea.Scrollbar
+                                    className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                                    orientation="vertical"
+                                    forceMount
+                                >
+                                    <ScrollArea.Thumb className="flex-1 bg-light-secondary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px] dark:bg-dark-secondary" />
+                                </ScrollArea.Scrollbar>
+                                <ScrollArea.Corner className="bg-black" />
+                            </ScrollArea.Root>
+                        </Accordion.Content>
+                    </Accordion.Item>
+                ))}
+            </Accordion.Root>
+        </>
     );
-};
+}

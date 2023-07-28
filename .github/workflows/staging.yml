@@ -44,12 +44,18 @@ jobs:
         
       - name: create ssl key
         run: echo "${{secrets.key}}" > literalink.key
+
+      - name: create env file
+        run: echo "${{secrets.env}}" > .env.local
         
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.stage.yml down
+
+      - name: Clear unused files
+        run: docker system prune -a
     
       - name: Deploy to stage
         run: docker compose -f ./docker-compose.stage.yml up -d --build
       
-      - name: clear previous ssl files
-        run: rm ./literalink.crt && rm ./literalink.key
+      - name: clear previous tmp files
+        run: rm ./literalink.crt && rm ./literalink.key && rm ./.env.local

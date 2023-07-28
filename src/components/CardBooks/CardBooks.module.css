@@ -1,5 +1,5 @@
 .root {
-    @apply flex w-full place-content-between mb-1 text-card font-medium;
+    @apply flex w-full place-content-between text-card font-medium;
 }
 
 .primary {
@@ -7,5 +7,5 @@
 }
 
 .secondary {
-    @apply text-light-text dark:text-dark-text cursor-pointer;
+    @apply text-light-text dark:text-dark-text;
 }

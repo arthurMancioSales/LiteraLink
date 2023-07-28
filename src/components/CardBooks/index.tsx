@@ -6,7 +6,8 @@ type PropsTypes = {
     description: string;
     progress: number;
     total: number;
-    onClick?: React.MouseEventHandler
+    onClick?: React.MouseEventHandler;
+    complement?: string;
 };
 
 const variantMap: {primary: string; secondary: string} = {
@@ -14,24 +15,26 @@ const variantMap: {primary: string; secondary: string} = {
     secondary: styles.secondary
 };
 
-
-export function CardBooks({title, description, progress, total, variant="primary", onClick}: PropsTypes) {
+export function CardBooks({title, description, progress, total, variant="primary", onClick, complement}: PropsTypes) {
     const progressPercent = `${Math.round((progress/total)*100)}%`;
     const className: string[] = [styles.root, variantMap[variant]];
  
     return (
         <div className={
-            `w-full px-3.5 py-2 rounded-lg bg-light-primary dark:bg--dark-secondary ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
+            `w-full px-4 gap-2 py-2 flex flex-col rounded-md bg-light-primary dark:bg-dark-secondary ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
         }
         onClick={onClick}>
             {title && (
-                <div className="mb-1 font-medium text-title dark:text-dark-text">{title}</div>
+                <div className="text-xl font-medium dark:text-dark-text">{title}</div>
             )}
             <div className={className.join(" ")}>
-                <p>{description}</p>
-                <p>{`${progress}/${total}`}</p>
+                <div className="flex justify-between">
+                    <p>{description}</p>
+                    
+                </div>
+                <p>{`${progress}/${total} ${complement ? complement : ""}`}</p>
             </div>
-            <div className="w-full h-4 mb-4 rounded-full bg-light-tertiary dark:bg-dark-text">
+            <div className="w-full h-4 mb-4 rounded-full bg-light-tertiary dark:bg-dark-primary">
                 <div style={{width: `${progressPercent}`}} className="h-4 rounded-full bg-light-secondary dark:bg-dark-tertiary"></div>
             </div>
         </div>
