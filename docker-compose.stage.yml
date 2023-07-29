@@ -16,12 +16,10 @@ services:
     image: mongo
     restart: on-failure
     volumes:
-      - mongo-data-stage:/data/db
+      - mongo-stage-data:/data/db
     networks:
       - stage-network
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: 123
+    env_file: .env.stage
       
   mongo-express-stage:
     image: mongo-express
@@ -31,6 +29,8 @@ services:
     networks:
       - stage-network
     env_file: .env.stage
+    depends_on:
+      - mongo-stage
 
   nginx-stage:
     build:
@@ -43,7 +43,7 @@ services:
     restart: always
 
 volumes:
-  mongo-data-stage:
+  mongo-stage-data:
 
 networks:
   stage-network:
