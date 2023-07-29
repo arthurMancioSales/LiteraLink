@@ -25,9 +25,10 @@ services:
       - mongo-data:/data/db
     networks:
       - dev-network
+    env_file: .env.local
     environment:
-      MONGO_INITDB_ROOT_USERNAME: literalink
-      MONGO_INITDB_ROOT_PASSWORD: ig42#C5rQL^9@p8b8
+      MONGO_INITDB_ROOT_USERNAME: .env.local
+      MONGO_INITDB_ROOT_PASSWORD: .env.local
       
   mongo-express-dev:
     image: mongo-express
@@ -36,11 +37,11 @@ services:
       - 8080:8081
     networks:
       - dev-network
+    env_file: .env.local
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: literalink
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ig42#C5rQL^9@p8b8
+      ME_CONFIG_MONGODB_ADMINUSERNAME: .env.local
+      ME_CONFIG_MONGODB_ADMINPASSWORD: .env.local
       ME_CONFIG_MONGODB_URL: mongodb://root:example@literalink-mongo-dev-1:27017/
-      
 
 volumes:
   mongo-data:

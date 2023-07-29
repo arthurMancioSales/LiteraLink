@@ -10,6 +10,8 @@
     "test": "echo 'jest placeholder'"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-scroll-area": "^1.0.4",
     "@types/node": "20.3.1",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
@@ -17,7 +19,8 @@
     "bcrypt": "^5.1.0",
     "commitizen": "^4.3.0",
     "eslint-config-next": "^12.0.4",
-    "next": "13.4.7",
+    "fs": "^0.0.1-security",
+    "next": "^13.4.12",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",

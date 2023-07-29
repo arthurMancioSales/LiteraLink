@@ -1,9 +1,9 @@
-import { IBook } from "@/src/interfaces/interface";
+import { IBook, IPatchBook } from "@/src/interfaces/interface";
 import { users } from "@/src/repository/users";
 import { CustomError } from "../../utils/customError";
 
 
-export async function patchBook(id: string | number, body: IBook) {
+export async function patchBook(id: string | number, body: IPatchBook) {
     // try{
     const user = users.find(userBook => userBook._id == id);
     if (!user) {
