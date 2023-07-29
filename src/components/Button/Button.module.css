@@ -6,6 +6,14 @@
     @apply bg-transparent text-light-text dark:text-dark-text dark:hover:bg-dark-secondary max-w-full;
 }
 
+.secondary {
+    @apply bg-transparent text-light-text border-2 border-light-text dark:text-dark-text dark:hover:bg-dark-secondary
+}
+
+.info {
+    @apply bg-status-info text-dark-text
+}
+
 .success {
     @apply bg-status-success text-light-text max-w-full;
 }

@@ -8,9 +8,9 @@ import { users } from "@/src/repository/users";
 
 export async function GET(req:NextRequest) {
     try {
-        const userID = await auth(req);
+        const userCookie = await auth(req);
         
-        const user = users.find(user => user._id == userID);
+        const user = users.find(user => user._id == userCookie.id);
         
         if (!user) {
             throw new CustomError("Error: Usuário não encontrado!", 404);
