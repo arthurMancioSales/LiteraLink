@@ -31,14 +31,14 @@ const users = [
 
 export default function CommunityMembers({ params }: { params: { community: string } }) {
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full dark:text-dark-text">
             <div className="flex gap-2 items-center">
                 <Link className="px-4" href={`/c/${params.community}`} passHref>
                     Chat
                 </Link>
-                <button className="bg-light-tertiary rounded-t-lg px-4 py-1">Membros</button>
+                <button className="bg-light-tertiary rounded-t-lg px-4 py-1 dark:bg-dark-primary">Membros</button>
             </div>
-            <div className="flex flex-col gap-4 bg-light-tertiary h-full p-4 rounded-lg">
+            <div className="flex flex-col gap-4 bg-light-tertiary h-full p-4 rounded-lg dark:bg-dark-primary">
                 <div className="text-title">Usuários da comunidade</div>
                 <div className="flex flex-col max-h-full gap-4 overflow-auto">
                     {users.map((user) => (
