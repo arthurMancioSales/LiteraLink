@@ -6,8 +6,8 @@ import { CustomError } from "@/src/utils/customError";
 
 export async function POST(req: NextRequest) {
     try{
-        const id = await auth(req);
-        if (id) {
+        const user = await auth(req);
+        if (user) {
             cookies().delete("Session");
             return NextResponse.json(Response, {status: Response.status});
         }

@@ -7,7 +7,7 @@ import { postStatics } from "@/src/service/user/postStatics";
 
 export async function POST(req: NextRequest) {
     try {
-        const id = await auth(req);
+        const user = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length !== 5) {
             throw new CustomError("Error: Faltou um campo ser mandado na requisição", 400);
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
             actualSequence: request.actualSequence,
             goalsAchieved: request.goalsAchieved
         };
-        const userStatics = await postStatics(id, body);
+        const userStatics = await postStatics(user.id, body);
         Response.data = userStatics;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
