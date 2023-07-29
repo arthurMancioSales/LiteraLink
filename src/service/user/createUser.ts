@@ -1,40 +1,39 @@
-import { users } from "../../repository/users";
-import { insertUser } from "../../repository/users";
+import { createUser } from "@/src/repository/user/createUser";
 import { CustomError } from "../../utils/customError";
 import { INewUser, IUser } from "@/src/interfaces/interface";
+// import bcrypt from "bcrypt";
+import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
 
 export async function registerUser( requestUser: IUser ) {
-    // refatorar, ta errado!   
-    const user = users.find(_user => _user.email === requestUser.email);
-    const id = users.find(_user => _user._id === requestUser.id); // temporario
-    if(user) {
-        throw new CustomError("Error: email já cadastrado.", 401);
-    }
-    if(id) {
-        throw new CustomError("Error: id já está em uso.", 400);
-    }
-    if(requestUser.name === undefined || requestUser.email === undefined || requestUser.password === undefined) {
-        throw new CustomError("Error: missing information.", 400);
-    }
-    else {
-        // const newUser : INewUser = {
-        //     name: requestUser.name,
-        //     email: requestUser.email,
-        //     password: requestUser.password,
-        //     image: "",
-        //     communities: [],
-        //     books: [],
-        //     statistics: {
-        //         lastSequence: new Date,
-        //         readingTime: 0,
-        //         maxSequence: 0,
-        //         actualSequence: 0,
-        //         goalsAchieved: 0,
-        //     },
-        // };
+    Object.entries(requestUser).forEach(([key, value]) => {
+        if (value === undefined || value === "")
+            throw new CustomError("Error: missing information.", 400);
+    }); 
+    const matchingCredentials = await checkExistingCredentials(requestUser.email, requestUser.name);
 
-        const insertedUser = insertUser(requestUser);
-        console.log(insertedUser);
+    if(matchingCredentials === "Email") {
+        throw new CustomError("Error: email already taken", 409);
     }
-   
+    else if (matchingCredentials === "Username") {
+        throw new CustomError("Error: username already taken", 409);
+    } else {
+        // const hashedPassword = await bcrypt.hash(requestUser.password, 10);
+        const newUser : INewUser = {
+            name: requestUser.name,
+            email: requestUser.email,
+            password: requestUser.password,
+            image: "",
+            communities: [],
+            books: [],
+            statistics: {
+                lastSequence: new Date,
+                readingTime: 0,
+                maxSequence: 0,
+                actualSequence: 0,
+                goalsAchieved: 0,
+            },
+        };
+        const res = await createUser(newUser);
+        return res; 
+    }
 }

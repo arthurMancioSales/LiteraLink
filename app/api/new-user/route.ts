@@ -1,8 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { registerUser } from "@/src/service/user/createUser";
 import { ApiResponse } from "@/src/interfaces/interface";
-import { Response } from "@/src/utils/response";
-
 
 export async function POST(req: NextRequest) {
     const apiResponse : ApiResponse = {
@@ -14,7 +12,11 @@ export async function POST(req: NextRequest) {
     try {
         const user = await req.json();
         //const { name, email, password } = user;
+
         const result = await registerUser(user);
+        console.log(result);
+
+
         return NextResponse.json(apiResponse, { status: apiResponse.status });
 
     } catch (error: any) {

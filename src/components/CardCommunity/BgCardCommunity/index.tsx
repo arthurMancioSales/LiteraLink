@@ -12,7 +12,7 @@ export function BgCardCommunity({src, alt, size}: PropsTypes) {
         <div
             className="overflow-hidden relative"
             style={{
-                width: '100%',
+                width: "100%",
                 height: `${size}px`               
             }}
         >
