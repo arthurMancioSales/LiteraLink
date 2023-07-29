@@ -46,7 +46,7 @@ jobs:
         run: echo "${{secrets.key}}" > literalink.key
 
       - name: create env file
-        run: echo "${{secrets.env}}" > .env.local
+        run: echo "${{secrets.env_stage}}" > .env.local
         
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.stage.yml down

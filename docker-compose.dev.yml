@@ -22,13 +22,10 @@ services:
     image: mongo
     restart: on-failure
     volumes:
-      - mongo-data:/data/db
+      - mongo-dev-data:/data/db
     networks:
       - dev-network
     env_file: .env.local
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: .env.local
-      MONGO_INITDB_ROOT_PASSWORD: .env.local
       
   mongo-express-dev:
     image: mongo-express
@@ -38,13 +35,11 @@ services:
     networks:
       - dev-network
     env_file: .env.local
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: .env.local
-      ME_CONFIG_MONGODB_ADMINPASSWORD: .env.local
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@literalink-mongo-dev-1:27017/
+    depends_on:
+      - mongo-dev
 
 volumes:
-  mongo-data:
+  mongo-dev-data:
 
 networks:
   dev-network:
