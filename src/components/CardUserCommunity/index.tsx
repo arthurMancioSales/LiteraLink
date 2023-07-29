@@ -7,7 +7,7 @@ type PropsTypes = {
 
 export function CardUserCommunity({ imageUser, user }: PropsTypes) {
     return (
-        <div className="flex w-1/2 items-center space-x-3.5 px-3.5 py-3.5 rounded-lg bg-primaryLight dark:bg-secondaryDar">
+        <div className="flex items-center gap-4 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
             <Avatar src={imageUser} size={70} />
             <p className="">{user}</p>
         </div>
