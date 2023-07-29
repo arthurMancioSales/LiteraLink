@@ -17,7 +17,7 @@ jobs:
         run: echo "${{secrets.key}}" > literalink.key
 
       - name: create env file
-        run: echo "${{secrets.env_prod}}" > .env.local
+        run: echo "${{secrets.env_prod}}" > .env.prod
 
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.prod.yml down
