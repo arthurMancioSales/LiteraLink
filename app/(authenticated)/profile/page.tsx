@@ -1,4 +1,4 @@
-export default function Dashboard() {
+export default function Profile() {
     return (
         <>Perfil do usuário</>
     );

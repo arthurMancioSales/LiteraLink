@@ -1,4 +1,3 @@
-// import { BgCardCommunity } from "./BgCardCommunity";
 import Link from "next/link";
 import { Button, VariantButton } from "../Button";
 import Image from "next/image";
