@@ -29,6 +29,7 @@ export async function registerUser( requestUser: IUser ) {
                 lastSequence: new Date,
                 readingTime: 0,
                 maxSequence: 0,
+                booksRead: 0,
                 actualSequence: 0,
                 goalsAchieved: 0,
             },
