@@ -16,5 +16,4 @@ async function createCommunity(query: ICreateCommunity) {
     }
 }
 
-
 export { createCommunity };
