@@ -9,8 +9,12 @@ export async function POST(req: NextRequest) {
     try {
         const request = await req.json();
         const {email, password} = request;
-        const user_id = await login(email, password);
-        const jwt_cookie: string = jwt.sign({ id: user_id }, JSON.stringify(process.env.secretKey));
+        const user = await login(email, password);
+        console.log(user);
+        const jwt_cookie: string = jwt.sign({
+            id: user.id,
+            name: user.name
+        }, JSON.stringify(process.env.secretKey));
         cookies().set("Session", jwt_cookie);
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {

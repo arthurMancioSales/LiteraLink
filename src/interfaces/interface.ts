@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export interface ApiResponse {
     message: string;
     status: number;
@@ -39,8 +41,18 @@ export interface ApiError {
 }
 
 export interface ICommunity {
-    id: number;
+    id: number | string;
     name: string;
+}
+
+export interface ICreateCommunity {
+    id?: ObjectId;
+    name: string;
+    description: string;
+    favoriteBook: string;
+    image?: string;
+    is_admin: string;
+    members?: [] | ICommunity[];
 }
 
 export interface IStatistic {
