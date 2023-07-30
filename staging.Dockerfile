@@ -51,7 +51,7 @@ COPY --from=builder --link /app/public ./public
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --link --chown=1001:1001 /app/.next/standalone ./
 COPY --from=builder --link --chown=1001:1001 /app/.next/static ./.next/static
-COPY ./.env.local ./.env.local
+COPY ./.env.stage ./.env.stage
 
 
 USER nextjs
