@@ -10,67 +10,65 @@ import { CardBooksSkeleton } from "../CardBooks/skeleton";
 interface IBookAccordion {
     userBooks: IBook[] | undefined;
     loading: boolean;
+    onClick?: (id: number | string) => void;
 }
 
-export function BookAccordion({userBooks, loading} : IBookAccordion) {
+export function BookAccordion({userBooks, loading, onClick} : IBookAccordion) {
+
+    function renderLoading() {
+        return (
+            <CardBooksSkeleton/>
+        );        
+    }
     
     function renderBooks(books: IBook[] | undefined) {
+
+        if (books?.length === 0) {
+            return <p>Não há livros</p>;
+        }
+
+        const booksNotFavorite = userBooks?.filter(book => !book.favorite);
+        
         return (
             <>
-                {loading 
-                    ? 
-                    <CardBooksSkeleton/>
-                    :
-                    (
-                        books && books.length > 0
-                            ?
-                            books.map((book) => (
-                                book.favorite 
-                                    ?
-                                    ""
-                                    :
-                                    <div
-                                        key={book.id}
-                                        className="mt-4 first:mb-4 first:mt-0"
-                                    >
-                                        <CardBooks
-                                            
-                                            title={book.title}
-                                            description="Capítulos"
-                                            progress={book.chaptersRead ? book.chaptersRead : 0}
-                                            total={book.totalChapter}
-                                        />
-                                    </div>
-                            )) 
-                            : 
-                            <p>Não há livros</p>
-                    )
+                { booksNotFavorite ?
+                    booksNotFavorite.map((book) => (
+                        <div
+                            key={book.id}
+                            className="mt-4 first:mb-4 first:mt-0"
+                        >
+                            <CardBooks
+                                id={book.id}
+                                title={book.title}
+                                description="Capítulos"
+                                progress={book.chaptersRead ? book.chaptersRead : 0}
+                                total={book.totalChapter}
+                                onClick={onClick}
+                            />
+                        </div>
+                    )) : <></>
                 }
-                
             </>
-        );                        
+        );
     }
 
     const accordionOptions = [
         {
             id: 1,
             title: "Lendo",
-            content: renderBooks(userBooks?.filter(book => book.status == "lido")),
+            content: loading ?  renderLoading() : renderBooks(userBooks?.filter(book => book.status == "lido")),
         },
         {
             id: 2,
             title: "A ler",
-            content: renderBooks(userBooks?.filter(book => book.status == "lendo")),
+            content: loading ?  renderLoading() : renderBooks(userBooks?.filter(book => book.status == "lendo")),
         },
         {
             id: 3,
             title: "Lido",
-            content: renderBooks(userBooks?.filter(book => book.status == "ler")),
+            content: loading ?  renderLoading() : renderBooks(userBooks?.filter(book => book.status == "ler")),
         },
     ];
-
-    
-
 
     return (
         <>
