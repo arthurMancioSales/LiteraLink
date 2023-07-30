@@ -12,24 +12,52 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { FavoriteSkeleton } from "@/src/components/CardBooks/favoriteSkeleton";
 import { BiMedal } from "react-icons/bi";
 import { BsFire } from "react-icons/bs";
+import { generalRequest } from "@/src/functions/generalRequest";
 
 export default function Dashboard() {
     const [userData, setUserData] = useState<IUser | null>(null);
     const [loading, setLoading] = useState(true);
     const [favoriteBook, setFavoriteBook] = useState<IBook[] | null>(null);
 
+
+    async function handleBookFavorite(id: number | string) {
+        const handleFavorite: Array<number | string> = [];
+
+        userData?.books.forEach((book) => {
+            if(book.favorite && book.id !== id) {
+                handleFavorite.push(book.id);
+                book.favorite = false;
+            }
+
+            if(book.id === id) {
+                handleFavorite.push(book.id);
+                book.favorite = true;
+            }
+        });
+        
+        if(userData) {
+            await patchFavoriteBook(handleFavorite[0], handleFavorite[1]);
+            setFavoriteBook(userData.books.filter(book => book.favorite));
+        }
+    }
+
+    async function patchFavoriteBook(idBookBefore: number | string, idBookAfter: number | string) {
+        const objAfter = {
+            id: idBookBefore,
+            favorite: false
+        };
+
+        const objBefore = {
+            id: idBookAfter,
+            favorite: true
+        };
+        await generalRequest("/api/book-list", objBefore, "PATCH");
+        await generalRequest("/api/book-list", objAfter, "PATCH");
+    }
+
     useEffect(() => {
         async function getUserData() {
-
-            const req = await fetch("/api/user", {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                cache: "no-store" 
-            });
-
-            const response = await req.json();
-            const user: IUser = response.data;
+            const user: IUser = await generalRequest("/api/user");
             setUserData(user);
             setFavoriteBook(user.books.filter(book => book.favorite));
             setLoading(false);
@@ -161,7 +189,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="flex w-1/4 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
-                <BookAccordion userBooks={userData?.books} loading={loading} />
+                <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite}/>
             </div>
         </div>
     );
