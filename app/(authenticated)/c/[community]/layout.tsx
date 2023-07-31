@@ -1,14 +1,17 @@
 import { AsideCommunity } from "@/src/components/AsideCommunity";
 
-export default function RootLayout({
-    children,
-}: {
-  children: React.ReactNode
-}) {
+interface ILayout {
+    children: React.ReactNode;
+    params: {
+        community: string;
+    }
+}
+
+export default function RootLayout({ children, params}: ILayout) {
     return (
-        <div className="flex h-screen w-full p-4 gap-4 bg-light-secondary dark:bg-dark-tertiary">
+        <div className="flex w-full h-screen gap-4 p-4 bg-light-secondary dark:bg-dark-tertiary">
             {children}
-            <AsideCommunity name="Teste" bookFavorite="Teste2" status="Sair" description="Teste3"/>
+            <AsideCommunity communityURL={params.community}/>
         </div>
     );
 }
