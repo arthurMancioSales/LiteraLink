@@ -8,7 +8,7 @@ export async function insertBook(userId: ObjectId, book : IBook) {
 
     try {
         await collection.updateOne(
-            { id: userId, },
+            { _id: userId, },
             {
                 $push: { books: book }
             }

@@ -1,15 +1,18 @@
 import { dbConnect } from "@/src/database/mongodb";
 import { ObjectId } from "mongodb";
 
-export async function findUserById(userId: ObjectId) {
+export async function findBook(userId : ObjectId, bookId : ObjectId) {
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("users");
     try {
-        const returnedUser = await collection.findOne(
-            { _id: userId }
+        const foundBook = await collection.findOne(
+            { _id: userId, "books._id" : bookId }   
         );
-        if(returnedUser)
-            return returnedUser;
+        if(foundBook)
+            return foundBook;
+
+        else 
+            return;
     } catch (error) {
         console.log(error);
         throw error;

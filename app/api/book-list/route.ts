@@ -56,7 +56,7 @@ export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém
         console.log("Request: ", req);
         
         const newBookList = await deleteBook(userId, id);
-        console.log("book list: ", newBookList);
+        console.log("Book list: ", newBookList);
 
         return NextResponse.json(Response, {status: Response.status});
     } catch (error : any) {
