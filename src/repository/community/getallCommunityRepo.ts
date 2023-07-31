@@ -1,4 +1,4 @@
-import { pool } from "../pool/pool";
+import { pool } from "@/src/database/pool";
 
 async function getallCommunity() {
     const client = await pool.connect();

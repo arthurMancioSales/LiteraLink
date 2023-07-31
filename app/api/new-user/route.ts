@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
         apiResponse.message = "Error on sign up.";
         apiResponse.status = error.status;
         apiResponse.error = error.message;
+        console.log(error) 
         return NextResponse.json(apiResponse, {status: apiResponse.status});
     }
 }

@@ -1,4 +1,4 @@
-import { pool } from "../pool/pool";
+import { pool } from "@/src/database/pool";
 import { ICreateCommunity } from "@/src/interfaces/interface";
 
 async function createCommunity(query: ICreateCommunity) {
