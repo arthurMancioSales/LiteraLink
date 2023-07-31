@@ -1,5 +1,8 @@
-export default function SignUpPage() {
+import { CardCadastro } from "@/src/components/CardCadastro";
+
+export default function SignPage() {
+    
     return (
-        <>Login</>
+        <CardCadastro></CardCadastro>
     );
 }
