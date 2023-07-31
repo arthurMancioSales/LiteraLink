@@ -28,7 +28,7 @@ export function CardBooks({id, title, description, progress, total, variant="pri
  
     return (
         <div className={
-            `w-full px-4 gap-2 py-2 flex flex-col rounded-md bg-light-primary dark:bg-dark-secondary ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
+            `w-full px-4 gap-2 py-2 flex flex-col rounded-md bg-light-primary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary ${onClick ? "cursor-pointer hover:bg-buttonHover" : ""}`
         }
         onClick={handleClick}>
             {title && (

@@ -88,7 +88,7 @@ export function BookAccordion({userBooks, loading, onClick} : IBookAccordion) {
                         </Accordion.Trigger>
                         <Accordion.Content className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden h-[calc(100%-(var(--accordionHeight)))]">
                             <ScrollArea.Root className="h-full p-5 overflow-hidden border border-b-2 border-light-secondary bg-light-tertiary dark:bg-dark-primary">
-                                <ScrollArea.Viewport className="w-[90%] max-h-full rounded flex flex-col mb-2 text-gray-500 dark:text-gray-400">
+                                <ScrollArea.Viewport className="w-[90%] pr-1 pb-1 max-h-full rounded flex flex-col mb-2 text-gray-500 dark:text-gray-400">
                                     {section.content}
                                 </ScrollArea.Viewport>
                                 <ScrollArea.Scrollbar

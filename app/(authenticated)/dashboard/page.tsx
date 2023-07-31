@@ -115,12 +115,12 @@ export default function Dashboard() {
                             ? 
                             <TextLoading size="large"></TextLoading>
                             :
-                            <p className="text-2xl">{favoriteBook?.[0].title}</p>
+                            <p className="text-2xl dark:text-dark-text">{favoriteBook?.[0].title}</p>
                         }
                     </div>
                     <div className="w-full h-[calc(100%-64px)]">
                         <div className="flex w-full h-full gap-4">
-                            <div className="relative w-1/3 h-full">
+                            <div className="relative w-1/3 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] h-full">
                                 {loading 
                                     ? 
                                     <div className="w-full h-full rounded-l-md bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
@@ -137,7 +137,7 @@ export default function Dashboard() {
                             <div className="w-2/3">
                                 <ScrollArea.Root className="w-full h-full overflow-hidden">
                                     <ScrollArea.Viewport className="flex flex-col w-full max-h-full mb-2 text-gray-500 rounded dark:text-gray-400">
-                                        <div className="flex flex-col max-w-[90%] h-full gap-4">
+                                        <div className="flex flex-col pr-1 pb-1 max-w-[90%] h-full gap-4">
                                             <div className="flex flex-col w-full gap-4">
                                                 <p>Progresso total</p>
                                                 {loading ?
