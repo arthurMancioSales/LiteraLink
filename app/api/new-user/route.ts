@@ -1,14 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
 import { registerUser } from "@/src/service/user/createUser";
-import { ApiResponse } from "@/src/interfaces/interface";
+import { createResponse } from "@/src/utils/response";
 
 export async function POST(req: NextRequest) {
-    const apiResponse : ApiResponse = {
-        message: "Success",
-        status: 201,
-        data: null,
-        error: null
-    };
+    const Response = createResponse();
     try {
         const user = await req.json();
         //const { name, email, password } = user;
@@ -16,13 +11,11 @@ export async function POST(req: NextRequest) {
         const result = await registerUser(user);
         console.log(result);
 
-
-        return NextResponse.json(apiResponse, { status: apiResponse.status });
-
+        return NextResponse.json(Response, { status: Response.status });
     } catch (error: any) {
-        apiResponse.message = "Error on sign up.";
-        apiResponse.status = error.status;
-        apiResponse.error = error.message;
-        return NextResponse.json(apiResponse, {status: apiResponse.status});
+        Response.message = "Error on sign up.";
+        Response.status = error.status;
+        Response.error = error.message;
+        return NextResponse.json(Response, {status: Response.status});
     }
 }

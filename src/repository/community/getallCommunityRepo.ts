@@ -1,14 +1,16 @@
-import { pool } from "../pool/pool";
+import { pool } from "@/src/database/pool";
+
+const TAG = "REPOSITORY(GET_all): community ";
 
 async function getallCommunity() {
     const client = await pool.connect();
-    const collection = client.db("desafio").collection("community");
+    const collection = client.db("literalink-dev").collection("community");
     try {
-        const response  = await collection.find();
+        const response = await collection.find();
         const allCommunities = await response.toArray();
         return allCommunities;
     } catch (error: any) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

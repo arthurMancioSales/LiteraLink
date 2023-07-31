@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomError } from "@/src/utils/customError";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 import { getCommunity } from "@/src/service/community/getCommunity";
 
 export async function GET(req:NextRequest, {params}: {params: { comunidade: string | number}}) {
+    const Response = createResponse();
     try {
-        const communityId = params.comunidade;
-        if(communityId) {
-            const community =  await getCommunity(communityId);
+        const communityName = params.comunidade;
+        if(communityName) {
+            const community =  await getCommunity(communityName);
             Response.data = community;
             NextResponse.json(Response, {status: Response.status});
         }

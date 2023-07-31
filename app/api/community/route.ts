@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Response } from "@/src/utils/response";
-import { auth } from "@/src/functions/middlewares/auth";
+import { createResponse } from "@/src/utils/response";
+import { auth } from "@/src/utils/middlewares/auth";
 import { postCommunity } from "@/src/service/community/postCommunity";
 
 export async function POST(req:NextRequest) {
+    const Response = createResponse();
     try {
         const user = await auth(req);
         const request = await req.json();
@@ -21,6 +22,7 @@ export async function POST(req:NextRequest) {
 }
 
 export async function PATCH(req:NextRequest) {
+    const Response = createResponse();
     try {
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
@@ -32,6 +34,7 @@ export async function PATCH(req:NextRequest) {
 }
 
 export async function DELETE(req:NextRequest) {
+    const Response = createResponse();
     try {
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
