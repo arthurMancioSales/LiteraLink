@@ -26,11 +26,17 @@ jobs:
       - name: Lint project
         run: npm run lint -- --fix
 
+      - name: create env file
+        run: echo "${{secrets.env_stage}}" > .env.local
+
       - name: Run tests with Jest
         run: npm run test
 
       - name: Build the project
         run: npm run build 
+      
+      - name: clear env file
+        run: rm ./.env.local 
         
   deploy-staging:
     needs: [buildAndTest]
