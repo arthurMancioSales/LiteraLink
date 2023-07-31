@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export interface ApiResponse {
     message: string;
     status: number;
@@ -6,7 +8,7 @@ export interface ApiResponse {
 }
 
 export interface IUser {
-    id: number;
+    id: ObjectId | string;
     name: string;
     email: string;
     password: string;
@@ -17,7 +19,7 @@ export interface IUser {
 }
 
 export interface INewUser {
-    id?: number;
+    id?: number | string | ObjectId;
     name: string;
     email: string;
     password: string;
@@ -53,7 +55,7 @@ export interface IStatistic {
 }
 
 export interface IBook {
-    id: string | number;
+    id: string | number | ObjectId;
     title: string;
     image: string;
     status: "lido" | "lendo" | "ler";

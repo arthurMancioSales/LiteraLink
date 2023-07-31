@@ -1,8 +1,9 @@
 import { createUser } from "@/src/repository/user/createUser";
 import { CustomError } from "../../utils/customError";
 import { INewUser, IUser } from "@/src/interfaces/interface";
-// import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
+import { ObjectId } from "mongodb";
 
 export async function registerUser( requestUser: IUser ) {
     Object.entries(requestUser).forEach(([key, value]) => {
@@ -19,6 +20,7 @@ export async function registerUser( requestUser: IUser ) {
     } else {
         // const hashedPassword = await bcrypt.hash(requestUser.password, 10);
         const newUser : INewUser = {
+            id: new ObjectId(),
             name: requestUser.name,
             email: requestUser.email,
             password: requestUser.password,
@@ -27,6 +29,7 @@ export async function registerUser( requestUser: IUser ) {
             books: [],
             statistics: {
                 lastSequence: new Date,
+                booksRead: 0,
                 readingTime: 0,
                 maxSequence: 0,
                 actualSequence: 0,
