@@ -13,9 +13,15 @@ export interface IUser {
     email: string;
     password: string;
     image?: string;
-    communities: ICommunity[];
+    communities: IUserCommunity[];
     books: IBook[];
     statistics: IStatistic;
+}
+
+export interface ICommunityUser {
+    id: number;
+    name: string;
+    image: string;
 }
 
 export interface INewUser {
@@ -24,7 +30,7 @@ export interface INewUser {
     email: string;
     password: string;
     image?: string;
-    communities?: ICommunity[];
+    communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;
 }
@@ -41,6 +47,15 @@ export interface ApiError {
 }
 
 export interface ICommunity {
+    id: string;
+    name: string;
+    description: string;
+    favoriteBook?: string;
+    image: string;
+    is_admin: number;
+    members: ICommunityUser[];
+}
+export interface IUserCommunity {
     id: number | string;
     name: string;
 }
@@ -52,7 +67,7 @@ export interface ICreateCommunity {
     favoriteBook: string;
     image?: string;
     is_admin: string;
-    members?: [] | ICommunity[];
+    members?: [] | IUserCommunity[];
 }
 
 export interface IStatistic {

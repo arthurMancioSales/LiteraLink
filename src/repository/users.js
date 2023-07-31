@@ -9,20 +9,12 @@ export const users = [
         communities: [
             {
                 id: 1,
-                name: "Leitura HardCore",
+                name: "Comunidade 1",
             },
             {
                 id: 3,
-                name: "Cegos Leitores",
-            },
-            {
-                id: 2,
-                name: "Cegos Leitoressssssssssssssss",
-            },
-            {
-                id: 4,
-                name: "Cegos Leitores",
-            },
+                name: "edu world",
+            }
         ],
         books: [
             {
