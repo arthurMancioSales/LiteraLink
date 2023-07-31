@@ -19,7 +19,7 @@ services:
       - mongo-stage-data:/data/db
     networks:
       - stage-network
-    env_file: .env.stage
+    env_file: .env.local
       
   mongo-express-stage:
     image: mongo-express
@@ -28,7 +28,7 @@ services:
       - 8081:8081
     networks:
       - stage-network
-    env_file: .env.stage
+    env_file: .env.local
     depends_on:
       - mongo-stage
 

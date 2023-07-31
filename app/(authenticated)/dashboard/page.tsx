@@ -115,7 +115,7 @@ export default function Dashboard() {
                             ? 
                             <TextLoading size="large"></TextLoading>
                             :
-                            <p className="text-2xl">{favoriteBook?.[0].title}</p>
+                            <p className="text-2xl dark:text-dark-text">{favoriteBook?.[0].title}</p>
                         }
                     </div>
                     <div className="w-full h-[calc(100%-64px)]">
@@ -135,7 +135,10 @@ export default function Dashboard() {
                                 }
                             </div>
                             <div className="w-2/3">
-                                <ScrollArea.Root className="w-full h-full overflow-hidden">
+                                <ScrollArea.Root 
+                                    className="w-full h-full overflow-hidden"
+                                    type="always"
+                                >
                                     <ScrollArea.Viewport className="flex flex-col w-full max-h-full mb-2 text-gray-500 rounded dark:text-gray-400">
                                         <div className="flex flex-col max-w-[90%] h-full gap-4">
                                             <div className="flex flex-col w-full gap-4">
@@ -176,7 +179,6 @@ export default function Dashboard() {
                                     <ScrollArea.Scrollbar
                                         className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
                                         orientation="vertical"
-                                        forceMount
                                     >
                                         <ScrollArea.Thumb className="flex-1 bg-light-secondary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px] dark:bg-dark-secondary" />
                                     </ScrollArea.Scrollbar>
