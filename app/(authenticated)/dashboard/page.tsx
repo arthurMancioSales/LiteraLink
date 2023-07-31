@@ -2,7 +2,7 @@
 
 import { BookAccordion } from "@/src/components/Accordion";
 import { CardBooks } from "@/src/components/CardBooks";
-import { TextLoading } from "@/src/components/TextLoading";
+import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserGoals } from "@/src/components/UserGoals";
 import { IBook, IUser } from "@/src/interfaces/interface";
 import Image from "next/image";
@@ -24,18 +24,18 @@ export default function Dashboard() {
         const handleFavorite: Array<number | string> = [];
 
         userData?.books.forEach((book) => {
-            if(book.favorite && book.id !== id) {
+            if (book.favorite && book.id !== id) {
                 handleFavorite.push(book.id);
                 book.favorite = false;
             }
 
-            if(book.id === id) {
+            if (book.id === id) {
                 handleFavorite.push(book.id);
                 book.favorite = true;
             }
         });
-        
-        if(userData) {
+
+        if (userData) {
             await patchFavoriteBook(handleFavorite[0], handleFavorite[1]);
             setFavoriteBook(userData.books.filter(book => book.favorite));
         }
@@ -70,39 +70,39 @@ export default function Dashboard() {
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
             <div className="flex flex-col w-3/4 h-full gap-4 mr-2">
                 <div className="flex justify-between w-full p-4 rounded-md h-[calc(25%-8px)] bg-light-tertiary dark:bg-dark-primary">
-                    <UserGoals 
-                        icon={<AiOutlineBook size={50}/>} 
+                    <UserGoals
+                        icon={<AiOutlineBook size={50} />}
                         value={userData ? userData?.statistics.booksRead : 0}
                         loading={loading}
                     >
                         Livros Lidos
                     </UserGoals>
-                    <UserGoals 
-                        icon={<AiOutlineFieldTime size={50}/>} 
+                    <UserGoals
+                        icon={<AiOutlineFieldTime size={50} />}
                         value={userData ? userData?.statistics.readingTime : 0}
                         loading={loading}
                         complement="minutos"
                     >
                         Tempo de Leitura
                     </UserGoals>
-                    <UserGoals 
-                        icon={<BiMedal size={50}/>} 
+                    <UserGoals
+                        icon={<BiMedal size={50} />}
                         value={userData ? userData?.statistics.maxSequence : 0}
                         loading={loading}
                         complement="dias"
                     >
                         Maior Sequência
                     </UserGoals>
-                    <UserGoals 
-                        icon={<BsFire size={50}/>} 
+                    <UserGoals
+                        icon={<BsFire size={50} />}
                         value={userData ? userData?.statistics.actualSequence : 0}
                         loading={loading}
                         complement="dias"
                     >
                         Sequência atual
                     </UserGoals>
-                    <UserGoals 
-                        icon={<AiFillCheckCircle size={50}/>} 
+                    <UserGoals
+                        icon={<AiFillCheckCircle size={50} />}
                         value={userData ? userData?.statistics.goalsAchieved : 0}
                         loading={loading}
                     >
@@ -111,8 +111,8 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary">
                     <div>
-                        {loading 
-                            ? 
+                        {loading
+                            ?
                             <TextLoading size="large"></TextLoading>
                             :
                             <p className="text-2xl dark:text-dark-text">{favoriteBook?.[0].title}</p>
@@ -121,11 +121,11 @@ export default function Dashboard() {
                     <div className="w-full h-[calc(100%-64px)]">
                         <div className="flex w-full h-full gap-4">
                             <div className="relative w-1/3 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] h-full">
-                                {loading 
-                                    ? 
+                                {loading
+                                    ?
                                     <div className="w-full h-full rounded-l-md bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
                                     :
-                                    <Image 
+                                    <Image
                                         src={favoriteBook ? favoriteBook[0].image : ""}
                                         alt="User favorite book"
                                         fill
@@ -135,7 +135,7 @@ export default function Dashboard() {
                                 }
                             </div>
                             <div className="w-2/3">
-                                <ScrollArea.Root 
+                                <ScrollArea.Root
                                     className="w-full h-full overflow-hidden"
                                     type="always"
                                 >
@@ -144,7 +144,7 @@ export default function Dashboard() {
                                             <div className="flex flex-col w-full gap-4">
                                                 <p>Progresso total</p>
                                                 {loading ?
-                                                    <FavoriteSkeleton/>
+                                                    <FavoriteSkeleton />
                                                     :
                                                     <CardBooks
                                                         variant="secondary"
@@ -156,7 +156,7 @@ export default function Dashboard() {
                                             </div>
                                             <div className="flex flex-col gap-4">
                                                 <div className="flex flex-row justify-between">
-                                                    <p>Metas semanais</p>   
+                                                    <p>Metas semanais</p>
                                                     <p>Realizadas: {favoriteBook?.[0].goalsAchieved}</p>
                                                 </div>
                                                 {
@@ -171,7 +171,7 @@ export default function Dashboard() {
                                                         />
                                                     ))
                                                         :
-                                                        <FavoriteSkeleton/>
+                                                        <FavoriteSkeleton />
                                                 }
                                             </div>
                                         </div>
@@ -186,12 +186,12 @@ export default function Dashboard() {
                                 </ScrollArea.Root>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
             <div className="flex w-1/4 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
-                <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite}/>
+                <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
             </div>
         </div>
     );
