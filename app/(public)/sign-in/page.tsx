@@ -19,7 +19,7 @@ export default function SignUpPage() {
         await generalRequest("/api/login", parametros, "POST")
 
         
-        await navigate.replace('/dashboard')
+        navigate.replace('/dashboard')
 
     }
 
