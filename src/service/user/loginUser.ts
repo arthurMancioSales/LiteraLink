@@ -1,3 +1,4 @@
+
 import { CustomError } from "../../utils/customError";
 import bcrypt from "bcrypt";
 import { loginRepository } from "@/src/repository/user/loginRepository";
@@ -17,6 +18,8 @@ export async function login (email: string, password: string ) {
         }
         throw new CustomError("O usuário não existe!", 404);
     } catch (e: any) {
+        console.log(e);
         throw e;
     }
+
 }

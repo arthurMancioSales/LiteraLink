@@ -1,7 +1,14 @@
+// import { pool } from "@/src/database/pool";
 import { dbConnect } from "@/src/database/mongodb";
 
 export async function checkExistingCredentials(_email: string, _name: string) {
     const client = await dbConnect.connect();
+
+
+
+// export async function checkExistingCredentials(_email: string, _name: string) {
+//     const client = await pool.connect();
+
     const collection = client.db("literalink-dev").collection("users");
     try {
         const matchEmail = await collection.find({

@@ -9,15 +9,15 @@ import { updateUser } from "@/src/service/user/updateUser";
 
 export async function PATCH(req: NextRequest) {
     try {
-        const id = await auth(req);
+        const user = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length === 0) {
             throw new CustomError("Error: nenhum campo foi selecionado", 500);
         }
         // preciso escrever os validators para validar os campos de name, email, password;
         const body = formattedBody(request);
-        const userUpdate = await updateUser(id, body);
-        const jwt_cookie: string = jwt.sign({ id: userUpdate._id }, JSON.stringify(process.env.secretKey));
+        const userUpdate = await updateUser(user.id, body);
+        const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
         cookies().set("Session", jwt_cookie);
         Response.data = userUpdate;

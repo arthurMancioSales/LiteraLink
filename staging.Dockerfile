@@ -37,7 +37,7 @@ RUN yarn build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV development
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
@@ -51,7 +51,7 @@ COPY --from=builder --link /app/public ./public
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --link --chown=1001:1001 /app/.next/standalone ./
 COPY --from=builder --link --chown=1001:1001 /app/.next/static ./.next/static
-COPY ./.env.local ./.env.local
+COPY ./.env.local ./.env.local 
 
 
 USER nextjs

@@ -9,7 +9,7 @@ import { deleteBook } from "@/src/service/book/deleteBook";
 
 export async function PATCH(req: NextRequest) {
     try {
-        const id = await auth(req);
+        const user = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length === 0) {
             throw new CustomError("Erro na requisição", 500);
@@ -17,7 +17,7 @@ export async function PATCH(req: NextRequest) {
         // preciso escrever um validator para garantir que o ID do livro existe;
         // Além disso, se o cliente está tentando alterar pelo menos 1 campo;
         const body = formattedBody(request);
-        const userBookUpdate = await patchBook(id, body);
+        const userBookUpdate = await patchBook(user.id, body);
         Response.data = userBookUpdate;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
@@ -31,11 +31,11 @@ export async function PATCH(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     try {
-        const id = await auth(req);
+        const user = await auth(req);
         const request = await req.json();
         console.log(request);
         
-        const postedBook = await postBook(id, request);
+        const postedBook = await postBook(user.id, request);
         console.log("Livro adicionado: ", postedBook);
 
         return NextResponse.json(Response, {status:Response.status});
@@ -50,15 +50,15 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém o req com DELETE depois de alguma att. do Next não consegue ser parseado e retorna um erro;
     try {
-        const userId = await auth(req);
+        const user = await auth(req);
         const id = await req.json();
                 
         console.log("Request: ", req);
         
         const newBookList = await deleteBook(userId, id);
         console.log("Book list: ", newBookList);
-
         return NextResponse.json(Response, {status: Response.status});
+      
     } catch (error : any) {
         console.log(error);
         Response.message = "Error";

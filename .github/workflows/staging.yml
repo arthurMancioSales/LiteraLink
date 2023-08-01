@@ -26,11 +26,17 @@ jobs:
       - name: Lint project
         run: npm run lint -- --fix
 
+      - name: create env file
+        run: echo "${{secrets.env_stage}}" > .env.local
+
       - name: Run tests with Jest
         run: npm run test
 
       - name: Build the project
         run: npm run build 
+      
+      - name: clear env file
+        run: rm ./.env.local 
         
   deploy-staging:
     needs: [buildAndTest]
@@ -46,7 +52,7 @@ jobs:
         run: echo "${{secrets.key}}" > literalink.key
 
       - name: create env file
-        run: echo "${{secrets.env}}" > .env.local
+        run: echo "${{secrets.env_stage}}" > .env.local 
         
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.stage.yml down
@@ -58,4 +64,4 @@ jobs:
         run: docker compose -f ./docker-compose.stage.yml up -d --build
       
       - name: clear previous tmp files
-        run: rm ./literalink.crt && rm ./literalink.key && rm ./.env.local
+        run: rm ./literalink.crt && rm ./literalink.key && rm ./.env.local 

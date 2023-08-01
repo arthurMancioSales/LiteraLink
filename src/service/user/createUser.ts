@@ -1,7 +1,7 @@
 import { createUser } from "@/src/repository/user/createUser";
 import { CustomError } from "../../utils/customError";
 import { INewUser, IUser } from "@/src/interfaces/interface";
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";s
 import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
 import { ObjectId } from "mongodb";
 
@@ -32,6 +32,9 @@ export async function registerUser( requestUser: IUser ) {
                 booksRead: 0,
                 readingTime: 0,
                 maxSequence: 0,
+                readingTime: 0,
+                maxSequence: 0,
+                booksRead: 0,
                 actualSequence: 0,
                 goalsAchieved: 0,
             },

@@ -5,10 +5,11 @@ import { getCommunity } from "@/src/service/community/getCommunity";
 import { ObjectId } from "mongodb";
 
 export async function GET(req:NextRequest, {params}: {params: { comunidade:  ObjectId}}) {
+
     try {
-        const communityId = params.comunidade;
-        if(communityId) {
-            const community =  await getCommunity(communityId);
+        const communityName = params.comunidade;
+        if(communityName) {
+            const community =  await getCommunity(communityName);
             Response.data = community;
             NextResponse.json(Response, {status: Response.status});
         }

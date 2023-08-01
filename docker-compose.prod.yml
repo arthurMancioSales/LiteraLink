@@ -16,13 +16,10 @@ services:
     image: mongo
     restart: on-failure
     volumes:
-      - mongo-data-prod:/data/db
+      - mongo-prod-data:/data/db
     networks:
       - prod-network
     env_file: .env.local
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: .env.local
-      MONGO_INITDB_ROOT_PASSWORD: .env.local
       
   mongo-express:
     image: mongo-express
@@ -32,10 +29,8 @@ services:
     networks:
       - prod-network
     env_file: .env.local
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: .env.local
-      ME_CONFIG_MONGODB_ADMINPASSWORD: .env.local
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    depends_on:
+      - mongo
 
   nginx:
     build:
@@ -49,7 +44,7 @@ services:
     restart: always
 
 volumes:
-  mongo-data-prod:
+  mongo-prod-data:
   
 networks:
   prod-network:
