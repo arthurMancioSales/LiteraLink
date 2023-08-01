@@ -7,10 +7,7 @@ import { ImagemLateral } from "../imagemLateral";
 
 export function CardCadastro() {
     return (
-        <div className="w-full h-full bg-light-primary">
-
-            {/* <ImagemLateral src="/images/image.jpg" alt=""></ImagemLateral> */}
-
+        <div className="flex w-full h-full bg-light-primary">
             <div className="flex w-1/2 h-screen justify-center content-center flex-col space-x-3.5 px-3.5 py-3.5 rounded-lg bg-primaryLight dark:bg-secondaryDar">
                 <h2 className="text-center text-2xl">Criar Conta</h2>
                 <form action="">
@@ -90,6 +87,7 @@ export function CardCadastro() {
                 </form>
                 <span></span>
             </div>
+            <ImagemLateral src="/images/image.jpg" alt=""></ImagemLateral>
         </div>
     );
 }

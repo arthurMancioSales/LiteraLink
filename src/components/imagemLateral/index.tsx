@@ -7,7 +7,7 @@ type PropsTypes = {
 
 export function ImagemLateral({ src, alt }: PropsTypes) {
     return (
-        <div className="flex justify-end w-1/2 h-screen ">
+        <div className="flex justify-end w-1/2 h-screen relative ">
             <Image
                 className=" object-cover "
                 src={src}
