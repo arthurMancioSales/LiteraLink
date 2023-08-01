@@ -8,7 +8,7 @@ export async function createUser(user: INewUser) {
     try{ 
         const registeredUser = await collection.insertOne(user);
         console.log("Documento inserido em users: ", user);
-    
+
         return registeredUser;
     } catch (error) {
         console.log(error);

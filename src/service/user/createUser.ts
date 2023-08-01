@@ -1,14 +1,22 @@
 import { createUser } from "@/src/repository/user/createUser";
 import { CustomError } from "../../utils/customError";
-import { INewUser, IUser } from "@/src/interfaces/interface";
+import { INewUser } from "@/src/interfaces/interface";
 // import bcrypt from "bcrypt";
 import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
 
-export async function registerUser( requestUser: IUser ) {
+export async function registerUser( requestUser: INewUser ) {
     Object.entries(requestUser).forEach(([key, value]) => {
         if (value === undefined || value === "")
-            throw new CustomError("Error: missing information.", 400);
+            switch (key) {
+                case "email":
+                    throw new CustomError("Error: email missing.", 400);
+                case "password":
+                    throw new CustomError("Error: password missing.", 400);
+                case "name":
+                    throw new CustomError("Error: name missing.", 400);
+            }
     }); 
+    
     const matchingCredentials = await checkExistingCredentials(requestUser.email, requestUser.name);
 
     if(matchingCredentials === "Email") {
