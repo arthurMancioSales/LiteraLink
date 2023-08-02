@@ -6,7 +6,7 @@ import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserGoals } from "@/src/components/UserGoals";
 import { IBook, IUser } from "@/src/interfaces/interface";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiFillCheckCircle, AiOutlineBook, AiOutlineFieldTime } from "react-icons/ai";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { FavoriteSkeleton } from "@/src/components/CardBooks/favoriteSkeleton";
@@ -19,6 +19,9 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [favoriteBook, setFavoriteBook] = useState<IBook[] | null>(null);
 
+    const user = useContext(UserContext);
+    // const userData = user.user;
+    console.log(user)
 
     async function handleBookFavorite(id: number | string) {
         const handleFavorite: Array<number | string> = [];

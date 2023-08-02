@@ -2,159 +2,55 @@
 
 import { CardCommunity } from "@/src/components/CardCommunity";
 import { SearchForm } from "@/src/components/SearchBar";
-import { useState } from "react";
-
-const communities = [
-    {
-        id: 1,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 2,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 3,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 4,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 5,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 6,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 7,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 8,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 9,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 10,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 11,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 12,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-    {
-        id: 13,
-        name: "Teste",
-        image: "/images/image.jpg",
-        auth: "Autor",
-        category: "teste",
-        gender: "teste",
-    },
-];
+import { generalRequest } from "@/src/functions/generalRequest";
+import { ICommunity, IUser } from "@/src/interfaces/interface";
+import { useEffect, useState } from "react";
 
 export default function SearchCommunity() {
-    const [auth, setAuth] = useState(false);
+    const [auth, setAuth] = useState<IUser | null>(null);
+    const [communities, setCommunities] = useState<ICommunity[] | null>(null);
+    const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
 
     const handleSearch = (value: string) => {
         setSearchValue(value);
         console.log("Realizar a busca com o valor:", value);
     };
-    
-    async function apiFetch() {
-        const req = await fetch("/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "email": "edu@gmail.com",
-                "password": "senha123"
-            })
-        });
 
-        const auth = await req.json();
-        console.log(auth);
-
-        if (req.ok) {
-            setAuth(true);
+    useEffect(() => {
+        async function getCommunities() {
+            const community: ICommunity[] = await generalRequest("/api/c/");
+            // rota para obter dad
+            // const user: IUser = await generalRequest("/api/c/");
+            setCommunities(community);
+            setLoading(true);
         }
-    }
+        
+        getCommunities();
+    }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 h-screen w-screen p-4 bg-light-secondary dark:bg-dark-tertiary">
+        <div className="flex flex-col items-center justify-center w-screen h-screen gap-4 p-4 bg-light-secondary dark:bg-dark-tertiary">
             <SearchForm onSearch={handleSearch} value={searchValue}/>
-            <div className="h-full w-full p-4 rounded-lg overflow-auto bg-light-tertiary dark:bg-transparent">
-                <div className="h-full w-full grid grid-cols-5 gap-3">
+            <div className="w-full h-full p-4 overflow-auto rounded-lg bg-light-tertiary dark:bg-transparent">
+                <div className="grid w-full h-full grid-cols-5 gap-3">
                     {
-                        communities.map((community) =>(
-                            <CardCommunity
-                                key={community.id}
-                                page={`/c/${community.id}`}
-                                community={community}
-                                variantButton="success"
-                            />
-                        ))
-                    }
+                        loading 
+                            ? (
+                                <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+                                </svg>
+                            ) : (
+                                communities?.map((community) =>(
+                                    <CardCommunity
+                                        key={community.id}
+                                        page={`/c/${community.id}`}
+                                        community={community}
+                                        variantButton="success"
+                                    />
+                                ))
+                        
+                        
+                            )}
                 </div>
             </div>
         </div>

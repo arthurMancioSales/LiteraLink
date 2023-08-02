@@ -1,17 +1,11 @@
 import Link from "next/link";
 import { Button, VariantButton } from "../Button";
 import Image from "next/image";
+import { ICommunity } from "@/src/interfaces/interface";
 
 type PropsTypes = {
     page: string;
-    community: {
-        id: number;
-        name: string;
-        image: string;
-        auth: string;
-        category: string;
-        gender: string;
-    }
+    community:ICommunity
     variantButton?: VariantButton;
 };
 
@@ -32,9 +26,8 @@ export function CardCommunity({page, community, variantButton}: PropsTypes) {
                 </div>
                 <div className="px-2 pb-2">
                     <p className="text-2xl font-bold">{community.name}</p>
-                    <p><span className="font-bold">Autor: </span>{community.auth}</p>
-                    <p><span className="font-bold">Categoria: </span>{community.category}</p>
-                    <p><span className="font-bold">Gênero </span>{community.gender}</p>
+                    <p><span className="font-bold"></span>{community.members.length} membros</p>
+                    <p><span className="font-bold">Livro favorito: </span>{community.favoriteBook}</p>
                 </div>
             </Link>
             <div className="px-2">
