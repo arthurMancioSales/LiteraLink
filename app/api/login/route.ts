@@ -3,14 +3,14 @@ import { cookies } from "next/dist/client/components/headers";
 import { login } from "@/src/service/user/loginUser";
 import jwt from "jsonwebtoken";
 
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 
 export async function POST(req: NextRequest) {
+    const Response = createResponse();
     try {
         const request = await req.json();
         const {email, password} = request;
         const user = await login(email, password);
-        console.log(user);
         const jwt_cookie: string = jwt.sign({
             id: user.id,
             name: user.name

@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/dist/client/components/headers";
-import { Response } from "@/src/utils/response";
-import { auth } from "@/src/functions/middlewares/auth";
+import { createResponse } from "@/src/utils/response";
+import { auth } from "@/src/utils/middlewares/auth";
 import { CustomError } from "@/src/utils/customError";
 
 export async function POST(req: NextRequest) {
+    const Response = createResponse();
     try{
         const user = await auth(req);
         if (user) {
