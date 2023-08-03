@@ -8,17 +8,17 @@ const TAG = "SERVICE(DELETE-Member): community ";
 
 export async function removeCommunity(user:{id:string, name:string}, community_name:string) {
     try {
-        const is_member = await isMember(user.name, community_name)
+        const is_member = await isMember(user.name, community_name);
         if (!is_member){
-            throw new CustomError('Esse usuário não faz parte dessa comunidade', 403);
+            throw new CustomError("Esse usuário não faz parte dessa comunidade", 403);
         }
         const is_admin = await checkIsAdminCommunity(user.id, community_name);
         if (is_admin) {
-            throw new CustomError('O usuário é administrador da comunidade', 403)
+            throw new CustomError("O usuário é administrador da comunidade", 403);
         }
         const responseDB = await removeMemberCommunityRepo(user, community_name);
         if (!responseDB) {
-            throw new CustomError('Erro ao procurar o membro', 500);
+            throw new CustomError("Erro ao procurar o membro", 500);
         }
         return formattedResponse(responseDB);  
     } catch (error: any) {
@@ -35,6 +35,6 @@ function formattedResponse(responseDB: any){
         communities: responseDB.communities,
         books: responseDB.books,
         statistics: responseDB.statistics 
-    }
+    };
     return response;
 }

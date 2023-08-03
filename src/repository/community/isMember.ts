@@ -10,9 +10,9 @@ export async function isMember(user_name:string, community_name: string) {
         const responseDB = await collectionCommunity.findOne({
             "name": community_name,
             "members": {
-              "$elemMatch": {
-                "name": user_name
-              }
+                "$elemMatch": {
+                    "name": user_name
+                }
             }
         });
         return responseDB;

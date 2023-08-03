@@ -17,7 +17,7 @@ jobs:
         run: echo "${{secrets.key}}" > literalink.key
 
       - name: create env file
-        run: echo "${{secrets.env_prod}}" > .env.prod
+        run: echo "${{secrets.env_prod}}" > .env.local 
 
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.prod.yml down
@@ -29,4 +29,4 @@ jobs:
         run: docker compose -f ./docker-compose.prod.yml up -d --build
 
       - name: clear previous tmp files
-        run: rm ./literalink.crt && rm ./literalink.key && rm ./.env.local
+        run: rm ./literalink.crt && rm ./literalink.key && rm ./.env.local 

@@ -57,20 +57,20 @@ function formattedBody(req: IPatchCommunity) {
         oldName: req.oldName
     };
     if (req.name) {
-        body.name = req.name
+        body.name = req.name;
     }
     if (req.description) {
-        body.description = req.description
+        body.description = req.description;
     }
     if (req.favoriteBook) {
-        body.favoriteBook = req.favoriteBook
+        body.favoriteBook = req.favoriteBook;
     }
     if (req.image) {
-        body.image = req.image
+        body.image = req.image;
     }
 
     if (req.is_admin) {
-        body.is_admin = req.is_admin
+        body.is_admin = req.is_admin;
     }
     return body;
 }
