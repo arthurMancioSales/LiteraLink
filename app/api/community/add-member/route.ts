@@ -10,6 +10,7 @@ export async function POST(req:NextRequest) {
         const request = await req.json();
         const { name } = request;
         //escrever o validador para esse request, ele irá recer o nome da comunidade;
+        // próxima tarefa
         const responseDB = await postAddUserCommunity(user, name);
         Response.data = responseDB;
         return NextResponse.json(Response, {status: Response.status});
