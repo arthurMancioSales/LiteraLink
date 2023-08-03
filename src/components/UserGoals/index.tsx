@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-import { TextLoading } from "../TextLoading";
+import { TextLoading } from "../Loaders/TextLoading";
 
 type PropTypes = {
     variant?: "primary" | "secondary";
@@ -13,12 +13,12 @@ type PropTypes = {
     loading?: boolean;
 };
 
-export function UserGoals({children, value, icon, onClick, redirectTo, complement, loading = true}: PropTypes) {
+export function UserGoals({ children, value, icon, onClick, redirectTo, complement, loading = true }: PropTypes) {
 
     const className = "flex flex-col items-center justify-center px-2";
 
     const navigate = redirectTo ? redirectTo : "#";
-    
+
     return (
         <>
             {redirectTo ?
@@ -26,14 +26,14 @@ export function UserGoals({children, value, icon, onClick, redirectTo, complemen
                     <div className={className}>
                         {icon}
                         <p>{children}</p>
-                        {loading ? <TextLoading size="large"/> : <p className="text-3xl dark:text-dark-text">{value} <span className="text-base">{complement}</span></p>}
+                        {loading ? <TextLoading size="large" /> : <p className="text-3xl dark:text-dark-text">{value} <span className="text-base">{complement}</span></p>}
                     </div>
                 </Link>
                 :
                 <div onClick={onClick} className={className}>
                     <span className="pb-1 dark:text-dark-text">{icon}</span>
                     <p className="py-1 text-base dark:text-dark-text">{children}</p>
-                    {loading ? <TextLoading size="large"/> : <p className="text-3xl dark:text-dark-text">{value} <span className="text-base">{complement}</span></p>}
+                    {loading ? <TextLoading size="large" /> : <p className="text-3xl dark:text-dark-text">{value} <span className="text-base">{complement}</span></p>}
                 </div>
             }
         </>
