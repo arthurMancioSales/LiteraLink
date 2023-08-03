@@ -1,8 +1,9 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 
 const TAG = "REPOSITORY(GET_all): community ";
 
 async function getallCommunity() {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("community");
     try {

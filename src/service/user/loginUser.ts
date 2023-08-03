@@ -6,7 +6,6 @@ const TAG = "SERVICE(POST): USER ";
 
 export async function login (email: string, password: string ) {
     try {
-        // return {id: "1", name: "edu"};
         const user = await loginRepository(email);
         if (user) {
             // const isPasswordValid = bcrypt.compareSync(

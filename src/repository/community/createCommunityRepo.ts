@@ -1,4 +1,4 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 import { ICreateCommunity } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { ObjectId } from "mongodb";
@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 const TAG = "REPOSITORY(POST): community ";
 
 async function createCommunity(id: ObjectId, community: ICreateCommunity) {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
     const collectionCommunity = client.db("literalink-dev").collection("community");
     const collectionUser= client.db("literalink-dev").collection("users");

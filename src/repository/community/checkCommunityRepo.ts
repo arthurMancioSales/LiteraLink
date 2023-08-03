@@ -1,6 +1,7 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 
 export async function checkExistingCommunityName( _name: string) {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("community");
     try {

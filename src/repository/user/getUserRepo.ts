@@ -1,9 +1,10 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 import { ObjectId } from "mongodb";
 
 const TAG = "REPOSITORY(GET_user): community ";
 
 async function getUserRepo(id: ObjectId) {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("users");
     try {
