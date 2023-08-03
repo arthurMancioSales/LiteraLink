@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 export default function SignUpPage() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const navigate =  useRouter()
+    const navigate = useRouter()
     const requestFormLogin = async (e: React.MouseEvent) => {
         e.preventDefault()
         const parametros = {
@@ -17,8 +17,6 @@ export default function SignUpPage() {
             password
         }
         await generalRequest("/api/login", parametros, "POST")
-
-        
         navigate.replace('/dashboard')
 
     }
@@ -66,8 +64,10 @@ export default function SignUpPage() {
 
                     </div>
                 </form>
+                <div className="flex m-4 text-xs">
+                    <p>Ainda não possui conta? </p><Link className="underline"  rel="stylesheet" href="/sign-up"> Cadastre-se aqui</Link>
+                </div>
 
-                <Link rel="stylesheet" href="/sign-up">cadastro</Link>
             </div>
             <ImagemLateral src="/images/image.jpg" alt=""></ImagemLateral>
         </div>
