@@ -13,16 +13,22 @@ import { FavoriteSkeleton } from "@/src/components/CardBooks/favoriteSkeleton";
 import { BiMedal } from "react-icons/bi";
 import { BsFire } from "react-icons/bs";
 import { generalRequest } from "@/src/functions/generalRequest";
+import { UserContext } from "../layout";
 
 export default function Dashboard() {
-    const [userData, setUserData] = useState<IUser | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [favoriteBook, setFavoriteBook] = useState<IBook[] | null>(null);
+    const userContext = useContext(UserContext);
+    
+    const userData = userContext?.userData;
+    const loading = userContext ? userContext.loading : false;
+    
+    const [favoriteBook, setFavoriteBook] = useState<IBook[] | undefined>(undefined);
 
-    const user = useContext(UserContext);
-    // const userData = user.user;
-    console.log(user)
+    useEffect(() => {
+        setFavoriteBook(userData?.books.filter(book => book.favorite));
+    }, [userData?.books]);
 
+    
+    
     async function handleBookFavorite(id: number | string) {
         const handleFavorite: Array<number | string> = [];
 
@@ -57,17 +63,25 @@ export default function Dashboard() {
         await generalRequest("/api/book-list", objBefore, "PATCH");
         await generalRequest("/api/book-list", objAfter, "PATCH");
     }
+ 
+    // useEffect(() => {
+    //     async function getUserData() {
+    //         const req = await fetch("/api/user", {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             cache: "no-store" 
+    //         });
+    //         // const user3: IUser = await generalRequest("/api/user");
+    //         // const user4: IUser = await generalRequest("/api/user");
+    //         // setUserData(user);
+    //         // setFavoriteBook(user.books.filter(book => book.favorite));
+    //         // setLoading(false);
+    //     }
 
-    useEffect(() => {
-        async function getUserData() {
-            const user: IUser = await generalRequest("/api/user");
-            setUserData(user);
-            setFavoriteBook(user.books.filter(book => book.favorite));
-            setLoading(false);
-        }
-
-        getUserData();
-    }, []);
+    //     getUserData();
+    // }, []);
 
     return (
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">

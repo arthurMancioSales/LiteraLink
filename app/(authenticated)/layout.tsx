@@ -1,14 +1,16 @@
+"use client";
+
 import { Sidebar } from "@/src/components/Sidebar";
 import { generalRequest } from "@/src/functions/generalRequest";
-import { IUser } from "@/src/interfaces/interface";
+import { IBook, IUser } from "@/src/interfaces/interface";
 import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 
-const UserContext = createContext<IUserContext | null>(null);
+export const UserContext = createContext<IUserContext | null>(null);
 
-interface IUserContext {
-    user: IUser;
-    loading: boolean;
-    updateUser: () => void;
+export interface IUserContext {
+    userData: IUser | null,
+    loading: boolean,
+    updateUser: () => void,
 }
 
 export default function RootLayout({
@@ -29,8 +31,13 @@ export default function RootLayout({
         getUserData();
     }, []);
 
-    const updateUser = useCallback((user: IUser) => {
+    const updateUser = useCallback(async () => {
+        setLoading(true);
+
+        const user: IUser = await generalRequest("/api/user");
+        
         setUserData(user);
+        setLoading(false);
     }, []);
     
     const contextValue = useMemo(() => ({

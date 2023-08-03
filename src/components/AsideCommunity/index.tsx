@@ -45,7 +45,7 @@ export function AsideCommunity({ communityURL }: PropTypes) {
                 </div>
                 <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
                     <p className="text-lg font-medium">Descrição</p>
-                    <p className="truncate">{loading ? <TextLoading /> : communityData?.description}</p>
+                    {loading ? <TextLoading /> : <p className="truncate">communityData?.description</p>}
                 </div>
             </aside>
         </>
