@@ -76,7 +76,7 @@ export function Sidebar() {
             </div>
             <div className="h-full">
                 <div>Comunidades</div>
-                <ScrollArea.Root
+                <ScrollArea.Root 
                     className="h-[calc(100%-36px)] overflow-clip"
                     type="always"
                 >
