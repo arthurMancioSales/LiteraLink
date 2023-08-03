@@ -1,5 +1,5 @@
 import { IUserUpdate } from "@/src/interfaces/interface";
-import { users } from "../../repository/users";
+import { users } from "../../repository/users.js";
 import { CustomError } from "../../utils/customError";
 
 export async function updateUser (id: number | string, body: IUserUpdate) {

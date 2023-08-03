@@ -2,19 +2,19 @@ jest.mock("mongodb");
 jest.mock("@/src/repository/user/checkUserCredentials");
 jest.mock("@/src/repository/user/createUser");
 jest.mock("@/src/repository/user/loginRepository");
-// jest.mock("@/src/repository/user/users");
+jest.mock("@/src/repository/users");
 
 // services
 import { registerUser } from "@/src/service/user/createUser";
 import { login } from "@/src/service/user/loginUser";
-import { postStatics } from "@/src/service/user/postStatistics";
+import { postStatistics } from "@/src/service/user/postStatistics";
 
 // repositories
 import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
 import { createUser } from "@/src/repository/user/createUser";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { loginRepository } from "@/src/repository/user/loginRepository";
-// import { users } from "@/src/repository/users";
+import { users } from "@/src/repository/users";
 
 // interfaces
 import { IStatistic } from "@/src/interfaces/interface";
@@ -53,21 +53,21 @@ describe("Service registerUser", () => {
 
     // Dúvida -> como simular a criação de um documento
     
-    // it("should create an user and return its id if all fields are valid", async () => {
-    //     const user = {
-    //         name: "teste",
-    //         email: "teste@test.com",
-    //         password: "123"
-    //     };
+    it("should create an user and return its id if all fields are valid", async () => {
+        const user = {
+            name: "teste",
+            email: "teste@test.com",
+            password: "123"
+        };
                 
-    //     jest.mocked(checkExistingCredentials).mockResolvedValue("");
+        jest.mocked(checkExistingCredentials).mockResolvedValue("");
 
-    //     // jest.mocked(createUser).mockResolvedValue();
+        jest.mocked(createUser).mockResolvedValue({} as ReturnType<typeof createUser>);
 
-    //     await expect(() =>
-    //         registerUser(user)
-    //     ).resolves;
-    // });
+        await expect(() =>
+            registerUser(user)
+        ).resolves;
+    });
 });
 
 // TODO -> desmockar a rota
@@ -82,23 +82,28 @@ describe("Service loginUser", () => {
 
         await expect(() =>
             login(user.email, user.password)
-        ).rejects.toMatchObject({message: "Error: user not found."});
+        ).rejects.toThrow(expect.objectContaining({ message: "Error: user not found" }));
     });
 
     // Dúvida -> como simular a busca de um documento
     
-    // it("should return 'Error: email or password incorrect' if email or password don't match", async () => {
-    //     const user = {
-    //         email: "user@test.com",
-    //         password: "abc"
-    //     };
-        
-    //     // jest.mocked(loginRepository).mockResolvedValue({"teste@test.com"});
+    it("should return 'Error: email or password incorrect' if email or password don't match", async () => {
+        const user = {
+            email: "user@test.com",
+            password: "abc"
+        };
 
-    //     await expect(() =>
-    //         login(user.email, user.password)
-    //     ).rejects; //.toThrow("Error: user not found.");
-    // });
+        
+        jest.mocked(loginRepository).mockResolvedValue({
+            _id: new ObjectId(),
+            password: "123",
+            email: "user@test.com"
+        });
+
+        await expect(() =>
+            login(user.email, user.password)
+        ).rejects.toThrow(expect.objectContaining({ message: "Error: email or password incorrect" }));
+    });
 
     // Dúvida -> como simular a busca de um documento
 
@@ -122,27 +127,26 @@ describe("Service postStatistics", () => {
 
     // Dúvida -> da pra testar rota mockada com array global?
 
-    // it("should return 'Error: user not found' if user does not exist", async () => {
-    //     const user = {
-    //         id: "1",
-    //     };
+    it("should return 'Error: user not found' if user does not exist", async () => {
+        const user = {
+            id: "1",
+        };
 
-    //     const statistics: IStatistic = {
-    //         actualSequence: 1,
-    //         booksRead: 2,
-    //         goalsAchieved: 3,
-    //         lastSequence: new Date("31-02-2099"),
-    //         maxSequence: 4,
-    //         readingTime: 60,
-    //     };
+        const statistics: IStatistic = {
+            actualSequence: 1,
+            booksRead: 2,
+            goalsAchieved: 3,
+            lastSequence: new Date("31-02-2099"),
+            maxSequence: 4,
+            readingTime: 60,
+        };
 
-    //     // jest.mocked(users.find).mockReturnValue(undefined);
+        jest.spyOn(users, "find").mockReturnValue(undefined);
 
-    //     // await expect(() =>
-    //     //     postStatics(user.id, statistics)
-    //     // ).toThrow("Error: Usuário não encontrado!");
-    // });
-
+        await expect(() =>
+            postStatistics(user.id, statistics)
+        ).rejects.toThrow(expect.objectContaining({ message: "Error: Usuário não encontrado" }));
+    });
     // it("should return 'Error: permission denied' if user requesting != target user") {
         
     // }
@@ -164,7 +168,7 @@ describe("Service postStatistics", () => {
     //     // jest.mocked(users.find).mockReturnValue(undefined);
 
     //     // await expect(() =>
-    //     //     postStatics(user.id, statistics)
+    //     //     postStatistics(user.id, statistics)
     //     // ).toThrow("Error: Usuário não encontrado!");
     // });
 });
@@ -187,7 +191,7 @@ describe("Service updateUser", () => {
     //     // jest.mocked(users.find).mockReturnValue(undefined);
 
     //     // await expect(() =>
-    //     //     postStatics(user.id, statistics)
+    //     //     postStatistics(user.id, statistics)
     //     // ).toThrow("Error: Usuário não encontrado!");
     // });
 

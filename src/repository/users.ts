@@ -1,3 +1,5 @@
+import { IBook, INewUser } from "../interfaces/interface";
+
 export const users = [
     {
         _id: 1,
@@ -246,8 +248,8 @@ export const users = [
     },
 ];
 
-export function insertUser(user) {
-    let index = users.length + 1;
+export function insertUser(user: INewUser) {
+    const index = users.length + 1;
     const newUser = {
         _id: index,
         name: user.name,
@@ -257,7 +259,7 @@ export function insertUser(user) {
         communities: [],
         books: [],
         statistics: {
-            lastSequence: new Date(),
+            lastSequence: new Date().toISOString(),
             readingTime: 0,
             maxSequence: 0,
             actualSequence: 0,
@@ -268,8 +270,8 @@ export function insertUser(user) {
     return newUser;
 }
 
-export function insertBook(userId, book) {
-    let bookIndex = users[userId].books.length + 1;
+export function insertBook(userId: number, book: IBook) {
+    const bookIndex = users[userId].books.length + 1;
     const newBook = {
         id: bookIndex,
         title: book.title,
@@ -278,8 +280,8 @@ export function insertBook(userId, book) {
         totalChapter: book.totalChapter,
         chaptersRead: 0,
         favorite: false,
-        lastSequence: new Date(),
-        goalExpire: new Date(),
+        lastSequence: new Date().toISOString(),
+        goalExpire: new Date().toISOString(),
         goals: [
             {
                 type: "pages",
@@ -293,7 +295,7 @@ export function insertBook(userId, book) {
     return insertedBook;
 }
 
-export function deleteBookById(userId, bookId) {
-    const newBookList = users[userId].books.filter((book) => book !== bookId);
+export function deleteBookById(userId: number, bookId: number) {
+    const newBookList = users[userId].books.filter((book) => book.id !== bookId);
     return newBookList;
 }

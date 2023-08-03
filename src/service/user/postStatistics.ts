@@ -2,7 +2,7 @@ import { IStatistic } from "@/src/interfaces/interface";
 import { users } from "@/src/repository/users";
 import { CustomError } from "../../utils/customError";
 
-export async function postStatics(id: number | string, body: IStatistic) {
+export async function postStatistics(id: number | string, body: IStatistic) {
     // try {
     const user = users.find(userFind => userFind._id == id);
     if (!user) {

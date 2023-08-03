@@ -3,7 +3,7 @@ import { Response } from "@/src/utils/response";
 import { IStatistic } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/functions/middlewares/auth";
-import { postStatics } from "@/src/service/user/postStatics";
+import { postStatistics } from "@/src/service/user/postStatistics";
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
             actualSequence: request.actualSequence,
             goalsAchieved: request.goalsAchieved
         };
-        const userStatics = await postStatics(user.id, body);
+        const userStatics = await postStatistics(user.id, body);
         Response.data = userStatics;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
