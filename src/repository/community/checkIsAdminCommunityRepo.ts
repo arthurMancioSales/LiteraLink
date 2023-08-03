@@ -14,7 +14,7 @@ export async function checkIsAdminCommunity( user_id: string, community_name: st
             if(userID == matchCommunityAdmin.is_admin) {
                 return true;
             }
-            return false
+            return false;
         }
         return false;
     } catch (error) {

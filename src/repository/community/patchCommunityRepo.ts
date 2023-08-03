@@ -13,13 +13,13 @@ export async function patchCommunityRepo(community_name: string, body: IFormated
     try {
         const collectionData = await collectionCommunity.findOne({"name": community_name});
         if  (!collectionData) {
-            throw new CustomError('Comunidade não encontrada', 404);
+            throw new CustomError("Comunidade não encontrada", 404);
         }
         if (body.is_admin) {
             const members: Array<{id:string, name: string}> = collectionData.members;
-            const member = members.find(user => user.id === body.is_admin)
+            const member = members.find(user => user.id === body.is_admin);
             if (!member) {
-                throw new CustomError('Usuário não faz parte da comunidade', 403);
+                throw new CustomError("Usuário não faz parte da comunidade", 403);
             }
         }
         await collectionCommunity.updateOne({"name": community_name}, { $set: body});
@@ -30,7 +30,7 @@ export async function patchCommunityRepo(community_name: string, body: IFormated
                 { $set: { "communities.$.name": body.name } }
             );
             if (!users.acknowledged) {
-                throw new CustomError('Erro na atualização do nome da comunidade', 500);
+                throw new CustomError("Erro na atualização do nome da comunidade", 500);
             }
         }
         return collectionUpdate;

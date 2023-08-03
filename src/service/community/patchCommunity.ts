@@ -12,21 +12,21 @@ export async function patchCommunity(user_id: string, body: IPatchCommunity) {
         if (body.name) {
             const verifyName = await checkExistingCommunityName(body.name);
             if (verifyName) {
-                throw new CustomError('Esse nome de comunidade já está em uso', 400);
+                throw new CustomError("Esse nome de comunidade já está em uso", 400);
             }
         }
 
         const verify_isAdmin = await checkIsAdminCommunity(user_id, body.oldName);
         if (!verify_isAdmin) {
-            throw new CustomError('Usuário não é administrado da comunidade', 403);
+            throw new CustomError("Usuário não é administrado da comunidade", 403);
         }
         
         const request = formattedRequest(body);
         const responseDB = await patchCommunityRepo(body.oldName, request);
         if (!responseDB) {
-            throw new CustomError('Ocorreu um erro na atualização da comunidade', 500);
+            throw new CustomError("Ocorreu um erro na atualização da comunidade", 500);
         }
-        return formattedResponse(responseDB);;
+        return formattedResponse(responseDB);
     } catch (error: any) {
         console.log(TAG, error);
         throw error;
@@ -34,25 +34,25 @@ export async function patchCommunity(user_id: string, body: IPatchCommunity) {
 }
 
 function formattedRequest (request: any) {
-    const formattedBody: IFormatedResquestCommunity = {}
+    const formattedBody: IFormatedResquestCommunity = {};
     if (request.name) {
-        formattedBody.name = request.name
+        formattedBody.name = request.name;
     }
     if (request.description) {
-        formattedBody.description = request.description
+        formattedBody.description = request.description;
     }
     if (request.favoriteBook) {
-        formattedBody.favoriteBook = request.favoriteBook
+        formattedBody.favoriteBook = request.favoriteBook;
     }
     if (request.image) {
-        formattedBody.image = request.image
+        formattedBody.image = request.image;
     }
 
     if (request.is_admin) {
-        formattedBody.is_admin = request.is_admin
+        formattedBody.is_admin = request.is_admin;
     }
     if (request.members) {
-        formattedBody.members = request.members
+        formattedBody.members = request.members;
     }
     return formattedBody;
 }
@@ -65,6 +65,6 @@ function formattedResponse (response: any) {
         image: response.image,
         is_admin: response.is_admin,
         members: response.members
-    }
+    };
     return formattedBody;
 }
