@@ -4,13 +4,19 @@ import { CardCommunity } from "@/src/components/CardCommunity";
 import { SearchForm } from "@/src/components/SearchBar";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { ICommunity, IUser } from "@/src/interfaces/interface";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../layout";
 
 export default function SearchCommunity() {
     const [auth, setAuth] = useState<IUser | null>(null);
     const [communities, setCommunities] = useState<ICommunity[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
+
+    const userContext = useContext(UserContext);
+    
+    const userData = userContext?.userData;
+    const loadingUser = userContext ? userContext.loading : false;
 
     const handleSearch = (value: string) => {
         setSearchValue(value);
@@ -20,8 +26,6 @@ export default function SearchCommunity() {
     useEffect(() => {
         async function getCommunities() {
             const community: ICommunity[] = await generalRequest("/api/c/");
-            // rota para obter dad
-            // const user: IUser = await generalRequest("/api/c/");
             setCommunities(community);
             setLoading(true);
         }
@@ -45,7 +49,11 @@ export default function SearchCommunity() {
                                         key={community.id}
                                         page={`/c/${community.id}`}
                                         community={community}
-                                        variantButton="success"
+                                        isMember={
+                                            userData?.communities.find((userCommunity) => userCommunity.id == community.id) ?
+                                                true :
+                                                false
+                                        }
                                     />
                                 ))
                         

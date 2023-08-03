@@ -1,30 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BsFillMoonFill } from "react-icons/bs";
 import { FaSun } from "react-icons/fa";
 
 export function Toggle() {
-    const [check, setCheck] = useState(false);
-
-    const darkMode = check ? "dark" : "false";
+    const mode = window.localStorage.getItem("mode");
+    const [check, setCheck] = useState(mode == "dark" ? false : true);
 
     function handleCheck() {
         setCheck(!check);
-    }
-    
-    useEffect(() => {
+
         const html = document.querySelector("html");
         if(html) {
-            html.dataset["mode"] = darkMode;
+            html.dataset["mode"] = check ? "dark" : "false";
         }
-    }, [darkMode]);
+        
+        window.localStorage.setItem("mode", check ? "dark" : "false");
+    }
 
     return (
-        <label className="relative inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" checked={check} onChange={handleCheck}/>
-            <div className="dark:hidden"> <BsFillMoonFill size={25}></BsFillMoonFill> </div>
-            <div className="hidden dark:inline"> <FaSun size={25}></FaSun> </div>
-        </label>
+        <div className="relative inline-flex items-center cursor-pointer">
+            <div className="dark:hidden" onClick={handleCheck}> <BsFillMoonFill size={25}></BsFillMoonFill> </div>
+            <div className="hidden dark:inline" onClick={handleCheck}> <FaSun size={25}></FaSun> </div>
+        </div>
     );
 }
