@@ -135,7 +135,7 @@ export default function Dashboard() {
                                 }
                             </div>
                             <div className="w-2/3">
-                                <ScrollArea.Root 
+                                <ScrollArea.Root
                                     className="w-full h-full overflow-hidden"
                                     type="always"
                                 >
