@@ -5,10 +5,12 @@ import { BsFillPersonFill } from "react-icons/bs";
 import Image from "next/image";
 import { useState } from "react";
 import { Logo } from "@/src/components/Logo";
+import { FormProgress } from "@/src/components/Modal/FormProgress";
 
 export default function Home() {
     const [auth, setAuth] = useState(false);
-    
+    const [openModal, setOpenModal] = useState(true);
+
     async function apiFetch() {
         const req = await fetch("/api/login", {
             method: "POST",
@@ -50,6 +52,7 @@ export default function Home() {
             {auth ? <p>Logado</p> : <p>Não logado</p> }
             <Button onClick={apiFetch}>Login</Button>
             <Button redirectTo="/dashboard">Dashboard</Button>
+            <FormProgress isOpen={openModal}/>
         </div>
     );
 }
