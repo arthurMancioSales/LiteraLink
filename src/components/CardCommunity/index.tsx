@@ -7,6 +7,7 @@ type PropsTypes = {
     page: string;
     community:ICommunity
     variantButton?: VariantButton;
+    isMember: boolean
 };
 
 export function CardCommunity({page, community, variantButton}: PropsTypes) {

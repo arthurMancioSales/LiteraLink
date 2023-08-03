@@ -10,35 +10,12 @@ import { TbLayoutDashboard, TbProgress } from "react-icons/tb";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import Link from "next/link";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { useContext, useEffect, useState } from "react";
-import { IUser } from "@/src/interfaces/interface";
+import { useContext } from "react";
 import { TextLoading } from "../Loaders/TextLoading";
 import { UserContext } from "@/app/(authenticated)/layout";
 
 export function Sidebar() {
     const iconSize = 25;
-
-    // const [userData, setUserData] = useState<IUser | null>(null);
-    // const [loading, setLoading] = useState(true);
-
-
-    // useEffect(() => {
-    //     async function getUserData() {
-
-    //         const req = await fetch("/api/user", {
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             cache: "no-store"
-    //         });
-
-    //         const user = await req.json();
-    //         // setUserData(user.data);
-    //         // setLoading(false);
-    //     }
-
-    //     getUserData();
-    // }, []);
 
     const userContext = useContext(UserContext);
     

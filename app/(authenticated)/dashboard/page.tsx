@@ -4,7 +4,7 @@ import { BookAccordion } from "@/src/components/Accordion";
 import { CardBooks } from "@/src/components/CardBooks";
 import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserGoals } from "@/src/components/UserGoals";
-import { IBook, IUser } from "@/src/interfaces/interface";
+import { IBook } from "@/src/interfaces/interface";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AiFillCheckCircle, AiOutlineBook, AiOutlineFieldTime } from "react-icons/ai";
@@ -26,8 +26,6 @@ export default function Dashboard() {
     useEffect(() => {
         setFavoriteBook(userData?.books.filter(book => book.favorite));
     }, [userData?.books]);
-
-    
     
     async function handleBookFavorite(id: number | string) {
         const handleFavorite: Array<number | string> = [];
@@ -63,25 +61,6 @@ export default function Dashboard() {
         await generalRequest("/api/book-list", objBefore, "PATCH");
         await generalRequest("/api/book-list", objAfter, "PATCH");
     }
- 
-    // useEffect(() => {
-    //     async function getUserData() {
-    //         const req = await fetch("/api/user", {
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             cache: "no-store" 
-    //         });
-    //         // const user3: IUser = await generalRequest("/api/user");
-    //         // const user4: IUser = await generalRequest("/api/user");
-    //         // setUserData(user);
-    //         // setFavoriteBook(user.books.filter(book => book.favorite));
-    //         // setLoading(false);
-    //     }
-
-    //     getUserData();
-    // }, []);
 
     return (
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
