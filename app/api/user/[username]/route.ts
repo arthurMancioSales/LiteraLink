@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomError } from "@/src/utils/customError";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 import { getUser } from "@/src/service/user/getUser";
 
 export async function GET(req:NextRequest, {params}: {params: { username: string}}) {
+    const Response = createResponse();
     try {
         const username = params.username;
         if (username) {

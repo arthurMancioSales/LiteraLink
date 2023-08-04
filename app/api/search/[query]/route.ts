@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 import { getQuery } from "@/src/service/query/getQuery";
 
 export async function GET(req: NextRequest, {params}: {params: { query: string}}) {
+    const Response = createResponse();
     try {
         const query = params.query;
         const queryResponse = await getQuery(query);

@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomError } from "@/src/utils/customError";
-import { Response } from "@/src/utils/response";
-import { getUser } from "@/src/service/user/getUser";
-import { cookies } from "next/headers";
-import { auth } from "@/src/functions/middlewares/auth";
+import { createResponse } from "@/src/utils/response";
+import { auth } from "@/src/utils/middlewares/auth";
 import { users } from "@/src/repository/users";
 
 export async function GET(req:NextRequest) {
+    const Response = createResponse();
     try {
         const userCookie = await auth(req);
         
