@@ -4,6 +4,7 @@ import { CustomError } from "../../utils/customError";
 import { ObjectId } from "mongodb";
 import { findUserById } from "@/src/repository/user/findUser";
 
+
 export async function postBook(id: ObjectId, requestBook : IBook) {
     const user = await findUserById(id);
     if (!user) {
@@ -28,7 +29,20 @@ export async function postBook(id: ObjectId, requestBook : IBook) {
         const insertedBook = await insertBook(indexUser, book);
         return insertedBook;
     }
-    
-   
+const TAG = "SERVICE(POST): book ";
+
+// export async function postBook(id: string | number, body : IBook) {
+//     try{
+//         const user = users.find(userBook => userBook._id == id);
+//         if (!user) {
+//             throw new CustomError("Error: Usuário não encontrado!", 404);
+//         }
+//         const indexUser = users.indexOf(user);
+//         const insertedBook = insertBook(indexUser, body);
+//         return insertedBook;
+    } catch (e: any) {
+        console.log(TAG, e);
+        throw e;
+    }
 
 }

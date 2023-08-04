@@ -110,8 +110,23 @@ export interface IGoals {
     total: number;
 }
 
-export interface IQuery {
-    type: 'GET' | 'POST' | 'PATCH' | 'DELETE',
-    text: string,
-    value: Object
+
+export interface IPatchCommunity{
+    id?: string;
+    oldName: string;
+    name?: string;
+    description?: string;
+    favoriteBook?: string;
+    image?: string;
+    is_admin?: ObjectId | string;
+    members?: [] | Array<{id: string | ObjectId, name: string}>;
+}
+
+export interface IFormatedResquestCommunity {
+    name?: string;
+    description?: string;
+    favoriteBook?: string;
+    image?: string;
+    is_admin?: ObjectId | string;
+    members?: [] | Array<{id: string | ObjectId, name: string}>;
 }

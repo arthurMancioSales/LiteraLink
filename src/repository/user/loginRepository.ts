@@ -1,14 +1,13 @@
-import { pool } from "../pool/pool";
-
-// import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 
 
 export async function loginRepository(email: string) {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
     try {
-        const collection = client.db("desafio").collection("users");
+        const collection = client.db("literalink-dev").collection("users");
         const response  = await collection.findOne({
-            name: email
+            email: email
         });
 
         const formattedResponse = await response.toArray();

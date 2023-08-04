@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CustomError } from "@/src/utils/customError";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 import { getCommunity } from "@/src/service/community/getCommunity";
 import { ObjectId } from "mongodb";
 
-export async function GET(req:NextRequest, {params}: {params: { comunidade:  ObjectId}}) {
 
+
+export async function GET(req:NextRequest, {params}: {params: { comunidade: string | number}}) {
+    const Response = createResponse();
     try {
         const communityName = params.comunidade;
         if(communityName) {
