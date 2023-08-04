@@ -1,34 +1,8 @@
-"use client"
 import Link from "next/link";
-import { generalRequest } from "@/src/functions/generalRequest";
-import { useState } from "react";
-import { ImagemLateral } from "@/src/components/imagemLateral";
-import { Button } from "@/src/components/Button";
-import { useRouter } from 'next/navigation'
-export default function SignPage() {
+import { Button, VariantButton } from "../Button";
+import { ImagemLateral } from "../imagemLateral";
 
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [emailConfirmed, setEmailConfirmed] = useState("")
-    const [password, setPassword] = useState("")
-    const [passwordConfirmed, setPasswordConfirmed] = useState("")
-
-    const navigate = useRouter()
-
-    const requestNewUser = async (e: React.MouseEvent) => {
-        e.preventDefault()
-        const parametros = {
-            name,
-            email,
-            password
-        }
-        if (password == passwordConfirmed && email == emailConfirmed ) {
-            await generalRequest("/api/new-user", parametros, "POST")
-            navigate.replace('/dashboard')
-
-        }else (alert("Email e Senha diferentes"))
-    }
-
+export function CardCadastro() {
     return (
         <div className="flex w-full h-full bg-light-primary">
             <div className="flex w-1/2 h-screen justify-center content-center flex-col space-x-3.5 px-3.5 py-3.5 rounded-lg bg-primaryLight dark:bg-secondaryDar">
@@ -45,8 +19,6 @@ export default function SignPage() {
                                 name="Nome"
                                 type="name"
                                 autoComplete="Nome"
-                                onChange={(e) => setName(e.target.value)}
-
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
@@ -59,7 +31,6 @@ export default function SignPage() {
                                 name="email"
                                 type="email"
                                 autoComplete="email"
-                                onChange={(e) => setEmail(e.target.value)}
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
@@ -68,50 +39,42 @@ export default function SignPage() {
                         </label>
                         <div className="mt-2">
                             <input
-                                id="emailConfirmed"
-                                name="emailConfirmed"
+                                id="email"
+                                name="email"
                                 type="email"
-                                autoComplete="emailConfirmed"
-                                onChange={(e) => setEmailConfirmed(e.target.value)}
-
+                                autoComplete="email"
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
 
 
-                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                        <label htmlFor="Senha" className="block text-sm font-medium leading-6 text-gray-900">
                             Senha
                         </label>
                         <div className="mt-2">
                             <input
-                                id="password"
-                                name="password"
+                                id="Senha"
+                                name="Senha"
                                 type="password"
-                                autoComplete="password"
-                                onChange={(e) => setPassword(e.target.value)}
-
+                                autoComplete="Senha"
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
-                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                        <label htmlFor="Senha" className="block text-sm font-medium leading-6 text-gray-900">
                             Senha
                         </label>
                         <div className="mt-2">
                             <input
-                                id="passwordConfirmed"
-                                name="passwordConfirmed"
+                                id="Senha"
+                                name="Senha"
                                 type="password"
-                                autoComplete="passwordConfirmed"
-                                onChange={(e) => setPasswordConfirmed(e.target.value)}
-
+                                autoComplete="Senha"
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
                     <div className="mt-6 flex items-center justify-center gap-x-6">
                         <Button
-                            onClick={(e) => requestNewUser(e)}
-
                         >
                             Entrar
                         </Button>
@@ -125,5 +88,3 @@ export default function SignPage() {
         </div>
     );
 }
-    
-
