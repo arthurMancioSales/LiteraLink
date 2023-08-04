@@ -2,7 +2,7 @@
 
 import { Sidebar } from "@/src/components/Sidebar";
 import { generalRequest } from "@/src/functions/generalRequest";
-import { IBook, IUser } from "@/src/interfaces/interface";
+import { IUser } from "@/src/interfaces/interface";
 import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 
 export const UserContext = createContext<IUserContext | null>(null);
@@ -13,7 +13,7 @@ export interface IUserContext {
     updateUser: () => void,
 }
 
-export default function RootLayout({
+export default function DashboardLayout({
     children,
 }: {
   children: React.ReactNode

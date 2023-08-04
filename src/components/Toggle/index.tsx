@@ -5,8 +5,11 @@ import { BsFillMoonFill } from "react-icons/bs";
 import { FaSun } from "react-icons/fa";
 
 export function Toggle() {
-    const mode = window.localStorage.getItem("mode");
-    const [check, setCheck] = useState(mode == "dark" ? false : true);
+    let value;
+    if (typeof window !== "undefined") {
+        value = window.localStorage.getItem("mode");
+    }
+    const [check, setCheck] = useState(value == "dark" ? false : true);
 
     function handleCheck() {
         setCheck(!check);

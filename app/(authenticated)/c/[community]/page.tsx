@@ -5,11 +5,11 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { useContext, useEffect, useState } from "react";
 import { ICommunity } from "@/src/interfaces/interface";
 import { CardUserCommunity } from "@/src/components/CardUserCommunity";
-import { AsideCommunity } from "@/src/components/AsideCommunity";
 import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserContext } from "../../layout";
 import { ImageLoading } from "@/src/components/Loaders/ImageLoading";
 import { Avatar } from "@/src/components/Avatar";
+import { generalRequest } from "@/src/functions/generalRequest";
 
 
 export default function CommunityChat({ params }: { params: { community: string } }) {
@@ -27,15 +27,8 @@ export default function CommunityChat({ params }: { params: { community: string 
     useEffect(() => {
         async function getCommunityData() {
 
-            const req = await fetch(`/api/c/${params.community.replace(/%20/g, " ")}`, {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                cache: "no-store" 
-            });
+            const community: ICommunity = await generalRequest(`/api/c/${params.community.replace(/%20/g, " ")}`);
 
-            const response = await req.json();
-            const community: ICommunity = response.data;
             setCommunityData(community);
             setLoadingCommunity(false);
         }
@@ -135,7 +128,7 @@ export default function CommunityChat({ params }: { params: { community: string 
                     </Tabs.Content>
                 </Tabs.Root>
             </div>
-            <div className="flex w-[1/4] h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
+            <div className="flex w-1/4 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
                 <aside className="flex flex-col items-center w-full gap-4 p-4 rounded-lg bg-light-tertiary dark:bg-dark-primary dark:text-dark-text">
                     <div className="flex items-center justify-between w-full">
                         {loadingCommunity ? <TextLoading /> : <p className="text-2xl font-bold">{communityData?.name}</p>}
@@ -150,7 +143,7 @@ export default function CommunityChat({ params }: { params: { community: string 
                     </div>
                     <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
                         <p className="text-lg font-medium">Descrição</p>
-                        {loadingCommunity ? <TextLoading /> : <p className="truncate">communityData?.description</p>}
+                        {loadingCommunity ? <TextLoading /> : <p className="truncate">{communityData?.description}</p>}
                     </div>
                 </aside>
             </div>

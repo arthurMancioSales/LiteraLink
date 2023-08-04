@@ -1,3 +1,4 @@
+import Script from "next/script";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
@@ -13,14 +14,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-    let value;
-    if (typeof window !== "undefined") {
-        value = window.localStorage.getItem("mode");
-    }
-
     return (
-        <html lang="pt-br" data-mode={value}>
+        <html lang="pt-br">
             <body className={inter.className}>
+                <Script id="show-banner" strategy="beforeInteractive" dangerouslySetInnerHTML={{
+                    __html: `
+                        if (localStorage.mode === 'dark') {
+                            document.children[0].dataset.mode = 'dark'
+                        } else {
+                            document.children[0].dataset.mode = 'false'
+                        }
+                    `
+                }}/>
                 {children}
             </body>
         </html>
