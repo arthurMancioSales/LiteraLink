@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 import { CustomError } from "@/src/utils/customError";
-import { auth } from "@/src/functions/middlewares/auth";
+import { auth } from "@/src/utils/middlewares/auth";
 import { patchBook } from "@/src/service/book/patchBook";
 import { IBook, IGoals, IPatchBook } from "@/src/interfaces/interface";
 import { postBook } from "@/src/service/book/postBook";
 import { deleteBook } from "@/src/service/book/deleteBook";
 
 export async function PATCH(req: NextRequest) {
+    const Response = createResponse();
     try {
         const user = await auth(req);
         const request = await req.json();
@@ -30,6 +31,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+    const Response = createResponse();
     try {
         const user = await auth(req);
         const request = await req.json();
@@ -49,6 +51,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém o req com DELETE depois de alguma att. do Next não consegue ser parseado e retorna um erro;
+    const Response = createResponse();
     try {
         const user = await auth(req);
         const id = await req.json();

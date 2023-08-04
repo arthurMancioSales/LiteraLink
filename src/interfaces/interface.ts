@@ -109,3 +109,23 @@ export interface IGoals {
     partial: number;
     total: number;
 }
+
+export interface IPatchCommunity{
+    id?: string;
+    oldName: string;
+    name?: string;
+    description?: string;
+    favoriteBook?: string;
+    image?: string;
+    is_admin?: ObjectId | string;
+    members?: [] | Array<{id: string | ObjectId, name: string}>;
+}
+
+export interface IFormatedResquestCommunity {
+    name?: string;
+    description?: string;
+    favoriteBook?: string;
+    image?: string;
+    is_admin?: ObjectId | string;
+    members?: [] | Array<{id: string | ObjectId, name: string}>;
+}

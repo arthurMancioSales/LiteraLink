@@ -3,11 +3,12 @@ import { cookies } from "next/dist/client/components/headers";
 import jwt from "jsonwebtoken";
 import { IUserUpdate } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
-import { Response } from "@/src/utils/response";
-import { auth } from "../../../src/functions/middlewares/auth";
+import { createResponse } from "@/src/utils/response";
+import { auth } from "../../../src/utils/middlewares/auth";
 import { updateUser } from "@/src/service/user/updateUser";
 
 export async function PATCH(req: NextRequest) {
+    const Response = createResponse();
     try {
         const user = await auth(req);
         const request = await req.json();

@@ -1,8 +1,9 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 import { INewUser, IUser } from "@/src/interfaces/interface";
 
 
-export async function createUser(user: INewUser) {    
+export async function createUser(user: INewUser) {  
+    const pool  = createMongoConnection();  
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("users");
     try{ 
