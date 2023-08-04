@@ -1,12 +1,12 @@
 import { createUser } from "@/src/repository/user/createUser";
 import { CustomError } from "../../utils/customError";
-import { INewUser, IUser } from "@/src/interfaces/interface";
+import { INewUser } from "@/src/interfaces/interface";
 // import bcrypt from "bcrypt";
 import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
 
 const TAG = "SERVICE(POST): USER ";
 
-export async function registerUser( requestUser: IUser ) {
+export async function registerUser( requestUser: INewUser ) {
     try {
         Object.entries(requestUser).forEach(([key, value]) => {
             if (value === undefined || value === "")

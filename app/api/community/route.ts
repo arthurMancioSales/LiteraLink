@@ -4,6 +4,7 @@ import { auth } from "@/src/utils/middlewares/auth";
 import { postCommunity } from "@/src/service/community/postCommunity";
 import { IPatchCommunity } from "@/src/interfaces/interface";
 import { patchCommunity } from "@/src/service/community/patchCommunity";
+import { NameValidator } from "@/src/utils/validators/validator";
 
 export async function POST(req:NextRequest) {
     const Response = createResponse();
@@ -11,7 +12,20 @@ export async function POST(req:NextRequest) {
         const user = await auth(req);
         const request = await req.json();
         // validator aqui, que garanta não falta nenhum campo
-        const community = await postCommunity(user, request);
+        const {name , description} = request;
+        new NameValidator(name);
+        const body:{
+            name:string, 
+            description: string,
+            favoriteBook:string,
+            is_admin: string
+        } = {
+            name: name,
+            description: description,
+            favoriteBook: '',
+            is_admin: user.id
+        }
+        const community = await postCommunity(user, body);
         Response.data = community;
         Response.status = 201;
         return NextResponse.json(Response, {status: Response.status});
