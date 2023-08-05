@@ -1,25 +1,25 @@
-"use client";
+"use client"
 import Link from "next/link";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { useState } from "react";
 import { ImagemLateral } from "@/src/components/imagemLateral";
 import { Button } from "@/src/components/Button";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
 
 export default function SignUpPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const navigate = useRouter();
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const navigate = useRouter()
     const requestFormLogin = async (e: React.MouseEvent) => {
-        e.preventDefault();
+        e.preventDefault()
         const parametros = {
             email,
             password
-        };
-        await generalRequest("/api/login", parametros, "POST");
-        navigate.replace("/dashboard");
+        }
+        await generalRequest("/api/login", parametros, "POST")
+        navigate.replace('/dashboard')
 
-    };
+    }
 
     return (
         <div className="flex w-full h-full bg-light-primary">
