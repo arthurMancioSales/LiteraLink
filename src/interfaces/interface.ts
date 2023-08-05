@@ -47,7 +47,7 @@ export interface ApiError {
 }
 
 export interface ICommunity {
-    id: string;
+    _id: string;
     name: string;
     description: string;
     favoriteBook?: string;
@@ -80,7 +80,7 @@ export interface IStatistic {
 }
 
 export interface IBook {
-    id: string | number | ObjectId;
+    id: string | number;
     title: string;
     image: string;
     status: "lido" | "lendo" | "ler";

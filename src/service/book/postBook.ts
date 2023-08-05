@@ -14,11 +14,12 @@ export async function postBook(id: ObjectId, requestBook : IBook) {
         }
         else {
             const indexUser = user.id as unknown as ObjectId;
-    
+            // OBS: estamos decidindo como iremos pegar esse livro;
+            // Por enquanto a requisição a API externa será feita pelo front e inserida no back;
             const book : IBook = {
-                id: new ObjectId(),
+                id: requestBook.id,
                 title: requestBook.title,
-                image: "",
+                image: imageExists(requestBook.image),
                 status: "ler",
                 totalChapter: requestBook.totalChapter,
                 chaptersRead: undefined,
@@ -35,6 +36,13 @@ export async function postBook(id: ObjectId, requestBook : IBook) {
         console.log(TAG, error);
         throw error;
     }
+}
+
+function imageExists(image:string) {
+    if (image){
+        return image;
+    }
+    return '';
 }
 
 function formattedResponse(updateUser: any) {
