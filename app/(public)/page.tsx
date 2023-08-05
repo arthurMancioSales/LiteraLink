@@ -1,31 +1,9 @@
-"use client";
-
 import { Button } from "@/src/components/Button";
 import { BsFillPersonFill } from "react-icons/bs";
 import Image from "next/image";
-import { useState } from "react";
 import { Logo } from "@/src/components/Logo";
-import { generalRequest, statusHTTP } from "@/src/functions/generalRequest";
-import { FormProgress } from "@/src/components/Modal/FormProgress";
-import { FormAddBook } from "@/src/components/Modal/FormAddBook";
   
 export default function Home() {
-    const [auth, setAuth] = useState(false);
-    const [openModal, setOpenModal] = useState(true);
-
-    async function apiFetch() {
-        const user = {
-            email: "rick@gmail.com",
-            password: "senha123"
-        };
-
-        const response = await generalRequest("/api/login", user, "POST");
-
-        if (response !== statusHTTP.unauthorized) {
-            setAuth(true);
-        }
-    }
-
     return (
         <div className="flex flex-col h-screen">
             <div className="flex justify-between items-center px-20 py-2 bg-light-tertiary h-[62px]">
@@ -44,11 +22,6 @@ export default function Home() {
                     <Image className="object-contain" src="/images/home/imageHome.png" alt="" fill priority />
                 </div>
             </div>
-            {auth ? <p>Logado</p> : <p>Não logado</p>}
-            <Button onClick={apiFetch}>Login</Button>
-            <Button redirectTo="/dashboard">Dashboard</Button>
-            <FormProgress isOpen={openModal}/>
-            {/* <FormAddBook isOpen={openModal}/> */}
         </div>
     );
 }

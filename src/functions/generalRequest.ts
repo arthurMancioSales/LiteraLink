@@ -1,7 +1,10 @@
 type method = "GET" | "POST" | "PATCH" | "DELETE";
 
-export const statusHTTP = {
-    unauthorized: 401,
+export const statusErrorHTTP = {
+    badRequest: "",
+    unauthorized: "Não autorizado!",
+    notFound: "Usuário não cadastrado!",
+    internalServerError: "Erro no servidor!"
 };
 
 export async function generalRequest(url: string, body?: object, method: method = "GET") {
@@ -15,16 +18,11 @@ export async function generalRequest(url: string, body?: object, method: method 
             cache: "no-store"
         });
 
-        if (!req.ok) {
-            switch (req.status) {
-                case 401:
-                    return (statusHTTP.unauthorized);
-                default:
-                    throw new Error("Request failed");
-            }
-        }
-
         const response = await req.json();
+
+        if (!req.ok) {
+            return response;
+        }
 
         return response.data;
     } catch (error) {

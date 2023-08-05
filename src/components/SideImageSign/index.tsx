@@ -5,9 +5,9 @@ type PropsTypes = {
     alt?: string;
 };
 
-export function ImagemLateral({ src, alt }: PropsTypes) {
+export function SideImageSign({ src, alt }: PropsTypes) {
     return (
-        <div className="flex justify-end w-1/2 h-screen relative ">
+        <div className="relative w-1/2 h-screen">
             <Image
                 className=" object-cover "
                 src={src}

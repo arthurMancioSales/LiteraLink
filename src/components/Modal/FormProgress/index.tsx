@@ -29,17 +29,7 @@ const books = [
 ];
   
 export function FormProgress({ isOpen }: PropTypes) {
-
     const [openModal, setOpenModal] = useState(isOpen);
-
-    function closeForm() {
-        console.log("funcionou");
-        setOpenModal(false);        
-    }
-
-    useEffect(() => {
-        console.log(openModal);
-    },[openModal]);
 
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
@@ -65,8 +55,7 @@ export function FormProgress({ isOpen }: PropTypes) {
                     // };
                     // await generalRequest("/api/book-list", formBody, "PATCH");
                     setSubmitting(false);
-                    closeForm();
-                    // setOpenModal(false);
+                    setOpenModal(false);
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
