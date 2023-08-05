@@ -1,14 +1,13 @@
 import { Field, ErrorMessage } from "formik";
-import { InputHTMLAttributes } from "react";
 
-interface PropTypes extends InputHTMLAttributes<HTMLInputElement> {
+interface PropTypes {
     name: string;
     type: string;
     label: string;
     required?: boolean;
-  }
+}
   
-export function Input({ name, type = "", label, required, ...props }: PropTypes) {
+export function Input({ name, type = "", label, required }: PropTypes) {
     return (
         <div>
             <label>

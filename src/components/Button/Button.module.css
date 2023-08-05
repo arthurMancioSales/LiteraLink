@@ -1,13 +1,13 @@
 .root {
-    @apply w-full px-2.5 py-2.5 gap-2 rounded-lg text-sm font-medium hover:bg-buttonHover inline-flex items-center max-w-full;
+    @apply w-full px-2.5 py-2.5 gap-2 rounded-lg text-sm font-medium hover:bg-buttonHover max-w-full;
 }
 
 .primary {
-    @apply bg-transparent text-light-text dark:text-dark-text dark:hover:bg-dark-secondary max-w-full;
+    @apply bg-transparent text-light-text inline-flex items-center dark:text-dark-text dark:hover:bg-dark-secondary max-w-full;
 }
 
 .secondary {
-    @apply bg-transparent text-light-text border-2 border-light-text dark:text-dark-text dark:hover:bg-dark-secondary
+    @apply bg-transparent text-light-text border-2 inline-flex items-center border-light-text dark:text-dark-text dark:hover:bg-dark-secondary
 }
 
 .info {

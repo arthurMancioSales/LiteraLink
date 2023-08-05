@@ -1,33 +1,33 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { useState } from "react";
 import { ImagemLateral } from "@/src/components/imagemLateral";
 import { Button } from "@/src/components/Button";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 export default function SignPage() {
 
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [emailConfirmed, setEmailConfirmed] = useState("")
-    const [password, setPassword] = useState("")
-    const [passwordConfirmed, setPasswordConfirmed] = useState("")
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [emailConfirmed, setEmailConfirmed] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirmed, setPasswordConfirmed] = useState("");
 
-    const navigate = useRouter()
+    const navigate = useRouter();
 
     const requestNewUser = async (e: React.MouseEvent) => {
-        e.preventDefault()
+        e.preventDefault();
         const parametros = {
             name,
             email,
             password
-        }
+        };
         if (password == passwordConfirmed && email == emailConfirmed ) {
-            await generalRequest("/api/new-user", parametros, "POST")
-            navigate.replace('/dashboard')
+            await generalRequest("/api/new-user", parametros, "POST");
+            navigate.replace("/sign-in");
 
-        }else (alert("Email e Senha diferentes"))
-    }
+        }else (alert("Email e Senha diferentes"));
+    };
 
     return (
         <div className="flex w-full h-full bg-light-primary">
