@@ -1,16 +1,13 @@
 import { createMongoConnection } from "@/src/database/pool";
-import { ObjectId } from "mongodb";
 
-export async function getCommunityById(communityId : ObjectId) {
+export async function getCommunityById(community_name : string) {
     const dbConnect = createMongoConnection();
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("community"); 
-
     try {
-        const returnedCommunity = collection.findOne( {
-            _id: communityId
+        const returnedCommunity = await collection.findOne( {
+            name: community_name
         });
-
         return returnedCommunity;
     } catch (error) {
         console.log(error);

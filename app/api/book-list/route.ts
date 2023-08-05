@@ -3,7 +3,7 @@ import { createResponse } from "@/src/utils/response";
 import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/utils/middlewares/auth";
 import { patchBook } from "@/src/service/book/patchBook";
-import { IBook, IGoals, IPatchBook } from "@/src/interfaces/interface";
+import { IPatchBook } from "@/src/interfaces/interface";
 import { postBook } from "@/src/service/book/postBook";
 import { deleteBook } from "@/src/service/book/deleteBook";
 

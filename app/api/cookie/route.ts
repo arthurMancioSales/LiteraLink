@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/src/functions/middlewares/auth";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
+import { auth } from "@/src/utils/middlewares/auth";
 
 export async function GET(req: NextRequest) {
+    const Response  = createResponse();
     try {
         const userDecodedCookie = await auth(req);
 

@@ -2,11 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { CustomError } from "@/src/utils/customError";
 import { createResponse } from "@/src/utils/response";
 import { getCommunity } from "@/src/service/community/getCommunity";
-import { ObjectId } from "mongodb";
 
-
-
-export async function GET(req:NextRequest, {params}: {params: { comunidade: string | number}}) {
+export async function GET(req:NextRequest, {params}: {params: { comunidade: string }}) {
     const Response = createResponse();
     try {
         const communityName = params.comunidade;
@@ -15,7 +12,6 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
             Response.data = community;
             NextResponse.json(Response, {status: Response.status});
         }
-
         throw new CustomError("Error: id não existente", 404);
     } catch (error: any) {
         console.log(error);

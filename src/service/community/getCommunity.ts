@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { getCommunityById } from "@/src/repository/community/getCommunityById";
 
 
-export async function getCommunity(communityId: ObjectId) {
+export async function getCommunity(communityId: string) {
     // try {
     const findCommunity = await getCommunityById(communityId);
 
