@@ -1,8 +1,9 @@
 import { createUser } from "@/src/repository/user/createUser";
 import { CustomError } from "../../utils/customError";
 import { INewUser, IUser } from "@/src/interfaces/interface";
-// import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
+import { ObjectId } from "mongodb";
 
 const TAG = "SERVICE(POST): USER ";
 

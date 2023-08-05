@@ -1,9 +1,16 @@
-import { communities } from "@/src/repository/community";
 import { CustomError } from "../../utils/customError";
+import { ObjectId } from "mongodb";
+import { getCommunityById } from "@/src/repository/community/getCommunityById";
 
-export async function getCommunity(communityName: string | number) {
+
+export async function getCommunity(communityId: string) {
     // try {
-    const findCommunity = communities.find(community => community.name == communityName);
+    const findCommunity = await getCommunityById(communityId);
+
+    // export async function getCommunity(communityName: string) {
+    //     // try {
+    //     const findCommunity = communities.find(community => community.name == communityName);
+
     if (findCommunity) {
         return findCommunity;
     }

@@ -1,6 +1,5 @@
 import { createMongoConnection } from "@/src/database/pool";
-import { INewUser, IUser } from "@/src/interfaces/interface";
-
+import { INewUser } from "@/src/interfaces/interface";
 
 export async function createUser(user: INewUser) {  
     const pool  = createMongoConnection();  

@@ -1,3 +1,4 @@
+
 import { createMongoConnection } from "@/src/database/pool";
 
 export async function checkExistingCredentials(_email: string, _name: string) {
