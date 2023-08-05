@@ -6,10 +6,10 @@ export async function POST(req: NextRequest) {
     const Response = createResponse();
     try {
         const user = await req.json();
-        //const { name, email, password } = user;
+         //const { name, email, password } = user;
 
-        const result = await registerUser(user);
-        console.log(result);
+         const result = await registerUser(user);
+         console.log(result);
 
         return NextResponse.json(Response, { status: Response.status });
     } catch (error: any) {

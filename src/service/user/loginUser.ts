@@ -1,6 +1,7 @@
 import { CustomError } from "../../utils/customError";
+import bcrypt from "bcrypt";
 import { loginRepository } from "@/src/repository/user/loginRepository";
-// import bcrypt from 'bcrypt';
+import { CustomError } from "../../utils/customError";
 
 const TAG = "SERVICE(POST): USER ";
 
@@ -8,6 +9,12 @@ export async function login (email: string, password: string ) {
     try {
         const user = await loginRepository(email);
         if (user) {
+            const isPasswordValid = bcrypt.compareSync(
+                password,
+                user.password
+              );
+            if (isPasswordValid) {
+                return user._id;
             // const isPasswordValid = bcrypt.compareSync(
             //     password,
             //     user.password

@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:latest AS base
 
 ENV NEXT_TELEMETRY_DISABLED 1
 

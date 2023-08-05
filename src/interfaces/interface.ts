@@ -8,7 +8,7 @@ export interface ApiResponse {
 }
 
 export interface IUser {
-    id: number;
+    id: ObjectId | string;
     name: string;
     email: string;
     password: string;
@@ -25,7 +25,7 @@ export interface ICommunityUser {
 }
 
 export interface INewUser {
-    id?: number;
+    id?: number | string | ObjectId;
     name: string;
     email: string;
     password: string;
@@ -80,7 +80,7 @@ export interface IStatistic {
 }
 
 export interface IBook {
-    id: string | number;
+    id: string | number | ObjectId;
     title: string;
     image: string;
     status: "lido" | "lendo" | "ler";
@@ -109,6 +109,7 @@ export interface IGoals {
     partial: number;
     total: number;
 }
+
 
 export interface IPatchCommunity{
     id?: string;
