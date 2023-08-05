@@ -4,7 +4,6 @@ import { createMongoConnection } from "@/src/database/pool";
 export async function checkExistingCredentials(_email: string, _name: string) {
     const pool  = createMongoConnection();
     const client = await pool.connect();
-
     const collection = client.db("literalink-dev").collection("users");
     try {
         const matchEmail = await collection.find({

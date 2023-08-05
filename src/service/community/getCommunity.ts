@@ -7,9 +7,9 @@ export async function getCommunity(communityId: ObjectId) {
     // try {
     const findCommunity = await getCommunityById(communityId);
 
-// export async function getCommunity(communityName: string) {
-//     // try {
-//     const findCommunity = communities.find(community => community.name == communityName);
+    // export async function getCommunity(communityName: string) {
+    //     // try {
+    //     const findCommunity = communities.find(community => community.name == communityName);
 
     if (findCommunity) {
         return findCommunity;

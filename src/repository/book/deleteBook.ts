@@ -1,7 +1,8 @@
-import { dbConnect } from "@/src/database/mongodb";
+import { createMongoConnection } from "@/src/database/pool";
 import { ObjectId } from "mongodb";
 
 export async function deleteBookFromUser(userId: ObjectId, bookId: ObjectId) {
+    const dbConnect = createMongoConnection();
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("users");
     try {

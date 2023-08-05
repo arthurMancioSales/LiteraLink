@@ -1,5 +1,4 @@
-import { CustomError } from "../../utils/customError";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 import { loginRepository } from "@/src/repository/user/loginRepository";
 import { CustomError } from "../../utils/customError";
 
@@ -9,12 +8,6 @@ export async function login (email: string, password: string ) {
     try {
         const user = await loginRepository(email);
         if (user) {
-            const isPasswordValid = bcrypt.compareSync(
-                password,
-                user.password
-              );
-            if (isPasswordValid) {
-                return user._id;
             // const isPasswordValid = bcrypt.compareSync(
             //     password,
             //     user.password
@@ -22,7 +15,7 @@ export async function login (email: string, password: string ) {
             if (user.password === password) {
                 return {id: user._id, name: user.name};
             }
-            throw new CustomError("Senha incorreta!", 401);
+            throw new CustomError("Senha ou Email incorreto!", 401);
         }
         throw new CustomError("O usuário não existe!", 404);
     } catch (e: any) {
