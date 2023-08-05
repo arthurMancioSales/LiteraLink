@@ -13,6 +13,7 @@ import { FavoriteSkeleton } from "@/src/components/CardBooks/favoriteSkeleton";
 import { BiMedal } from "react-icons/bi";
 import { BsFire } from "react-icons/bs";
 import { generalRequest } from "@/src/functions/generalRequest";
+import { ObjectId } from "mongodb";
 
 export default function Dashboard() {
     const [userData, setUserData] = useState<IUser | null>(null);
@@ -21,7 +22,7 @@ export default function Dashboard() {
 
 
     async function handleBookFavorite(id: number | string) {
-        const handleFavorite: Array<number | string> = [];
+        const handleFavorite: Array<number | string | ObjectId> = [];
 
         userData?.books.forEach((book) => {
             if (book.favorite && book.id !== id) {
@@ -41,7 +42,7 @@ export default function Dashboard() {
         }
     }
 
-    async function patchFavoriteBook(idBookBefore: number | string, idBookAfter: number | string) {
+    async function patchFavoriteBook(idBookBefore: number | string | ObjectId, idBookAfter: number | string | ObjectId) {
         const objAfter = {
             id: idBookBefore,
             favorite: false
