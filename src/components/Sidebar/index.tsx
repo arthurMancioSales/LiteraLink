@@ -10,33 +10,17 @@ import { TbLayoutDashboard, TbProgress } from "react-icons/tb";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import Link from "next/link";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { useEffect, useState } from "react";
-import { IUser } from "@/src/interfaces/interface";
+import { useContext } from "react";
 import { TextLoading } from "../Loaders/TextLoading";
+import { UserContext } from "@/app/(authenticated)/layout";
 
 export function Sidebar() {
     const iconSize = 25;
 
-    const [userData, setUserData] = useState<IUser | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function getUserData() {
-
-            const req = await fetch("/api/user", {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                cache: "no-store"
-            });
-
-            const user = await req.json();
-            setUserData(user.data);
-            setLoading(false);
-        }
-
-        getUserData();
-    }, []);
+    const userContext = useContext(UserContext);
+    
+    const userData = userContext?.userData;
+    const loading = userContext ? userContext.loading : false;
 
     return (
         <div className="flex flex-col min-w-[230px] w-[230px] max-w-[230px] p-4 gap-2 text-light-text bg-light-primary dark:text-dark-text dark:bg-dark-primary rounded-r-md max-h-screen">

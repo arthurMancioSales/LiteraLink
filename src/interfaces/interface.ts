@@ -47,7 +47,7 @@ export interface ApiError {
 }
 
 export interface ICommunity {
-    id: string;
+    _id: string;
     name: string;
     description: string;
     favoriteBook?: string;

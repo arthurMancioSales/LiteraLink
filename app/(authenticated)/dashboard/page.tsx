@@ -4,9 +4,9 @@ import { BookAccordion } from "@/src/components/Accordion";
 import { CardBooks } from "@/src/components/CardBooks";
 import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserGoals } from "@/src/components/UserGoals";
-import { IBook, IUser } from "@/src/interfaces/interface";
+import { IBook } from "@/src/interfaces/interface";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiFillCheckCircle, AiOutlineBook, AiOutlineFieldTime } from "react-icons/ai";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { FavoriteSkeleton } from "@/src/components/CardBooks/favoriteSkeleton";
@@ -14,13 +14,20 @@ import { BiMedal } from "react-icons/bi";
 import { BsFire } from "react-icons/bs";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { ObjectId } from "mongodb";
+import { UserContext } from "../layout";
 
 export default function Dashboard() {
-    const [userData, setUserData] = useState<IUser | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [favoriteBook, setFavoriteBook] = useState<IBook[] | null>(null);
+    const userContext = useContext(UserContext);
+    
+    const userData = userContext?.userData;
+    const loading = userContext ? userContext.loading : false;
+    
+    const [favoriteBook, setFavoriteBook] = useState<IBook[] | undefined>(undefined);
 
-
+    useEffect(() => {
+        setFavoriteBook(userData?.books.filter(book => book.favorite));
+    }, [userData?.books]);
+    
     async function handleBookFavorite(id: number | string) {
         const handleFavorite: Array<number | string | ObjectId> = [];
 
@@ -55,17 +62,6 @@ export default function Dashboard() {
         await generalRequest("/api/book-list", objBefore, "PATCH");
         await generalRequest("/api/book-list", objAfter, "PATCH");
     }
-
-    useEffect(() => {
-        async function getUserData() {
-            const user: IUser = await generalRequest("/api/user");
-            setUserData(user);
-            setFavoriteBook(user.books.filter(book => book.favorite));
-            setLoading(false);
-        }
-
-        getUserData();
-    }, []);
 
     return (
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
