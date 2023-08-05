@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Response } from "@/src/utils/response";
+import { createResponse } from "@/src/utils/response";
 import { IStatistic } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/functions/middlewares/auth";
 import { postStatistics } from "@/src/service/user/postStatistics";
 
 export async function POST(req: NextRequest) {
+    const Response = createResponse();
     try {
         const user = await auth(req);
         const request = await req.json();

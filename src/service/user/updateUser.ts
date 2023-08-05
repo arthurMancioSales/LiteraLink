@@ -2,6 +2,8 @@ import { IUserUpdate } from "@/src/interfaces/interface";
 import { users } from "../../repository/users.js";
 import { CustomError } from "../../utils/customError";
 
+const TAG = "SERVICE(PATCH): USER ";
+
 export async function updateUser (id: number | string, body: IUserUpdate) {
     try {
         const user = users.find(_user => _user._id === id);
@@ -13,7 +15,7 @@ export async function updateUser (id: number | string, body: IUserUpdate) {
         users[index] = user;
         return users[index];
     } catch (e: any) {
-        console.log(e);
+        console.log(TAG, e);
         throw e;
     }
 }
