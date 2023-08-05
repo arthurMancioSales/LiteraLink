@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface PropTypes {
@@ -12,6 +12,10 @@ interface PropTypes {
 export function GenericModal({ children, title, isOpen }: PropTypes) {
     const [open, setOpen] = useState(isOpen);
 
+    useEffect(() => {
+        setOpen(isOpen);
+    },[isOpen]);
+    
     function stopPropagation(e: React.MouseEvent<HTMLDivElement>): void {
         e.stopPropagation();
     }
@@ -23,6 +27,7 @@ export function GenericModal({ children, title, isOpen }: PropTypes) {
     function onClose() {
         setOpen(false);
     }
+
   
     return (
         <div className="w-full h-full bg-[#00000066] fixed top-0 left-0 flex justify-center items-center" onClick={onClose}>

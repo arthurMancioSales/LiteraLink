@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { GenericModal } from "../GenericModal";
@@ -29,6 +30,17 @@ const books = [
   
 export function FormProgress({ isOpen }: PropTypes) {
 
+    const [openModal, setOpenModal] = useState(isOpen);
+
+    function closeForm() {
+        console.log("funcionou");
+        setOpenModal(false);        
+    }
+
+    useEffect(() => {
+        console.log(openModal);
+    },[openModal]);
+
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
         readingChapters: Yup.number().max(100, "Ops! São muitos capítulos lidos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
@@ -44,12 +56,17 @@ export function FormProgress({ isOpen }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Progresso de leitura" isOpen={isOpen}>
+        <GenericModal title="Progresso de leitura" isOpen={openModal}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     console.log(values);
+                    // const formBody = {
+                        
+                    // };
                     // await generalRequest("/api/book-list", formBody, "PATCH");
                     setSubmitting(false);
+                    closeForm();
+                    // setOpenModal(false);
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -57,10 +74,10 @@ export function FormProgress({ isOpen }: PropTypes) {
                 {(props) => (
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div className="flex flex-col gap-2">
-                            <Select name="bookName" label="Livro" array={books} required/>
-                            <Input name="readingChapters" label="Capítulos lidos" type="number" required/>
-                            <Input name="pagesRead" label="Páginas lidas" type="number"/>
-                            <Input name="readingTime" label="Tempo de leitura" type="number"/>
+                            <Select name="bookName" label="Livro" array={books} error={props.errors.bookName} required/>
+                            <Input name="readingChapters" label="Capítulos lidos" type="number" error={props.errors.readingChapters} required/>
+                            <Input name="pagesRead" label="Páginas lidas" error={props.errors.pagesRead} type="number"/>
+                            <Input name="readingTime" label="Tempo de leitura" error={props.errors.readingTime} type="number"/>
                         </div>
                         <Button type="submit" variant="info">SALVAR</Button>
                     </form>
