@@ -48,7 +48,7 @@ export default function Dashboard() {
         }
     }
 
-    async function patchFavoriteBook(idBookBefore: number | string, idBookAfter: number | string) {
+    async function patchFavoriteBook(idBookBefore: number | string , idBookAfter: number | string ) {
         const objAfter = {
             id: idBookBefore,
             favorite: false

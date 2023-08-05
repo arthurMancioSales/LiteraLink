@@ -35,6 +35,12 @@ services:
     networks:
       - dev-network
     env_file: .env.local
+
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: .env.local
+      ME_CONFIG_MONGODB_ADMINPASSWORD: .env.local
+      ME_CONFIG_MONGODB_URL: mongodb://literalink:7645SZarGUE288veP@mongo-dev:27017
+
     depends_on:
       - mongo-dev
 

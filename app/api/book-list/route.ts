@@ -3,7 +3,7 @@ import { createResponse } from "@/src/utils/response";
 import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/utils/middlewares/auth";
 import { patchBook } from "@/src/service/book/patchBook";
-import { IBook, IGoals, IPatchBook } from "@/src/interfaces/interface";
+import { IPatchBook } from "@/src/interfaces/interface";
 import { postBook } from "@/src/service/book/postBook";
 import { deleteBook } from "@/src/service/book/deleteBook";
 
@@ -59,9 +59,9 @@ export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém
         console.log("Request: ", req);
         
         const newBookList = await deleteBook(user.id, id);
-        console.log("book list: ", newBookList);
-
+        console.log("Book list: ", newBookList);
         return NextResponse.json(Response, {status: Response.status});
+      
     } catch (error : any) {
         console.log(error);
         Response.message = "Error";
