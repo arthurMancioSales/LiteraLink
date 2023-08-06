@@ -3,7 +3,7 @@ import { findUserByNameRepo } from "@/src/repository/user/findUserByNameRepo";
 
 const TAG = "SERVICE(GET): USER ";
 
-export async function getUser(user_name: string) {
+export async function getUserByName(user_name: string) {
     try {
         const responseDB = await findUserByNameRepo(user_name);
         if (!responseDB) {
