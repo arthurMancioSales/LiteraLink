@@ -16,8 +16,9 @@ type PropTypes = {
     variant?: VariantButton;
     icon?: ReactNode;
     redirectTo?: string;
-    onClick?: React.MouseEventHandler;
+    onClick?: () => void;
     children: ReactNode;
+    type?: "button" | "submit";
 };
 
 const variantMap: VariantMap = {
@@ -29,23 +30,21 @@ const variantMap: VariantMap = {
 };
 
 
-export function Button({children, icon, onClick, variant = "primary", redirectTo}: PropTypes) {
+export function Button({children, icon, onClick, variant = "primary", redirectTo, type = "button"}: PropTypes) {
 
     const className: string[] = [styles.root, variantMap[variant]];
-
-    const navigate = redirectTo ? redirectTo : "#";
     
     return (
         <>
             {redirectTo ?
-                <Link href={navigate} passHref>
-                    <button type="button" className={className.join(" ")}>
+                <Link href={redirectTo} passHref>
+                    <button type={type} className={className.join(" ")}>
                         {icon}
                         {children}
                     </button>
                 </Link>
                 :
-                <button onClick={onClick} type="button" className={className.join(" ")}>
+                <button onClick={onClick} type={type} className={className.join(" ")}>
                     {icon}
                     {children}
                 </button>
