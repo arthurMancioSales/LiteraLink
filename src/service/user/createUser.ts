@@ -1,10 +1,9 @@
 import { createUserRepo } from "@/src/repository/user/createUserRepo";
 import { CustomError } from "../../utils/customError";
 import { INewUser } from "@/src/interfaces/interface";
-// import bcrypt from "bcrypt";
 import { checkExistingCredentials } from "@/src/repository/user/checkers/checkUserCredentials";
 import { ObjectId } from "mongodb";
-// import { ObjectId } from "mongodb";
+import { hashPassword } from "@/src/utils/hashPassword";
 
 const TAG = "SERVICE(POST): USER ";
 
@@ -22,12 +21,15 @@ export async function registerUser( requestUser: INewUser ) {
         else if (matchingCredentials === "Username") {
             throw new CustomError("Error: username already taken", 409);
         } else {
-            // const hashedPassword = await bcrypt.hash(requestUser.password, 10);
+            const hashedPassword = await hashPassword(requestUser.password, process.env.SALT!)
+            if (typeof(hashedPassword) !== "string") {
+                throw new CustomError('Erro no hash da Senha', 500);
+            }
             const newUser : INewUser = {
                 _id: new ObjectId(),
                 name: requestUser.name,
                 email: requestUser.email,
-                password: requestUser.password,
+                password: hashedPassword,
                 image: "",
                 communities: [],
                 books: [],
