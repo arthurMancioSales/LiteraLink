@@ -1,6 +1,6 @@
 import { createMongoConnection } from "@/src/database/pool";
 
-export async function getCommunityById(community_name : string) {
+export async function getCommunityByNameRepo(community_name : string) {
     const dbConnect = createMongoConnection();
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("community"); 
