@@ -1,19 +1,18 @@
 import { IUserUpdate } from "@/src/interfaces/interface";
-import { users } from "../../repository/users";
 import { CustomError } from "../../utils/customError";
+import { ObjectId } from "mongodb";
+import { updateUserRepo } from "@/src/repository/user/updateUserRepo";
 
 const TAG = "SERVICE(PATCH): USER ";
 
-export async function updateUser (id: number | string, body: IUserUpdate) {
+export async function updateUser (id: string, body: IUserUpdate) {
     try {
-        const user = users.find(_user => _user._id === id);
-        if (!user) {
-            throw new CustomError("Usuário não encontrado!", 404);
+        const userObjectId = ObjectId.createFromHexString(id);
+        const responseDB = await updateUserRepo(userObjectId, body);
+        if (!responseDB) {
+            throw new CustomError('Erro na busca dos dados do usuário', 500);
         }
-        const index =  users.indexOf(user);
-        Object.assign(user, body);
-        users[index] = user;
-        return users[index];
+        return responseDB;
     } catch (e: any) {
         console.log(TAG, e);
         throw e;

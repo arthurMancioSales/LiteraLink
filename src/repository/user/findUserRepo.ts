@@ -1,7 +1,7 @@
 import { createMongoConnection } from "@/src/database/pool";
 import { ObjectId } from "mongodb";
 
-const TAG = "REPOSITORY(GET_user): community ";
+const TAG = "REPOSITORY(GET_user): user ";
 
 export async function findUserByIdRepo(userId: ObjectId) {
     const dbConnect = createMongoConnection();
@@ -11,7 +11,7 @@ export async function findUserByIdRepo(userId: ObjectId) {
         const returnedUser = await collection.findOne({ _id: userId });
         return returnedUser;
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

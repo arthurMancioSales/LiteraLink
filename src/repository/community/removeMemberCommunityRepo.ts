@@ -1,7 +1,7 @@
 import { createMongoConnection } from "@/src/database/pool";
 import { CustomError } from "@/src/utils/customError";
 
-const TAG = "REPOSITORY(POST): community ";
+const TAG = "REPOSITORY(DELETE): community ";
 
 export async function removeMemberCommunityRepo(user:{id:string, name:string}, community_name: string) {
     const pool  = createMongoConnection();
