@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { GenericModal } from "../GenericModal";
@@ -11,6 +10,7 @@ import { Select } from "../../Select";
 
 interface PropTypes {
     isOpen: boolean;
+    onClose: () => void;
 }
 
 const books = [
@@ -28,9 +28,7 @@ const books = [
     },
 ];
   
-export function FormProgress({ isOpen }: PropTypes) {
-    const [openModal, setOpenModal] = useState(isOpen);
-
+export function FormProgress({ isOpen, onClose }: PropTypes) {
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
         readingChapters: Yup.number().max(100, "Ops! São muitos capítulos lidos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
@@ -46,7 +44,7 @@ export function FormProgress({ isOpen }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Progresso de leitura" isOpen={openModal}>
+        <GenericModal title="Progresso de leitura" isOpen={isOpen} onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     console.log(values);
@@ -55,7 +53,7 @@ export function FormProgress({ isOpen }: PropTypes) {
                     // };
                     // await generalRequest("/api/book-list", formBody, "PATCH");
                     setSubmitting(false);
-                    setOpenModal(false);
+                    onClose();
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}

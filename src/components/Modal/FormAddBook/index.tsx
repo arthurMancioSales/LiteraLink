@@ -10,6 +10,7 @@ import { Select } from "../../Select";
 
 interface PropTypes {
     isOpen: boolean;
+    onClose: () => void;
 }
 
 const books = [
@@ -27,8 +28,7 @@ const books = [
     },
 ];
   
-export function FormAddBook({ isOpen }: PropTypes) {
-
+export function FormAddBook({ isOpen, onClose }: PropTypes) {
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
         sequence: Yup.number().max(100, "Ops! Este número é muito grande").min(0, "Não existe sequências negativas").required("Digite o número de capítulos lidos"),
@@ -46,12 +46,13 @@ export function FormAddBook({ isOpen }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Progresso de leitura" isOpen={isOpen}>
+        <GenericModal title="Progresso de leitura" isOpen={isOpen} onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     console.log(values);
                     // await generalRequest("/api/book-list", formBody, "PATCH");
                     setSubmitting(false);
+                    onClose();
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}

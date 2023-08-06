@@ -1,36 +1,27 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { ReactNode } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface PropTypes {
     children: ReactNode;
     title: string;
     isOpen: boolean;
+    onClose: () => void;
   }
   
-export function GenericModal({ children, title, isOpen }: PropTypes) {
-    const [open, setOpen] = useState(isOpen);
-
-    useEffect(() => {
-        setOpen(isOpen);
-    },[isOpen]);
+export function GenericModal({ children, title, isOpen, onClose }: PropTypes) {
     
     function stopPropagation(e: React.MouseEvent<HTMLDivElement>): void {
         e.stopPropagation();
     }
 
-    if(!open) {
+    if(!isOpen) {
         return <></>;
     }
 
-    function onClose() {
-        setOpen(false);
-    }
-
-  
     return (
-        <div className="w-full h-full bg-[#00000066] fixed top-0 left-0 flex justify-center items-center" onClick={onClose}>
+        <div className="w-full h-full bg-[#00000066] fixed top-0 left-0 flex justify-center items-center z-10" onClick={onClose}>
             <div className="flex flex-col w-1/3 rounded-lg drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] bg-light-primary dark:bg-dark-tertiary" onClick={stopPropagation}>
                 <div className="flex justify-between px-4 py-4">
                     <div className="w-full text-center text-lg font-bold">
