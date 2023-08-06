@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button, VariantButton } from "../Button";
 import Image from "next/image";
 import { ICommunity } from "@/src/interfaces/interface";
-import { isMember } from "@/src/repository/community/isMember";
+import { isMember } from "@/src/repository/community/checkers/isMember";
 import { BiSolidGroup } from "react-icons/bi";
 
 type PropsTypes = {

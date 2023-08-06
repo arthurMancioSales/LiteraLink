@@ -2,19 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { CustomError } from "@/src/utils/customError";
 import { createResponse } from "@/src/utils/response";
 import { auth } from "@/src/utils/middlewares/auth";
-import { users } from "@/src/repository/users";
+import { getUserById } from "@/src/service/user/getUserById";
 
 export async function GET(req:NextRequest) {
     const Response = createResponse();
     try {
         const userCookie = await auth(req);
-        
-        const user = users.find(user => user._id == userCookie.id);
-        
+        const user = await getUserById(userCookie.id);
         if (!user) {
             throw new CustomError("Error: Usuário não encontrado!", 404);
         }
-        
         Response.data = user;
         return NextResponse.json(Response, {status: 200});
     } catch (e: any) {

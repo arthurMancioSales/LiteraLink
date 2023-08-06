@@ -21,7 +21,7 @@ export default function CommunityChat({ params }: { params: { community: string 
     const userData = userContext?.userData;
     const loadingUser = userContext ? userContext.loading : false;
 
-    const memberOfCommunity = userData?.communities.find((community) => community.name == communityData?.name)
+    const memberOfCommunity = userData?.communities.find((community) => community.name == communityData?.name);
 
 
     useEffect(() => {

@@ -1,5 +1,5 @@
-import { checkIsAdminCommunity } from "@/src/repository/community/checkIsAdminCommunityRepo";
-import { isMember } from "@/src/repository/community/isMember";
+import { checkIsAdminCommunity } from "@/src/repository/community/checkers/checkIsAdminCommunityRepo";
+import { isMember } from "@/src/repository/community/checkers/isMember";
 import { removeMemberCommunityRepo } from "@/src/repository/community/removeMemberCommunityRepo";
 import { CustomError } from "@/src/utils/customError";
 

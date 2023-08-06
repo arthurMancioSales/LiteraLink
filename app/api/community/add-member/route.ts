@@ -1,6 +1,7 @@
 import { postAddUserCommunity } from "@/src/service/community/postAddUserCommunity";
 import { auth } from "@/src/utils/middlewares/auth";
 import { createResponse } from "@/src/utils/response";
+import { NameCommunityValidator } from "@/src/utils/validators/validator";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest) {
@@ -9,8 +10,7 @@ export async function POST(req:NextRequest) {
         const user = await auth(req);
         const request = await req.json();
         const { name } = request;
-        //escrever o validador para esse request, ele irá recer o nome da comunidade;
-        // próxima tarefa
+        new NameCommunityValidator(name);
         const responseDB = await postAddUserCommunity(user, name);
         Response.data = responseDB;
         return NextResponse.json(Response, {status: Response.status});
