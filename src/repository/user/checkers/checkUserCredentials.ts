@@ -1,5 +1,6 @@
-
 import { createMongoConnection } from "@/src/database/pool";
+
+const TAG = "REPOSITORY(CHECK): user ";
 
 export async function checkExistingCredentials(_email: string, _name: string) {
     const pool  = createMongoConnection();
@@ -19,7 +20,7 @@ export async function checkExistingCredentials(_email: string, _name: string) {
         else
             return "";
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

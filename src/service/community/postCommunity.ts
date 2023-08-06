@@ -5,7 +5,6 @@ import { CustomError } from "@/src/utils/customError";
 import { checkExistingCommunityName } from "@/src/repository/community/checkers/checkCommunityRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
 
-
 const TAG = "SERVICE(POST): community ";
 
 export async function postCommunity(user: {id: string, name: string}, request: ICreateCommunity) {

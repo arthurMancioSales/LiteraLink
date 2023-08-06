@@ -5,7 +5,6 @@ import { CustomError } from "@/src/utils/customError";
 
 const TAG = "SERVICE(DELETE-Member): community ";
 
-
 export async function removeCommunity(user:{id:string, name:string}, community_name:string) {
     try {
         const is_member = await isMember(user.name, community_name);

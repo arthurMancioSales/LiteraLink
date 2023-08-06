@@ -1,6 +1,8 @@
 import { createMongoConnection } from "@/src/database/pool";
 import { ObjectId } from "mongodb";
 
+const TAG = "SERVICE(GET): book ";
+
 export async function findBook(userId : ObjectId, bookId : ObjectId) {
     const dbConnect =  createMongoConnection();
     const client = await dbConnect.connect();
@@ -15,7 +17,7 @@ export async function findBook(userId : ObjectId, bookId : ObjectId) {
         else 
             return;
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();
