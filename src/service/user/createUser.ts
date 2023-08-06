@@ -1,8 +1,10 @@
-import { createUser } from "@/src/repository/user/createUser";
+import { createUserRepo } from "@/src/repository/user/createUserRepo";
 import { CustomError } from "../../utils/customError";
 import { INewUser } from "@/src/interfaces/interface";
 // import bcrypt from "bcrypt";
-import { checkExistingCredentials } from "@/src/repository/user/checkUserCredentials";
+import { checkExistingCredentials } from "@/src/repository/user/checkers/checkUserCredentials";
+import { ObjectId } from "mongodb";
+// import { ObjectId } from "mongodb";
 
 const TAG = "SERVICE(POST): USER ";
 
@@ -22,6 +24,7 @@ export async function registerUser( requestUser: INewUser ) {
         } else {
             // const hashedPassword = await bcrypt.hash(requestUser.password, 10);
             const newUser : INewUser = {
+                _id: new ObjectId(),
                 name: requestUser.name,
                 email: requestUser.email,
                 password: requestUser.password,
@@ -37,7 +40,7 @@ export async function registerUser( requestUser: INewUser ) {
                     goalsAchieved: 0,
                 },
             };
-            const res = await createUser(newUser);
+            const res = await createUserRepo(newUser);
             return res; 
         }
     } catch (e : any) {

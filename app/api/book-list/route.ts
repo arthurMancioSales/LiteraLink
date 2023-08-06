@@ -14,7 +14,7 @@ export async function PATCH(req: NextRequest) {
         const user = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length === 0) {
-            throw new CustomError("Erro na requisição", 500);
+            throw new CustomError("Erro na requisição", 400);
         }
         // preciso escrever um validator para garantir que o ID do livro existe;
         // Além disso, se o cliente está tentando alterar pelo menos 1 campo;
@@ -60,9 +60,9 @@ export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém
         console.log("Request: ", req);
         
         const newBookList = await deleteBook(user.id, id);
-        console.log("book list: ", newBookList);
-
+        console.log("Book list: ", newBookList);
         return NextResponse.json(Response, {status: Response.status});
+      
     } catch (error : any) {
         console.log(error);
         Response.message = "Error";

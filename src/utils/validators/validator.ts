@@ -13,7 +13,7 @@ class StringValidator extends Validator {
         if(typeof data !== "string"){
             throw new CustomError("O valor passado não é uma string", 400);
         }
-        super(data)
+        super(data);
     }
 
 }
@@ -23,59 +23,70 @@ export class NumberValidator extends Validator {
         if(typeof data !== "number"){
             throw new CustomError("O valor passado não é uma number", 400);
         }
-        super(data)
+        super(data);
     }
 }
 
 abstract class RegexValidator extends StringValidator {
-    protected _regex: RegExp = new RegExp("");
+    protected _regex = new RegExp("");
   
     constructor(data: string, message: string) {
-      super(data);
-      if (!this.regex.test(data)) throw new CustomError(message, 400);
+        super(data);
+        if (!this.regex.test(data)) throw new CustomError(message, 400);
     }
   
     protected get regex(): RegExp {
-      return this._regex;
+        return this._regex;
     }
 }
 
 export class EmailValidator extends RegexValidator {
     constructor(data: string) {
-      super(data, "Error: invalid Email.");
+        super(data, "Error: invalid Email.");
     }
   
     protected get regex(): RegExp {
-      return /^(\w+(\.\w+)*@\w+(\.\w{2,})+(\.\w{2}){0,1})$/gim;
+        return /^(\w+(\.\w+)*@\w+(\.\w{2,})+(\.\w{2}){0,1})$/gim;
     }
 }
 
 export class NameValidator extends RegexValidator {
     constructor(data: string) {
-      super(data, "Error: invalid Name.");
+        super(data, "Error: invalid Name.");
     }
   
     protected get regex(): RegExp {
-      return /^[a-zA-Z_][a-zA-Z0-9_]*$/gim;
+        return /^[a-zA-Z_][a-zA-Z0-9_]*$/gim;
     }
 }
 
 export class PasswordValidator extends RegexValidator {
     constructor(data: string) {
-      super(data, "Error: invalid Password.");
+        super(data, "Error: invalid Password.");
     }
   
     protected get regex(): RegExp {
-      return /^[a-zA-Z0-9_]+$/gim;
+        return /^[a-zA-Z0-9_]+$/gim;
     }
 }
+
 export class NameCommunityValidator extends RegexValidator {
     constructor(data: string) {
-      super(data, "Error: invalid Password.");
+        super(data, "Error: invalid Password.");
     }
   
     protected get regex(): RegExp {
-      return /^[a-zA-Z0-9áéíóúâêîôûãõÁÉÍÓÚÂÊÎÔÛÃÕàèìòùÀÈÌÒÙçÇäëïöüÄËÏÖÜ  ]+$/gim;
+        return /^[a-zA-Z0-9áéíóúâêîôûãõÁÉÍÓÚÂÊÎÔÛÃÕàèìòùÀÈÌÒÙçÇäëïöüÄËÏÖÜ  ]+$/gim;
+    }
+}
+
+export class DateValidator extends RegexValidator {
+    constructor(data: string) {
+        super(data, "Error: invalid Date.");
+    }
+  
+    protected get regex(): RegExp {
+        return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/gim;
     }
 }
 

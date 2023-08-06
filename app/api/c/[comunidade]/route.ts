@@ -14,7 +14,6 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
             Response.data = community;
             NextResponse.json(Response, {status: Response.status});
         }
-
         throw new CustomError("Error: id não existente", 404);
     } catch (error: any) {
         console.log(error);

@@ -1,4 +1,4 @@
-import { IBook, IPatchBook } from "@/src/interfaces/interface";
+import { IPatchBook } from "@/src/interfaces/interface";
 import { users } from "@/src/repository/users";
 import { CustomError } from "../../utils/customError";
 

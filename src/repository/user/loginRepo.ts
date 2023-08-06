@@ -1,6 +1,6 @@
 import { createMongoConnection } from "@/src/database/pool";
 
-export async function loginRepository(email: string) {
+export async function loginRepo(email: string) {
     const pool  = createMongoConnection();
     const client = await pool.connect();
     try {

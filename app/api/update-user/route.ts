@@ -14,7 +14,7 @@ export async function PATCH(req: NextRequest) {
         const user = await auth(req);
         const request = await req.json();
         if (Object.entries(request).length === 0) {
-            throw new CustomError("Error: nenhum campo foi selecionado", 500);
+            throw new CustomError("Error: nenhum campo foi selecionado", 400);
         }
         const body = formattedBody(request);
         const userUpdate = await updateUser(user.id, body);

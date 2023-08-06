@@ -9,7 +9,6 @@ async function getUserRepo(id: ObjectId) {
     const collection = client.db("literalink-dev").collection("users");
     try {
         const response = await collection.findOne({ _id: id});
-        console.log("User", response);
         return response;
     } catch (error: any) {
         console.log(TAG, error);

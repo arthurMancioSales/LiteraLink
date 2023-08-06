@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(Response, { status: Response.status });
     } catch (error: any) {
-        Response.message = "Error on sign up.";
+        Response.message = "Error";
         Response.status = error.status;
         Response.error = error.message;
         return NextResponse.json(Response, {status: Response.status});

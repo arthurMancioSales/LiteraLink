@@ -1,15 +1,15 @@
-import { users } from "@/src/repository/users";
 import { CustomError } from "../../utils/customError";
+import { findUserByNameRepo } from "@/src/repository/user/findUserByNameRepo";
 
 const TAG = "SERVICE(GET): USER ";
 
-export async function getUser(id: number | string) {
+export async function getUser(user_name: string) {
     try {
-        const findUser = users.find(user => user._id == id);
-        if (findUser) {
-            return findUser;
+        const responseDB = await findUserByNameRepo(user_name);
+        if (!responseDB) {
+            throw new CustomError("Error: Usuário não encontrado", 404);
         }
-        throw new CustomError("Error: Usuário não encontrado", 404);
+        return responseDB;
     } catch (e: any) {
         console.log(TAG, e);
         throw e;
