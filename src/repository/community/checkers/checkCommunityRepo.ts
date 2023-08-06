@@ -1,5 +1,7 @@
 import { createMongoConnection } from "@/src/database/pool";
 
+const TAG = "REPOSITORY(CHECK-NAME): community ";
+
 export async function checkExistingCommunityName( _name: string) {
     const pool  = createMongoConnection();
     const client = await pool.connect();
@@ -10,7 +12,7 @@ export async function checkExistingCommunityName( _name: string) {
         });
         return matchCommunityName;
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

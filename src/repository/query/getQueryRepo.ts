@@ -1,6 +1,6 @@
 import { createMongoConnection } from "@/src/database/pool";
 
-const TAG = "REPOSITORY(GET_query): community ";
+const TAG = "REPOSITORY(GET_query): QUERY ";
 
 export async function getQueryRepo(query:string) {
     const pool  = createMongoConnection();

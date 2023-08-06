@@ -1,5 +1,7 @@
 import { createMongoConnection } from "@/src/database/pool";
 
+const TAG = "REPOSITORY(POST): user ";
+
 export async function loginRepo(email: string) {
     const pool  = createMongoConnection();
     const client = await pool.connect();
@@ -10,7 +12,7 @@ export async function loginRepo(email: string) {
         });
         return response;
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

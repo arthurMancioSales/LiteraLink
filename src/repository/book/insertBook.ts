@@ -3,6 +3,8 @@ import { IBook } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { ObjectId } from "mongodb";
 
+const TAG = "REPOSITORY(POST): book ";
+
 export async function insertBook(userId: ObjectId, book : IBook) {
     const dbConnect = createMongoConnection();
     const client = await dbConnect.connect();
@@ -21,7 +23,7 @@ export async function insertBook(userId: ObjectId, book : IBook) {
         }
         return responseDB;
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

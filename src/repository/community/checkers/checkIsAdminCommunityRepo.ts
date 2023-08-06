@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 import { createMongoConnection } from "@/src/database/pool";
 
+const TAG = "REPOSITORY(CHECK-IS_ADMIN): community ";
+
 export async function checkIsAdminCommunity( user_id: string, community_name: string) {
     const pool  = createMongoConnection();
     const client = await pool.connect();
@@ -18,7 +20,7 @@ export async function checkIsAdminCommunity( user_id: string, community_name: st
         }
         return false;
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();
