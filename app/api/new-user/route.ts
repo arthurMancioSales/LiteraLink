@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
         new NameValidator(name);
         new EmailValidator(email);
         new PasswordValidator(password);
-
         const user: INewUser = {
             name: name,
             email: email,
