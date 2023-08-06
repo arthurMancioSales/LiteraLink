@@ -21,30 +21,34 @@ export default function Dashboard() {
     const userData = userContext?.userData;
     const loading = userContext ? userContext.loading : false;
     
-    const [favoriteBook, setFavoriteBook] = useState<IBook[] | undefined>(undefined);
+    const [favoriteBook, setFavoriteBook] = useState<IBook | undefined>(undefined);
 
     useEffect(() => {
-        setFavoriteBook(userData?.books.filter(book => book.favorite));
+        if(userData?.books) {
+            setFavoriteBook(userData.books.filter(book => book.favorite)[0]);
+        } else {
+            setFavoriteBook(undefined);
+        }
     }, [userData?.books]);
     
     async function handleBookFavorite(id: number | string) {
         const handleFavorite: Array<number | string> = [];
-
-        userData?.books.forEach((book) => {
-            if (book.favorite && book.id !== id) {
-                handleFavorite.push(book.id);
-                book.favorite = false;
-            }
-
-            if (book.id === id) {
-                handleFavorite.push(book.id);
-                book.favorite = true;
-            }
-        });
-
+        
         if (userData) {
+            userData.books.forEach((book) => {
+                if (book.favorite && book.id !== id) {
+                    handleFavorite.push(book.id);
+                    book.favorite = false;
+                }
+    
+                if (book.id === id) {
+                    handleFavorite.push(book.id);
+                    book.favorite = true;
+                }
+            });
+
             await patchFavoriteBook(handleFavorite[0], handleFavorite[1]);
-            setFavoriteBook(userData.books.filter(book => book.favorite));
+            setFavoriteBook(userData.books.filter(book => book.favorite)[0]);
         }
     }
 
@@ -60,6 +64,64 @@ export default function Dashboard() {
         };
         await generalRequest("/api/book-list", objBefore, "PATCH");
         await generalRequest("/api/book-list", objAfter, "PATCH");
+    }
+
+    function renderGoalsWeek() {
+        if (loading) {
+            return (
+                <FavoriteSkeleton />
+            );
+        }
+
+        if(!favoriteBook) {
+            return (
+                <p>Não há livros cadastrados</p>
+            );
+        }
+
+        if(!favoriteBook?.goals) {
+            return (
+                <p>Não há metas cadastradas</p>
+            );
+        }
+  
+        return(
+            <>
+                {
+                    favoriteBook.goals.map((goal) => {
+                        let goalType;
+                        let goalComplement;
+
+                        switch (goal.type) {
+                            case "days":
+                                goalType = "Sequência";
+                                goalComplement = "dias";                               
+                                break;
+
+                            case "time":
+                                goalType = "Tempo de leitura";
+                                goalComplement = "minutos";                               
+                                break;
+
+                            case "pages":
+                                goalType = "Páginas";                               
+                                goalComplement = "páginas";                               
+                                break;
+                        }
+                        return (
+                            <CardBooks
+                                key={goal.type}
+                                variant="secondary"
+                                description={goalType}
+                                complement={goalComplement}
+                                progress={goal.partial}
+                                total={goal.total}
+                            />
+                        );
+                    })
+                }
+            </>
+        );
     }
 
     return (
@@ -111,7 +173,7 @@ export default function Dashboard() {
                             ?
                             <TextLoading size="large"></TextLoading>
                             :
-                            <p className="text-2xl dark:text-dark-text">{favoriteBook?.[0].title}</p>
+                            <p className="text-2xl dark:text-dark-text">{ favoriteBook ? favoriteBook.title : "Não há livros"}</p>
                         }
                     </div>
                     <div className="w-full h-[calc(100%-64px)]">
@@ -122,7 +184,7 @@ export default function Dashboard() {
                                     <div className="w-full h-full rounded-l-md bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
                                     :
                                     <Image
-                                        src={favoriteBook ? favoriteBook[0].image : ""}
+                                        src={favoriteBook ? favoriteBook.image : ""}
                                         alt="User favorite book"
                                         fill
                                         className="object-cover rounded-l-md"
@@ -145,30 +207,17 @@ export default function Dashboard() {
                                                     <CardBooks
                                                         variant="secondary"
                                                         description="Capítulos"
-                                                        progress={favoriteBook?.[0].chaptersRead ? favoriteBook[0].chaptersRead : 0}
-                                                        total={favoriteBook ? favoriteBook[0].totalChapter : 0}
+                                                        progress={favoriteBook?.chaptersRead ? favoriteBook.chaptersRead : 0}
+                                                        total={favoriteBook ? favoriteBook.totalChapter : 0}
                                                     />
                                                 }
                                             </div>
                                             <div className="flex flex-col gap-4">
                                                 <div className="flex flex-row justify-between">
                                                     <p>Metas semanais</p>
-                                                    <p>Realizadas: {favoriteBook?.[0].goalsAchieved}</p>
+                                                    <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
                                                 </div>
-                                                {
-                                                    favoriteBook?.[0].goals ? favoriteBook?.[0].goals.map((goal, index) => (
-                                                        <CardBooks
-                                                            key={`goal-${index}`}
-                                                            variant="secondary"
-                                                            description={goal.type == "days" ? "Sequência" : goal.type == "time" ? "Tempo de leitura" : "Páginas"}
-                                                            complement={goal.type == "days" ? "dias" : goal.type == "time" ? "minutos" : "páginas"}
-                                                            progress={goal.partial}
-                                                            total={goal.total}
-                                                        />
-                                                    ))
-                                                        :
-                                                        <FavoriteSkeleton />
-                                                }
+                                                {renderGoalsWeek()}
                                             </div>
                                         </div>
                                     </ScrollArea.Viewport>
@@ -182,7 +231,6 @@ export default function Dashboard() {
                                 </ScrollArea.Root>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
