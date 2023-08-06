@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { generalRequest, statusErrorHTTP } from "@/src/functions/generalRequest";
+import { generalRequest } from "@/src/functions/generalRequest";
 import { useState } from "react";
 import { SideImageSign } from "@/src/components/SideImageSign";
 import { Button } from "@/src/components/Button";
@@ -49,7 +49,7 @@ export default function SignUpPage() {
                         
                             setSubmitting(false);
 
-                            if(response.error) {
+                            if(response?.error) {
                                 setMessageError(response.error);
                             } else {
                                 navigate.replace("/sign-in");

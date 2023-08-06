@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { generalRequest, statusErrorHTTP } from "@/src/functions/generalRequest";
+import { generalRequest } from "@/src/functions/generalRequest";
 import { useState } from "react";
 import { SideImageSign } from "@/src/components/SideImageSign";
 import { Button } from "@/src/components/Button";
@@ -41,14 +41,13 @@ export default function SignInPage() {
                             };
                 
                             const response = await generalRequest("/api/login", formBody, "POST");
+                            console.log(response);
                         
                             setSubmitting(false);
 
-                            if(response && response.error) {
-                                console.log("Não era pra entrar");
+                            if(response?.error) {
                                 setMessageError(response.error);
                             } else {
-                                console.log("Entrou");
                                 navigate.replace("/dashboard");
                             }
 
