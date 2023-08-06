@@ -2,13 +2,13 @@ import { IBook } from "@/src/interfaces/interface";
 import { insertBook } from "@/src/repository/book/insertBook";
 import { CustomError } from "../../utils/customError";
 import { ObjectId } from "mongodb";
-import { findUserById } from "@/src/repository/user/findUser";
+import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
 
 const TAG = "SERVICE(POST): book ";
 
 export async function postBook(id: ObjectId, requestBook : IBook) {
     try {
-        const user = await findUserById(id);
+        const user = await findUserByIdRepo(id);
         if (!user) {
             throw new CustomError("Error: Usuário não encontrado!", 404);
         }

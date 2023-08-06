@@ -1,12 +1,12 @@
 // import bcrypt from "bcrypt";
-import { loginRepository } from "@/src/repository/user/loginRepository";
+import { loginRepo } from "@/src/repository/user/loginRepo";
 import { CustomError } from "../../utils/customError";
 
 const TAG = "SERVICE(POST): USER ";
 
 export async function login (email: string, password: string ) {
     try {
-        const user = await loginRepository(email);
+        const user = await loginRepo(email);
         if (user) {
             // const isPasswordValid = bcrypt.compareSync(
             //     password,

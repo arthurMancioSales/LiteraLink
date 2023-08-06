@@ -1,9 +1,8 @@
 import { IFormatedResquestCommunity, IPatchCommunity } from "@/src/interfaces/interface";
-import { checkExistingCommunityName } from "@/src/repository/community/checkCommunityRepo";
-import { checkIsAdminCommunity } from "@/src/repository/community/checkIsAdminCommunityRepo";
+import { checkExistingCommunityName } from "@/src/repository/community/checkers/checkCommunityRepo";
+import { checkIsAdminCommunity } from "@/src/repository/community/checkers/checkIsAdminCommunityRepo";
 import { patchCommunityRepo } from "@/src/repository/community/patchCommunityRepo";
 import { CustomError } from "@/src/utils/customError";
-import { ObjectId } from "mongodb";
 
 const TAG = "SERVICE(PATCH): community ";
 

@@ -1,7 +1,6 @@
-import { isMember } from "@/src/repository/community/isMember";
+import { isMember } from "@/src/repository/community/checkers/isMember";
 import { postAddRepo } from "@/src/repository/community/postAddRepo";
 import { CustomError } from "@/src/utils/customError";
-import { ObjectId } from "mongodb";
 
 const TAG = "SERVICE(POST-ADD): community ";
 

@@ -25,7 +25,7 @@ export interface ICommunityUser {
 }
 
 export interface INewUser {
-    id?: number | string | ObjectId;
+    _id?: ObjectId;
     name: string;
     email: string;
     password: string;

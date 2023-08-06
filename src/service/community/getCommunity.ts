@@ -1,11 +1,11 @@
 import { CustomError } from "../../utils/customError";
-import { ObjectId } from "mongodb";
-import { getCommunityById } from "@/src/repository/community/getCommunityById";
+import { getCommunityByIdRepo } from "@/src/repository/community/getCommunityByIdRepo";
 
+const TAG = "SERVICE(GET): community ";
 
 export async function getCommunity(communityId: string) {
-    // try {
-    const findCommunity = await getCommunityById(communityId);
+    try {
+    const findCommunity = await getCommunityByIdRepo(communityId);
 
     // export async function getCommunity(communityName: string) {
     //     // try {
@@ -15,4 +15,8 @@ export async function getCommunity(communityId: string) {
         return findCommunity;
     }
     throw new CustomError("Error: Comunidade não encontrada", 404);
+    } catch (error: any) {
+        console.log(TAG, error);
+        throw error;
+    }
 }

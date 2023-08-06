@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { useState } from "react";
