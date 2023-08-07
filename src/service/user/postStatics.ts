@@ -1,20 +1,21 @@
 import { IStatistic } from "@/src/interfaces/interface";
-import { users } from "@/src/repository/users";
 import { CustomError } from "../../utils/customError";
+import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { ObjectId } from "mongodb";
+import { updateStatistics } from "@/src/repository/user/updateStatisticsRepo";
 
 const TAG = "SERVICE(POST): USER ";
 
-export async function postStatics(id: number | string, body: IStatistic) {
+export async function postStatics(userId: ObjectId , body: IStatistic) {
     try {
-        const user = users.find(userFind => userFind._id == id);
+        const user = await findUserByIdRepo(userId);
         if (!user) {
             throw new CustomError("Error: Usuário não encontrado", 404);
         }
-        const index = users.indexOf(user);
-        const statistics = user.statistics;
-        Object.assign(statistics, body);
-        users[index].statistics = statistics;
-        return users[index].statistics;
+        
+        const updatedStatistics = await updateStatistics(user._id, body);
+        return updatedStatistics;
+
     } catch (e: any) {
         console.log(TAG, e);
         throw e;
