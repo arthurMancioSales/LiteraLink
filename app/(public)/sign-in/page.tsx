@@ -1,75 +1,77 @@
-"use client"
+"use client";
+
 import Link from "next/link";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { useState } from "react";
-import { ImagemLateral } from "@/src/components/imagemLateral";
+import { SideImageSign } from "@/src/components/SideImageSign";
 import { Button } from "@/src/components/Button";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { Formik } from "formik";
+import { Input } from "@/src/components/Input";
+import * as Yup from "yup";
+import { Logo } from "@/src/components/Logo";
 
-export default function SignUpPage() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const navigate = useRouter()
-    const requestFormLogin = async (e: React.MouseEvent) => {
-        e.preventDefault()
-        const parametros = {
-            email,
-            password
-        }
-        await generalRequest("/api/login", parametros, "POST")
-        navigate.replace('/dashboard')
+export default function SignInPage() {
+    const [messageError, setMessageError] = useState("");
+    const navigate = useRouter();
 
-    }
+    const validationSchema = Yup.object({
+        email: Yup.string().email("Digite um e-mail válido").required("Insira um e-mail válido"),
+        password: Yup.string().required("Insira uma senha").matches(/^\S*$/, "A senha não pode conter espaços em branco"),
+    });
 
+    const initialValues = {
+        email: "",
+        password: "",
+    };
+  
     return (
-        <div className="flex w-full h-full bg-light-primary">
-            <div className="flex w-1/2 h-screen justify-center content-center flex-col space-x-3.5 px-3.5 py-3.5 rounded-lg bg-primaryLight dark:bg-secondaryDar">
-                <h2 className="text-center text-2xl">Entrar</h2>
-                <form>
-                    <div className="sm:col-span-4">
-                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                            Email
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            />
-                        </div>
-
-                        <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                            Senha
-                        </label>
-                        <div className="mt-2">
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            />
-                        </div>
-                    </div>
-                    <div className="mt-6 flex items-center justify-center gap-x-6">
-                        <Button
-                            onClick={(e) => requestFormLogin(e)}
-                        >
-                            Entrar
-                        </Button>
-
-                    </div>
-                </form>
-                <div className="flex m-4 text-xs">
-                    <p>Ainda não possui conta? </p><Link className="underline"  rel="stylesheet" href="/sign-up"> Cadastre-se aqui</Link>
+        <div className="flex w-screen h-screen bg-light-primary">
+            <div className="flex flex-col w-1/2 gap-20">
+                <div className="flex items-center px-20 py-2 h-[62px]">
+                    <Logo/>
                 </div>
+                <div className="flex flex-col gap-10 px-20 justify-center">
+                    <h2 className="text-3xl font-bold">Entrar</h2>
+                    <Formik
+                        onSubmit={async (values, {setSubmitting}) => {
+                            const formBody = {
+                                email: values.email,
+                                password: values.password,                    
+                            };
+                
+                            const response = await generalRequest("/api/login", formBody, "POST");
+                            console.log(response);
+                        
+                            setSubmitting(false);
 
+                            if(response?.error) {
+                                setMessageError(response.error);
+                            } else {
+                                navigate.replace("/dashboard");
+                            }
+
+                        }}
+                        initialValues={initialValues}
+                        validationSchema={validationSchema}
+                    >
+                        {(props) => (
+                            <form className="flex flex-col gap-6" onSubmit={props.handleSubmit} autoComplete="off">
+                                <div className="flex flex-col gap-2">
+                                    <Input name="email" label="Email" type="email" error={props.errors.email} required/>
+                                    <Input name="password" label="Senha" type="password" error={props.errors.password} required/>
+                                </div>
+                                <Button type="submit" variant="info">ENTRAR</Button>
+                            </form>
+                        )}
+                    </Formik>
+                    <div className="flex text-xs">
+                        <p>Ainda não possui conta? </p><Link className="underline"  rel="stylesheet" href="/sign-up"> Cadastre-se aqui</Link>
+                    </div>
+                    <p className="text-status-error">{messageError}</p>
+                </div>
             </div>
-            <ImagemLateral src="/images/image.jpg" alt=""></ImagemLateral>
+            <SideImageSign src="/images/sign/side-image.png" alt="" />
         </div>
     );
 }

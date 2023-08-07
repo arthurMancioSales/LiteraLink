@@ -2,7 +2,7 @@ import { createMongoConnection } from "@/src/database/pool";
 
 const TAG = "REPOSITORY(GET_all): community ";
 
-async function getallCommunity() {
+export async function getallCommunityRepo() {
     const pool  = createMongoConnection();
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("community");
@@ -17,5 +17,3 @@ async function getallCommunity() {
         client.close();
     }
 }
-
-export { getallCommunity };

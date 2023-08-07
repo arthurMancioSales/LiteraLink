@@ -1,17 +1,16 @@
 import { ICreateCommunity } from "@/src/interfaces/interface";
 import { ObjectId } from "mongodb";
-import { createCommunity } from "@/src/repository/community/createCommunityRepo";
+import { createCommunityRepo } from "@/src/repository/community/createCommunityRepo";
 import { CustomError } from "@/src/utils/customError";
-import { getUserRepo } from "@/src/repository/user/getUserRepo";
-import { checkExistingCommunityName } from "@/src/repository/community/checkCommunityRepo";
-
+import { checkExistingCommunityName } from "@/src/repository/community/checkers/checkCommunityRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
 
 const TAG = "SERVICE(POST): community ";
 
 export async function postCommunity(user: {id: string, name: string}, request: ICreateCommunity) {
     try {
         const userObjectId = ObjectId.createFromHexString(user.id);
-        const userDB = await getUserRepo(userObjectId);
+        const userDB = await findUserByIdRepo(userObjectId);
         if (!userDB) {
             throw new CustomError("Usuário não encontrado", 404);
         }
@@ -33,7 +32,7 @@ export async function postCommunity(user: {id: string, name: string}, request: I
                 }
             ]
         };
-        const response = await createCommunity(userObjectId, body);
+        const response = await createCommunityRepo(userObjectId, body);
         if (!response) {
             throw new CustomError("Erro na criação da comunidade", 500);
         }

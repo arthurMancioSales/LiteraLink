@@ -1,10 +1,10 @@
-import { checkIsAdminCommunity } from "@/src/repository/community/checkIsAdminCommunityRepo";
-import { isMember } from "@/src/repository/community/isMember";
+import { checkIsAdminCommunity } from "@/src/repository/community/checkers/checkIsAdminCommunityRepo";
+import { isMember } from "@/src/repository/community/checkers/isMember";
 import { removeMemberCommunityRepo } from "@/src/repository/community/removeMemberCommunityRepo";
 import { CustomError } from "@/src/utils/customError";
+import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(DELETE-Member): community ";
-
 
 export async function removeCommunity(user:{id:string, name:string}, community_name:string) {
     try {
@@ -20,21 +20,9 @@ export async function removeCommunity(user:{id:string, name:string}, community_n
         if (!responseDB) {
             throw new CustomError("Erro ao procurar o membro", 500);
         }
-        return formattedResponse(responseDB);  
+        return userFormattedResponse(responseDB);  
     } catch (error: any) {
         console.log(TAG, error);
         throw error;
     }
-}
-
-function formattedResponse(responseDB: any){
-    const response = {
-        name: responseDB.name,
-        email: responseDB.email,
-        image: responseDB.image,
-        communities: responseDB.communities,
-        books: responseDB.books,
-        statistics: responseDB.statistics 
-    };
-    return response;
 }

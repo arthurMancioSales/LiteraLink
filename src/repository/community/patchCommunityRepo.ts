@@ -1,7 +1,6 @@
 import { createMongoConnection } from "@/src/database/pool";
 import { IFormatedResquestCommunity } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
-import { ObjectId } from "mongodb";
 
 const TAG = "REPOSITORY(PATCH): community ";
 
