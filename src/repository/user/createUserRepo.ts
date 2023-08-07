@@ -9,8 +9,6 @@ export async function createUserRepo(user: INewUser) {
     const collection = client.db("literalink-dev").collection("users");
     try{ 
         const registeredUser = await collection.insertOne(user);
-        console.log("Documento inserido em users: ", user);
-    
         return registeredUser;
     } catch (error) {
         console.log(TAG, error);

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createResponse } from "@/src/utils/response";
 import { getQuery } from "@/src/service/query/getQuery";
-import { NameValidator } from "@/src/utils/validators/validator";
 
 export async function GET(req: NextRequest, {params}: {params: { query: string}}) {
     const Response = createResponse();

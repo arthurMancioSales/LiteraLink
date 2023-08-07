@@ -17,9 +17,7 @@ export async function POST(req: NextRequest) {
             email: email,
             password: password
         };
-        const result = await registerUser(user);
-        console.log(result);
-
+        await registerUser(user);
         return NextResponse.json(Response, { status: Response.status });
     } catch (error: any) {
         Response.message = "Error";

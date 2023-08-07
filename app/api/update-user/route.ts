@@ -7,6 +7,7 @@ import { createResponse } from "@/src/utils/response";
 import { auth } from "../../../src/utils/middlewares/auth";
 import { updateUser } from "@/src/service/user/updateUser";
 import { EmailValidator, NameValidator, PasswordValidator } from "@/src/utils/validators/validator";
+import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 export async function PATCH(req: NextRequest) {
     const Response = createResponse();
@@ -21,7 +22,7 @@ export async function PATCH(req: NextRequest) {
         const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
         cookies().set("Session", jwt_cookie);
-        Response.data = userUpdate;
+        Response.data = userFormattedResponse(userUpdate);
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
         Response.message = "Error";
