@@ -6,7 +6,7 @@ import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(DELETE-Member): community ";
 
-export async function removeCommunity(user:{id:string, name:string}, community_name:string) {
+export async function removeMemberFromCommunity(user:{id:string, name:string}, community_name:string) {
     try {
         const is_member = await isMember(user.name, community_name);
         if (!is_member){
@@ -23,6 +23,9 @@ export async function removeCommunity(user:{id:string, name:string}, community_n
         return userFormattedResponse(responseDB);  
     } catch (error: any) {
         console.log(TAG, error);
+        if (!error.status) {
+            error.status = 500;
+        }
         throw error;
     }
 }

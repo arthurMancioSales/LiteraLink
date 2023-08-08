@@ -17,6 +17,9 @@ export async function postStatics(id: number | string, body: IStatistic) {
         return users[index].statistics;
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     } 
 }

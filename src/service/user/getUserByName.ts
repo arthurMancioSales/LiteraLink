@@ -12,6 +12,9 @@ export async function getUserByName(user_name: string) {
         return responseDB;
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
 }

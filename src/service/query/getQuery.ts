@@ -12,6 +12,9 @@ export async function getQuery(query: string) {
         return response;
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
 }
