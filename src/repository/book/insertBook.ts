@@ -16,7 +16,7 @@ export async function insertBook(userId: ObjectId, book : IBook) {
             "books.id": book.id
         });
         if (existingBook) {
-            throw new CustomError('O livro já está cadastrado no seu perfil', 400);
+            throw new CustomError("O livro já está cadastrado no seu perfil", 400);
         }
         await collection.updateOne(
             { _id: userId, },

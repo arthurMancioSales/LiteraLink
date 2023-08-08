@@ -21,16 +21,16 @@ export async function registerUser( requestUser: INewUser ) {
         else if (matchingCredentials === "Username") {
             throw new CustomError("Error: username already taken", 409);
         } else {
-            const hashedPassword = await hashPassword(requestUser.password, process.env.SALT!)
+            const hashedPassword = await hashPassword(requestUser.password, process.env.SALT!);
             if (typeof(hashedPassword) !== "string") {
-                throw new CustomError('Erro no hash da Senha', 500);
+                throw new CustomError("Erro no hash da Senha", 500);
             }
             const newUser : INewUser = {
                 _id: new ObjectId(),
                 name: requestUser.name,
                 email: requestUser.email,
                 password: hashedPassword,
-                image: 'public/images/user/default_user_image.jpg',
+                image: "public/images/user/default_user_image.jpg",
                 communities: [],
                 books: [],
                 statistics: {

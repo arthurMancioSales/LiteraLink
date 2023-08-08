@@ -46,6 +46,6 @@ function imageExists(image:string) {
     if (image){
         return image;
     }
-    return '';
+    return "";
 }
 

@@ -21,7 +21,7 @@ export async function updateBookRepo(userId: ObjectId, book_id: string, book: IP
             { _id: userId },
             {$set: request},
             {
-              arrayFilters: [{ "element.id": book_id }]
+                arrayFilters: [{ "element.id": book_id }]
             }
         );
         const responseDB = await collection.findOne({_id: userId});
@@ -40,7 +40,7 @@ export async function updateBookRepo(userId: ObjectId, book_id: string, book: IP
 function bookFormattedMongo(requestBody: IPatchBookRepo) {
     const body: any = {};
     for (const prop in requestBody) {
-        if (requestBody.hasOwnProperty(prop)) {
+        if (Object.prototype.hasOwnProperty.call(requestBody, prop)) {
             const propValue = (requestBody as any)[prop];
             if (propValue !== undefined) {
                 body[`books.$[element].${prop}`] = propValue;
