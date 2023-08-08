@@ -3,13 +3,16 @@ import { cookies } from "next/dist/client/components/headers";
 import { createResponse } from "@/src/utils/response";
 import { auth } from "@/src/utils/middlewares/auth";
 import { CustomError } from "@/src/utils/customError";
+import { createRedisClient } from "@/src/database/redis/redis";
 
 export async function POST(req: NextRequest) {
     const Response = createResponse();
+    const redis = createRedisClient();
     try{
         const user = await auth(req);
         if (user) {
             cookies().delete("Session");
+            await redis.set("loginToken", "");
             return NextResponse.json(Response, {status: Response.status});
         }
         throw new CustomError("Erro interno do servidor", 500);
