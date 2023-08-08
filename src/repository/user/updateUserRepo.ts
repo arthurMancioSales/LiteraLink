@@ -12,7 +12,7 @@ export async function updateUserRepo(userId: ObjectId, body: IUserUpdate) {
     try {
         const returnedUser = await collection.updateOne({_id: userId}, {$set: body});
         if (!returnedUser.acknowledged) {
-            throw new CustomError('Erro na atualização dos dados do usuário', 500);
+            throw new CustomError("Erro na atualização dos dados do usuário", 500);
         }
         const response = await collection.findOne(userId);
         return response;

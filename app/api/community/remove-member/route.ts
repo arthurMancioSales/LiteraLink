@@ -1,4 +1,4 @@
-import { removeCommunity } from "@/src/service/community/deleteMemberCommunity";
+import { removeMemberFromCommunity } from "@/src/service/community/removeMemberCommunity";
 import { auth } from "@/src/utils/middlewares/auth";
 import { createResponse } from "@/src/utils/response";
 import { NameCommunityValidator } from "@/src/utils/validators/validator";
@@ -11,7 +11,7 @@ export async function DELETE(req:NextRequest) {
         const request = await req.json();
         const { name } = request;
         new NameCommunityValidator(name);
-        const responseDB = await removeCommunity(user, name);
+        const responseDB = await removeMemberFromCommunity(user, name);
         Response.data = responseDB;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
