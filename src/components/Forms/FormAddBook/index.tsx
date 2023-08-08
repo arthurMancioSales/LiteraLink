@@ -49,7 +49,6 @@ export function FormAddBook({ onClose }: PropTypes) {
                 </div>
                 <Formik 
                     onSubmit={async (values, {setSubmitting}) => {
-                        console.log(values);
                         console.log(book);
 
                         if (book) {
