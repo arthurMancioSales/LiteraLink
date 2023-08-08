@@ -7,6 +7,7 @@ const TAG = "SERVICE(POST): USER ";
 export async function login (email: string, password: string ) {
     try {
         const user = await loginRepo(email);
+
         if (user) {
             const verifyHash = await verifyPassword(password, process.env.SALT!, user.password,);
             if (verifyHash) {

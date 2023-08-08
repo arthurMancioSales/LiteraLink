@@ -11,14 +11,14 @@ export async function registerUser( requestUser: INewUser ) {
     try {
         Object.entries(requestUser).forEach(([key, value]) => {
             if (value === undefined || value === "")
-            switch (key) {
-                case "email":
+                switch (key) {
+                    case "email":
                         throw new CustomError("Error: email missing.", 400);
-                case "password":
-                    throw new CustomError("Error: password missing.", 400);
-                case "name":
-                    throw new CustomError("Error: name missing.", 400);
-            }
+                    case "password":
+                        throw new CustomError("Error: password missing.", 400);
+                    case "name":
+                        throw new CustomError("Error: name missing.", 400);
+                }
         }); 
     
         const matchingCredentials = await checkExistingCredentials(requestUser.email, requestUser.name);
@@ -29,9 +29,9 @@ export async function registerUser( requestUser: INewUser ) {
         else if (matchingCredentials === "Username") {
             throw new CustomError("Error: username already taken", 409);
         } else {
-            const hashedPassword = await hashPassword(requestUser.password, process.env.SALT!)
+            const hashedPassword = await hashPassword(requestUser.password, process.env.SALT!);
             if (typeof(hashedPassword) !== "string") {
-                throw new CustomError('Erro no hash da Senha', 500);
+                throw new CustomError("Erro no hash da Senha", 500);
             }
             const newUser : INewUser = {
                 _id: new ObjectId(),

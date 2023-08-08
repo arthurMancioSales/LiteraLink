@@ -33,9 +33,6 @@ export async function postCommunity(user: {id: string, name: string}, request: I
             ]
         };
         const response = await createCommunityRepo(userObjectId, body);
-        if (!response) {
-            throw new CustomError("Erro na criação da comunidade", 500);
-        }
         return reponseCommunity(response);
     } catch (e: any) {
         console.log(TAG, e);
