@@ -18,7 +18,7 @@ export function GenericModal({ children, title, styleSize, onClose }: PropTypes)
 
     return (
         <div className="w-full h-full bg-[#00000066] fixed top-0 left-0 flex justify-center items-center z-10" onClick={onClose}>
-            <div style={styleSize} className="flex flex-col w-1/3 max-h-[90vh] rounded-lg drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] bg-light-primary dark:bg-dark-tertiary" onClick={stopPropagation}>
+            <div style={styleSize} className="flex flex-col w-[40%] max-h-[90vh] rounded-lg drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] bg-light-primary dark:bg-dark-tertiary" onClick={stopPropagation}>
                 <div className="flex justify-between px-4 py-4">
                     <div className="w-full text-center text-lg font-bold">
                         <span>{title}</span>

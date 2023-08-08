@@ -4,6 +4,7 @@ import { INewUser } from "@/src/interfaces/interface";
 import { checkExistingCredentials } from "@/src/repository/user/checkers/checkUserCredentials";
 import { ObjectId } from "mongodb";
 import { hashPassword } from "@/src/utils/hashPassword";
+import imageUserDefault from "/public/images/user/default_user_image.jpg";
 
 const TAG = "SERVICE(POST): USER ";
 
@@ -25,12 +26,13 @@ export async function registerUser( requestUser: INewUser ) {
             if (typeof(hashedPassword) !== "string") {
                 throw new CustomError("Erro no hash da Senha", 500);
             }
+
             const newUser : INewUser = {
                 _id: new ObjectId(),
                 name: requestUser.name,
                 email: requestUser.email,
                 password: hashedPassword,
-                image: "public/images/user/default_user_image.jpg",
+                image: imageUserDefault,
                 communities: [],
                 books: [],
                 statistics: {
