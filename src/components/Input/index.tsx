@@ -3,7 +3,7 @@ import { Field } from "formik";
 interface PropTypes {
     name: string;
     type: string;
-    label: string;
+    label?: string;
     error?: string;
     required?: boolean;
 }

@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { StaticImageData } from "next/image";
 
 export interface ApiResponse {
     message: string;
@@ -29,7 +30,7 @@ export interface INewUser {
     name: string;
     email: string;
     password: string;
-    image?: string;
+    image?: string | StaticImageData;
     communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;
