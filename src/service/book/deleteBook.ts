@@ -2,7 +2,7 @@ import { deleteBookFromUser } from "@/src/repository/book/deleteBook";
 import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
 import { CustomError } from "../../utils/customError";
 import { ObjectId } from "mongodb";
-import { findBook } from "./findBook";
+import { findBook } from "../../repository/book/findBook";
 
 const TAG = "SERVICE(DELETE): book ";
 
@@ -20,6 +20,9 @@ export async function deleteBook(id: ObjectId, bookId: ObjectId) {
         return deletedBook;
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
 }

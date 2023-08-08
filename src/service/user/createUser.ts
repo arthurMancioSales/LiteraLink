@@ -30,7 +30,7 @@ export async function registerUser( requestUser: INewUser ) {
                 name: requestUser.name,
                 email: requestUser.email,
                 password: hashedPassword,
-                image: "",
+                image: 'public/images/user/default_user_image.jpg',
                 communities: [],
                 books: [],
                 statistics: {
@@ -47,6 +47,9 @@ export async function registerUser( requestUser: INewUser ) {
         }
     } catch (e : any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
 }

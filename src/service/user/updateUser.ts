@@ -37,6 +37,9 @@ export async function updateUser (user_id: string, body: IUserUpdate) {
         return responseDB;
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
 }

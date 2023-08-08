@@ -30,6 +30,9 @@ export async function patchCommunity(user_id: string, body: IPatchCommunity) {
         return communityFormattedResponse(responseDB);
     } catch (error: any) {
         console.log(TAG, error);
+        if (!error.status) {
+            error.status = 500;
+        }
         throw error;
     }
 }

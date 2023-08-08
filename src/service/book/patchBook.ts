@@ -1,29 +1,22 @@
 import { IPatchBook } from "@/src/interfaces/interface";
-import { users } from "@/src/repository/users";
-import { CustomError } from "../../utils/customError";
+import { ObjectId } from "mongodb";
+import { updateBookRepo } from "@/src/repository/book/updateBookRepo";
+import { userFormattedResponse } from "@/src/utils/formattedResponse";
+import { bookFormattedRequestRepo } from "@/src/utils/formattedRequest";
 
 const TAG = "SERVICE(PATCH): book ";
 
-export async function patchBook(id: string | number, body: IPatchBook) {
+export async function patchBook(id: string , body: IPatchBook) {
     try{
-        const user = users.find(userBook => userBook._id == id);
-        if (!user) {
-            throw new CustomError("Error: Usuário não encontrado!", 404);
-        }
-        const indexUser = users.indexOf(user);
-        const userBooks = user.books;
-        const book = userBooks.find(item => item.id == body.id);
-        if (!book) {
-            throw new CustomError("Error: Livro não encontrado!", 404);
-        }
-        const indexBook = userBooks.indexOf(book);
-        Object.assign(book, body);
-        userBooks[indexBook] = book;
-        user.books = userBooks;
-        users[indexUser] = user;
-        return users[indexUser];
+        const userObjectId = ObjectId.createFromHexString(id);
+        const requestBodyRepo = bookFormattedRequestRepo(body);
+        const responseDB = await updateBookRepo(userObjectId, body.id, requestBodyRepo);
+        return userFormattedResponse(responseDB);
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
 }

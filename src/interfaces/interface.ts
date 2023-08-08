@@ -94,7 +94,17 @@ export interface IBook {
 }
 
 export interface IPatchBook {
-    id: string | number;
+    id: string;
+    status?: "lido" | "lendo" | "ler";
+    chaptersRead?: number;
+    favorite?: boolean;
+    lastSequence?: Date;
+    goals?: IGoals[];
+    goalExpire?: Date;
+    goalsAchieved?: number;
+}
+
+export interface IPatchBookRepo {
     status?: "lido" | "lendo" | "ler";
     chaptersRead?: number;
     favorite?: boolean;

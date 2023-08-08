@@ -11,6 +11,13 @@ export async function insertBook(userId: ObjectId, book : IBook) {
     const collection = client.db("literalink-dev").collection("users"); 
 
     try {
+        const existingBook = await collection.findOne({
+            _id: userId,
+            "books.id": book.id
+        });
+        if (existingBook) {
+            throw new CustomError('O livro já está cadastrado no seu perfil', 400);
+        }
         await collection.updateOne(
             { _id: userId, },
             {
