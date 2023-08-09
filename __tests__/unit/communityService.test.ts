@@ -29,7 +29,7 @@ import { ICreateCommunity, IPatchCommunity } from "@/src/interfaces/interface";
 // Utils
 
 // services
-import { removeCommunity } from "@/src/service/community/deleteMemberCommunity";
+import { removeMemberFromCommunity } from "@/src/service/community/removeMemberCommunity";
 import { getAllCommunities } from "@/src/service/community/getAllCommunities";
 import { getCommunity } from "@/src/service/community/getCommunity";
 import { patchCommunity } from "@/src/service/community/patchCommunity";
@@ -41,7 +41,7 @@ import { removeMemberCommunityRepo } from "@/src/repository/community/removeMemb
 import { getallCommunityRepo } from "@/src/repository/community/getallCommunityRepo";
 import { getCommunityByNameRepo } from "@/src/repository/community/getCommunityByNameRepo";
 import { patchCommunityRepo } from "@/src/repository/community/patchCommunityRepo";
-import { postAddRepo } from "@/src/repository/community/postAddRepo";
+import { addUserToCommunityRepo } from "@/src/repository/community/postAddRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
 import { createCommunityRepo } from "@/src/repository/community/createCommunityRepo";
 
@@ -166,7 +166,7 @@ describe("Service deleteMemberCommunity", () => {
         jest.mocked(isMember).mockResolvedValue(null);
         
         await expect(() =>
-            removeCommunity({id: `${user._id}`, name: user.name}, "comunidade")
+            removeMemberFromCommunity({id: `${user._id}`, name: user.name}, "comunidade")
         ).rejects.toThrow(expect.objectContaining({ message: "Esse usuário não faz parte dessa comunidade" }));
     });
     
@@ -176,7 +176,7 @@ describe("Service deleteMemberCommunity", () => {
         jest.mocked(checkIsAdminCommunity).mockResolvedValue(true);
 
         await expect(() =>
-            removeCommunity({id: `${user._id}`, name: user.name}, "comunidade")
+            removeMemberFromCommunity({id: `${user._id}`, name: user.name}, "comunidade")
         ).rejects.toThrow(expect.objectContaining({ message: "O usuário é administrador da comunidade" }));
     });
     
@@ -188,7 +188,7 @@ describe("Service deleteMemberCommunity", () => {
         jest.mocked(removeMemberCommunityRepo).mockResolvedValue(null);
         
         await expect(() =>
-            removeCommunity({id: `${user._id}`, name: user.name}, "comunidade")
+            removeMemberFromCommunity({id: `${user._id}`, name: user.name}, "comunidade")
         ).rejects.toThrow(expect.objectContaining({ message: "Erro ao procurar o membro" }));
     });
     
@@ -200,7 +200,7 @@ describe("Service deleteMemberCommunity", () => {
         jest.mocked(removeMemberCommunityRepo).mockResolvedValue({} as ReturnType<typeof removeMemberCommunityRepo>);
         
         await expect(() =>
-            removeCommunity({id: `${user._id}`, name: user.name}, "comunidade")
+            removeMemberFromCommunity({id: `${user._id}`, name: user.name}, "comunidade")
         ).resolves;
     });
 });
@@ -341,7 +341,7 @@ describe("Service postAddUserCommunity", () => {
 
         jest.mocked(isMember).mockResolvedValue(null);
         
-        jest.mocked(postAddRepo).mockResolvedValue(null);
+        jest.mocked(addUserToCommunityRepo).mockResolvedValue(null);
 
         await expect(() => 
             postAddUserCommunity(user, "community")
@@ -356,7 +356,7 @@ describe("Service postAddUserCommunity", () => {
 
         jest.mocked(isMember).mockResolvedValue(null);
         
-        jest.mocked(postAddRepo).mockResolvedValue({} as ReturnType<typeof postAddRepo>);
+        jest.mocked(addUserToCommunityRepo).mockResolvedValue({} as ReturnType<typeof addUserToCommunityRepo>);
 
         await expect(() => 
             postAddUserCommunity(user, "community")
