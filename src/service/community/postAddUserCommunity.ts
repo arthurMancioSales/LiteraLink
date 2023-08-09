@@ -1,5 +1,5 @@
 import { isMember } from "@/src/repository/community/checkers/isMember";
-import { postAddRepo } from "@/src/repository/community/postAddRepo";
+import { addUserToCommunityRepo } from "@/src/repository/community/postAddRepo";
 import { CustomError } from "@/src/utils/customError";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
@@ -12,13 +12,16 @@ export async function postAddUserCommunity(user:{id:string, name: string }, comm
             throw new CustomError("Esse usuário já faz parte dessa comunidade", 403);
         }
 
-        const responseDB = await postAddRepo(user, community_name);
+        const responseDB = await addUserToCommunityRepo(user, community_name);
         if (!responseDB) {
             throw new CustomError("Erro ao procurar o membro", 500);
         }
         return userFormattedResponse(responseDB);
     } catch (error: any) {
         console.log(TAG, error);
+        if (!error.status) {
+            error.status = 500;
+        }
         throw error;
     }
 }

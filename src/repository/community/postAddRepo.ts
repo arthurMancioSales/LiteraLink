@@ -3,7 +3,7 @@ import { CustomError } from "@/src/utils/customError";
 
 const TAG = "REPOSITORY(POST): community ";
 
-export async function postAddRepo(user:{id:string, name:string}, community_name: string) {
+export async function addUserToCommunityRepo(user:{id:string, name:string}, community_name: string) {
     const pool  = createMongoConnection();
     const client = await pool.connect();
     const collectionCommunity = client.db("literalink-dev").collection("community");

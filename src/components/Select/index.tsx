@@ -26,7 +26,9 @@ export function Select({ name, label, array, error, required }: PropTypes) {
                     <option key={element.id} value={element.id}>{element.name}</option>
                 ))}
             </Field>
-            {error ? <p>{error}</p> : <div className="h-5"></div>}
+            <div className="mt-[2px] min-h-[21px]">
+                {error && (<span className="text-status-error">{error}</span>)}
+            </div>
         </div>        
     );
 }

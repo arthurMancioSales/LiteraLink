@@ -2,14 +2,13 @@
 
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { GenericModal } from "../GenericModal";
+import { GenericModal } from "../../Modal/GenericModal";
 import { Input } from "../../Input";
 import { Button } from "../../Button";
 import { Select } from "../../Select";
 // import { generalRequest } from "@/src/functions/generalRequest";
 
 interface PropTypes {
-    isOpen: boolean;
     onClose: () => void;
 }
 
@@ -28,23 +27,23 @@ const books = [
     },
 ];
   
-export function FormProgress({ isOpen, onClose }: PropTypes) {
+export function FormProgress({ onClose }: PropTypes) {
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
-        readingChapters: Yup.number().max(100, "Ops! São muitos capítulos lidos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
-        pagesRead: Yup.number().max(1000, "Ops! São muitas páginas lidas").min(0, "Não existe páginas negativos"),
-        readingTime: Yup.number().max(1440, "Ops! Tempo de leitura muito longo").min(0, "Não existe tempo negativo")
+        readingChapters: Yup.number().max(100, "O máximo são 100 capítulos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
+        pagesRead: Yup.number().max(1000, "O máximo são 1000 páginas").min(0, "Não existe páginas negativas"),
+        readingTime: Yup.number().max(1440, "O Tempo de leitura ultrapassa 1440 minutos").min(0, "Não existe tempo negativo")
     });
 
     const initialValues = {
         bookName: "",
-        readingChapters: 0,
+        readingChapters: "",
         pagesRead: 0,
         readingTime: 0
     };
   
     return (
-        <GenericModal title="Progresso de leitura" isOpen={isOpen} onClose={onClose}>
+        <GenericModal title="Progresso de leitura" onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     console.log(values);

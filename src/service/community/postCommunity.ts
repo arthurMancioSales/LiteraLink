@@ -4,6 +4,7 @@ import { createCommunityRepo } from "@/src/repository/community/createCommunityR
 import { CustomError } from "@/src/utils/customError";
 import { checkExistingCommunityName } from "@/src/repository/community/checkers/checkCommunityRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { communityFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST): community ";
 
@@ -36,21 +37,12 @@ export async function postCommunity(user: {id: string, name: string}, request: I
         if (!response) {
             throw new CustomError("Erro na criação da comunidade", 500);
         }
-        return reponseCommunity(response);
+        return communityFormattedResponse(response);
     } catch (e: any) {
         console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
         throw e;
     }
-}
-
-function reponseCommunity(community: any) {
-    const response = {
-        name: community.name,
-        description: community.description,
-        favoriteBook: community.favoriteBook,
-        image: community.image,
-        is_admin: community.is_admin,
-        members: community.members
-    };
-    return response;
 }

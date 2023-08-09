@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { StaticImageData } from "next/image";
 
 export interface ApiResponse {
     message: string;
@@ -29,7 +30,7 @@ export interface INewUser {
     name: string;
     email: string;
     password: string;
-    image?: string;
+    image?: string | StaticImageData;
     communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;
@@ -94,7 +95,17 @@ export interface IBook {
 }
 
 export interface IPatchBook {
-    id: string | number;
+    id: string;
+    status?: "lido" | "lendo" | "ler";
+    chaptersRead?: number;
+    favorite?: boolean;
+    lastSequence?: Date;
+    goals?: IGoals[];
+    goalExpire?: Date;
+    goalsAchieved?: number;
+}
+
+export interface IPatchBookRepo {
     status?: "lido" | "lendo" | "ler";
     chaptersRead?: number;
     favorite?: boolean;
