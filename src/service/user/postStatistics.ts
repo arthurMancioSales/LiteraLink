@@ -4,7 +4,7 @@ import { CustomError } from "../../utils/customError";
 
 const TAG = "SERVICE(POST): USER ";
 
-export async function postStatics(id: number | string, body: IStatistic) {
+export async function postStatistics(id: number | string, body: IStatistic) {
     try {
         const user = users.find(userFind => userFind._id == id);
         if (!user) {
