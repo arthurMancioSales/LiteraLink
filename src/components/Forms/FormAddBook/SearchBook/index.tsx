@@ -40,16 +40,8 @@ export function SearchBook({value}: PropTypes) {
     }
     
     function renderBooksSearch() {
-        if (loading) {
+        if (loading || !books || !books.length || !showBooksSearch) {
             return <></>;
-        }
-
-        if (!books.length) {
-            return <></>;
-        }
-
-        if (!showBooksSearch) {
-            return <></>;            
         }
 
         return (
