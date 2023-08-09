@@ -1,6 +1,6 @@
 import { Field } from "formik";
 
-export type OptionsPropsSelect = {
+type OptionsProps = {
     id: string | number;
     name: string;
 }
@@ -8,20 +8,19 @@ export type OptionsPropsSelect = {
 interface PropTypes {
     name: string;
     label: string;
-    array: OptionsPropsSelect[];
+    array: OptionsProps[];
     error?: string;
-    value?: (e: React.ChangeEvent<any>) => void;
     required?: boolean;
 }
   
-export function Select({ name, label, array, error, value, required }: PropTypes) {
+export function Select({ name, label, array, error, required }: PropTypes) {
     return (
         <div>
             <label>
                 {label}
                 {required && <label>*</label>}
             </label>
-            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]" name={name} onChange={value}>
+            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]" name={name}>
                 <option value="" disabled>Selecione um livro</option>
                 {array.map((element) => (
                     <option key={element.id} value={element.id}>{element.name}</option>
