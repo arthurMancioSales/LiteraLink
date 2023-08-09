@@ -1,3 +1,7 @@
+test.skip("skip", () => {
+    //
+});
+
 describe("Service deleteBook", () => {
     // it("should return 'Error: Usuário não encontrado!' if user not found", () => {
 

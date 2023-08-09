@@ -1,3 +1,7 @@
+test.skip("skip", () => {
+    //
+});
+
 
 // describe("Service getQuery", () => {
 //     it("should return 'Nada foi encontrado' if no match is found", () => {
