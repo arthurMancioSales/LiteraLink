@@ -5,29 +5,39 @@ import * as Yup from "yup";
 import { GenericModal } from "../../Modal/GenericModal";
 import { Input } from "../../Input";
 import { Button } from "../../Button";
-import { Select } from "../../Select";
-// import { generalRequest } from "@/src/functions/generalRequest";
+import { OptionsPropsSelect, Select } from "../../Select";
+import { useContext } from "react";
+import { UserContext } from "@/app/(authenticated)/layout";
+import { generalRequest } from "@/src/functions/generalRequest";
 
 interface PropTypes {
     onClose: () => void;
 }
 
-const books = [
-    {
-        id: 1,
-        name: "dfsdfs"
-    },
-    {
-        id: 2,
-        name: "dfsdfs"
-    },
-    {
-        id: 3,
-        name: "dfsdfs"
-    },
-];
-  
 export function FormProgress({ onClose }: PropTypes) {
+    const userContext = useContext(UserContext);
+    const updateUser = userContext?.updateUser;
+
+    const booksUser = userContext?.userData?.books;
+
+    function booksList() {
+        const booksListSelect: OptionsPropsSelect[] = [];
+
+        if (booksUser) {
+            booksUser.forEach(element => {
+                if(element.id) {
+                    const book: OptionsPropsSelect = {
+                        id: element.id,
+                        name: element.title,
+                    };
+                
+                    booksListSelect.push(book);
+                }
+            });            
+        }
+        return booksListSelect;     
+    }
+
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
         readingChapters: Yup.number().max(100, "O máximo são 100 capítulos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
@@ -46,11 +56,17 @@ export function FormProgress({ onClose }: PropTypes) {
         <GenericModal title="Progresso de leitura" onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
-                    console.log(values);
-                    // const formBody = {
-                        
-                    // };
-                    // await generalRequest("/api/book-list", formBody, "PATCH");
+                    const formBody = {
+                        id: values.bookName,
+                        chaptersRead: values.readingChapters,                        
+                    };
+
+                    await generalRequest("/api/book-list", formBody, "PATCH");
+
+                    if (updateUser) {
+                        updateUser();
+                    }
+
                     setSubmitting(false);
                     onClose();
                 }}
@@ -60,7 +76,7 @@ export function FormProgress({ onClose }: PropTypes) {
                 {(props) => (
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div className="flex flex-col gap-2">
-                            <Select name="bookName" label="Livro" array={books} error={props.errors.bookName} required/>
+                            <Select name="bookName" label="Livro" array={booksList()} error={props.errors.bookName} value={props.handleChange} required/>
                             <Input name="readingChapters" label="Capítulos lidos" type="number" error={props.errors.readingChapters} required/>
                             <Input name="pagesRead" label="Páginas lidas" error={props.errors.pagesRead} type="number"/>
                             <Input name="readingTime" label="Tempo de leitura" error={props.errors.readingTime} type="number"/>
