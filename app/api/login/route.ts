@@ -20,9 +20,9 @@ export async function POST(req: NextRequest) {
             name: user.name
         }, JSON.stringify(process.env.secretKey));
         cookies().set("Session", jwt_cookie);
-        if(user) {                                                       //
-            await redis.set("user", JSON.stringify(user), "EX", 86400); //24h (ainda precisa de testes (Redis))
-        }                                                               //
+        if(user) {                                                      
+            await redis.set("user", JSON.stringify(user), "EX", 86400);
+        }                                                              
 
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
