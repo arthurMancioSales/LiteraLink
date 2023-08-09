@@ -2,21 +2,23 @@ import Link from "next/link";
 import styles from "./Button.module.css";
 import { ReactNode } from "react";
 
-export type VariantButton = "primary" | "secondary" | "info" | "success";
+export type VariantButton = "primary" | "secondary" | "info" | "success" | "error";
 
 type VariantMap = {
     primary: string;
     secondary: string;
     info: string;
     success: string;
+    error: string;
 }
 
 type PropTypes = {
     variant?: VariantButton;
     icon?: ReactNode;
     redirectTo?: string;
-    onClick?: React.MouseEventHandler;
+    onClick?: () => void;
     children: ReactNode;
+    type?: "button" | "submit";
 };
 
 const variantMap: VariantMap = {
@@ -24,26 +26,25 @@ const variantMap: VariantMap = {
     secondary: styles.secondary,
     info: styles.info,
     success: styles.success,
+    error: styles.error,
 };
 
 
-export function Button({children, icon, onClick, variant = "primary", redirectTo}: PropTypes) {
+export function Button({children, icon, onClick, variant = "primary", redirectTo, type = "button"}: PropTypes) {
 
     const className: string[] = [styles.root, variantMap[variant]];
-
-    const navigate = redirectTo ? redirectTo : "#";
     
     return (
         <>
             {redirectTo ?
-                <Link href={navigate} passHref>
-                    <button type="button" className={className.join(" ")}>
+                <Link href={redirectTo} passHref>
+                    <button type={type} className={className.join(" ")}>
                         {icon}
                         {children}
                     </button>
                 </Link>
                 :
-                <button onClick={onClick} type="button" className={className.join(" ")}>
+                <button onClick={onClick} type={type} className={className.join(" ")}>
                     {icon}
                     {children}
                 </button>

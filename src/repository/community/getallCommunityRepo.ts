@@ -1,18 +1,19 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
 
-async function getallCommunity() {
+const TAG = "REPOSITORY(GET_all): community ";
+
+export async function getallCommunityRepo() {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
-    const collection = client.db("desafio").collection("community");
+    const collection = client.db("literalink-dev").collection("community");
     try {
-        const response  = await collection.find();
+        const response = await collection.find();
         const allCommunities = await response.toArray();
         return allCommunities;
     } catch (error: any) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();
     }
 }
-
-export { getallCommunity };

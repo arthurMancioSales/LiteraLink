@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { StaticImageData } from "next/image";
 
 export interface ApiResponse {
     message: string;
@@ -8,7 +9,7 @@ export interface ApiResponse {
 }
 
 export interface IUser {
-    id: number;
+    id: ObjectId | string;
     name: string;
     email: string;
     password: string;
@@ -25,11 +26,11 @@ export interface ICommunityUser {
 }
 
 export interface INewUser {
-    id?: number;
+    _id?: ObjectId;
     name: string;
     email: string;
     password: string;
-    image?: string;
+    image?: string | StaticImageData;
     communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;
@@ -47,7 +48,7 @@ export interface ApiError {
 }
 
 export interface ICommunity {
-    id: string;
+    _id: string;
     name: string;
     description: string;
     favoriteBook?: string;
@@ -94,7 +95,7 @@ export interface IBook {
 }
 
 export interface IPatchBook {
-    id: string | number;
+    id: string;
     status?: "lido" | "lendo" | "ler";
     chaptersRead?: number;
     favorite?: boolean;
@@ -104,8 +105,41 @@ export interface IPatchBook {
     goalsAchieved?: number;
 }
 
+export interface IPatchBookRepo {
+    status?: "lido" | "lendo" | "ler";
+    chaptersRead?: number;
+    favorite?: boolean;
+    lastSequence?: Date;
+    goals?: IGoals[];
+    goalExpire?: Date;
+    goalsAchieved?: number;
+}
+
+export type IGoalsType = "days" | "time" | "pages";
+
 export interface IGoals {
-    type: "days" | "time" | "pages";
+    type: IGoalsType;
     partial: number;
     total: number;
+}
+
+
+export interface IPatchCommunity{
+    id?: string;
+    oldName: string;
+    name?: string;
+    description?: string;
+    favoriteBook?: string;
+    image?: string;
+    is_admin?: ObjectId | string;
+    members?: [] | Array<{id: string | ObjectId, name: string}>;
+}
+
+export interface IFormatedResquestCommunity {
+    name?: string;
+    description?: string;
+    favoriteBook?: string;
+    image?: string;
+    is_admin?: ObjectId | string;
+    members?: [] | Array<{id: string | ObjectId, name: string}>;
 }

@@ -25,7 +25,7 @@ export function Avatar({src, alt, size}: PropsTypes) {
                     priority
                 /> 
                 : 
-                <FaRegUserCircle/>
+                <FaRegUserCircle size={120}/>
             }
             
         </div>

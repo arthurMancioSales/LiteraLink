@@ -1,29 +1,28 @@
 import { NextResponse, NextRequest } from "next/server";
 import { registerUser } from "@/src/service/user/createUser";
-import { ApiResponse } from "@/src/interfaces/interface";
+import { createResponse } from "@/src/utils/response";
+import { EmailValidator, NameValidator, PasswordValidator } from "@/src/utils/validators/validator";
+import { INewUser } from "@/src/interfaces/interface";
 
 export async function POST(req: NextRequest) {
-    const apiResponse : ApiResponse = {
-        message: "Success",
-        status: 201,
-        data: null,
-        error: null
-    };
+    const Response = createResponse();
     try {
-        const user = await req.json();
-        //const { name, email, password } = user;
-
-        const result = await registerUser(user);
-        console.log(result);
-
-
-        return NextResponse.json(apiResponse, { status: apiResponse.status });
-
+        const request = await req.json();
+        const { name, email, password } = request;
+        new NameValidator(name);
+        new EmailValidator(email);
+        new PasswordValidator(password);
+        const user: INewUser = {
+            name: name,
+            email: email,
+            password: password
+        };
+        await registerUser(user);
+        return NextResponse.json(Response, { status: Response.status });
     } catch (error: any) {
-        apiResponse.message = "Error on sign up.";
-        apiResponse.status = error.status;
-        apiResponse.error = error.message;
-        console.log(error) 
-        return NextResponse.json(apiResponse, {status: apiResponse.status});
+        Response.message = "Error";
+        Response.status = error.status;
+        Response.error = error.message;
+        return NextResponse.json(Response, {status: Response.status});
     }
 }

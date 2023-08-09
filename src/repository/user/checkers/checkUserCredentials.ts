@@ -1,6 +1,9 @@
-import { pool } from "@/src/database/pool";
+import { createMongoConnection } from "@/src/database/pool";
+
+const TAG = "REPOSITORY(CHECK): user ";
 
 export async function checkExistingCredentials(_email: string, _name: string) {
+    const pool  = createMongoConnection();
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("users");
     try {
@@ -17,7 +20,7 @@ export async function checkExistingCredentials(_email: string, _name: string) {
         else
             return "";
     } catch (error) {
-        console.log(error);
+        console.log(TAG, error);
         throw error;
     } finally {
         client.close();

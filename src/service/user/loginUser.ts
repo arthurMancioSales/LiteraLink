@@ -1,18 +1,25 @@
-// import { CustomError } from "../../utils/customError";
-// import { loginRepository } from "@/src/repository/user/loginRepository";
+import { loginRepo } from "@/src/repository/user/loginRepo";
+import { CustomError } from "../../utils/customError";
+import { verifyPassword } from "@/src/utils/verifyPassword";
+
+const TAG = "SERVICE(POST): USER ";
 
 export async function login (email: string, password: string ) {
-    // try {
-    return {id: "1", name: "edu"};
-    // const user = await loginRepository(email);
-    // if (user) {
-    //     if (user.password === password) {
-    //         return {id: user._id, name: user.name};
-    //     }
-    //     throw new CustomError("Senha incorreta!", 401);
-    // }
-    // throw new CustomError("O usuário não existe!", 404);
-    // } catch (e: any) {
-    //     throw e;
-    // }
+    try {
+        const user = await loginRepo(email);
+        if (user) {
+            const verifyHash = await verifyPassword(password, process.env.SALT!, user.password,);
+            if (verifyHash) {
+                return {id: user._id, name: user.name};
+            }
+            throw new CustomError("Senha ou Email incorreto!", 401);
+        }
+        throw new CustomError("O usuário não existe!", 404);
+    } catch (e: any) {
+        console.log(TAG, e);
+        if (!e.status) {
+            e.status = 500;
+        }
+        throw e;
+    }
 }

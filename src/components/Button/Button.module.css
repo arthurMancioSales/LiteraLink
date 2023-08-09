@@ -1,20 +1,24 @@
 .root {
-    @apply w-full px-2.5 py-2.5 gap-2 rounded-lg text-sm font-medium hover:bg-buttonHover inline-flex items-center max-w-full;
+    @apply w-full px-2.5 py-2.5 gap-2 rounded-md text-sm font-medium hover:bg-buttonHover max-w-full transition-all duration-300;
 }
 
 .primary {
-    @apply bg-transparent text-light-text dark:text-dark-text dark:hover:bg-dark-secondary max-w-full;
+    @apply bg-transparent text-light-text inline-flex items-center dark:text-dark-text dark:hover:bg-dark-secondary max-w-full;
 }
 
 .secondary {
-    @apply bg-transparent text-light-text border-2 border-light-text dark:text-dark-text dark:hover:bg-dark-secondary
+    @apply bg-transparent text-light-text border-2 inline-flex items-center border-light-text dark:text-dark-text dark:hover:bg-dark-secondary
 }
 
 .info {
-    @apply bg-status-info text-dark-text
+    @apply bg-status-info text-dark-text border-transparent border-2 hover:bg-transparent hover:border-status-info hover:border-solid hover:text-light-text
+}
+
+.error {
+    @apply bg-status-error text-dark-text border-transparent border-2 hover:bg-transparent hover:border-status-error hover:border-solid hover:text-light-text hover:dark:text-dark-text
 }
 
 .success {
-    @apply bg-status-success text-light-text max-w-full;
+    @apply bg-status-success text-light-text max-w-full border-transparent border-2 hover:bg-transparent hover:border-status-success hover:border-solid hover:text-light-text hover:dark:text-dark-text;
 }
 
