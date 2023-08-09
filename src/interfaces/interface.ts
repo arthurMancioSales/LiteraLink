@@ -115,8 +115,10 @@ export interface IPatchBookRepo {
     goalsAchieved?: number;
 }
 
+export type IGoalsType = "days" | "time" | "pages";
+
 export interface IGoals {
-    type: "days" | "time" | "pages";
+    type: IGoalsType;
     partial: number;
     total: number;
 }

@@ -4,7 +4,7 @@ import { BookAccordion } from "@/src/components/Accordion";
 import { CardBooks } from "@/src/components/CardBooks";
 import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserGoals } from "@/src/components/UserGoals";
-import { IBook } from "@/src/interfaces/interface";
+import { IBook, IGoalsType } from "@/src/interfaces/interface";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AiFillCheckCircle, AiOutlineBook, AiOutlineFieldTime } from "react-icons/ai";
@@ -20,6 +20,7 @@ export default function Dashboard() {
     
     const userData = userContext?.userData;
     const loading = userContext ? userContext.loading : false;
+    const updateUser = userContext?.updateUser;
     
     const [favoriteBook, setFavoriteBook] = useState<IBook | undefined>(undefined);
 
@@ -32,38 +33,32 @@ export default function Dashboard() {
     }, [userData?.books]);
     
     async function handleBookFavorite(id: number | string) {
-        const handleFavorite: Array<number | string> = [];
-        
         if (userData) {
-            userData.books.forEach((book) => {
-                if (book.favorite && book.id !== id) {
-                    handleFavorite.push(book.id);
-                    book.favorite = false;
-                }
-    
+            const handleBookFavorite = userData.books.filter((book) => {
                 if (book.id === id) {
-                    handleFavorite.push(book.id);
                     book.favorite = true;
+                    return true;
                 }
+                return false;
             });
 
-            await patchFavoriteBook(handleFavorite[0], handleFavorite[1]);
-            setFavoriteBook(userData.books.filter(book => book.favorite)[0]);
+            if (handleBookFavorite.length) {
+                await patchFavoriteBook(handleBookFavorite[0].id);
+                setFavoriteBook(handleBookFavorite[0]);
+            }
+
+            if (updateUser) {
+                updateUser();
+            }
         }
     }
 
-    async function patchFavoriteBook(idBookBefore: number | string , idBookAfter: number | string ) {
-        const objAfter = {
-            id: idBookBefore,
-            favorite: false
+    async function patchFavoriteBook(IdFavoriteBook: number | string ) {
+        const bookFavorite = {
+            id: IdFavoriteBook,
+            favorite: true,
         };
-
-        const objBefore = {
-            id: idBookAfter,
-            favorite: true
-        };
-        await generalRequest("/api/book-list", objBefore, "PATCH");
-        await generalRequest("/api/book-list", objAfter, "PATCH");
+        await generalRequest("/api/book-list", bookFavorite, "PATCH");
     }
 
     function renderGoalsWeek() {
@@ -79,41 +74,50 @@ export default function Dashboard() {
             );
         }
 
-        if(!favoriteBook?.goals) {
+        if(!favoriteBook.goals?.length) {
             return (
                 <p>Não há metas cadastradas</p>
             );
+        }
+
+        function handleGoalTypeAndComplement(goalType: IGoalsType) {
+            switch (goalType) {
+                case "days": {
+                    const goalTypeSelected = {
+                        name: "Sequência",
+                        complement: "dias"
+                    };                               
+                    return goalTypeSelected;
+                }
+                case "time": {
+                    const goalTypeSelected = {
+                        name: "Tempo de leitura",
+                        complement: "minutos"
+                    };                               
+                    return goalTypeSelected;
+                }
+                case "pages": {
+                    const goalTypeSelected = {
+                        name: "Páginas",
+                        complement: "páginas"
+                    };                               
+                    return goalTypeSelected;
+                }
+            }                       
         }
   
         return(
             <>
                 {
                     favoriteBook.goals.map((goal) => {
-                        let goalType;
-                        let goalComplement;
-
-                        switch (goal.type) {
-                            case "days":
-                                goalType = "Sequência";
-                                goalComplement = "dias";                               
-                                break;
-
-                            case "time":
-                                goalType = "Tempo de leitura";
-                                goalComplement = "minutos";                               
-                                break;
-
-                            case "pages":
-                                goalType = "Páginas";                               
-                                goalComplement = "páginas";                               
-                                break;
-                        }
+                        const goalType = handleGoalTypeAndComplement(goal.type);
+                        
                         return (
                             <CardBooks
                                 key={goal.type}
                                 variant="secondary"
-                                description={goalType}
-                                complement={goalComplement}
+                                description={goalType.name}
+                                complement={goalType.complement}
                                 progress={goal.partial}
                                 total={goal.total}
                             />
