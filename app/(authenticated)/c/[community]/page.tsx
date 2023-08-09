@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import * as Tabs from "@radix-ui/react-tabs";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { useContext, useEffect, useState } from "react";
@@ -10,34 +9,38 @@ import { UserContext } from "../../layout";
 import { ImageLoading } from "@/src/components/Loaders/ImageLoading";
 import { Avatar } from "@/src/components/Avatar";
 import { generalRequest } from "@/src/functions/generalRequest";
+import { useWebSocket } from "next-ws/client";
 
 
 export default function CommunityChat({ params }: { params: { community: string } }) {
     const [communityData, setCommunityData] = useState<ICommunity | null>(null);
     const [loadingCommunity, setLoadingCommunity] = useState(true);
-
+    
     const userContext = useContext(UserContext);
     
     const userData = userContext?.userData;
     const loadingUser = userContext ? userContext.loading : false;
-
-    const memberOfCommunity = userData?.communities.find((community) => community.name == communityData?.name);
-
-
+    
+    const memberOfCommunity = userData?.communities ? userData?.communities.find((community) => community.name == communityData?.name) : false;
+    
+    const ws = new WebSocket("ws://localhost:3000/api"); 
+    
     useEffect(() => {
         async function getCommunityData() {
-
+            
             const community: ICommunity = await generalRequest(`/api/c/${params.community.replace(/%20/g, " ")}`);
-
+            
             setCommunityData(community);
             setLoadingCommunity(false);
         }
-
+        
+       
         getCommunityData();
     }, [params.community]);
     
     return (
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
+            {/* <button onClick={() => ws.send("oi")}></button> */}
             <div className="flex flex-col w-3/4 h-full gap-4 mr-2">
                 
                 <Tabs.Root
@@ -73,15 +76,11 @@ export default function CommunityChat({ params }: { params: { community: string 
                                         <div className="w-full h-fit">
 
                                         </div>
-                                        {communityData?.members.map((user) => (
-                                            <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                        ))}
-                                        {communityData?.members.map((user) => (
-                                            <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                        ))}
-                                        {communityData?.members.map((user) => (
-                                            <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                        ))}
+                                        {communityData?.members ? (
+                                            communityData?.members.map((user) => (
+                                                <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
+                                            ))
+                                        ) : ""}
                                     </ScrollArea.Viewport>
                                     <ScrollArea.Scrollbar
                                         className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
@@ -110,9 +109,11 @@ export default function CommunityChat({ params }: { params: { community: string 
                                 >
                                     <ScrollArea.Viewport className="w-[95%] h-full max-h-full rounded flex flex-col mb-2">
                                         <div className="flex flex-col gap-4 pb-2 pr-2 ">
-                                            {communityData?.members.map((user) => (
-                                                <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                            ))}
+                                            {communityData?.members ? (
+                                                communityData?.members.map((user) => (
+                                                    <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
+                                                ))
+                                            ) : ""}
                                         </div>
                                     </ScrollArea.Viewport>
                                     <ScrollArea.Scrollbar

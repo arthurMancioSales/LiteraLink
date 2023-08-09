@@ -78,15 +78,17 @@ export function Sidebar() {
                                 </>
                                 :
                                 <div className="max-w-[198px]">
-                                    {userData?.communities.map((community) => (
-                                        <Button
-                                            key={community.id}
-                                            icon={<MdOutlinePeopleAlt size={iconSize} />}
-                                            redirectTo={`/c/${community.name}`}
-                                        >
-                                            <p className="truncate max-w-[79%]">{community.name}</p>
-                                        </Button>
-                                    ))}
+                                    {userData?.communities ? (
+                                        userData?.communities.map((community) => (
+                                            <Button
+                                                key={community.id}
+                                                icon={<MdOutlinePeopleAlt size={iconSize} />}
+                                                redirectTo={`/c/${community.name}`}
+                                            >
+                                                <p className="truncate max-w-[79%]">{community.name}</p>
+                                            </Button>
+                                        ))
+                                    ) : ""}
                                 </div>
                             }
                         </ScrollArea.Viewport>

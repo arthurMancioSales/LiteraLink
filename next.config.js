@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { verifyPatch } = require("next-ws/server");
+verifyPatch()
+
 /** @type {import('next').NextConfig} */
 module.exports = {
     output: "standalone",
@@ -8,5 +12,5 @@ module.exports = {
                 hostname: "img.freepik.com",
             },
         ],
-    },
+    }
 };
