@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 const TAG = "REPOSITORY(DELETE): book ";
 
-export async function deleteBookFromUser(userId: ObjectId, bookId: ObjectId) {
+export async function deleteBookFromUser(userId: ObjectId, bookId: string) {
     const dbConnect = createMongoConnection();
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("users");
@@ -11,7 +11,7 @@ export async function deleteBookFromUser(userId: ObjectId, bookId: ObjectId) {
         const deletedBook = await collection.updateOne(
             { _id: userId },
             {
-                $pull: { books: { _id: bookId } }
+                $pull: { books: { id: bookId } }
             }
         );
         console.log("Book removed from user: ", userId);
