@@ -5,9 +5,11 @@ import { postCommunity } from "@/src/service/community/postCommunity";
 import { IPatchCommunity } from "@/src/interfaces/interface";
 import { patchCommunity } from "@/src/service/community/patchCommunity";
 import { NameCommunityValidator } from "@/src/utils/validators/validator";
+import { createRedisClient } from "@/src/database/redis/redis";
 
 export async function POST(req:NextRequest) {
     const Response = createResponse();
+    const redis = createRedisClient();
     try {
         const user = await auth(req);
         const request = await req.json();
@@ -25,6 +27,7 @@ export async function POST(req:NextRequest) {
             is_admin: user.id
         };
         const community = await postCommunity(user, body);
+        await redis.rpush("cachedAllCommunities", JSON.stringify(community));
         Response.data = community;
         Response.status = 201;
         return NextResponse.json(Response, {status: Response.status});
