@@ -6,6 +6,7 @@ import { patchBook } from "@/src/service/book/patchBook";
 import { postBook } from "@/src/service/book/postBook";
 import { deleteBook } from "@/src/service/book/deleteBook";
 import { bookFormattedRequest } from "@/src/utils/formattedRequest";
+import { ObjectId } from "mongodb";
 
 export async function PATCH(req: NextRequest) {
     const Response = createResponse();
@@ -52,11 +53,10 @@ export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém
     const Response = createResponse();
     try {
         const user = await auth(req);
-        const id = await req.json();
-                
-        console.log("Request: ", req);
-        
-        const newBookList = await deleteBook(user.id, id);
+        const request = await req.json();
+
+        const { id } =request;
+        const newBookList = await deleteBook(new ObjectId(user.id), id);
         console.log("Book list: ", newBookList);
         return NextResponse.json(Response, {status: Response.status});
       

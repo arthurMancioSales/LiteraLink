@@ -3,17 +3,16 @@ import { ObjectId } from "mongodb";
 
 const TAG = "SERVICE(GET): book ";
 
-export async function findBook(userId : ObjectId, bookId : ObjectId) {
+export async function findBook(userId : ObjectId, bookId : string) {
     const dbConnect =  createMongoConnection();
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("users");
     try {
         const foundBook = await collection.findOne(
-            { _id: userId, "books._id" : bookId }   
+            { _id: userId, "books.id": bookId }   
         );
         if(foundBook)
             return foundBook;
-
         else 
             return;
     } catch (error) {
