@@ -31,8 +31,8 @@ export function bookFormattedRequest(requestBody: IPatchBook) {
     if ("status" in requestBody) {
         body.status = requestBody.status;
     }
-    if ("chaptersRead" in requestBody) {
-        body.chaptersRead = requestBody.chaptersRead;
+    if ("pagesRead" in requestBody) {
+        body.pagesRead = requestBody.pagesRead;
     }
     if ("favorite" in requestBody) {
         body.favorite = requestBody.favorite;
@@ -57,8 +57,8 @@ export function bookFormattedRequestRepo(requestBody: IPatchBook) {
     if ("status" in requestBody) {
         body.status = requestBody.status;
     }
-    if ("chaptersRead" in requestBody) {
-        body.chaptersRead = requestBody.chaptersRead;
+    if ("pagesRead" in requestBody) {
+        body.pagesRead = requestBody.pagesRead;
     }
     if ("favorite" in requestBody) {
         body.favorite = requestBody.favorite;
