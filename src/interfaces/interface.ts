@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { StaticImageData } from "next/image";
 import { WebSocket } from "ws";
 
 export interface ApiResponse {
@@ -9,11 +10,11 @@ export interface ApiResponse {
 }
 
 export interface IUser {
-    id: ObjectId | string;
+    _id: ObjectId | string;
     name: string;
     email: string;
     password: string;
-    image?: string;
+    image?: string | StaticImageData;
     communities: IUserCommunity[];
     books: IBook[];
     statistics: IStatistic;
@@ -30,7 +31,7 @@ export interface INewUser {
     name: string;
     email: string;
     password: string;
-    image?: string;
+    image?: string | StaticImageData;
     communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;
@@ -85,8 +86,8 @@ export interface IBook {
     title: string;
     image: string;
     status: "lido" | "lendo" | "ler";
-    totalChapter: number;
-    chaptersRead?: number;
+    totalPages: number;
+    pagesRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
     goalExpire: Date;
@@ -97,7 +98,7 @@ export interface IBook {
 export interface IPatchBook {
     id: string;
     status?: "lido" | "lendo" | "ler";
-    chaptersRead?: number;
+    pagesRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
     goals?: IGoals[];
@@ -107,7 +108,7 @@ export interface IPatchBook {
 
 export interface IPatchBookRepo {
     status?: "lido" | "lendo" | "ler";
-    chaptersRead?: number;
+    pagesRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
     goals?: IGoals[];
@@ -115,8 +116,10 @@ export interface IPatchBookRepo {
     goalsAchieved?: number;
 }
 
+export type IGoalsType = "days" | "time" | "chapters";
+
 export interface IGoals {
-    type: "days" | "time" | "pages";
+    type: IGoalsType;
     partial: number;
     total: number;
 }

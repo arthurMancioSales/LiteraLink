@@ -13,8 +13,8 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { useContext, useState } from "react";
 import { TextLoading } from "../Loaders/TextLoading";
 import { UserContext } from "@/app/(authenticated)/layout";
-import { FormProgress } from "../Modal/FormProgress";
-import { FormAddBook } from "../Modal/FormAddBook";
+import { FormProgress } from "../Forms/FormProgress";
+import { FormAddBook } from "../Forms/FormAddBook";
 
 export function Sidebar() {
     const iconSize = 25;
@@ -102,8 +102,8 @@ export function Sidebar() {
                     </ScrollArea.Root>
                 </div>
             </div>
-            <FormProgress isOpen={openModalProgress} onClose={() => setOpenModalProgress(false)}/>
-            <FormAddBook isOpen={openModalAddBook} onClose={() => setOpenModalAddBook(false)}/>
+            {openModalProgress && <FormProgress onClose={() => setOpenModalProgress(false)}/>}
+            {openModalAddBook && <FormAddBook onClose={() => setOpenModalAddBook(false)}/>}
         </>
     );
 }

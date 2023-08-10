@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 
 const TAG = "REPOSITORY(POST): community ";
 
-async function createCommunityRepo(id: ObjectId, community: ICreateCommunity) {
+async function createCommunityRepo(id: ObjectId, community: ICreateCommunity){
     const pool  = createMongoConnection();
     const client = await pool.connect();
     const collectionCommunity = client.db("literalink-dev").collection("community");

@@ -40,9 +40,9 @@ export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
                             <CardBooks
                                 id={book.id}
                                 title={book.title}
-                                description="Capítulos"
-                                progress={book.chaptersRead ? book.chaptersRead : 0}
-                                total={book.totalChapter}
+                                description="Páginas"
+                                progress={book.pagesRead ? book.pagesRead : 0}
+                                total={book.totalPages}
                                 onClick={onClick}
                             />
                         </div>
@@ -55,18 +55,18 @@ export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
     const accordionOptions = [
         {
             id: 1,
-            title: "Lendo",
-            content: loading ? renderLoading() : renderBooks(userBooks?.filter(book => book.status == "lido")),
+            title: "A ler",
+            content: loading ? renderLoading() : renderBooks(userBooks?.filter(book => book.status == "ler")),
         },
         {
             id: 2,
-            title: "A ler",
+            title: "Lendo",
             content: loading ? renderLoading() : renderBooks(userBooks?.filter(book => book.status == "lendo")),
         },
         {
             id: 3,
             title: "Lido",
-            content: loading ? renderLoading() : renderBooks(userBooks?.filter(book => book.status == "ler")),
+            content: loading ? renderLoading() : renderBooks(userBooks?.filter(book => book.status == "lido")),
         },
     ];
 
