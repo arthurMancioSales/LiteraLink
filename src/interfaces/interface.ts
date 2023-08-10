@@ -9,11 +9,11 @@ export interface ApiResponse {
 }
 
 export interface IUser {
-    id: ObjectId | string;
+    _id: ObjectId | string;
     name: string;
     email: string;
     password: string;
-    image?: string;
+    image?: string | StaticImageData;
     communities: IUserCommunity[];
     books: IBook[];
     statistics: IStatistic;

@@ -9,6 +9,7 @@ jest.mock("@/src/repository/users");
 jest.mock("@/src/utils/hashPassword");
 jest.mock("@/src/repository/user/findUserRepo");
 jest.mock("@/src/repository/user/findUserByNameRepo");
+jest.mock("@/public/images/user/default_user_image.jpg", () => "@/src/utils/test_variables/imageMock.ts");
 
 import { MongoClient, ObjectId } from "mongodb";
 jest.mocked(MongoClient).mockReturnValue(new MongoClient(""));
@@ -36,127 +37,13 @@ import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
 import { findUserByNameRepo } from "@/src/repository/user/findUserByNameRepo";
 
 // interfaces
-import { IStatistic, IUserUpdate } from "@/src/interfaces/interface";
+import { IStatistic, IUser, IUserUpdate } from "@/src/interfaces/interface";
 
 // Utils
 import { hashPassword } from "@/src/utils/hashPassword";
+import { userMocked2 } from "@/src/utils/test_variables/mockedVariables";
 
-
-const user = {
-    _id: 1,
-    name: "edu",
-    email: "edu@gmail.com",
-    password: "senha123",
-    image:
-    "https://img.freepik.com/free-photo/confident-attractive-young-outgoing-asian-woman-yellow-top-smiling-friendly-happy-as-cross-hands-chest-posing-white-background-self-assured-sassy-pose-look-determined_176420-36757.jpg?w=740&t=st=1690508577~exp=1690509177~hmac=236a1f520d060dbff430366b4adfeda5fbda663bf017850f98291ecc2448c14f",
-    communities: [
-        {
-            id: 1,
-            name: "Comunidade 1",
-        },
-        {
-            id: 3,
-            name: "edu world",
-        }
-    ],
-    books: [
-        {
-            id: 1,
-            title: "As Tranças do Rei careca",
-            image:
-            "https://img.freepik.com/free-photo/middle-aged-cheerful-dark-skinned-male-with-shining-smile_273609-28538.jpg?w=740&t=st=1690552937~exp=1690553537~hmac=c93caaf252de3841fe45ee8553bbf9965b1684c9abccecd50019216e5583e856",
-            status: "lido",
-            totalChapter: 15,
-            chaptersRead: 15,
-            favorite: true,
-            lastSequence: "12/12/2012",
-            goalExpire: "01/01/2021",
-            goalsAchieved: 5,
-            goals: [
-                {
-                    type: "days",
-                    partial: 15,
-                    total: 15,
-                },
-                {
-                    type: "pages",
-                    partial: 395,
-                    total: 445,
-                },
-                {
-                    type: "time",
-                    partial: 15,
-                    total: 60,
-                },
-            ],
-        },
-        {
-            id: 2,
-            title: "Poeira em Baixo Mar",
-            image:
-            "https://img.freepik.com/free-photo/middle-aged-cheerful-dark-skinned-male-with-shining-smile_273609-28538.jpg?w=740&t=st=1690552937~exp=1690553537~hmac=c93caaf252de3841fe45ee8553bbf9965b1684c9abccecd50019216e5583e856",
-            status: "lido",
-            totalChapter: 12,
-            chaptersRead: 9,
-            favorite: false,
-            lastSequence: "12/12/2022",
-            goalExpire: "12/12/2023",
-            goals: [
-                {
-                    type: "pages",
-                    partial: 395,
-                    total: 445,
-                },
-            ],
-        },
-        {
-            id: 4,
-            title: "Poeira no Mar",
-            image:
-            "https://img.freepik.com/free-photo/middle-aged-cheerful-dark-skinned-male-with-shining-smile_273609-28538.jpg?w=740&t=st=1690552937~exp=1690553537~hmac=c93caaf252de3841fe45ee8553bbf9965b1684c9abccecd50019216e5583e856",
-            status: "lido",
-            totalChapter: 12,
-            chaptersRead: 9,
-            favorite: false,
-            lastSequence: "12/12/2022",
-            goalExpire: "12/12/2023",
-            goals: [
-                {
-                    type: "pages",
-                    partial: 395,
-                    total: 445,
-                },
-            ],
-        },
-        {
-            id: 3,
-            title: "Poeiras Cósmicas",
-            image:
-            "https://img.freepik.com/free-photo/middle-aged-cheerful-dark-skinned-male-with-shining-smile_273609-28538.jpg?w=740&t=st=1690552937~exp=1690553537~hmac=c93caaf252de3841fe45ee8553bbf9965b1684c9abccecd50019216e5583e856",
-            status: "lido",
-            totalChapter: 12,
-            chaptersRead: 9,
-            favorite: false,
-            lastSequence: "12/12/2022",
-            goalExpire: "12/12/2023",
-            goals: [
-                {
-                    type: "pages",
-                    partial: 395,
-                    total: 445,
-                },
-            ],
-        },
-    ],
-    statistics: {
-        lastSequence: "09/07/2023",
-        booksRead: 15,
-        readingTime: 241,
-        maxSequence: 3,
-        actualSequence: 1,
-        goalsAchieved: 5,
-    },
-};
+const user:IUser = userMocked2;
 
 describe("Service registerUser", () => {
     it("should return 'Error: email already taken' if emails is already in use", async () => {
@@ -199,7 +86,7 @@ describe("Service registerUser", () => {
 
         jest.mocked(createUserRepo).mockResolvedValue({} as ReturnType<typeof createUserRepo>);
 
-        await expect(() =>
+        expect(() =>
             registerUser(user)
         ).resolves;
     });
@@ -249,7 +136,7 @@ describe("Service loginUser", () => {
             email: "user@test.com"
         });
 
-        await expect(() =>
+        expect(() =>
             login(user.email, user.password)
         ).resolves;
     });
@@ -280,19 +167,38 @@ describe("Service postStatistics", () => {
     });
     
     it("should return 'Sucess'", async () => {
-
         const statistics: IStatistic = {
             actualSequence: 1,
             booksRead: 2,
             goalsAchieved: 3,
-            lastSequence: new Date("31-02-2099"),
+            lastSequence: new Date("31/02/2099"),
             maxSequence: 4,
             readingTime: 60,
         };
 
-        jest.spyOn(users, "find").mockReturnValue(user);
+        const user2 = {
+            _id: '1234',
+            name: 'nome do usuario',
+            email: 'email@gmail.com',
+            password: 'senha123',
+            image: 'imagem qualquer',
+            communities: [],
+            books: [],
+            statistics: {
+                actualSequence: 1,
+                booksRead: 2,
+                goalsAchieved: 3,
+                lastSequence: "31/02/2099",
+                maxSequence: 4,
+                readingTime: 60,
+            }
+            
+        }
 
-        await expect(() =>
+
+        jest.spyOn(users, "find").mockReturnValue(user2);
+
+        expect(() =>
             postStatistics(user._id, statistics)
         ).resolves;
     });
@@ -393,7 +299,7 @@ describe("Service updateUser", () => {
 
         jest.mocked(updateUserRepo).mockResolvedValue({} as ReturnType<typeof updateUserRepo>);
 
-        await expect(() =>
+        expect(() =>
             updateUser(`${user._id}`, body)
         ).resolves;
     });
@@ -413,7 +319,7 @@ describe("Service getUserById", () => {
 
         jest.mocked(findUserByIdRepo).mockResolvedValue({} as ReturnType<typeof findUserByIdRepo>);
 
-        await expect(() =>
+        expect(() =>
             getUserById(`${user._id}`)
         ).resolves;
     });
@@ -436,7 +342,7 @@ describe("Service getUserByName", () => {
         
         jest.mocked(findUserByNameRepo).mockResolvedValue({} as ReturnType<typeof findUserByNameRepo>);
 
-        await expect(() =>
+        expect(() =>
             getUserByName(`${user.name}`)
         ).resolves;
     });

@@ -14,7 +14,7 @@ import { ObjectId } from "mongodb";
 import { postBook } from "@/src/service/book/postBook";
 
 
-import { book, updateBook, user } from "@/src/utils/test_variables/mockedVariables";
+import { bookMocked, updateBook, userMocked } from "@/src/utils/test_variables/mockedVariables";
 import { patchBook } from "@/src/service/book/patchBook";
 
 
@@ -29,17 +29,17 @@ describe("Service deleteBook", () => {
     });
    
     it("should return 'Error: Livro não encontrado!' if book not found", async () => {
-        jest.mocked(findUserByIdRepo).mockResolvedValue(user);
+        jest.mocked(findUserByIdRepo).mockResolvedValue(userMocked);
         jest.mocked(findBook).mockResolvedValue(undefined);
 
         await expect(() =>
-            deleteBook(user._id, 'livro_id')
+            deleteBook(userMocked._id, 'livro_id')
         ).rejects.toThrow(expect.objectContaining({ message: "Error: Livro não encontrado!" }));
     });
    
     it("should delete book from user profile", async () => {
-        jest.mocked(findUserByIdRepo).mockResolvedValue(user);
-        jest.mocked(findBook).mockResolvedValue(user);
+        jest.mocked(findUserByIdRepo).mockResolvedValue(userMocked);
+        jest.mocked(findBook).mockResolvedValue(userMocked);
         jest.mocked(deleteBookFromUser).mockResolvedValue({
             acknowledged: true,
             modifiedCount: 1,
@@ -49,7 +49,7 @@ describe("Service deleteBook", () => {
           });
 
         expect(() =>
-            deleteBook(user._id, '3')
+            deleteBook(userMocked._id, '3')
         ).resolves;
     });
 });
@@ -70,16 +70,16 @@ describe("Service postBook", () => {
         const userObjectId = '5effaa5662679b5af2c58829';
 
         await expect(() =>
-            postBook(userObjectId, book)
+            postBook(userObjectId, bookMocked)
         ).rejects.toThrow(expect.objectContaining({ message: "Error: Usuário não encontrado!" }));
     });
    
     it("should insert book on user profile", async () => {
-        jest.mocked(findUserByIdRepo).mockResolvedValue(user);
+        jest.mocked(findUserByIdRepo).mockResolvedValue(userMocked);
         const userObjectId = '5effaa5662679b5af2c58829';
 
         expect(() =>
-            postBook(userObjectId, book)
+            postBook(userObjectId, bookMocked)
         ).resolves;
     });
 });

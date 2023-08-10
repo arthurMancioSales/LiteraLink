@@ -2,7 +2,7 @@ import { IBook, INewUser } from "../interfaces/interface";
 
 export const users = [
     {
-        _id: 1,
+        _id: '614c55a72a0a16a3b1e3d0e5',
         name: "edu",
         email: "edu@gmail.com",
         password: "senha123",
@@ -117,7 +117,7 @@ export const users = [
         },
     },
     {
-        _id: 2,
+        _id: '614c55a72a0a16a3b1e3d0e6',
         name: "Henrique",
         email: "henrique@gmail.com",
         password: "senha123",
@@ -182,7 +182,7 @@ export const users = [
         },
     },
     {
-        _id: 3,
+        _id: '614c55a72a0a16a3b1e3d0e7',
         name: "Anderson",
         email: "Anderson@gmail.com",
         password: "senha123",
@@ -266,34 +266,34 @@ export function insertUser(user: INewUser) {
             goalsAchieved: 0,
         },
     };
-    users.push(newUser);
+    // users.push(newUser);
     return newUser;
 }
 
-export function insertBook(userId: number, book: IBook) {
-    const bookIndex = users[userId].books.length + 1;
-    const newBook = {
-        id: bookIndex,
-        title: book.title,
-        image: "",
-        status: "ler",
-        totalChapter: book.totalChapter,
-        chaptersRead: 0,
-        favorite: false,
-        lastSequence: new Date().toISOString(),
-        goalExpire: new Date().toISOString(),
-        goals: [
-            {
-                type: "pages",
-                partial: 0,
-                total: 0,
-            },
-        ],
-    };
-    const insertedBook = users[userId].books.push(newBook);
-    console.log(users[userId]);
-    return insertedBook;
-}
+// export function insertBook(userId: number, book: IBook) {
+//     const bookIndex = users[userId].books.length + 1;
+//     const newBook = {
+//         id: bookIndex,
+//         title: book.title,
+//         image: "",
+//         status: "ler",
+//         totalPages: book.totalPages,
+//         pagesRead: 0,
+//         favorite: false,
+//         lastSequence: new Date().toISOString(),
+//         goalExpire: new Date().toISOString(),
+//         goals: [
+//             {
+//                 type: "pages",
+//                 partial: 0,
+//                 total: 0,
+//             },
+//         ],
+//     };
+//     const insertedBook = users[userId].books.push(newBook);
+//     console.log(users[userId]);
+//     return insertedBook;
+// }
 
 export function deleteBookById(userId: number, bookId: number) {
     const newBookList = users[userId].books.filter((book) => book.id !== bookId);
