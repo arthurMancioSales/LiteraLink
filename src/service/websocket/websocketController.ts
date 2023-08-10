@@ -1,3 +1,3 @@
-export function onMessage(ws: WebSocket) {
-    console.log(ws);
+export function onMessage(message: string | Buffer) {
+    console.log(JSON.parse(message.toString()));
 }

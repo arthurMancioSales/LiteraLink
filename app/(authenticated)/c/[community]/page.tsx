@@ -9,7 +9,6 @@ import { UserContext } from "../../layout";
 import { ImageLoading } from "@/src/components/Loaders/ImageLoading";
 import { Avatar } from "@/src/components/Avatar";
 import { generalRequest } from "@/src/functions/generalRequest";
-import { useWebSocket } from "next-ws/client";
 
 
 export default function CommunityChat({ params }: { params: { community: string } }) {
@@ -23,9 +22,9 @@ export default function CommunityChat({ params }: { params: { community: string 
     
     const memberOfCommunity = userData?.communities ? userData?.communities.find((community) => community.name == communityData?.name) : false;
     
-    const ws = new WebSocket("ws://localhost:3000/api"); 
     
     useEffect(() => {
+        
         async function getCommunityData() {
             
             const community: ICommunity = await generalRequest(`/api/c/${params.community.replace(/%20/g, " ")}`);
@@ -34,8 +33,18 @@ export default function CommunityChat({ params }: { params: { community: string 
             setLoadingCommunity(false);
         }
         
-       
         getCommunityData();
+        
+        const host = window.location.host;
+        const ws = new WebSocket(`ws://${host}/api`); 
+        ws.addEventListener("open", () => {
+            ws.send(JSON.stringify({
+                type: "enter",
+                params: {
+                    room: params.community
+                }
+            }));
+        });
     }, [params.community]);
     
     return (

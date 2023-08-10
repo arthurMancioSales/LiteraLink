@@ -58,7 +58,7 @@ jobs:
         run: docker compose -f ./docker-compose.stage.yml down
 
       - name: Clear unused files
-        run: docker system prune -a
+        run: docker system prune -a -f
     
       - name: Deploy to stage
         run: docker compose -f ./docker-compose.stage.yml up -d --build
