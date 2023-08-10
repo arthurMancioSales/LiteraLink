@@ -46,7 +46,7 @@ export function SearchBook({value}: PropTypes) {
 
         return (
             <div className="absolute top-[calc(100%+5px)] right-0 left-0">
-                <div id="dropdownSearchBook" className="absolute flex flex-col z-20 gap-3 p-3 rounded-md overflow-y-auto max-h-[200px] bg-light-secondary">
+                <div id="dropdownSearchBook" className="absolute flex flex-col z-20 gap-3 p-3 rounded-md overflow-y-auto max-h-[200px] w-full bg-light-secondary">
                     {books.map((book) => (
                         <div key={book.id} className="flex items-center justify-around py-1 cursor-pointer hover:bg-light-tertiary hover:rounded-md" onClick={() => handleBook(book)}>
                             <div className="h-20 w-1/5 relative">

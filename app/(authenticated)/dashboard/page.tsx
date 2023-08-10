@@ -96,10 +96,10 @@ export default function Dashboard() {
                     };                               
                     return goalTypeSelected;
                 }
-                case "pages": {
+                case "chapters": {
                     const goalTypeSelected = {
-                        name: "Páginas",
-                        complement: "páginas"
+                        name: "Capítulos",
+                        complement: "Capítulos"
                     };                               
                     return goalTypeSelected;
                 }
@@ -210,9 +210,9 @@ export default function Dashboard() {
                                                     :
                                                     <CardBooks
                                                         variant="secondary"
-                                                        description="Capítulos"
-                                                        progress={favoriteBook?.chaptersRead ? favoriteBook.chaptersRead : 0}
-                                                        total={favoriteBook ? favoriteBook.totalChapter : 0}
+                                                        description="Páginas"
+                                                        progress={favoriteBook?.pagesRead ? favoriteBook.pagesRead : 0}
+                                                        total={favoriteBook ? favoriteBook.totalPages : 0}
                                                     />
                                                 }
                                             </div>
