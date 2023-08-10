@@ -30,14 +30,14 @@ export default function ChatMessage({message}: IChatMessage) {
                         <Avatar src={message.profilePicture} size={30}></Avatar>
                     </div>
                 ) : ""}
-                <div className="p-3 rounded-md bg-light-tertiary">
+                <div className="p-3 rounded-md bg-light-tertiary dark:bg-dark-tertiary">
                     {message.variant == "reciever" ? (
                         <div className="">
-                            <p className="font-semibold">{message.username}</p>
+                            <p className="font-semibold dark:text-dark-text">{message.username}</p>
                         </div>
                     ) : ""}
                     <div>
-                        <p>{message.message}</p>
+                        <p className=" dark:text-dark-text">{message.message}</p>
                     </div>
                 </div>
             </div>

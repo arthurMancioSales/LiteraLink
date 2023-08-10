@@ -185,9 +185,9 @@ export default function CommunityChat({ params }: { params: { community: string 
                                             className="flex w-full h-full gap-2"
                                         >
                                             <div className="flex flex-col w-full">
-                                                <Field type="text" name="message" placeholder="Escreva aqui" className={"w-full h-10 px-2 rounded-md bg-light-secondary dark:bg-dark-secondary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] resize-none"} />
+                                                <Field type="text" name="message" placeholder="Escreva aqui" className={"w-full h-10 px-2 rounded-md bg-light-secondary dark:bg-dark-secondary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] resize-none dark:text-dark-text"} />
                                             </div>
-                                            <button type="submit" className="flex items-center justify-center w-10 h-10 rounded-md bg-light-secondary dark:bg-dark-secondary group drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] hover:scale-105 transition-transform duration-100"> <AiOutlineSend className="duration-100 group-hover:text-brand" size={25}></AiOutlineSend> </button>
+                                            <button type="submit" className="flex items-center justify-center w-10 h-10 rounded-md bg-light-secondary dark:bg-dark-secondary group drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] hover:scale-105 transition-transform duration-100"> <AiOutlineSend className="duration-100 group-hover:text-brand dark:text-dark-text" size={25}></AiOutlineSend> </button>
                                         </Form>
                                     )}
                                 </Formik>
