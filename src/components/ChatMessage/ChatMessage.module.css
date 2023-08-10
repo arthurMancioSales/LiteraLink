@@ -1,0 +1,13 @@
+.root {
+    @apply max-w-[70%] h-fit flex gap-2 ;
+}
+
+.reciever {
+    @apply  self-start;
+}
+
+
+.sender {
+    @apply self-end flex-row-reverse;
+}
+

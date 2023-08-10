@@ -1,19 +1,16 @@
-import { onMessage } from "@/src/service/websocket/websocketController";
-
-const connections = [];
+import { onClose, onMessage } from "@/src/service/websocket/websocketController";
+import WebSocket from "ws";
 
 export function SOCKET(
-    client: import("ws").WebSocket,
-    request: import("http").IncomingMessage,
-    server: import('ws').WebSocketServer
+    client: WebSocket
 ) {
     console.log("Nova conexão");
-    console.log(request.url);
-    // handleNewConnection(client, request. ) 
 
-    client.on("message", onMessage);
+    client.on("message", (data) => {
+        onMessage(data, client);
+    });
+
+    client.on("close", () => {
+        onClose(client);
+    });
 }
-
-// function handleNewConnection(connection: WebSocket, source: string) {
-
-// }
