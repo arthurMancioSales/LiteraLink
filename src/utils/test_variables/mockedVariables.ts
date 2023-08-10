@@ -132,7 +132,7 @@ export const book: IBook = {
     goalExpire: new Date,
     goals: [
         {
-            type: "pages",
+            type: "days",
             partial: 395,
             total: 445,
         },
@@ -148,7 +148,7 @@ export const updateBook: IPatchBook = {
     goalExpire: new Date,
     goals: [
         {
-            type: "pages",
+            type: "days",
             partial: 395,
             total: 445,
         },
