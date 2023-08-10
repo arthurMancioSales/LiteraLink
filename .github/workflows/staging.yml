@@ -22,6 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: patch next
+        run: npx --yes next-ws-cli patch -y
      
       - name: Lint project
         run: npm run lint -- --fix
