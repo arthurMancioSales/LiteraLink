@@ -4,7 +4,7 @@ import { INewUser } from "@/src/interfaces/interface";
 import { checkExistingCredentials } from "@/src/repository/user/checkers/checkUserCredentials";
 import { ObjectId } from "mongodb";
 import { hashPassword } from "@/src/utils/hashPassword";
-import imageUserDefault from "/public/images/user/default_user_image.jpg";
+import imageUserDefault from "@/public/images/user/default_user_image.jpg";
 
 const TAG = "SERVICE(POST): USER ";
 
@@ -12,8 +12,16 @@ export async function registerUser( requestUser: INewUser ) {
     try {
         Object.entries(requestUser).forEach(([key, value]) => {
             if (value === undefined || value === "")
-                throw new CustomError("Error: missing information.", 400);
+                switch (key) {
+                    case "email":
+                        throw new CustomError("Error: email missing.", 400);
+                    case "password":
+                        throw new CustomError("Error: password missing.", 400);
+                    case "name":
+                        throw new CustomError("Error: name missing.", 400);
+                }
         }); 
+    
         const matchingCredentials = await checkExistingCredentials(requestUser.email, requestUser.name);
     
         if(matchingCredentials === "Email") {

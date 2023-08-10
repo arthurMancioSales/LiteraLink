@@ -1,10 +1,11 @@
 import { IStatistic } from "@/src/interfaces/interface";
 import { users } from "@/src/repository/users";
 import { CustomError } from "../../utils/customError";
+import { ObjectId } from "mongodb";
 
 const TAG = "SERVICE(POST): USER ";
 
-export async function postStatics(id: number | string, body: IStatistic) {
+export async function postStatistics(id: ObjectId | string, body: IStatistic) {
     try {
         const user = users.find(userFind => userFind._id == id);
         if (!user) {
