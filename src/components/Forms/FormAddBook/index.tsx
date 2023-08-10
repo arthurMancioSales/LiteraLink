@@ -26,17 +26,13 @@ export function FormAddBook({ onClose }: PropTypes) {
     }
 
     const validationSchema = Yup.object({
-        chapters: Yup.number().max(1000, "Ops! São muitos capítulos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
-        pages: Yup.number().max(1000, "Ops! São muitas páginas lidas").min(0, "Não existe páginas negativas"),
-        sequence: Yup.number().max(100, "Ops! Este número é muito grande").min(0, "Não existe sequências negativas"),
-        readingTime: Yup.number().max(1440, "Ops! Tempo de leitura muito longo").min(0, "Não existe tempo negativo")
+        TotalSequence: Yup.number().max(100, "Ops! Este número é muito grande").min(0, "Não existe sequências negativas"),
+        TotalReadingTime: Yup.number().max(1440, "Ops! Tempo de leitura muito longo").min(0, "Não existe tempo negativo")
     });
 
     const initialValues = {
-        chapters: "",
-        pages: 0,
-        sequence: 0,
-        readingTime: 0
+        TotalSequence: 0,
+        TotalReadingTime: 0
     };
   
     return (
@@ -50,8 +46,12 @@ export function FormAddBook({ onClose }: PropTypes) {
 
                 <div className="flex flex-col gap-2">
                     <label>Livro</label>
-                    <div className="bg-light-tertiary p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
-                        <p className="text-lg font-bold">{book ? book.title : "Nenhum livro adicionado"}</p>
+                    <div className="bg-light-tertiary opacity-70 p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
+                        <p>{book ? book.title : "Nenhum livro adicionado"}</p>
+                    </div>
+                    <label>Quantidade páginas</label>
+                    <div className="bg-light-tertiary opacity-70 p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
+                        <p>{book ? book.pages : "Nenhum livro adicionado"}</p>
                     </div>
                     <Formik 
                         onSubmit={async (values, {setSubmitting}) => {
@@ -59,7 +59,9 @@ export function FormAddBook({ onClose }: PropTypes) {
                                 id: book.id,
                                 title: book.title,
                                 image: book.image,
-                                totalChapter: values.chapters,
+                                totalPages: book.pages,
+                                TotalSequence: values.TotalSequence,
+                                TotalReadingTime: values.TotalReadingTime
                             };
                             
                             await generalRequest("/api/book-list", formBody, "POST");
@@ -79,11 +81,9 @@ export function FormAddBook({ onClose }: PropTypes) {
                                 <div className="flex flex-col gap-2">
                                 
                                     <div className="flex flex-col gap-2">
-                                        <Input name="chapters" label="Quantidade de capítulos" type="number" error={props.errors.chapters} required/>
                                         <span className="font-bold">Metas semanais</span>
-                                        <Input name="pages" label="Quantidade de páginas" type="number" error={props.errors.pages}/>
-                                        <Input name="sequence" label="Sequência" type="number" error={props.errors.sequence}/>
-                                        <Input name="readingTime" label="Tempo de leitura" type="number" error={props.errors.readingTime}/>
+                                        <Input name="TotalSequence" label="Sequência total" type="number" error={props.errors.TotalSequence}/>
+                                        <Input name="TotalReadingTime" label="Tempo de leitura total" type="number" error={props.errors.TotalReadingTime}/>
                                     </div>
                                 </div>
                                 <Button type="submit" variant="info">ADICIONAR</Button>

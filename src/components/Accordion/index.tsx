@@ -40,9 +40,9 @@ export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
                             <CardBooks
                                 id={book.id}
                                 title={book.title}
-                                description="Capítulos"
-                                progress={book.chaptersRead ? book.chaptersRead : 0}
-                                total={book.totalChapter}
+                                description="Páginas"
+                                progress={book.pagesRead ? book.pagesRead : 0}
+                                total={book.totalPages}
                                 onClick={onClick}
                             />
                         </div>

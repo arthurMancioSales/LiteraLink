@@ -5,6 +5,7 @@ export interface IBookApi {
     id: string;
     title: string;
     image: string;
+    pages: number;
 }
 
 const secretKeyApiExternal = process.env.SECRET_KEY_API_EXTERNAL;
@@ -32,6 +33,7 @@ export async function GET(req: NextRequest, {params}: {params: { apiExternal: st
                     id: element.id,
                     title: element.volumeInfo.title,
                     image: element.volumeInfo.imageLinks.thumbnail,
+                    pages: element.volumeInfo.pageCount,
                 };
             
                 booksList.push(book);

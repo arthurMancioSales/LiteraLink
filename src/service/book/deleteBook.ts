@@ -6,7 +6,7 @@ import { findBook } from "../../repository/book/findBook";
 
 const TAG = "SERVICE(DELETE): book ";
 
-export async function deleteBook(id: ObjectId, bookId: ObjectId) {
+export async function deleteBook(id: ObjectId, bookId: string) {
     try{
         const user = await findUserByIdRepo(id);
         if (!user) {
