@@ -15,8 +15,11 @@ services:
 
   redis-dev:
     image: "redis:alpine"
+    ports:
+      - 6379:6379
     networks:
       - dev-network
+    
   
   mongo-dev:
     image: mongo
