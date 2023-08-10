@@ -7,7 +7,7 @@ import { Input } from "../../Input";
 import { Button } from "../../Button";
 import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
-// import { generalRequest } from "@/src/functions/generalRequest";
+import { generalRequest } from "@/src/functions/generalRequest";
 
 interface PropTypes {
     onClose: () => void;
@@ -22,7 +22,9 @@ export function FormProgress({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
 
-    const [bookStatusSelected, setBookStatusSelected] = useState<number>();
+    const [bookStatusSelected, setBookStatusSelected] = useState<string>("");
+    const [bookPagesRead, setBookPagesRead] = useState<number | string>("");
+    const [bookTotalPages, setBookTotalPages] = useState<number>(0);
 
     const booksUser = userContext?.userData?.books;
 
@@ -34,10 +36,12 @@ export function FormProgress({ onClose }: PropTypes) {
         {
             id: 2,
             name: "A ler",
+            value: "ler",
         },
         {
             id: 3,
             name: "Lendo",
+            value: "lendo",
         }
     ];
 
@@ -68,28 +72,38 @@ export function FormProgress({ onClose }: PropTypes) {
             });
 
             if(status[0].status === "ler") {
-                return (2);
+                return (statusBookOptions[1].value);
             }
 
             if(status[0].status === "lendo") {
-                return (3);
+                return (statusBookOptions[2].value);
             }
+        }
+    }
+
+    function getTotalPagesBook(id: string) {
+        if (booksUser) {
+            const pagesCount = booksUser.filter((book) => {
+                if(book.id === id) {
+                    return true;
+                }
+                return false;
+            });
+            return pagesCount[0].totalPages;
         }
     }
 
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
         bookStatus: Yup.string(),
-        readingChapters: Yup.number().max(100, "O máximo são 100 capítulos").min(0, "Não existe capítulos negativos").required("Digite o número de capítulos lidos"),
-        pagesRead: Yup.number().max(1000, "O máximo são 1000 páginas").min(0, "Não existe páginas negativas"),
+        pagesRead: Yup.number().max(bookTotalPages, `O máximo são ${bookTotalPages} páginas`).min(0, "Não existe páginas negativas").required("Adicione uma quantidade de páginas"),
         readingTime: Yup.number().max(1440, "O Tempo de leitura ultrapassa 1440 minutos").min(0, "Não existe tempo negativo")
     });
 
     const initialValues = {
         bookName: "",
         bookStatus: "",
-        readingChapters: "",
-        pagesRead: 0,
+        pagesRead: "",
         readingTime: 0
     };
   
@@ -99,16 +113,17 @@ export function FormProgress({ onClose }: PropTypes) {
                 onSubmit={async (values, {setSubmitting}) => {
                     console.log(values);
                     
-                    // const formBody = {
-                    //     id: values.bookName,
-                    //     chaptersRead: values.readingChapters,                        
-                    // };
+                    const formBody = {
+                        id: values.bookName,
+                        status: values.bookStatus,
+                        pagesRead: values.pagesRead,                        
+                    };
 
-                    // await generalRequest("/api/book-list", formBody, "PATCH");
+                    await generalRequest("/api/book-list", formBody, "PATCH");
 
-                    // if (updateUser) {
-                    //     updateUser();
-                    // }
+                    if (updateUser) {
+                        updateUser();
+                    }
 
                     setSubmitting(false);
                     onClose();
@@ -127,10 +142,13 @@ export function FormProgress({ onClose }: PropTypes) {
                                 name="bookName"
                                 onChange={(e: React.ChangeEvent<any>) => {
                                     props.handleChange(e);
+                                    
+                                    const statusBook = getStatusSelect(e.target.value);
+                                    props.setFieldValue("bookStatus", statusBook);
+                                    if(statusBook) setBookStatusSelected(statusBook);
 
-                                    const getStatusBook = getStatusSelect(e.target.value);
-
-                                    if(getStatusBook) setBookStatusSelected(getStatusBook);
+                                    const pagesBook = getTotalPagesBook(e.target.value);
+                                    if(pagesBook) setBookTotalPages(pagesBook);
                                 }}
                             >
                                 <option value="" disabled>Selecione um livro</option>
@@ -155,17 +173,37 @@ export function FormProgress({ onClose }: PropTypes) {
                                 }}
                                 value={bookStatusSelected}
                             >
-                                {statusBookOptions.map((element) => (
-                                    <option key={element.id} value={element.id}>{element.name}</option>
-                                ))}
+                                {statusBookOptions.map((element) => {
+                                    if (element.id === 0) {
+                                        return (<option key={element.id} value={element.value} disabled>{element.name}</option>);
+                                    }
+                                    return (<option key={element.id} value={element.value}>{element.name}</option>);
+                                })} 
                             </Field>
                             <div className="mt-[2px] min-h-[21px]">
                                 <ErrorMessage name="bookStatus" className="text-status-error" component="span"/>
                             </div>
-                        </div> 
-                        <Input name="readingChapters" label="Capítulos lidos" type="number" error={props.errors.readingChapters} required/>
-                        <Input name="pagesRead" label="Páginas lidas" error={props.errors.pagesRead} type="number"/>
-                        <Input name="readingTime" label="Tempo de leitura" error={props.errors.readingTime} type="number"/>
+                        </div>
+                        <div>
+                            <div className="flex justify-between">
+                                <label>Páginas lidas<label className="text-status-error">*</label></label>
+                                <small>{`Total de páginas: ${bookTotalPages}`}</small>
+                            </div>
+                            <Field
+                                type="number"
+                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                name="pagesRead"
+                                onChange={(e: React.ChangeEvent<any>) => {
+                                    props.handleChange(e);
+                                    setBookPagesRead(e.target.value);
+                                }}
+                                value={bookPagesRead}
+                            />
+                            <div className="mt-[2px] min-h-[21px]">
+                                <ErrorMessage name="pagesRead" className="text-status-error" component="span"/>
+                            </div>
+                        </div>
+                        <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>
                         </div>
                         <Button type="submit" variant="info">SALVAR</Button>
                     </form>
