@@ -2,11 +2,11 @@ import { IBook, IPatchBook, IUser } from "@/src/interfaces/interface";
 import { ObjectId } from "mongodb";
 
 export const userMocked = {
-    _id: new ObjectId('614c55a72a0a16a3b1e3d0e5'),
+    _id: new ObjectId("614c55a72a0a16a3b1e3d0e5"),
     name: "edu",
     email: "edu@gmail.com",
     password: "senha123",
-    image: 'imageUserDefault',
+    image: "imageUserDefault",
     communities: [
         {
             id: 1,
@@ -120,11 +120,11 @@ export const userMocked = {
 };
 
 export const userMocked2: IUser = {
-    _id: '614c55a72a0a16a3b1e3d0e5',
+    _id: "614c55a72a0a16a3b1e3d0e5",
     name: "edu",
     email: "edu@gmail.com",
     password: "senha123",
-    image: 'imageUserDefault',
+    image: "imageUserDefault",
     communities: [
         {
             id: 1,

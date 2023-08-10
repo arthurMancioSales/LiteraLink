@@ -2,7 +2,7 @@ import { IBook, INewUser } from "../interfaces/interface";
 
 export const users = [
     {
-        _id: '614c55a72a0a16a3b1e3d0e5',
+        _id: "614c55a72a0a16a3b1e3d0e5",
         name: "edu",
         email: "edu@gmail.com",
         password: "senha123",
@@ -117,7 +117,7 @@ export const users = [
         },
     },
     {
-        _id: '614c55a72a0a16a3b1e3d0e6',
+        _id: "614c55a72a0a16a3b1e3d0e6",
         name: "Henrique",
         email: "henrique@gmail.com",
         password: "senha123",
@@ -182,7 +182,7 @@ export const users = [
         },
     },
     {
-        _id: '614c55a72a0a16a3b1e3d0e7',
+        _id: "614c55a72a0a16a3b1e3d0e7",
         name: "Anderson",
         email: "Anderson@gmail.com",
         password: "senha123",
