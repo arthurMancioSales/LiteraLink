@@ -16,6 +16,8 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+RUN npx --yes next-ws-cli patch -y
+RUN npm install next-ws
 
 # Rebuild the source code only when needed
 FROM base AS builder

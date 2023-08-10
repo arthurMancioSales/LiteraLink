@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { StaticImageData } from "next/image";
+import { WebSocket } from "ws";
 
 export interface ApiResponse {
     message: string;
@@ -142,4 +143,45 @@ export interface IFormatedResquestCommunity {
     image?: string;
     is_admin?: ObjectId | string;
     members?: [] | Array<{id: string | ObjectId, name: string}>;
+}
+
+// Websocket Interfaces
+export interface IWebsocketConnections {
+    client: WebSocket;
+    room: string;
+    username: string;
+    profilePicture: string;
+}
+
+export interface IWsGenericMessage {
+    type: "enter" | "message",
+    params: {
+        [paramName: string]: string;
+    }
+}
+
+export interface IWsEnterMessage {
+    type: "enter",
+    params: {
+        room: string;
+        username: string,
+        profilePicture: string
+    }
+}
+
+export interface IWsSendMessage {
+    type: "message",
+    params: {
+        username: string,
+        profilePicture: string,
+        message: string,
+        variant: "sender" | "reciever"
+    }
+}
+
+export interface IChatContent {
+    username: string,
+    profilePicture: string,
+    message: string,
+    variant: "sender" | "reciever"
 }

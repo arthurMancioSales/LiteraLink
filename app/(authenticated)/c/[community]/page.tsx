@@ -1,40 +1,92 @@
 "use client";
-import Link from "next/link";
 import * as Tabs from "@radix-ui/react-tabs";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { useContext, useEffect, useState } from "react";
-import { ICommunity } from "@/src/interfaces/interface";
+import { IChatContent, ICommunity, IWsEnterMessage, IWsSendMessage } from "@/src/interfaces/interface";
 import { CardUserCommunity } from "@/src/components/CardUserCommunity";
 import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserContext } from "../../layout";
 import { ImageLoading } from "@/src/components/Loaders/ImageLoading";
 import { Avatar } from "@/src/components/Avatar";
 import { generalRequest } from "@/src/functions/generalRequest";
-
+import { Field, Form, Formik } from "formik";
+import { object, string } from "yup";
+import { AiOutlineSend } from "react-icons/ai";
+import ChatMessage from "@/src/components/ChatMessage";
 
 export default function CommunityChat({ params }: { params: { community: string } }) {
     const [communityData, setCommunityData] = useState<ICommunity | null>(null);
     const [loadingCommunity, setLoadingCommunity] = useState(true);
-
-    const userContext = useContext(UserContext);
+    const [wsClient, setWsClient] = useState<WebSocket | null>(null);
+    const [messages, setMessages] = useState<IChatContent[] | null>(null);
     
+    const userContext = useContext(UserContext);
     const userData = userContext?.userData;
     const loadingUser = userContext ? userContext.loading : false;
-
-    const memberOfCommunity = userData?.communities.find((community) => community.name == communityData?.name);
-
-
+    
+    const memberOfCommunity = userData?.communities ? userData?.communities.find((community) => community.name == communityData?.name) : false;
+    
     useEffect(() => {
+        
         async function getCommunityData() {
-
+            
             const community: ICommunity = await generalRequest(`/api/c/${params.community.replace(/%20/g, " ")}`);
-
+            
             setCommunityData(community);
             setLoadingCommunity(false);
         }
-
+        
         getCommunityData();
-    }, [params.community]);
+        
+        if (userData) {
+            const host = window.location.host;
+            const ws = new WebSocket(`ws://${host}/api`); 
+            
+            setWsClient(ws);
+            
+            const connection: IWsEnterMessage = {
+                type: "enter",
+                params: {
+                    room: params.community,
+                    profilePicture: userData.image || "",
+                    username: userData.name,
+                }
+                
+            };
+            
+            ws.addEventListener("open", () => {
+                ws.send(JSON.stringify(connection));
+            });
+            
+            ws.addEventListener("message", (jsonMessage: MessageEvent) => {
+                const message: IWsSendMessage = JSON.parse(jsonMessage.data);
+
+                const localMessage: IChatContent = {
+                    message: message.params.message,
+                    profilePicture: message.params.profilePicture,
+                    username: message.params.username,
+                    variant: message.params.variant,
+                };
+                console.log(message);
+                setMessages((messages) => {
+                    if (messages === null) {
+                        return [localMessage];
+                    } 
+
+                    return [...messages, localMessage];
+                });
+            });
+        }
+
+    }, [params.community, userData]);
+
+    const validationSchema = object({
+        message: string().required("Não é possível enviar uma mensagem vazia")
+    });
+
+    const initialValues = {
+        message: "",
+    };
     
     return (
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
@@ -64,24 +116,23 @@ export default function CommunityChat({ params }: { params: { community: string 
                         value="chat"
                     >
                         <div className="flex flex-col w-full h-full gap-4 p-4 dark:bg-dark-primary bg-light-tertiary rounded-b-md rounded-tr-md">
-                            <div className="flex w-full h-[calc(90%-8px)] bg-red-400">
+                            <div className="flex w-full h-[calc(100%-56px)] bg-light-secondary dark:bg-dark-secondary rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
                                 <ScrollArea.Root 
                                     className="w-full h-full overflow-hidden"
                                     type="always"
                                 >
-                                    <ScrollArea.Viewport className="w-[96%] h-full max-h-full rounded flex flex-col mb-2">
-                                        <div className="w-full h-fit">
-
+                                    <ScrollArea.Viewport className="w-[96%] h-full rounded flex flex-col">
+                                        <div className="flex flex-col w-full h-full gap-4 p-4 pr-0" id="chat">
+                                            {messages?.map((message, index) => {
+                                                
+                                                return (
+                                                    <ChatMessage
+                                                        message={message}
+                                                        key={`chat-${index}`}
+                                                    ></ChatMessage>
+                                                );
+                                            })}
                                         </div>
-                                        {communityData?.members.map((user) => (
-                                            <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                        ))}
-                                        {communityData?.members.map((user) => (
-                                            <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                        ))}
-                                        {communityData?.members.map((user) => (
-                                            <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                        ))}
                                     </ScrollArea.Viewport>
                                     <ScrollArea.Scrollbar
                                         className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
@@ -92,8 +143,54 @@ export default function CommunityChat({ params }: { params: { community: string 
                                     <ScrollArea.Corner className="bg-black" />
                                 </ScrollArea.Root>
                             </div>
-                            <div className="w-full h-[calc(10%-8px)] bg-red-400">
-                                <input type="text" name="userMessage" id="userMessage" />
+                            <div className="flex w-full h-min">
+                                <Formik
+                                    onSubmit={(values, helpers) => {
+                                        const message: IWsSendMessage = {
+                                            type: "message",
+                                            params: {
+                                                message: values.message,
+                                                profilePicture: userData?.image || "",
+                                                username: userData?.name || "",
+                                                variant: "reciever"
+                                            }
+                                        }; 
+                                        
+                                        wsClient?.send(JSON.stringify(message));
+
+                                        helpers.resetForm();
+                                        const localMessage: IChatContent = {
+                                            message: message.params.message,
+                                            profilePicture: message.params.profilePicture,
+                                            username: message.params.username,
+                                            variant: "sender",
+                                        };
+                                        setMessages((messages) => {
+                                            if (messages === null) {
+                                                return [localMessage];
+                                            } 
+
+                                            return [...messages, localMessage];
+                                        });
+                                    }}
+                                    initialValues={initialValues}
+                                    validationSchema={validationSchema}
+                                >
+                                    {(props) => (
+                                        <Form 
+                                            onSubmit={(e) => {
+                                                e.preventDefault(); 
+                                                props.handleSubmit(e);
+                                            }}
+                                            className="flex w-full h-full gap-2"
+                                        >
+                                            <div className="flex flex-col w-full">
+                                                <Field type="text" name="message" placeholder="Escreva aqui" className={"w-full h-10 px-2 rounded-md bg-light-secondary dark:bg-dark-secondary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] resize-none dark:text-dark-text"} />
+                                            </div>
+                                            <button type="submit" className="flex items-center justify-center w-10 h-10 rounded-md bg-light-secondary dark:bg-dark-secondary group drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] hover:scale-105 transition-transform duration-100"> <AiOutlineSend className="duration-100 group-hover:text-brand dark:text-dark-text" size={25}></AiOutlineSend> </button>
+                                        </Form>
+                                    )}
+                                </Formik>
                             </div>
                         </div>
                     </Tabs.Content>
@@ -110,9 +207,11 @@ export default function CommunityChat({ params }: { params: { community: string 
                                 >
                                     <ScrollArea.Viewport className="w-[95%] h-full max-h-full rounded flex flex-col mb-2">
                                         <div className="flex flex-col gap-4 pb-2 pr-2 ">
-                                            {communityData?.members.map((user) => (
-                                                <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                            ))}
+                                            {communityData?.members ? (
+                                                communityData?.members.map((user) => (
+                                                    <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
+                                                ))
+                                            ) : ""}
                                         </div>
                                     </ScrollArea.Viewport>
                                     <ScrollArea.Scrollbar

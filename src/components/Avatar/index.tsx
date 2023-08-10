@@ -10,7 +10,7 @@ type PropsTypes = {
 export function Avatar({src, alt, size}: PropsTypes) { 
     return (
         <div
-            className="overflow-hidden relative"
+            className="relative overflow-hidden"
             style={{
                 width: `${size}px`,
                 height: `${size}px`               
@@ -18,14 +18,14 @@ export function Avatar({src, alt, size}: PropsTypes) {
         >
             {src ? 
                 <Image
-                    className="rounded-full object-cover"
+                    className="object-cover rounded-full"
                     src={src}
                     alt={alt ? alt : ""}
                     fill
                     priority
                 /> 
                 : 
-                <FaRegUserCircle size={120}/>
+                <FaRegUserCircle size={size}/>
             }
             
         </div>
