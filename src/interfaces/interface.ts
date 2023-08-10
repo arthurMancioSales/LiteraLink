@@ -85,8 +85,8 @@ export interface IBook {
     title: string;
     image: string;
     status: "lido" | "lendo" | "ler";
-    totalChapter: number;
-    chaptersRead?: number;
+    totalPages: number;
+    pagesRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
     goalExpire: Date;
@@ -97,7 +97,7 @@ export interface IBook {
 export interface IPatchBook {
     id: string;
     status?: "lido" | "lendo" | "ler";
-    chaptersRead?: number;
+    pagesRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
     goals?: IGoals[];
@@ -107,7 +107,7 @@ export interface IPatchBook {
 
 export interface IPatchBookRepo {
     status?: "lido" | "lendo" | "ler";
-    chaptersRead?: number;
+    pagesRead?: number;
     favorite?: boolean;
     lastSequence?: Date;
     goals?: IGoals[];
