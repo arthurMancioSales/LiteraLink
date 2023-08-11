@@ -151,6 +151,7 @@ export interface IWebsocketConnections {
     room: string;
     username: string;
     profilePicture: string;
+    userId: string | ObjectId;
 }
 
 export interface IWsGenericMessage {
@@ -165,23 +166,25 @@ export interface IWsEnterMessage {
     params: {
         room: string;
         username: string,
-        profilePicture: string
+        profilePicture: string | StaticImageData,
     }
 }
 
 export interface IWsSendMessage {
     type: "message",
     params: {
+        userId: string | ObjectId,
         username: string,
-        profilePicture: string,
+        profilePicture: string | StaticImageData,
         message: string,
         variant: "sender" | "reciever"
     }
 }
 
 export interface IChatContent {
+    userId: string | ObjectId,
     username: string,
-    profilePicture: string,
+    profilePicture: string | StaticImageData,
     message: string,
     variant: "sender" | "reciever"
 }
