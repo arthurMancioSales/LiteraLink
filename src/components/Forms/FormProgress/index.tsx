@@ -111,8 +111,6 @@ export function FormProgress({ onClose }: PropTypes) {
         <GenericModal title="Progresso de leitura" onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
-                    console.log(values);
-                    
                     const formBody = {
                         id: values.bookName,
                         status: values.bookStatus,

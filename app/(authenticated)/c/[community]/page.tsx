@@ -52,7 +52,7 @@ export default function CommunityChat({ params }: { params: { community: string 
                     username: userData.name,
                 }
                 
-            };
+            };  
             
             ws.addEventListener("open", () => {
                 ws.send(JSON.stringify(connection));
@@ -62,12 +62,13 @@ export default function CommunityChat({ params }: { params: { community: string 
                 const message: IWsSendMessage = JSON.parse(jsonMessage.data);
 
                 const localMessage: IChatContent = {
+                    userId: message.params.userId,
                     message: message.params.message,
                     profilePicture: message.params.profilePicture,
                     username: message.params.username,
                     variant: message.params.variant,
                 };
-                console.log(message);
+
                 setMessages((messages) => {
                     if (messages === null) {
                         return [localMessage];
@@ -146,9 +147,13 @@ export default function CommunityChat({ params }: { params: { community: string 
                             <div className="flex w-full h-min">
                                 <Formik
                                     onSubmit={(values, helpers) => {
+                                        if (!userData) {
+                                            return;
+                                        }
                                         const message: IWsSendMessage = {
                                             type: "message",
                                             params: {
+                                                userId: userData?._id,
                                                 message: values.message,
                                                 profilePicture: userData?.image || "",
                                                 username: userData?.name || "",
@@ -160,6 +165,7 @@ export default function CommunityChat({ params }: { params: { community: string 
 
                                         helpers.resetForm();
                                         const localMessage: IChatContent = {
+                                            userId: message.params.userId,
                                             message: message.params.message,
                                             profilePicture: message.params.profilePicture,
                                             username: message.params.username,

@@ -13,7 +13,6 @@ type PropsTypes = {
 };
 
 export function CardCommunity({page, community, variantButton, isMember}: PropsTypes) {
-    console.log(community);
     function handleDashBoard() {
         console.log("clicou");                 
     }

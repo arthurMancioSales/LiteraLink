@@ -10,7 +10,6 @@ export async function addUserToCommunityRepo(user:{id:string, name:string}, comm
     const collectionUser = client.db("literalink-dev").collection("users");
     try {
         const community = await collectionCommunity.findOne({"name": community_name});
-        console.log(community);
         if (!community) {
             throw new CustomError("Comunidade não encontrada", 404);
         }

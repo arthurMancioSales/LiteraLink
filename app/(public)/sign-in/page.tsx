@@ -41,8 +41,6 @@ export default function SignInPage() {
                             };
                 
                             const response = await generalRequest("/api/login", formBody, "POST");
-                            console.log(response);
-                        
                             setSubmitting(false);
 
                             if(response?.error) {
