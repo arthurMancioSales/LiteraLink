@@ -4,7 +4,7 @@ import { Avatar } from "../Avatar";
 import { Button } from "../Button";
 import { Toggle } from "../Toggle";
 import { IoIosSettings } from "react-icons/io";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { BiSolidBookAdd, BiLogOut } from "react-icons/bi";
 import { TbLayoutDashboard, TbProgress } from "react-icons/tb";
 import { MdOutlinePeopleAlt } from "react-icons/md";
@@ -15,6 +15,7 @@ import { TextLoading } from "../Loaders/TextLoading";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { FormProgress } from "../Forms/FormProgress";
 import { FormAddBook } from "../Forms/FormAddBook";
+import { FormAddCommunity } from "../Forms/FormAddCommunity";
 
 export function Sidebar() {
     const iconSize = 25;
@@ -26,6 +27,7 @@ export function Sidebar() {
 
     const [openModalProgress, setOpenModalProgress] = useState(false);
     const [openModalAddBook, setOpenModalAddBook] = useState(false);
+    const [openModalAddCommunity, setOpenModalAddCommunity] = useState(false);
 
     return (
         <>
@@ -47,7 +49,7 @@ export function Sidebar() {
                             </>
                             :
                             <>
-                                <Avatar src={userData?.image} size={120} />
+                                <Avatar src={userData?.image ?? ""} size={120} />
                                 <div className="relative flex justify-center w-full">
                                     <p className="pt-3">{userData?.name}</p>
                                     <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => ""}></IoIosSettings>
@@ -65,7 +67,10 @@ export function Sidebar() {
                     <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search/default">Pesquisar</Button>
                 </div>
                 <div className="h-full">
-                    <div>Comunidades</div>
+                    <div className="flex justify-between">
+                        <span>Comunidades</span>
+                        <div className="cursor-pointer" title="Adicionar comunidade" onClick={() => setOpenModalAddCommunity(true)}><AiOutlineUsergroupAdd size={iconSize}/></div>
+                    </div>
                     <ScrollArea.Root 
                         className="h-[calc(100%-36px)] overflow-clip"
                         type="always"
@@ -104,6 +109,7 @@ export function Sidebar() {
             </div>
             {openModalProgress && <FormProgress onClose={() => setOpenModalProgress(false)}/>}
             {openModalAddBook && <FormAddBook onClose={() => setOpenModalAddBook(false)}/>}
+            {openModalAddCommunity && <FormAddCommunity onClose={() => setOpenModalAddCommunity(false)}/>}
         </>
     );
 }
