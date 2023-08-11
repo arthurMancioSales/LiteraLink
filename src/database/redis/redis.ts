@@ -1,11 +1,9 @@
 import Redis from "ioredis";
 
 export function createRedisClient() {
+    console.log(process.env.REDIS_HOST) 
     try {
-        const redis = new Redis( { 
-            host: `${process.env.REDIS_HOST}`,
-            port: Number(process.env.REDIS_PORT)
-        });
+        const redis = new Redis(`${process.env.REDIS_CONNECTION}`);
         return redis;
     } catch (e) {
         console.log(e);
