@@ -1,8 +1,9 @@
 import Link from "next/link";
 import styles from "./Button.module.css";
 import { ReactNode } from "react";
+import { TextLoading } from "../Loaders/TextLoading";
 
-export type VariantButton = "primary" | "secondary" | "info" | "success" | "error";
+export type VariantButton = "primary" | "secondary" | "info" | "success" | "error" | "loading";
 
 type VariantMap = {
     primary: string;
@@ -10,6 +11,7 @@ type VariantMap = {
     info: string;
     success: string;
     error: string;
+    loading: string;
 }
 
 type PropTypes = {
@@ -19,6 +21,7 @@ type PropTypes = {
     onClick?: () => void;
     children: ReactNode;
     type?: "button" | "submit";
+    isLoading?: boolean;
 };
 
 const variantMap: VariantMap = {
@@ -27,12 +30,21 @@ const variantMap: VariantMap = {
     info: styles.info,
     success: styles.success,
     error: styles.error,
+    loading: styles.loading,
 };
 
 
-export function Button({children, icon, onClick, variant = "primary", redirectTo, type = "button"}: PropTypes) {
+export function Button({children, icon, onClick, variant = "primary", redirectTo, type = "button", isLoading}: PropTypes) {
 
     const className: string[] = [styles.root, variantMap[variant]];
+
+    if(isLoading) {
+        return (
+            <button type={type} className={[styles.root, variantMap["loading"]].join(" ")}>
+                <TextLoading size="base"/>
+            </button>
+        );
+    }
     
     return (
         <>

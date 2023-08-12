@@ -2,6 +2,10 @@
     @apply w-full px-2.5 py-2.5 gap-2 rounded-md text-sm font-medium hover:bg-buttonHover max-w-full transition-all duration-300;
 }
 
+.loading {
+    @apply bg-gray-400 text-light-text flex justify-center items-center pointer-events-none dark:text-dark-text max-w-full;
+}
+
 .primary {
     @apply bg-transparent text-light-text inline-flex items-center dark:text-dark-text dark:hover:bg-dark-secondary max-w-full;
 }
