@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FaRegUserCircle } from "react-icons/fa";
 
 type PropsTypes = {
-    src: string | undefined;
+    src?: string | undefined;
     alt?: string;
     size?: number;
 };

@@ -14,7 +14,6 @@ export async function deleteBookFromUser(userId: ObjectId, bookId: string) {
                 $pull: { books: { id: bookId } }
             }
         );
-        console.log("Book removed from user: ", userId);
         return deletedBook;
     } catch (error) {
         console.log(TAG, error);

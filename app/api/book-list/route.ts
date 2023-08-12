@@ -34,10 +34,8 @@ export async function POST(req: NextRequest) {
     try {
         const user = await auth(req);
         const request = await req.json();
-        console.log(request);
         
         const postedBook = await postBook(user.id, request);
-        console.log("Livro adicionado: ", postedBook);
 
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
@@ -57,7 +55,6 @@ export async function DELETE(req: NextRequest) { // Essa rota "funciona", porém
 
         const { id } =request;
         const newBookList = await deleteBook(new ObjectId(user.id), id);
-        console.log("Book list: ", newBookList);
         return NextResponse.json(Response, {status: Response.status});
       
     } catch (error : any) {

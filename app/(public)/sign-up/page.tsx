@@ -13,6 +13,8 @@ import { Input } from "@/src/components/Input";
 
 export default function SignUpPage() {
     const [messageError, setMessageError] = useState("");
+    const [loadingPage, setLoadingPage] = useState(false);
+
     const navigate = useRouter();
 
     const validationSchema = Yup.object({
@@ -39,6 +41,7 @@ export default function SignUpPage() {
                     <h2 className="text-3xl font-bold">Criar conta</h2>
                     <Formik
                         onSubmit={async (values, {setSubmitting}) => {
+                            setLoadingPage(true);
                             const formBody = {
                                 name: values.userName,
                                 email: values.email,
@@ -47,6 +50,7 @@ export default function SignUpPage() {
                 
                             const response = await generalRequest("/api/new-user", formBody, "POST");
                         
+                            setLoadingPage(false);
                             setSubmitting(false);
 
                             if(response?.error) {
@@ -67,7 +71,7 @@ export default function SignUpPage() {
                                     <Input name="password" label="Senha" type="password" error={props.errors.password} required />
                                     <Input name="verifyPassword" label="Confirmar a senha" type="password" error={props.errors.verifyPassword} required />
                                 </div>
-                                <Button type="submit" variant="info">CADASTRAR</Button>
+                                <Button type="submit" variant="info" isLoading={loadingPage}>CADASTRAR</Button>
                             </form>
                         )}
                     </Formik>

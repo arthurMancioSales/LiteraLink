@@ -16,6 +16,7 @@ import { UserContext } from "@/app/(authenticated)/layout";
 import { FormProgress } from "../Forms/FormProgress";
 import { FormAddBook } from "../Forms/FormAddBook";
 import { FormAddCommunity } from "../Forms/FormAddCommunity";
+import { FormUserConfig } from "../Forms/FormUserConfig";
 
 export function Sidebar() {
     const iconSize = 25;
@@ -28,6 +29,7 @@ export function Sidebar() {
     const [openModalProgress, setOpenModalProgress] = useState(false);
     const [openModalAddBook, setOpenModalAddBook] = useState(false);
     const [openModalAddCommunity, setOpenModalAddCommunity] = useState(false);
+    const [openModalUserConfig, setOpenModalUserConfig] = useState(false);
 
     return (
         <>
@@ -44,7 +46,7 @@ export function Sidebar() {
                                 <div className="rounded-full w-[120px] h-[120px] bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
                                 <div className="relative flex justify-center w-full">
                                     <TextLoading size="small"></TextLoading>
-                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => ""}></IoIosSettings>
+                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalConfigUser(true)}></IoIosSettings>
                                 </div>
                             </>
                             :
@@ -52,7 +54,7 @@ export function Sidebar() {
                                 <Avatar src={userData?.image ?? ""} size={120} />
                                 <div className="relative flex justify-center w-full">
                                     <p className="pt-3">{userData?.name}</p>
-                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => ""}></IoIosSettings>
+                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
                                 </div>
                             </>
                         }
@@ -110,6 +112,7 @@ export function Sidebar() {
             {openModalProgress && <FormProgress onClose={() => setOpenModalProgress(false)}/>}
             {openModalAddBook && <FormAddBook onClose={() => setOpenModalAddBook(false)}/>}
             {openModalAddCommunity && <FormAddCommunity onClose={() => setOpenModalAddCommunity(false)}/>}
+            {openModalUserConfig && <FormUserConfig onClose={() => setOpenModalUserConfig(false)}/>}
         </>
     );
 }

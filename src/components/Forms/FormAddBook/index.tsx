@@ -20,11 +20,12 @@ export function FormAddBook({ onClose }: PropTypes) {
     const updateUser = userContext?.updateUser;
 
     const [book, setBook] = useState<IBookApi | undefined>();
+    const [messageError, setMessageError] = useState("");
 
     function handleBook(value: IBookApi) {
         setBook(value);
     }
-
+    
     const validationSchema = Yup.object({
         TotalSequence: Yup.number().max(100, "Ops! Este número é muito grande").min(0, "Não existe sequências negativas"),
         TotalReadingTime: Yup.number().max(1440, "Ops! Tempo de leitura muito longo").min(0, "Não existe tempo negativo")
@@ -64,14 +65,18 @@ export function FormAddBook({ onClose }: PropTypes) {
                                 TotalReadingTime: values.TotalReadingTime
                             };
                             
-                            await generalRequest("/api/book-list", formBody, "POST");
+                            const response = await generalRequest("/api/book-list", formBody, "POST");
 
-                            if(updateUser) {
-                                updateUser();
+                            if(response?.error) {
+                                setMessageError(response.error);
+                            } else {
+                                if(updateUser) {
+                                    updateUser();
+                                }
+
+                                setSubmitting(false);
+                                onClose();
                             }
-
-                            setSubmitting(false);
-                            onClose();
                         }}
                         initialValues={initialValues}
                         validationSchema={validationSchema}
@@ -92,6 +97,7 @@ export function FormAddBook({ onClose }: PropTypes) {
                     </Formik>
                 </div>
             )}
+            <p className="text-status-error">{messageError}</p>
         </GenericModal>
     );
 }
