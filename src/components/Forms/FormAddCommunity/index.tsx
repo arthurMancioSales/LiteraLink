@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { GenericModal } from "../../Modal/GenericModal";
 import { Input } from "../../Input";
 import { Button } from "../../Button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { TextArea } from "../../TextArea";
@@ -22,6 +22,8 @@ export type OptionsPropsSelect = {
 export function FormAddCommunity({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+
+    const [messageError, setMessageError] = useState("");
 
     const validationSchema = Yup.object({
         nameCommunity: Yup.string().required("É necessário um nome para comunidade"),
@@ -44,14 +46,18 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                         description: values.descriptionCommunity,          
                     };
 
-                    await generalRequest("/api/community", formBody, "POST");
+                    const response = await generalRequest("/api/community", formBody, "POST");
 
-                    if (updateUser) {
-                        updateUser();
+                    if(response?.error) {
+                        setMessageError(response.error);
+                    } else {
+                        if(updateUser) {
+                            updateUser();
+                        }
+
+                        setSubmitting(false);
+                        onClose();
                     }
-
-                    setSubmitting(false);
-                    onClose();
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -64,6 +70,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                     </form>
                 )}
             </Formik>
+            <p className="text-status-error">{messageError}</p>
         </GenericModal>
     );
 }

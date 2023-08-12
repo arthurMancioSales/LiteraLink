@@ -25,6 +25,7 @@ export function FormProgress({ onClose }: PropTypes) {
     const [bookStatusSelected, setBookStatusSelected] = useState<string>("");
     const [bookPagesRead, setBookPagesRead] = useState<number | string>("");
     const [bookTotalPages, setBookTotalPages] = useState<number>(0);
+    const [messageError, setMessageError] = useState("");
 
     const booksUser = userContext?.userData?.books;
 
@@ -117,14 +118,18 @@ export function FormProgress({ onClose }: PropTypes) {
                         pagesRead: values.pagesRead,                        
                     };
 
-                    await generalRequest("/api/book-list", formBody, "PATCH");
+                    const response = await generalRequest("/api/book-list", formBody, "PATCH");
 
-                    if (updateUser) {
-                        updateUser();
+                    if(response?.error) {
+                        setMessageError(response.error);
+                    } else {
+                        if(updateUser) {
+                            updateUser();
+                        }
+
+                        setSubmitting(false);
+                        onClose();
                     }
-
-                    setSubmitting(false);
-                    onClose();
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -207,6 +212,7 @@ export function FormProgress({ onClose }: PropTypes) {
                     </form>
                 )}
             </Formik>
+            <p className="text-status-error">{messageError}</p>
         </GenericModal>
     );
 }
