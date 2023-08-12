@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, {params}: {params: { apiExternal: st
         const booksApi: any[] = responseApi.items;
 
         booksApi.forEach(element => {
-            if (element.volumeInfo.readingModes.image) {
+            if (element.volumeInfo.readingModes.image && element.volumeInfo.pageCount) {
                 const book: IBookApi = {
                     id: element.id,
                     title: element.volumeInfo.title,

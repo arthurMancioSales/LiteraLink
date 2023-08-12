@@ -138,11 +138,11 @@ export function FormProgress({ onClose }: PropTypes) {
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div className="flex flex-col gap-2">
                             <div>
-                                <label>Livro<label className="text-status-error">*</label>
+                                <label className="dark:text-dark-text">Livro<label className="text-status-error">*</label>
                                 </label>
                                 <Field
                                     as="select"
-                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="bookName"
                                     onChange={(e: React.ChangeEvent<any>) => {
                                         props.handleChange(e);
@@ -165,11 +165,11 @@ export function FormProgress({ onClose }: PropTypes) {
                                 </div>
                             </div>        
                             <div>
-                                <label>Estado atual<label className="text-status-error">*</label>
+                                <label className="dark:text-dark-text">Estado atual<label className="text-status-error">*</label>
                                 </label>
                                 <Field
                                     as="select"
-                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="bookStatus"
                                     onChange={(e: React.ChangeEvent<any>) => {
                                         props.handleChange(e);
@@ -190,12 +190,12 @@ export function FormProgress({ onClose }: PropTypes) {
                             </div>
                             <div>
                                 <div className="flex justify-between">
-                                    <label>Páginas lidas<label className="text-status-error">*</label></label>
+                                    <label className="dark:text-dark-text">Páginas lidas<label className="text-status-error">*</label></label>
                                     <small>{`Total de páginas: ${bookTotalPages}`}</small>
                                 </div>
                                 <Field
                                     type="number"
-                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="pagesRead"
                                     onChange={(e: React.ChangeEvent<any>) => {
                                         props.handleChange(e);

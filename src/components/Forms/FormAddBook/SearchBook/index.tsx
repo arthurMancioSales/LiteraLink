@@ -46,10 +46,10 @@ export function SearchBook({value}: PropTypes) {
 
         return (
             <div className="absolute top-[calc(100%+5px)] right-0 left-0">
-                <div id="dropdownSearchBook" className="absolute flex flex-col z-20 gap-3 p-3 rounded-md overflow-y-auto max-h-[200px] w-full bg-light-secondary">
+                <div id="dropdownSearchBook" className="absolute flex flex-col z-20 gap-3 p-2 rounded-md overflow-y-auto max-h-[200px] w-full bg-light-tertiary dark:bg-dark-primary">
                     {books.map((book) => (
-                        <div key={book.id} className="flex items-center justify-around py-1 cursor-pointer hover:bg-light-tertiary hover:rounded-md" onClick={() => handleBook(book)}>
-                            <div className="h-20 w-1/5 relative">
+                        <div key={book.id} className="flex items-center justify-around py-2 cursor-pointer rounded-md bg-light-primary hover:bg-buttonHover dark:bg-dark-secondary" onClick={() => handleBook(book)}>
+                            <div className="h-[125px] w-1/5 relative">
                                 <Image className="object-cover" src={book.image} alt="" fill/>                
                             </div>
                             <p className="w-2/3">{book.title}</p>
@@ -94,7 +94,7 @@ export function SearchBook({value}: PropTypes) {
                         <div className="flex items-center gap-2">
                             <div className="w-full">
                                 <div className="flex gap-2">
-                                    <Field className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]" type="text" name="search" />
+                                    <Field className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text" type="text" name="search" />
                                     <div><Button type="submit" variant="info">PESQUISAR</Button></div>
                                 </div>
                                 <div className="mt-[2px] min-h-[21px]">
