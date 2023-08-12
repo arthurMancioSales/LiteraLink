@@ -136,77 +136,78 @@ export function FormProgress({ onClose }: PropTypes) {
             >
                 {(props) => (
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
-                        <div className="flex flex-col gap-2"><div>
-                            <label>Livro<label className="text-status-error">*</label>
-                            </label>
-                            <Field
-                                as="select"
-                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
-                                name="bookName"
-                                onChange={(e: React.ChangeEvent<any>) => {
-                                    props.handleChange(e);
+                        <div className="flex flex-col gap-2">
+                            <div>
+                                <label>Livro<label className="text-status-error">*</label>
+                                </label>
+                                <Field
+                                    as="select"
+                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                    name="bookName"
+                                    onChange={(e: React.ChangeEvent<any>) => {
+                                        props.handleChange(e);
                                     
-                                    const statusBook = getStatusSelect(e.target.value);
-                                    props.setFieldValue("bookStatus", statusBook);
-                                    if(statusBook) setBookStatusSelected(statusBook);
+                                        const statusBook = getStatusSelect(e.target.value);
+                                        props.setFieldValue("bookStatus", statusBook);
+                                        if(statusBook) setBookStatusSelected(statusBook);
 
-                                    const pagesBook = getTotalPagesBook(e.target.value);
-                                    if(pagesBook) setBookTotalPages(pagesBook);
-                                }}
-                            >
-                                <option value="" disabled>Selecione um livro</option>
-                                {booksList().map((element) => (
-                                    <option key={element.id} value={element.id}>{element.name}</option>
-                                ))}
-                            </Field>
-                            <div className="mt-[2px] min-h-[21px]">
-                                <ErrorMessage name="bookName" className="text-status-error" component="span"/>
+                                        const pagesBook = getTotalPagesBook(e.target.value);
+                                        if(pagesBook) setBookTotalPages(pagesBook);
+                                    }}
+                                >
+                                    <option value="" disabled>Selecione um livro</option>
+                                    {booksList().map((element) => (
+                                        <option key={element.id} value={element.id}>{element.name}</option>
+                                    ))}
+                                </Field>
+                                <div className="mt-[2px] min-h-[21px]">
+                                    <ErrorMessage name="bookName" className="text-status-error" component="span"/>
+                                </div>
+                            </div>        
+                            <div>
+                                <label>Estado atual<label className="text-status-error">*</label>
+                                </label>
+                                <Field
+                                    as="select"
+                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                    name="bookStatus"
+                                    onChange={(e: React.ChangeEvent<any>) => {
+                                        props.handleChange(e);
+                                        setBookStatusSelected(e.target.value);
+                                    }}
+                                    value={bookStatusSelected}
+                                >
+                                    {statusBookOptions.map((element) => {
+                                        if (element.id === 0) {
+                                            return (<option key={element.id} value={element.value} disabled>{element.name}</option>);
+                                        }
+                                        return (<option key={element.id} value={element.value}>{element.name}</option>);
+                                    })} 
+                                </Field>
+                                <div className="mt-[2px] min-h-[21px]">
+                                    <ErrorMessage name="bookStatus" className="text-status-error" component="span"/>
+                                </div>
                             </div>
-                        </div>        
-                        <div>
-                            <label>Estado atual<label className="text-status-error">*</label>
-                            </label>
-                            <Field
-                                as="select"
-                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
-                                name="bookStatus"
-                                onChange={(e: React.ChangeEvent<any>) => {
-                                    props.handleChange(e);
-                                    setBookStatusSelected(e.target.value);
-                                }}
-                                value={bookStatusSelected}
-                            >
-                                {statusBookOptions.map((element) => {
-                                    if (element.id === 0) {
-                                        return (<option key={element.id} value={element.value} disabled>{element.name}</option>);
-                                    }
-                                    return (<option key={element.id} value={element.value}>{element.name}</option>);
-                                })} 
-                            </Field>
-                            <div className="mt-[2px] min-h-[21px]">
-                                <ErrorMessage name="bookStatus" className="text-status-error" component="span"/>
+                            <div>
+                                <div className="flex justify-between">
+                                    <label>Páginas lidas<label className="text-status-error">*</label></label>
+                                    <small>{`Total de páginas: ${bookTotalPages}`}</small>
+                                </div>
+                                <Field
+                                    type="number"
+                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
+                                    name="pagesRead"
+                                    onChange={(e: React.ChangeEvent<any>) => {
+                                        props.handleChange(e);
+                                        setBookPagesRead(e.target.value);
+                                    }}
+                                    value={bookPagesRead}
+                                />
+                                <div className="mt-[2px] min-h-[21px]">
+                                    <ErrorMessage name="pagesRead" className="text-status-error" component="span"/>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <div className="flex justify-between">
-                                <label>Páginas lidas<label className="text-status-error">*</label></label>
-                                <small>{`Total de páginas: ${bookTotalPages}`}</small>
-                            </div>
-                            <Field
-                                type="number"
-                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]"
-                                name="pagesRead"
-                                onChange={(e: React.ChangeEvent<any>) => {
-                                    props.handleChange(e);
-                                    setBookPagesRead(e.target.value);
-                                }}
-                                value={bookPagesRead}
-                            />
-                            <div className="mt-[2px] min-h-[21px]">
-                                <ErrorMessage name="pagesRead" className="text-status-error" component="span"/>
-                            </div>
-                        </div>
-                        <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>
+                            <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>
                         </div>
                         <Button type="submit" variant="info">SALVAR</Button>
                     </form>
