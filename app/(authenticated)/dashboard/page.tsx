@@ -15,7 +15,7 @@ import { BiMedal } from "react-icons/bi";
 import { BsFire } from "react-icons/bs";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { UserContext } from "../layout";
-import { FormGoalsWeek } from "@/src/components/Forms/FormGoalsWeek";
+import { FormAddGoalsWeek } from "@/src/components/Forms/FormAddGoalsWeek";
 
 export default function Dashboard() {
     const userContext = useContext(UserContext);
@@ -260,7 +260,7 @@ export default function Dashboard() {
                     <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                 </div>
             </div>
-            {openModalGoalsWeek && <FormGoalsWeek onClose={() => setOpenModalGoalsWeek(false)}/>}
+            {openModalGoalsWeek && <FormAddGoalsWeek onClose={() => setOpenModalGoalsWeek(false)}/>}
         </>
     );
 }

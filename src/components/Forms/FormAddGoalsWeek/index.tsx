@@ -19,7 +19,7 @@ export type OptionsPropsSelect = {
 
 // type IGoalsType = "days" | "time" | "chapters";
 
-export function FormGoalsWeek({ onClose }: PropTypes) {
+export function FormAddGoalsWeek({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
 
