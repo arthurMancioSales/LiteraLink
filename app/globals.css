@@ -22,3 +22,24 @@
 * {
     @apply transition-colors duration-300
 }
+
+/* Estilos para navegadores WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #D4C8AE;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Estilos para navegadores Firefox */
+html, body, div {
+  scrollbar-width: thin;
+  scrollbar-color: #D4C8AE transparent;
+
+}
