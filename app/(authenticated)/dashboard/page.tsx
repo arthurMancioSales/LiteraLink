@@ -7,8 +7,8 @@ import { UserGoals } from "@/src/components/UserGoals";
 import { IBook, IGoalsType } from "@/src/interfaces/interface";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
-import { GrAddCircle } from "react-icons/gr";
 import { AiFillCheckCircle, AiOutlineBook, AiOutlineFieldTime } from "react-icons/ai";
+import { MdAddCircle } from "react-icons/md";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { FavoriteSkeleton } from "@/src/components/CardBooks/favoriteSkeleton";
 import { BiMedal } from "react-icons/bi";
@@ -235,7 +235,7 @@ export default function Dashboard() {
                                                     <div className="flex flex-row justify-between">
                                                         <div className="flex gap-2 items-center">
                                                             <p>Metas semanais</p>
-                                                            <GrAddCircle className="fill-light-text dark:fill-dark-text cursor-pointer" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
+                                                            <MdAddCircle className="fill-light-text dark:fill-dark-text cursor-pointer" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
                                                         </div>
                                                         <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
                                                     </div>
