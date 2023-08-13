@@ -18,6 +18,8 @@ import { FormAddBook } from "../Forms/FormAddBook";
 import { FormAddCommunity } from "../Forms/FormAddCommunity";
 import { FormUserConfig } from "../Forms/FormUserConfig";
 import { generalRequest } from "@/src/functions/generalRequest";
+import { CircleSkeleton } from "../Loaders/CircleSkeleton";
+import { RectangleSkeleton } from "../Loaders/RectangleSkeleton";
 
 export function Sidebar() {
     const iconSize = 25;
@@ -36,6 +38,46 @@ export function Sidebar() {
         generalRequest("/logout", {}, "POST");                
     }
 
+    if (loading) {
+        return(
+            <div className="flex flex-col min-w-[230px] w-[230px] max-w-[230px] p-4 gap-2 text-light-text bg-light-primary dark:text-dark-text dark:bg-dark-primary rounded-r-md max-h-screen">
+                <div className="flex flex-col gap-3">
+                    <div className="flex justify-between">
+                        <CircleSkeleton size={iconSize}/>
+                        <CircleSkeleton size={iconSize}/>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                        <>
+                            <div className="rounded-full w-[120px] h-[120px] bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
+                            <div className="relative flex justify-center w-full">
+                                <TextLoading size="small"></TextLoading>
+                                <div className="absolute bottom-0 right-0">
+                                    <CircleSkeleton size={iconSize}/>
+                                </div>
+                            </div>
+                        </>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <div className="h-[45px]"><RectangleSkeleton/></div>
+                        <div className="h-[45px]"><RectangleSkeleton/></div>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-2 py-2 border-solid border-y-2 border-light-text dark:border-dark-text">
+                    <div className="h-[45px]"><RectangleSkeleton/></div>
+                    <div className="h-[45px]"><RectangleSkeleton/></div>
+                </div>
+                <div className="flex flex-col gap-2 h-full">
+                    <div className="flex justify-between">
+                        <span>Comunidades</span>
+                        <CircleSkeleton size={iconSize}/>
+                    </div>
+                    <div className="h-[45px]"><RectangleSkeleton/></div>
+                    <div className="h-[45px]"><RectangleSkeleton/></div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="flex flex-col min-w-[230px] w-[230px] max-w-[230px] p-4 gap-2 text-light-text bg-light-primary dark:text-dark-text dark:bg-dark-primary rounded-r-md max-h-screen">
@@ -45,24 +87,13 @@ export function Sidebar() {
                         <Link href="/" onClick={logout} className="text-red-600" title="Logout" passHref><BiLogOut size={iconSize} /></Link>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                        {loading
-                            ?
-                            <>
-                                <div className="rounded-full w-[120px] h-[120px] bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
-                                <div className="relative flex justify-center w-full">
-                                    <TextLoading size="small"></TextLoading>
-                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
-                                </div>
-                            </>
-                            :
-                            <>
-                                <Avatar src={userData?.image} size={120} />
-                                <div className="relative flex justify-center w-full">
-                                    <p className="pt-3">{userData?.name}</p>
-                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
-                                </div>
-                            </>
-                        }
+                        <>
+                            <Avatar src={userData?.image} size={120} />
+                            <div className="relative flex justify-center w-full">
+                                <p className="pt-3">{userData?.name}</p>
+                                <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
+                            </div>
+                        </>
                     </div>
                     <div className="">
                         <Button icon={<TbProgress size={iconSize} />} onClick={() => setOpenModalProgress(true)}>Atualizar Progresso</Button>
@@ -71,7 +102,7 @@ export function Sidebar() {
                 </div>
                 <div className="py-2 border-solid border-y-2 border-light-text dark:border-dark-text">
                     <Button icon={<TbLayoutDashboard size={iconSize} />} redirectTo="/dashboard">DashBoard</Button>
-                    <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search/default">Pesquisar</Button>
+                    <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search">Pesquisar</Button>
                 </div>
                 <div className="h-full">
                     <div className="flex justify-between">
@@ -83,26 +114,19 @@ export function Sidebar() {
                         type="always"
                     >
                         <ScrollArea.Viewport className="w-[90%] max-w-full max-h-full rounded">
-                            {loading
-                                ?
-                                <>
-                                    <div className="w-[90%] h-[45px] rounded-md bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
-                                </>
-                                :
-                                <div className="max-w-[198px]">
-                                    {userData?.communities ? (
-                                        userData?.communities.map((community) => (
-                                            <Button
-                                                key={community.id}
-                                                icon={<MdOutlinePeopleAlt size={iconSize} />}
-                                                redirectTo={`/c/${community.name}`}
-                                            >
-                                                <p className="truncate max-w-[79%]">{community.name}</p>
-                                            </Button>
-                                        ))
-                                    ) : ""}
-                                </div>
-                            }
+                            <div className="max-w-[198px]">
+                                {userData?.communities ? (
+                                    userData?.communities.map((community) => (
+                                        <Button
+                                            key={community.id}
+                                            icon={<MdOutlinePeopleAlt size={iconSize} />}
+                                            redirectTo={`/c/${community.name}`}
+                                        >
+                                            <p className="truncate max-w-[79%]">{community.name}</p>
+                                        </Button>
+                                    ))
+                                ) : ""}
+                            </div>
                         </ScrollArea.Viewport>
                         <ScrollArea.Scrollbar
                             className="flex select-none touch-none p-0.5 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
