@@ -1,13 +1,13 @@
 import { onClose, onMessage } from "@/src/service/websocket/websocketController";
+import { IncomingMessage } from "http";
 import WebSocket from "ws";
 
 export function SOCKET(
-    client: WebSocket
+    client: WebSocket,
+    request: IncomingMessage
 ) {
-    console.log("Nova conexão");
-
     client.on("message", (data) => {
-        onMessage(data, client);
+        onMessage(data, client, request);
     });
 
     client.on("close", () => {

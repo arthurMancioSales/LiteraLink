@@ -72,8 +72,5 @@ export function bookFormattedRequestRepo(requestBody: IPatchBook) {
     if ("goalExpire" in requestBody) {
         body.goalExpire = requestBody.goalExpire;
     }
-    if ("goalsAchieved" in requestBody) {
-        body.goalsAchieved = requestBody.goalsAchieved;
-    }
     return body;
 }

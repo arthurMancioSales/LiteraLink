@@ -14,25 +14,26 @@ export async function postBook(id: string, requestBook : IBook) {
         if (!user) {
             throw new CustomError("Error: Usuário não encontrado!", 404);
         }
-        else {
-            // OBS: estamos decidindo como iremos pegar esse livro;
-            // Por enquanto a requisição a API externa será feita pelo front e inserida no back;
-            const book : IBook = {
-                id: requestBook.id,
-                title: requestBook.title,
-                image: imageExists(requestBook.image),
-                status: "ler",
-                totalPages: requestBook.totalPages,
-                pagesRead: 0,
-                favorite: false,
-                lastSequence: new Date,
-                goalExpire: new Date,
-                goals: [],
-                goalsAchieved: 0,
-            };
-            const insertedBook = await insertBook(userObjectId, book);
-            return userFormattedResponse(insertedBook);
+        // OBS: estamos decidindo como iremos pegar esse livro;
+        // Por enquanto a requisição a API externa será feita pelo front e inserida no back;
+        const book : IBook = {
+            id: requestBook.id,
+            title: requestBook.title,
+            image: imageExists(requestBook.image),
+            status: "ler",
+            totalPages: requestBook.totalPages,
+            pagesRead: 0,
+            favorite: false,
+            lastSequence: new Date,
+            goalExpire: new Date,
+            goals: [],
+            goalsAchieved: 0,
+        };
+        if (user.books.length === 0) {
+            book.favorite = true;
         }
+        const insertedBook = await insertBook(userObjectId, book);
+        return userFormattedResponse(insertedBook);
     } catch (error: any) {
         console.log(TAG, error);
         if (!error.status) {

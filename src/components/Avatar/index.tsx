@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { FaRegUserCircle } from "react-icons/fa";
 
 type PropsTypes = {
-    src: string | undefined;
+    src?: string | StaticImageData | undefined;
     alt?: string;
     size?: number;
 };

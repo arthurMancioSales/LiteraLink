@@ -3,6 +3,8 @@ import { ObjectId } from "mongodb";
 import { updateBookRepo } from "@/src/repository/book/updateBookRepo";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
 import { bookFormattedRequestRepo } from "@/src/utils/formattedRequest";
+import { CustomError } from "@/src/utils/customError";
+import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
 
 const TAG = "SERVICE(PATCH): book ";
 
@@ -10,6 +12,20 @@ export async function patchBook(id: string , body: IPatchBook) {
     try{
         const userObjectId = ObjectId.createFromHexString(id);
         const requestBodyRepo = bookFormattedRequestRepo(body);
+        if (requestBodyRepo.pagesRead){
+            const oldBook = await findBookByUserIdRepo(userObjectId, body.id);
+            if (!oldBook) {
+                throw new CustomError('Livro não enccontrado.', 404);
+            }
+            requestBodyRepo.pagesRead += oldBook.pagesRead;
+            if (requestBodyRepo.pagesRead >= oldBook.totalPages) {
+                requestBodyRepo.status = 'lido';
+            }
+            // garante que o número de páginas lidas é igual ao número total de páginas do livro
+            if (requestBodyRepo.pagesRead > oldBook.totalPages) {
+                requestBodyRepo.pagesRead = oldBook.totalPages
+            }         
+        }
         const responseDB = await updateBookRepo(userObjectId, body.id, requestBodyRepo);
         return userFormattedResponse(responseDB);
     } catch (e: any) {
