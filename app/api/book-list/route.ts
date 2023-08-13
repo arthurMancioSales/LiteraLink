@@ -44,7 +44,6 @@ export async function POST(req: NextRequest) {
         await redis.del("user");
         console.log("Livro adicionado: ", postedBook);
 
-
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
         console.log(error);
