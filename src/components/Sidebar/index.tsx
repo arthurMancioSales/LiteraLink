@@ -17,6 +17,7 @@ import { FormProgress } from "../Forms/FormProgress";
 import { FormAddBook } from "../Forms/FormAddBook";
 import { FormAddCommunity } from "../Forms/FormAddCommunity";
 import { FormUserConfig } from "../Forms/FormUserConfig";
+import { generalRequest } from "@/src/functions/generalRequest";
 
 export function Sidebar() {
     const iconSize = 25;
@@ -31,13 +32,17 @@ export function Sidebar() {
     const [openModalAddCommunity, setOpenModalAddCommunity] = useState(false);
     const [openModalUserConfig, setOpenModalUserConfig] = useState(false);
 
+    function logout() {
+        generalRequest("/logout", {}, "POST");                
+    }
+
     return (
         <>
             <div className="flex flex-col min-w-[230px] w-[230px] max-w-[230px] p-4 gap-2 text-light-text bg-light-primary dark:text-dark-text dark:bg-dark-primary rounded-r-md max-h-screen">
                 <div className="flex flex-col gap-3">
                     <div className="flex justify-between">
                         <Toggle />
-                        <Link href="/" className="text-red-600" title="Logout" passHref><BiLogOut size={iconSize} /></Link>
+                        <Link href="/" onClick={logout} className="text-red-600" title="Logout" passHref><BiLogOut size={iconSize} /></Link>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         {loading
@@ -46,12 +51,12 @@ export function Sidebar() {
                                 <div className="rounded-full w-[120px] h-[120px] bg-light-secondary dark:bg-dark-secondary animate-pulse"></div>
                                 <div className="relative flex justify-center w-full">
                                     <TextLoading size="small"></TextLoading>
-                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalConfigUser(true)}></IoIosSettings>
+                                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
                                 </div>
                             </>
                             :
                             <>
-                                <Avatar src={userData?.image ?? ""} size={120} />
+                                <Avatar src={userData?.image} size={120} />
                                 <div className="relative flex justify-center w-full">
                                     <p className="pt-3">{userData?.name}</p>
                                     <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>

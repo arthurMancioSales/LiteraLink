@@ -47,11 +47,11 @@ export function FormAddBook({ onClose }: PropTypes) {
 
                 <div className="flex flex-col gap-2">
                     <label>Livro</label>
-                    <div className="bg-light-tertiary opacity-70 p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
+                    <div className="bg-light-tertiary opacity-70 p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text">
                         <p>{book ? book.title : "Nenhum livro adicionado"}</p>
                     </div>
                     <label>Quantidade páginas</label>
-                    <div className="bg-light-tertiary opacity-70 p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
+                    <div className="bg-light-tertiary opacity-70 p-1 min-h-[32px] rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text">
                         <p>{book ? book.pages : "Nenhum livro adicionado"}</p>
                     </div>
                     <Formik 
