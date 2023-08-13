@@ -1,4 +1,5 @@
-import { IFormatedResquestCommunity, IPatchBook, IPatchBookRepo } from "../interfaces/interface";
+import { IFormatedResquestCommunity, IGoals, IGoalsType, IPatchBook, IPatchBookRepo } from "../interfaces/interface";
+import { GoalTypeValidator } from "./validators/validator";
 
 export function CommunityFormattedRequest (request: any) {
     const formattedBody: IFormatedResquestCommunity = {};
@@ -73,4 +74,26 @@ export function bookFormattedRequestRepo(requestBody: IPatchBook) {
         body.goalExpire = requestBody.goalExpire;
     }
     return body;
+}
+
+export function goalFormattedResquest(
+    goals: Array<{
+        type: IGoalsType, 
+        total: number,
+        parcial?:number,
+        createDate?: Date
+    }>
+) {
+    const requestBody:IGoals[] = [];
+    goals.forEach(element => {
+        new GoalTypeValidator(element.type);
+        const formattedResquestBody: IGoals = {
+            type: element.type,
+            total: element.total,
+            partial: 0,
+            createDate: new Date
+        };
+        requestBody.push(formattedResquestBody);
+    });
+    return requestBody;
 }

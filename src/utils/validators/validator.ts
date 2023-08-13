@@ -80,6 +80,16 @@ export class NameCommunityValidator extends RegexValidator {
     }
 }
 
+export class GoalTypeValidator extends RegexValidator {
+    constructor(data: string) {
+        super(data, "Tipo de Meta inválida, só são aceitos os tipos 'days', 'time' e 'chapters'");
+    }
+  
+    protected get regex(): RegExp {
+        return /^(days|time|chapters)$/gim;
+    }
+}
+
 export class DateValidator extends RegexValidator {
     constructor(data: string) {
         super(data, "Error: invalid Date.");
