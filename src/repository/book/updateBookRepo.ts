@@ -5,7 +5,11 @@ import { ObjectId } from "mongodb";
 
 const TAG = "REPOSITORY(POST): book ";
 
-export async function updateBookRepo(userId: ObjectId, book_id: string, book: IPatchBookRepo) {
+export async function updateBookRepo(
+    userId: ObjectId, 
+    book_id: string, 
+    book: IPatchBookRepo
+) {
     const dbConnect = createMongoConnection();
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("users"); 
@@ -17,6 +21,7 @@ export async function updateBookRepo(userId: ObjectId, book_id: string, book: IP
             );
         }
         const request = bookFormattedMongo(book);
+
         await collection.updateOne(
             { _id: userId },
             {$set: request},
