@@ -71,7 +71,7 @@ export function Sidebar() {
                 </div>
                 <div className="py-2 border-solid border-y-2 border-light-text dark:border-dark-text">
                     <Button icon={<TbLayoutDashboard size={iconSize} />} redirectTo="/dashboard">DashBoard</Button>
-                    <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search/default">Pesquisar</Button>
+                    <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search">Pesquisar</Button>
                 </div>
                 <div className="h-full">
                     <div className="flex justify-between">
