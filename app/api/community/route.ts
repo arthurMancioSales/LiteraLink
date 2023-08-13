@@ -40,12 +40,14 @@ export async function POST(req:NextRequest) {
 }
 
 export async function PATCH(req:NextRequest) {
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user =  await auth(req);
         const request = await req.json();
         const body = formattedBody(request);
         const updateCommunity = await patchCommunity(user.id, body);
+        await redis.del("cahcedAllCommunities");
         Response.data = updateCommunity;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
