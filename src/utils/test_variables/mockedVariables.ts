@@ -153,16 +153,19 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 15,
                     total: 15,
+                    createDate: new Date
                 },
                 {
                     type: "chapters",
                     partial: 395,
                     total: 445,
+                    createDate: new Date
                 },
                 {
                     type: "time",
                     partial: 15,
                     total: 60,
+                    createDate: new Date
                 },
             ],
         },
@@ -182,6 +185,7 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 395,
                     total: 445,
+                    createDate: new Date
                 },
             ],
             goalsAchieved: 0
@@ -202,6 +206,7 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 395,
                     total: 445,
+                    createDate: new Date
                 },
             ],
             goalsAchieved: 0
@@ -222,6 +227,7 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 395,
                     total: 445,
+                    createDate: new Date
                 },
             ],
             goalsAchieved: 0
@@ -253,6 +259,7 @@ export const bookMocked: IBook = {
             type: "days",
             partial: 395,
             total: 445,
+            createDate: new Date
         },
     ],
     goalsAchieved: 0
@@ -270,6 +277,7 @@ export const updateBook: IPatchBook = {
             type: "days",
             partial: 395,
             total: 445,
+            createDate: new Date
         },
     ],
     goalsAchieved: 0

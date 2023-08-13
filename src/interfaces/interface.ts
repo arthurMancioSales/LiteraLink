@@ -122,6 +122,7 @@ export interface IGoals {
     type: IGoalsType;
     partial: number;
     total: number;
+    createDate: Date;
 }
 
 
