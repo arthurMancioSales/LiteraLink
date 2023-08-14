@@ -112,16 +112,27 @@ export function FormProgress({ onClose }: PropTypes) {
         <GenericModal title="Progresso de leitura" onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
-                    const formBody = {
+                    const formBodyPages = {
                         id: values.bookName,
                         status: values.bookStatus,
                         pagesRead: values.pagesRead,                        
                     };
 
-                    const response = await generalRequest("/api/book-list", formBody, "PATCH");
+                    const formBodyGoals = {
+                        id: values.bookName,
+                        goals: [
+                            {
+                                type: "time",
+                                partial: values.readingTime
+                            }
+                        ]                        
+                    };
 
-                    if(response?.error) {
-                        setMessageError(response.error);
+                    const responseBookList = await generalRequest("/api/book-list", formBodyPages, "PATCH");
+                    const responseBookGoals = await generalRequest("/api/book-goals", formBodyGoals, "PATCH");
+
+                    if(responseBookList?.error || responseBookGoals?.error) {
+                        setMessageError(responseBookList.error ?? responseBookGoals?.error);
                     } else {
                         if(updateUser) {
                             updateUser();
