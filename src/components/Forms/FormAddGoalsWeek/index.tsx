@@ -47,6 +47,18 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
         return true;
     }
 
+    function renderButton() {
+        if(!visibleInputTypeGoal("days") && !visibleInputTypeGoal("time")) {
+            return (
+                <p className="text-center">Você já cadastrou todas as metas deste livro</p>
+            );
+        }
+        
+        return (
+            <Button type="submit" variant="info">SALVAR</Button>
+        );
+    }
+
     const validationSchema = Yup.object({
         sequence: Yup.number().min(0, "Não existe dias negativos"),
         readingTime: Yup.number().min(0, "Não existe tempo negativo")
@@ -162,7 +174,7 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
                                     </div>
                                 )}
                             </div>
-                            <Button type="submit" variant="info">SALVAR</Button>
+                            {renderButton()}
                         </form>
                     )}
                 </Formik>

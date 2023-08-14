@@ -76,11 +76,9 @@ export function FormProgress({ onClose }: PropTypes) {
                 }
                 return false;
             });
-            if (typeSelected?.length) return false;
-            
-            return true;
+            if (typeSelected?.length) return true;
         }
-        return true;
+        return false;
     }
 
     function getStatusSelect(id: string) {
@@ -138,21 +136,35 @@ export function FormProgress({ onClose }: PropTypes) {
                         pagesRead: values.pagesRead,                        
                     };
 
-                    const formBodyGoals = {
-                        id: values.bookName,
-                        goals: [
-                            {
-                                type: "time",
-                                partial: values.readingTime
-                            }
-                        ]                        
-                    };
+                    if(visibleInputTypeGoal("time")) {
+                        const goals = [];
+    
+                        if (values.readingTime) {
+                            goals.push(
+                                {
+                                    type: "time",
+                                    partial: values.readingTime
+                                }
+                            );                        
+                        }
+    
+                        const formBodyGoals = {
+                            id: values.bookName,
+                            goals                       
+                        };
+
+                        const responseBookGoals = await generalRequest("/api/book-goals", formBodyGoals, "PATCH");
+
+                        if(responseBookGoals?.error) {
+                            setMessageError(responseBookGoals?.error);
+                            return;
+                        }
+                    }
 
                     const responseBookList = await generalRequest("/api/book-list", formBodyPages, "PATCH");
-                    const responseBookGoals = await generalRequest("/api/book-goals", formBodyGoals, "PATCH");
 
-                    if(responseBookList?.error || responseBookGoals?.error) {
-                        setMessageError(responseBookList.error ?? responseBookGoals?.error);
+                    if(responseBookList?.error) {
+                        setMessageError(responseBookList.error);
                     } else {
                         if(updateUser) {
                             updateUser();
