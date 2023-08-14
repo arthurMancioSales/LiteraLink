@@ -97,9 +97,9 @@ export function FormUserConfig({ onClose }: PropTypes) {
                 {(props) => (
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div className="flex flex-col gap-2">
-                            <Input name="userName" label="Apelido" error={props.errors.userName} type="number"/>
-                            <Input name="userEmail" label="E-mail" error={props.errors.userEmail} type="number"/>
-                            <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="number"/>
+                            <Input name="userName" label="Apelido" error={props.errors.userName} type="text"/>
+                            <Input name="userEmail" label="E-mail" error={props.errors.userEmail} type="text"/>
+                            <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="text"/>
                         </div>
                         <Button type="submit" variant="info">SALVAR</Button>
                     </form>

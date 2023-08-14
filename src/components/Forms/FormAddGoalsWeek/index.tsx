@@ -72,14 +72,6 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
             }
             return true;
         }),
-        // sequence: Yup.number().when("checkboxSequence", {
-        //     is: true,
-        //     then: Yup.mixed().test('sequence', 'A quantidade total deve ser maior que zero', value => value > 0).required('Campo obrigatório'),
-        // }),
-        // readingTime: Yup.number().when("checkboxReadingTime", {
-        //     is: true,
-        //     then: (schema) => schema.number().min(1, "A quantidade total deve ser maior que zero").required("Campo obrigatório"),
-        // }),
     });
 
     const initialValues = {

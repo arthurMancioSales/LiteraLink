@@ -95,7 +95,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                 {(props) => (
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div>
-                            <Input name="nameCommunity" label="Nome" error={props.errors.nameCommunity} type="number"/>
+                            <Input name="nameCommunity" label="Nome" error={props.errors.nameCommunity} type="text"/>
                             <TextArea name="descriptionCommunity" label="Descrição" type="text"/>
                         </div>
                         <Button type="submit" variant="info">CRIAR</Button>
