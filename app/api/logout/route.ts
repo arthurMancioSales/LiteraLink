@@ -12,7 +12,8 @@ export async function POST(req: NextRequest) {
         const user = await auth(req);
         if (user) {
             cookies().delete("Session");
-            await redis.set("user", "");
+            await redis.del("user");
+            await redis.del("userInfo");
             return NextResponse.json(Response, {status: Response.status});
         }
         throw new CustomError("Erro interno do servidor", 500);

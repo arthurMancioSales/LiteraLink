@@ -24,7 +24,7 @@ export async function PATCH(req: NextRequest) {
         const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
         cookies().set("Session", jwt_cookie);
-        await redis.set("userInfo", JSON.stringify(userUpdate), "EX", 86400);
+        await redis.del("user");
         Response.data = userFormattedResponse(userUpdate);
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {

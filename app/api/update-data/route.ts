@@ -4,8 +4,10 @@ import { IStatistic } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { auth } from "@/src/utils/middlewares/auth";
 import { postStatistics } from "@/src/service/user/postStatistics";
+import { createRedisClient } from "@/src/database/redis/redis";
 
 export async function POST(req: NextRequest) {
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user = await auth(req);
@@ -21,6 +23,7 @@ export async function POST(req: NextRequest) {
             actualSequence: request.actualSequence,
             goalsAchieved: request.goalsAchieved
         };
+        await redis.del("user");
         const userStatics = await postStatistics(user.id, body);
         Response.data = userStatics;
         return NextResponse.json(Response, {status: Response.status});
