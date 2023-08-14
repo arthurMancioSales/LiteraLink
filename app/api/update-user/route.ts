@@ -8,12 +8,8 @@ import { auth } from "../../../src/utils/middlewares/auth";
 import { updateUser } from "@/src/service/user/updateUser";
 import { EmailValidator, NameValidator, PasswordValidator } from "@/src/utils/validators/validator";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
-<<<<<<< Updated upstream
-import { createRedisClient } from "@/src/database/redis/redis";
-=======
 import { handleUpdate } from "@/src/utils/handleUpload";
 // import { createRedisClient } from "@/src/database/redis/redis";
->>>>>>> Stashed changes
 
 
 
