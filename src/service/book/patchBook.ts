@@ -5,6 +5,7 @@ import { userFormattedResponse } from "@/src/utils/formattedResponse";
 import { bookFormattedRequestRepo } from "@/src/utils/formattedRequest";
 import { CustomError } from "@/src/utils/customError";
 import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
+import { patchGoalParcialProgress } from "./patchGoalParcialProgress";
 
 const TAG = "SERVICE(PATCH): book ";
 
@@ -25,6 +26,16 @@ export async function patchBook(id: string , body: IPatchBook) {
             if (requestBodyRepo.pagesRead > oldBook.totalPages) {
                 requestBodyRepo.pagesRead = oldBook.totalPages
             }         
+        }
+        if (body.goals) {
+            const updateGoals = await patchGoalParcialProgress(
+                new ObjectId(id),
+                body.id,
+                body.goals
+            );
+            if (!updateGoals) {
+                throw new CustomError('Erro na atualização da Meta', 500);
+            }
         }
         const responseDB = await updateBookRepo(userObjectId, body.id, requestBodyRepo);
         return userFormattedResponse(responseDB);
