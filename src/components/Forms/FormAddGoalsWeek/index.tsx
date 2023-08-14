@@ -4,9 +4,10 @@ import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { GenericModal } from "../../Modal/GenericModal";
 import { Button } from "../../Button";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
+import { IGoalsType } from "@/src/interfaces/interface";
 
 interface PropTypes {
     onClose: () => void;
@@ -26,30 +27,25 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
     
     const [disabledSequence, setDisabledSequence] = useState(true);
     const [disabledReadingTime, setDisabledReadingTime] = useState(true);
-    const [visibleInputSequence, setVisibleInputSequence] = useState(false);
-    const [visibleInputTime, setVisibleInputTime] = useState(false);
     const [messageError, setMessageError] = useState("");
 
-    useEffect(() => {
-        if (!books) return;
-
-        function findTypeGoal(goalType: "time" | "days") {
-            const typeSelectedTime = books?.filter((book) => {
+    function visibleInputTypeGoal(goalType: IGoalsType) {
+        if(books) {
+            const typeSelected = books.filter((book) => {
                 if(book.id == bookId) {
                     if(book.goals?.length) {
                         const searchType = book.goals.find((goal) => (goal.type === goalType));
-                        if (searchType) return false;
+                        if (searchType) return true;
                     }
                 }
-                return true;
+                return false;
             });
-            if (typeSelectedTime?.length) return false;
+            if (typeSelected?.length) return false;
             
             return true;
         }
-        setVisibleInputSequence(findTypeGoal("days"));
-        setVisibleInputTime(findTypeGoal("time"));
-    },[books, bookId]);
+        return true;
+    }
 
     const validationSchema = Yup.object({
         sequence: Yup.number().min(0, "Não existe dias negativos"),
@@ -64,7 +60,7 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Adição de metas semanais" onClose={onClose}>
+        <GenericModal title="Adição de metas do livro" onClose={onClose}>
             <div className="flex flex-col gap-2">
                 <Formik 
                     onSubmit={async (values, {setSubmitting}) => {
@@ -113,7 +109,7 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
                     {(props) => (
                         <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                             <div className="flex flex-col gap-2">
-                                {visibleInputSequence && (
+                                {visibleInputTypeGoal("days") && (
                                     <div>
                                         <div className="flex gap-2">
                                             <Field
@@ -139,7 +135,7 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
                                         </div>
                                     </div>
                                 )}
-                                {visibleInputTime && (
+                                {visibleInputTypeGoal("time") && (
                                     <div>
                                         <div className="flex gap-2">
                                             <Field

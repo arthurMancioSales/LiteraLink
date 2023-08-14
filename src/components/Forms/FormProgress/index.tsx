@@ -8,6 +8,7 @@ import { Button } from "../../Button";
 import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
+import { IGoalsType } from "@/src/interfaces/interface";
 
 interface PropTypes {
     onClose: () => void;
@@ -25,6 +26,7 @@ export function FormProgress({ onClose }: PropTypes) {
     const [bookStatusSelected, setBookStatusSelected] = useState<string>("");
     const [bookPagesRead, setBookPagesRead] = useState<number | string>("");
     const [bookTotalPages, setBookTotalPages] = useState<number>(0);
+    const [idBookSelected, setIdBookSelected] = useState<number | string>("");
     const [messageError, setMessageError] = useState("");
 
     const booksUser = userContext?.userData?.books;
@@ -61,6 +63,24 @@ export function FormProgress({ onClose }: PropTypes) {
             });            
         }
         return booksListSelect;     
+    }
+
+    function visibleInputTypeGoal(goalType: IGoalsType) {
+        if(booksUser) {
+            const typeSelected = booksUser.filter((book) => {
+                if(book.id == idBookSelected) {
+                    if(book.goals?.length) {
+                        const searchType = book.goals.find((goal) => (goal.type === goalType));
+                        if (searchType) return true;
+                    }
+                }
+                return false;
+            });
+            if (typeSelected?.length) return false;
+            
+            return true;
+        }
+        return true;
     }
 
     function getStatusSelect(id: string) {
@@ -164,6 +184,8 @@ export function FormProgress({ onClose }: PropTypes) {
 
                                         const pagesBook = getTotalPagesBook(e.target.value);
                                         if(pagesBook) setBookTotalPages(pagesBook);
+
+                                        setIdBookSelected(e.target.value);
                                     }}
                                 >
                                     <option value="" disabled>Selecione um livro</option>
@@ -218,7 +240,7 @@ export function FormProgress({ onClose }: PropTypes) {
                                     <ErrorMessage name="pagesRead" className="text-status-error" component="span"/>
                                 </div>
                             </div>
-                            <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>
+                            {visibleInputTypeGoal("time") && <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>}
                         </div>
                         <Button type="submit" variant="info">SALVAR</Button>
                     </form>
