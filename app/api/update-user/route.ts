@@ -8,18 +8,25 @@ import { auth } from "../../../src/utils/middlewares/auth";
 import { updateUser } from "@/src/service/user/updateUser";
 import { EmailValidator, NameValidator, PasswordValidator } from "@/src/utils/validators/validator";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
+<<<<<<< Updated upstream
 import { createRedisClient } from "@/src/database/redis/redis";
+=======
+import { handleUpdate } from "@/src/utils/handleUpload";
+// import { createRedisClient } from "@/src/database/redis/redis";
+>>>>>>> Stashed changes
+
+
 
 export async function PATCH(req: NextRequest) {
     const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user = await auth(req);
-        const request = await req.json();
+        const request = await handleUpdate(req);
         if (Object.entries(request).length === 0) {
             throw new CustomError("Error: nenhum campo foi selecionado", 400);
         }
-        const body = formattedBody(request);
+        const body = await formattedBody(request);
         const userUpdate = await updateUser(user.id, body);
         const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
@@ -35,7 +42,7 @@ export async function PATCH(req: NextRequest) {
     }
 }
 
-function formattedBody(requestBody: IUserUpdate) {
+async function formattedBody(requestBody: IUserUpdate) {
     const body: IUserUpdate = {};
     if (requestBody.name) {
         new NameValidator(requestBody.name);
@@ -48,6 +55,10 @@ function formattedBody(requestBody: IUserUpdate) {
     if (requestBody.password) {
         new PasswordValidator(requestBody.password);
         body.password = requestBody.password;
+    }
+    if (requestBody.image) {
+        console.log(requestBody.image)
+        body.image = requestBody.image;
     }
     return body;
 }
