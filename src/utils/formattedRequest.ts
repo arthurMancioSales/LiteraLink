@@ -67,9 +67,6 @@ export function bookFormattedRequestRepo(requestBody: IPatchBook) {
     if ("lastSequence" in requestBody) {
         body.lastSequence = requestBody.lastSequence;
     }
-    if ("goals" in requestBody) {
-        body.goals = requestBody.goals;
-    }
     if ("goalExpire" in requestBody) {
         body.goalExpire = requestBody.goalExpire;
     }
