@@ -41,8 +41,6 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
                 return false;
             });
             if (typeSelected?.length) return false;
-            
-            return true;
         }
         return true;
     }
@@ -60,15 +58,35 @@ export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
     }
 
     const validationSchema = Yup.object({
-        sequence: Yup.number().min(0, "Não existe dias negativos"),
-        readingTime: Yup.number().min(0, "Não existe tempo negativo")
+        checkboxSequence: Yup.boolean(),
+        checkboxReadingTime: Yup.boolean(),
+        sequence: Yup.number().test("sequence", "A quantidade total deve ser maior que zero", function(value) {
+            if (this.parent.checkboxSequence) {
+                return Yup.number().min(1).required().isValidSync(value);
+            }
+            return true;
+        }),
+        readingTime: Yup.number().test("readingTime", "A quantidade total deve ser maior que zero", function(value) {
+            if (this.parent.checkboxReadingTime) {
+                return Yup.number().min(1).required().isValidSync(value);
+            }
+            return true;
+        }),
+        // sequence: Yup.number().when("checkboxSequence", {
+        //     is: true,
+        //     then: Yup.mixed().test('sequence', 'A quantidade total deve ser maior que zero', value => value > 0).required('Campo obrigatório'),
+        // }),
+        // readingTime: Yup.number().when("checkboxReadingTime", {
+        //     is: true,
+        //     then: (schema) => schema.number().min(1, "A quantidade total deve ser maior que zero").required("Campo obrigatório"),
+        // }),
     });
 
     const initialValues = {
         checkboxSequence: false,
         checkboxReadingTime: false,
-        sequence: 0,
-        readingTime: 0
+        sequence: "",
+        readingTime: ""
     };
   
     return (
