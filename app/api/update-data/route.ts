@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
             actualSequence: request.actualSequence,
             goalsAchieved: request.goalsAchieved
         };
-        await redis.del("user");
+        await redis.del(`userInfo:${user.id}`);
         const userStatics = await postStatistics(user.id, body);
         Response.data = userStatics;
         return NextResponse.json(Response, {status: Response.status});
