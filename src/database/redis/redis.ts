@@ -9,4 +9,5 @@ export function createRedisClient() {
         throw e;
     }
 }
+
 export const dynamic = "force-dynamic";

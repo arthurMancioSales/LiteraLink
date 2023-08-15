@@ -92,5 +92,7 @@ function formattedBody(req: IPatchCommunity) {
     }
     return body;
 }
+
+export const dynamic = "force-dynamic";
 export const dynamic = "force-dynamic";
 

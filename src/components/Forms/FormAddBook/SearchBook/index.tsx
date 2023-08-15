@@ -13,7 +13,7 @@ interface PropTypes {
 }
 
 export function SearchBook({value}: PropTypes) {
-    const [books, setBooks] = useState<[] | IBookApi[]>([]);
+    const [books, setBooks] = useState<IBookApi[]>([]);
     const [showBooksSearch, setShowBooksSearch] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -40,8 +40,18 @@ export function SearchBook({value}: PropTypes) {
     }
     
     function renderBooksSearch() {
-        if (loading || !books || !books.length || !showBooksSearch) {
+        if (loading || !books || !showBooksSearch) {
             return <></>;
+        }
+
+        if (!books.length) {
+            return (
+                <div className="absolute top-[calc(100%+5px)] right-0 left-0">
+                    <div id="dropdownSearchBook" className="absolute flex flex-col z-20 gap-3 p-2 rounded-md overflow-y-auto max-h-[200px] w-full bg-light-tertiary dark:bg-dark-primary">
+                        <p>Nenhum livro encontrado</p>
+                    </div> 
+                </div>
+            );
         }
 
         return (

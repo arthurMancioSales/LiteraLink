@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-    const redis = createRedisClient()
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user = await auth(req);
@@ -76,4 +76,5 @@ export async function DELETE(req: NextRequest) {
         return NextResponse.json(Response, {status: Response.status});
     }
 }
+
 export const dynamic = "force-dynamic";

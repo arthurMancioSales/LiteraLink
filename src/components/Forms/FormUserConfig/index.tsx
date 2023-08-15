@@ -41,11 +41,11 @@ export function FormUserConfig({ onClose }: PropTypes) {
   
     return (
         <GenericModal title="Configurações do usuário" onClose={onClose}>
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
                 <label className="w-[120px]">
                     <input
                         type="file"
-                        name="file"
+                        name="image"
                         hidden
                         onChange={(e) => {
                             if(e.target.files) {
@@ -70,36 +70,38 @@ export function FormUserConfig({ onClose }: PropTypes) {
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     const formData = new FormData();
-                    formData.append("userName", values.userEmail);
-                    formData.append("userEmail", values.userEmail);
-                    formData.append("userPassword", values.userPassword);
-
+                    formData.set("userName", values.userEmail);
+                    formData.set("userEmail", values.userEmail);
+                    formData.set("userPassword", values.userPassword);
                     if(selectedFile) {
-                        formData.append("file", selectedFile);
+                        formData.set("image", selectedFile);
                     }
                   
-                    const response = await generalRequest("api/update-user", formData, "PATCH");
-
-                    if(response?.error) {
-                        setMessageError(response.error);
-                    } else {
-                        if(updateUser) {
-                            updateUser();
-                        }
-    
-                        setSubmitting(false);
-                        onClose();
+                    const response = await fetch("api/update-user", {
+                        method: "PATCH",
+                        body: formData,
+                        cache: "no-store"
+                    });
+                    if(!response?.ok) {
+                        setMessageError(response.statusText);
+                        return;
                     }
+                    if(updateUser) {
+                        updateUser();
+                    }
+
+                    setSubmitting(false);
+                    onClose();
                 }}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
             >
                 {(props) => (
-                    <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
+                    <form className="flex flex-col gap-6" onSubmit={props.handleSubmit} encType="multipart/form-data">
                         <div className="flex flex-col gap-2">
-                            <Input name="userName" label="Apelido" error={props.errors.userName} type="number"/>
-                            <Input name="userEmail" label="E-mail" error={props.errors.userEmail} type="number"/>
-                            <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="number"/>
+                            <Input name="userName" label="Apelido" error={props.errors.userName} type="text"/>
+                            <Input name="userEmail" label="E-mail" error={props.errors.userEmail} type="text"/>
+                            <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="text"/>
                         </div>
                         <Button type="submit" variant="info">SALVAR</Button>
                     </form>

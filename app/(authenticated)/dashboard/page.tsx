@@ -101,8 +101,8 @@ export default function Dashboard() {
                                                     </div>
                                                     <div className="flex flex-col gap-4">
                                                         <div className="flex flex-row justify-between">
-                                                            <div className="flex gap-2 items-center">
-                                                                <p>Metas semanais</p>
+                                                            <div className="flex items-center gap-2">
+                                                                <p>Metas</p>
                                                                 <CircleSkeleton size={16}/>
                                                             </div>
                                                             <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
@@ -202,7 +202,7 @@ export default function Dashboard() {
             switch (goalType) {
                 case "days": {
                     const goalTypeSelected = {
-                        name: "Sequência",
+                        name: "Sequência (semanal)",
                         complement: "dias"
                     };                               
                     return goalTypeSelected;
@@ -246,6 +246,16 @@ export default function Dashboard() {
         );
     }
 
+    function renderModalAddGoalWeek() {
+        if (!openModalGoalsWeek) return <></>;
+
+        if (!favoriteBook?.id) return <></>;
+
+        return (
+            <FormAddGoalsWeek bookId={favoriteBook.id} onClose={() => setOpenModalGoalsWeek(false)}/>
+        );
+    }
+
     return (
         <>
             <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
@@ -284,9 +294,9 @@ export default function Dashboard() {
                                                 </div>
                                                 <div className="flex flex-col gap-4">
                                                     <div className="flex flex-row justify-between">
-                                                        <div className="flex gap-2 items-center">
+                                                        <div className="flex items-center gap-2">
                                                             <p>Metas semanais</p>
-                                                            <MdAddCircle className="fill-light-text dark:fill-dark-text cursor-pointer" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
+                                                            <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
                                                         </div>
                                                         <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
                                                     </div>
@@ -311,7 +321,7 @@ export default function Dashboard() {
                     <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                 </div>
             </div>
-            {openModalGoalsWeek && <FormAddGoalsWeek onClose={() => setOpenModalGoalsWeek(false)}/>}
+            {renderModalAddGoalWeek()}
         </>
     );
 }
