@@ -5,11 +5,11 @@ import { postCommunity } from "@/src/service/community/postCommunity";
 import { IPatchCommunity } from "@/src/interfaces/interface";
 import { patchCommunity } from "@/src/service/community/patchCommunity";
 import { NameCommunityValidator } from "@/src/utils/validators/validator";
-// import { createRedisClient } from "@/src/database/redis/redis";
+import { createRedisClient } from "@/src/database/redis/redis";
 
 export async function POST(req:NextRequest) {
     const Response = createResponse();
-    // const redis = createRedisClient();
+    const redis = createRedisClient();
     try {
         const user = await auth(req);
         const request = await req.json();
@@ -27,7 +27,7 @@ export async function POST(req:NextRequest) {
             is_admin: user.id
         };
         const community = await postCommunity(user, body);
-        // await redis.rpush("cachedAllCommunities", JSON.stringify(community));
+        await redis.rpush("cachedAllCommunities", JSON.stringify(community));
         Response.data = community;
         Response.status = 201;
         return NextResponse.json(Response, {status: Response.status});
@@ -40,14 +40,14 @@ export async function POST(req:NextRequest) {
 }
 
 export async function PATCH(req:NextRequest) {
-    // const redis = createRedisClient();
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user =  await auth(req);
         const request = await req.json();
         const body = formattedBody(request);
         const updateCommunity = await patchCommunity(user.id, body);
-        // await redis.del("cahcedAllCommunities");
+        await redis.del("cahcedAllCommunities");
         Response.data = updateCommunity;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
