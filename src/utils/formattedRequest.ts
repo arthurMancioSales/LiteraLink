@@ -1,4 +1,5 @@
 import { IFormatedResquestCommunity, IGoals, IGoalsType, IPatchBook, IPatchBookRepo } from "../interfaces/interface";
+import { dateNow } from "./dateCorrect";
 import { GoalTypeValidator } from "./validators/validator";
 
 export function CommunityFormattedRequest (request: any) {
@@ -83,12 +84,25 @@ export function goalFormattedResquest(
 ) {
     const requestBody:IGoals[] = [];
     goals.forEach(element => {
+        if (element.type === 'days') {
+            new GoalTypeValidator(element.type);
+            const formattedResquestBody: IGoals = {
+                type: element.type,
+                total: 7,
+                partial: 0,
+                createDate: dateNow(),
+                lastVisitDate: dateNow()
+            };
+            requestBody.push(formattedResquestBody);
+            return;
+        }
         new GoalTypeValidator(element.type);
         const formattedResquestBody: IGoals = {
             type: element.type,
             total: element.total,
             partial: 0,
-            createDate: new Date
+            createDate: dateNow(),
+            lastVisitDate: dateNow()
         };
         requestBody.push(formattedResquestBody);
     });

@@ -3,16 +3,17 @@ import { IGoalsType } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { ObjectId } from "mongodb";
 
-const TAG = "SERVICE(PATCH-goal_total): book ";
+const TAG = "SERVICE(PATCH-goal_partial): book ";
 
-export async function updateTotalGoalOfBookRepo(
+export async function updateGoalDaysRepo(
     userId : ObjectId, 
     bookId : string, 
     goal: {
-        type: IGoalsType;
-        partial?: number;
-        total: number;
-        createDate?: Date;
+        type: IGoalsType,
+        partial: number,
+        total?: number,
+        createDate?: Date,
+        lastVisitDate?: Date
     }
 ) {
     const dbConnect =  createMongoConnection();
@@ -32,7 +33,6 @@ export async function updateTotalGoalOfBookRepo(
         if (!update.acknowledged) {
             throw new CustomError('Erro na atualização da meta', 500);
         }
-
         return;
     } catch (error) {
         console.log(TAG, error);

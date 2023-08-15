@@ -42,7 +42,7 @@ import { getallCommunityRepo } from "@/src/repository/community/getallCommunityR
 import { getCommunityByNameRepo } from "@/src/repository/community/getCommunityByNameRepo";
 import { patchCommunityRepo } from "@/src/repository/community/patchCommunityRepo";
 import { addUserToCommunityRepo } from "@/src/repository/community/postAddRepo";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { createCommunityRepo } from "@/src/repository/community/createCommunityRepo";
 
 const user = {

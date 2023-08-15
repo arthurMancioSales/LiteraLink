@@ -33,7 +33,7 @@ import { createUserRepo } from "@/src/repository/user/createUserRepo";
 import { loginRepo } from "@/src/repository/user/loginRepo";
 import { users } from "@/src/repository/users";
 import { updateUserRepo } from "@/src/repository/user/updateUserRepo";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { findUserByNameRepo } from "@/src/repository/user/findUserByNameRepo";
 
 // interfaces

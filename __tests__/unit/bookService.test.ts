@@ -8,7 +8,7 @@ jest.mock("@/src/repository/book/deleteBook");
 
 import { deleteBookFromUser } from "@/src/repository/book/deleteBook";
 import { findBook } from "@/src/repository/book/findBook";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { deleteBook } from "@/src/service/book/deleteBook";
 import { ObjectId } from "mongodb";
 import { postBook } from "@/src/service/book/postBook";

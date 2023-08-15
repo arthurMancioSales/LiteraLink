@@ -3,6 +3,8 @@ import { CustomError } from "@/src/utils/customError";
 import { createResponse } from "@/src/utils/response";
 import { auth } from "@/src/utils/middlewares/auth";
 import { getUserById } from "@/src/service/user/getUserById";
+import { verifyGoalsDaysOnBook } from "@/src/service/book/goals/verifyGoalsDaysOnBook";
+import { ObjectId } from "mongodb";
 import { createRedisClient } from "@/src/database/redis/redis";
 
 export async function GET(req:NextRequest) {
@@ -10,6 +12,7 @@ export async function GET(req:NextRequest) {
     const Response = createResponse();
     try {
         const userCookie = await auth(req);
+        await verifyGoalsDaysOnBook(new ObjectId(userCookie.id));
         const cachedUser = await redis.get(`userInfo:${userCookie.id}`);
         if(cachedUser) {
             Response.data = JSON.parse(cachedUser);
