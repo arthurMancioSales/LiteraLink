@@ -3,6 +3,9 @@ services:
     build:
       context: .
       dockerfile: staging.Dockerfile
+    depends_on:
+      - mongo-stage
+      - redis-stage
     restart: on-failure
     networks:
       - stage-network

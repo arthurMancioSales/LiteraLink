@@ -101,7 +101,7 @@ export default function Dashboard() {
                                                     </div>
                                                     <div className="flex flex-col gap-4">
                                                         <div className="flex flex-row justify-between">
-                                                            <div className="flex gap-2 items-center">
+                                                            <div className="flex items-center gap-2">
                                                                 <p>Metas</p>
                                                                 <CircleSkeleton size={16}/>
                                                             </div>
@@ -294,9 +294,9 @@ export default function Dashboard() {
                                                 </div>
                                                 <div className="flex flex-col gap-4">
                                                     <div className="flex flex-row justify-between">
-                                                        <div className="flex gap-2 items-center">
-                                                            <p>Metas</p>
-                                                            <MdAddCircle className="fill-light-text dark:fill-dark-text cursor-pointer" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
+                                                        <div className="flex items-center gap-2">
+                                                            <p>Metas semanais</p>
+                                                            <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
                                                         </div>
                                                         <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
                                                     </div>

@@ -17,5 +17,5 @@ module.exports = {
                 hostname: "books.google.com",
             },
         ],
-    }
+    },
 };

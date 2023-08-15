@@ -31,3 +31,5 @@ export async function GET(req:NextRequest) {
         return NextResponse.json(Response, {status: Response.status});
     }
 }
+
+export const dynamic = "force-dynamic";

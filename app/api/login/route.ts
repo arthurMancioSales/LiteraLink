@@ -8,7 +8,7 @@ import { EmailValidator, PasswordValidator } from "@/src/utils/validators/valida
 
 export async function POST(req: NextRequest) {
     const Response = createResponse();
-    const redis = createRedisClient(); //
+    const redis = createRedisClient();
     try {
         const request = await req.json();
         const {email, password} = request;
