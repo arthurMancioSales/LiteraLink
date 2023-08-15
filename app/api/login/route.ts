@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
         }, JSON.stringify(process.env.secretKey));
         cookies().set("Session", jwt_cookie);
         if(user) {                                                      
-            await redis.set("user", JSON.stringify(user), "EX", 86400);
+            await redis.set(`user:${user.id}`, JSON.stringify(user), "EX", 86400);
         }                                                              
 
         return NextResponse.json(Response, {status: Response.status});
@@ -32,3 +32,4 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(Response, {status: Response.status});
     }
 }
+export const dynamic = "force-dynamic";

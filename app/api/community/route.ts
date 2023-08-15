@@ -47,7 +47,7 @@ export async function PATCH(req:NextRequest) {
         const request = await req.json();
         const body = formattedBody(request);
         const updateCommunity = await patchCommunity(user.id, body);
-        await redis.del("cahcedAllCommunities");
+        await redis.del("cachedAllCommunities");
         Response.data = updateCommunity;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
@@ -92,5 +92,5 @@ function formattedBody(req: IPatchCommunity) {
     }
     return body;
 }
-
 export const dynamic = "force-dynamic";
+

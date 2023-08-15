@@ -12,8 +12,8 @@ export async function POST(req: NextRequest) {
         const user = await auth(req);
         if (user) {
             cookies().delete("Session");
-            await redis.del("user");
-            await redis.del("userInfo");
+            await redis.del(`user:${user.id}`);
+            await redis.del(`userInfo${user.id}`);
             return NextResponse.json(Response, {status: Response.status});
         }
         throw new CustomError("Erro interno do servidor", 500);
@@ -25,5 +25,4 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(Response, {status: Response.status});
     }
 }
-
 export const dynamic = "force-dynamic";
