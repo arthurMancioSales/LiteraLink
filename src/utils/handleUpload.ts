@@ -3,34 +3,26 @@ import { nanoid } from "nanoid";
 import { NextRequest } from "next/server";
 import { extname, join } from "path";
 
-interface IUpload {
-    [paramName: string]: string | File;
-}
-
 export async function handleUpdate(req: NextRequest) {
     try {
         const request = await req.formData();
-        const body: IUpload = {};
         
-        for (const pair of request.entries()) {
-            if (pair[1]) {
-                body[`${pair[0]}`] = pair[1];
-            }
+        const image: File | string | null = request.get("file");
+        
+        if (!image || !(image instanceof File)) {
+            return undefined;
         }
         
-        if (body.image) {
-            const bytes = await body.image.arrayBuffer();
-            const buffer = Buffer.from(bytes);
-            const imageId = nanoid();
-    
-            const path = join("/app/public/images/uploads", `${imageId}${extname(body.image.name)}`);
-            await writeFile(path, buffer);
-            console.log(path);
-            body.image = path.replace("/app/public", "");
-        }
-        console.log(body);
+        const bytes = await image.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const imageId = nanoid();
+
+        const path = join("/app/public/images/uploads", `${imageId}${extname(image.name)}`);
+        await writeFile(path, buffer);
+        console.log(path);
+        const imagePath = path.replace("/app/public", "");
         
-        return body;
+        return imagePath;
     } catch (error) {
         console.log(error);
         throw error;
