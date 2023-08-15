@@ -102,7 +102,7 @@ export default function Dashboard() {
                                                     <div className="flex flex-col gap-4">
                                                         <div className="flex flex-row justify-between">
                                                             <div className="flex items-center gap-2">
-                                                                <p>Metas semanais</p>
+                                                                <p>Metas</p>
                                                                 <CircleSkeleton size={16}/>
                                                             </div>
                                                             <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
@@ -202,7 +202,7 @@ export default function Dashboard() {
             switch (goalType) {
                 case "days": {
                     const goalTypeSelected = {
-                        name: "Sequência",
+                        name: "Sequência (semanal)",
                         complement: "dias"
                     };                               
                     return goalTypeSelected;
@@ -243,6 +243,16 @@ export default function Dashboard() {
                     })
                 }
             </>
+        );
+    }
+
+    function renderModalAddGoalWeek() {
+        if (!openModalGoalsWeek) return <></>;
+
+        if (!favoriteBook?.id) return <></>;
+
+        return (
+            <FormAddGoalsWeek bookId={favoriteBook.id} onClose={() => setOpenModalGoalsWeek(false)}/>
         );
     }
 
@@ -311,7 +321,7 @@ export default function Dashboard() {
                     <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                 </div>
             </div>
-            {openModalGoalsWeek && <FormAddGoalsWeek onClose={() => setOpenModalGoalsWeek(false)}/>}
+            {renderModalAddGoalWeek()}
         </>
     );
 }
