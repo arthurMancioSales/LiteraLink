@@ -16,7 +16,7 @@ jest.mock("@/src/repository/community/patchCommunityRepo");
 jest.mock("@/src/repository/community/postAddRepo");
 jest.mock("@/src/repository/community/createCommunityRepo");
 
-jest.mock("@/src/repository/user/findUserRepo");
+jest.mock("@/src/repository/user/findUserByIdRepo");
 
 // Checkers
 import { isMember } from "@/src/repository/community/checkers/isMember";
@@ -37,13 +37,15 @@ import { postAddUserCommunity } from "@/src/service/community/postAddUserCommuni
 import { postCommunity } from "@/src/service/community/postCommunity";
 
 // repositories
+
+import { createCommunityRepo } from "@/src/repository/community/createCommunityRepo";
 import { removeMemberCommunityRepo } from "@/src/repository/community/removeMemberCommunityRepo";
 import { getallCommunityRepo } from "@/src/repository/community/getallCommunityRepo";
 import { getCommunityByNameRepo } from "@/src/repository/community/getCommunityByNameRepo";
 import { patchCommunityRepo } from "@/src/repository/community/patchCommunityRepo";
 import { addUserToCommunityRepo } from "@/src/repository/community/postAddRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
-import { createCommunityRepo } from "@/src/repository/community/createCommunityRepo";
+
 
 const user = {
     _id: 1,

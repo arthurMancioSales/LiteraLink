@@ -7,7 +7,7 @@ jest.mock("@/src/repository/user/loginRepo");
 jest.mock("@/src/repository/user/updateUserRepo");
 jest.mock("@/src/repository/users");
 jest.mock("@/src/utils/hashPassword");
-jest.mock("@/src/repository/user/findUserRepo");
+jest.mock("@/src/repository/user/findUserByIdRepo");
 jest.mock("@/src/repository/user/findUserByNameRepo");
 jest.mock("@/public/images/user/default_user_image.jpg", () => "@/src/utils/test_variables/imageMock.ts");
 
