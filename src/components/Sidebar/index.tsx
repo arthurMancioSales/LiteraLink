@@ -8,7 +8,6 @@ import { AiOutlineSearch, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { BiSolidBookAdd, BiLogOut } from "react-icons/bi";
 import { TbLayoutDashboard, TbProgress } from "react-icons/tb";
 import { MdOutlinePeopleAlt } from "react-icons/md";
-import Link from "next/link";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { useContext, useState } from "react";
 import { TextLoading } from "../Loaders/TextLoading";
@@ -20,6 +19,7 @@ import { FormUserConfig } from "../Forms/FormUserConfig";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { CircleSkeleton } from "../Loaders/CircleSkeleton";
 import { RectangleSkeleton } from "../Loaders/RectangleSkeleton";
+import { useRouter } from "next/navigation";
 
 export function Sidebar() {
     const iconSize = 25;
@@ -34,8 +34,11 @@ export function Sidebar() {
     const [openModalAddCommunity, setOpenModalAddCommunity] = useState(false);
     const [openModalUserConfig, setOpenModalUserConfig] = useState(false);
 
-    function logout() {
-        generalRequest("/logout", {}, "POST");                
+    const navigate = useRouter();
+
+    async function logout() {
+        await generalRequest("/api/logout", {}, "POST");
+        navigate.replace("/");                
     }
 
     if (loading) {
@@ -84,7 +87,9 @@ export function Sidebar() {
                 <div className="flex flex-col gap-3">
                     <div className="flex justify-between">
                         <Toggle />
-                        <Link href="/" onClick={logout} className="text-red-600" title="Logout" passHref><BiLogOut size={iconSize} /></Link>
+                        <div onClick={logout} className="text-red-600 cursor-pointer" title="Logout">
+                            <BiLogOut size={iconSize} />
+                        </div>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <>
