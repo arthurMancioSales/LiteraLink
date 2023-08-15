@@ -7,9 +7,9 @@ export async function handleUpdate(req: NextRequest) {
     try {
         const request = await req.formData();
         
-        const image: File | string | null = request.get("file");
+        const image = request.get("image") as File;
         
-        if (!image || !(image instanceof File)) {
+        if (!image) {
             return undefined;
         }
         
@@ -21,7 +21,6 @@ export async function handleUpdate(req: NextRequest) {
         await writeFile(path, buffer);
         console.log(path);
         const imagePath = path.replace("/app/public", "");
-        
         return imagePath;
     } catch (error) {
         console.log(error);
