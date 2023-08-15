@@ -52,3 +52,4 @@ function formattedBody(requestBody: IUserUpdate) {
     }
     return body;
 }
+export const dynamic = "force-dynamic";
