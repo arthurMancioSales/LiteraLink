@@ -108,3 +108,19 @@ export function goalFormattedResquest(
     });
     return requestBody;
 }
+
+export function goalDeleteFormattedResquest(
+    goals: Array<{
+        type: IGoalsType
+    }>
+) {
+    const requestBody:{type: IGoalsType}[] = [];
+    goals.forEach(element => {
+        new GoalTypeValidator(element.type);
+        const formattedResquestBody: any = {
+            type: element.type
+        }
+        requestBody.push(formattedResquestBody);
+    });
+    return requestBody;
+}

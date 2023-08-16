@@ -7,7 +7,7 @@ import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST-goals): book ";
 
-export async function postGoalsOnUser(
+export async function postGoalsOnBook(
     id: ObjectId,
     bookId: string,
     requestBody: IGoals[]
