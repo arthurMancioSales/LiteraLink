@@ -7,7 +7,7 @@ export async function getallCommunityRepo() {
     const client = await pool.connect();
     const collection = client.db("literalink-dev").collection("community");
     try {
-        const response = await collection.find();
+        const response = await collection.find().limit(20);
         const allCommunities = await response.toArray();
         return allCommunities;
     } catch (error: any) {
