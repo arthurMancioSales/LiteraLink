@@ -11,6 +11,7 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
         if(communityName) {
             new NameCommunityValidator(communityName);
             const community =  await getCommunity(communityName);
+            console.log(community)
             Response.data = community;
             NextResponse.json(Response, {status: Response.status});
         }

@@ -30,7 +30,7 @@ export default function CommunityChat({ params }: { params: { community: string 
         
         async function getCommunityData() {
             
-            const community: ICommunity = await generalRequest(`/api/c/${params.community.replace(/%20/g, " ")}`);
+            const community: ICommunity = await generalRequest(`/api/c/${decodeURI(params.community)}`);
             
             setCommunityData(community);
             setLoadingCommunity(false);
@@ -38,7 +38,7 @@ export default function CommunityChat({ params }: { params: { community: string 
         
         getCommunityData();
         
-        if (userData) {
+        if (userData && wsClient == null) {
             const host = window.location.host;
             const ws = new WebSocket(`ws://${host}/api`); 
             
@@ -53,7 +53,7 @@ export default function CommunityChat({ params }: { params: { community: string 
                 }
                 
             };  
-            
+            console.log(communityData)
             ws.addEventListener("open", () => {
                 ws.send(JSON.stringify(connection));
             });
@@ -79,7 +79,7 @@ export default function CommunityChat({ params }: { params: { community: string 
             });
         }
 
-    }, [params.community, userData]);
+    }, [params.community, userData, wsClient]);
 
     const validationSchema = object({
         message: string().required("Não é possível enviar uma mensagem vazia")
