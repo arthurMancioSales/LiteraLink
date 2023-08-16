@@ -48,8 +48,8 @@ export function FormAddBook({ onClose }: PropTypes) {
     
     return (
         <GenericModal
-            title="Adicionar um livro"
-            styleSize={{height: "347px"}}
+            title="Adicionar livro"
+            styleSize={{height: "85%"}}
             onClose={onClose}
         >
             <SearchBook value={handleBook} />
