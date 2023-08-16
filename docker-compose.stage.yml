@@ -7,6 +7,8 @@ services:
       - mongo-stage
       - redis-stage
     restart: on-failure
+    volumes:
+      - web-uploads-stage:/app/public/images/uploads
     networks:
       - stage-network
 
@@ -47,6 +49,7 @@ services:
 
 volumes:
   mongo-stage-data:
+  web-uploads-stage:
 
 networks:
   stage-network:

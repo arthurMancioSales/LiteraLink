@@ -32,7 +32,7 @@ export async function updateParcialGoalOfBookRepo(
                 }
             );
             if (!update.acknowledged) {
-                throw new CustomError('Erro na atualização da meta', 500);
+                throw new CustomError("Erro na atualização da meta", 500);
             }
         }
         return;

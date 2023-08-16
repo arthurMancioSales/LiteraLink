@@ -16,15 +16,15 @@ export async function patchBook(id: string , body: IPatchBook) {
         if (requestBodyRepo.pagesRead){
             const oldBook = await findBookByUserIdRepo(userObjectId, body.id);
             if (!oldBook) {
-                throw new CustomError('Livro não enccontrado.', 404);
+                throw new CustomError("Livro não enccontrado.", 404);
             }
             requestBodyRepo.pagesRead += oldBook.pagesRead;
             if (requestBodyRepo.pagesRead >= oldBook.totalPages) {
-                requestBodyRepo.status = 'lido';
+                requestBodyRepo.status = "lido";
             }
             // garante que o número de páginas lidas é igual ao número total de páginas do livro
             if (requestBodyRepo.pagesRead > oldBook.totalPages) {
-                requestBodyRepo.pagesRead = oldBook.totalPages
+                requestBodyRepo.pagesRead = oldBook.totalPages;
             }         
         }
         if (body.goals) {
@@ -34,7 +34,7 @@ export async function patchBook(id: string , body: IPatchBook) {
                 body.goals
             );
             if (!updateGoals) {
-                throw new CustomError('Erro na atualização da Meta', 500);
+                throw new CustomError("Erro na atualização da Meta", 500);
             }
         }
         const responseDB = await updateBookRepo(userObjectId, body.id, requestBodyRepo);
