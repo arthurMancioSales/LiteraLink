@@ -6,25 +6,34 @@ import { IPatchCommunity } from "@/src/interfaces/interface";
 import { patchCommunity } from "@/src/service/community/patchCommunity";
 import { NameCommunityValidator } from "@/src/utils/validators/validator";
 import { createRedisClient } from "@/src/database/redis/redis";
+import { handleUpload } from "@/src/utils/handleUpload";
+import { CustomError } from "@/src/utils/customError";
 
 export async function POST(req:NextRequest) {
     const Response = createResponse();
     const redis = createRedisClient();
     try {
         const user = await auth(req);
-        const request = await req.json();
-        const {name , description} = request;
+        const request = await handleUpload(req);
+        
+        if (Object.entries(request).length == 0) {
+            throw new CustomError("Error: nenhum campo foi selecionado", 400);
+        }
+
+        const {name , description, image} = request;
         new NameCommunityValidator(name);
         const body:{
             name:string, 
             description: string,
             favoriteBook:string,
-            is_admin: string
+            is_admin: string,
+            image?: string
         } = {
             name: name,
             description: description,
             favoriteBook: "",
-            is_admin: user.id
+            is_admin: user.id,
+            image: image,
         };
         const community = await postCommunity(user, body);
         await redis.rpush("cachedAllCommunities", JSON.stringify(community));

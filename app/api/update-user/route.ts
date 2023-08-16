@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/dist/client/components/headers";
 import jwt from "jsonwebtoken";
-import { IUserUpdate } from "@/src/interfaces/interface";
+import { IUploadBody, IUserUpdate } from "@/src/interfaces/interface";
 import { CustomError } from "@/src/utils/customError";
 import { createResponse } from "@/src/utils/response";
 import { auth } from "../../../src/utils/middlewares/auth";
@@ -18,18 +18,14 @@ export async function PATCH(req: NextRequest) {
     const Response = createResponse();
     try {
         const user = await auth(req);
-        const imagePath = await handleUpload(req);
-        const request = await req.formData();
+        const request = await handleUpload(req);
         
-        if (imagePath) {
-            request.set("image", imagePath);
-        }
-        
-        if (Object.entries(request).length === 0) {
+        if (Object.entries(request).length == 0) {
             throw new CustomError("Error: nenhum campo foi selecionado", 400);
         }
+
         const body = await formattedBody(request);
-        console.log("depois", body);
+        
         const userUpdate = await updateUser(user.id, body);
         const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
@@ -47,7 +43,7 @@ export async function PATCH(req: NextRequest) {
     }
 }
 
-async function formattedBody(requestBody: IUserUpdate) {
+async function formattedBody(requestBody: IUploadBody) {
     const body: IUserUpdate = {};
     if (requestBody.name) {
         new NameValidator(requestBody.name);

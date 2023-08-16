@@ -11,6 +11,7 @@ export async function updateUserRepo(userId: ObjectId, body: IUserUpdate) {
     const collection = client.db("literalink-dev").collection("users");
     try {
         const returnedUser = await collection.updateOne({_id: userId}, {$set: body});
+
         if (!returnedUser.acknowledged) {
             throw new CustomError("Erro na atualização dos dados do usuário", 500);
         }

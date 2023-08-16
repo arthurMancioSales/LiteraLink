@@ -70,9 +70,9 @@ export function FormUserConfig({ onClose }: PropTypes) {
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     const formData = new FormData();
-                    formData.set("userName", values.userEmail);
-                    formData.set("userEmail", values.userEmail);
-                    formData.set("userPassword", values.userPassword);
+                    formData.set("name", values.userName);
+                    formData.set("email", values.userEmail);
+                    formData.set("password", values.userPassword);
                     if(selectedFile) {
                         formData.set("image", selectedFile);
                     }

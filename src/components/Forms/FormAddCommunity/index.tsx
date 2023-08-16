@@ -69,14 +69,20 @@ export function FormAddCommunity({ onClose }: PropTypes) {
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     const formData = new FormData();
-                    formData.append("nameCommunity", values.nameCommunity);
-                    formData.append("descriptionCommunity", values.descriptionCommunity);
+                    formData.append("name", values.nameCommunity);
+                    formData.append("description", values.descriptionCommunity);
 
                     if(selectedFile) {
-                        formData.append("file", selectedFile);
+                        formData.append("image", selectedFile);
                     }
 
-                    const response = await generalRequest("/api/community", formData, "POST");
+                    const req = await fetch("/api/community", {
+                        method: "POST",
+                        body: formData,
+                        cache: "no-store"
+                    });
+            
+                    const response = await req.json();
 
                     if(response?.error) {
                         setMessageError(response.error);
