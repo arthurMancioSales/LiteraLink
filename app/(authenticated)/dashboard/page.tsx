@@ -4,7 +4,7 @@ import { BookAccordion } from "@/src/components/Accordion";
 import { CardBooks } from "@/src/components/CardBooks";
 import { TextLoading } from "@/src/components/Loaders/TextLoading";
 import { UserGoals } from "@/src/components/UserGoals";
-import { IBook, IGoalsType } from "@/src/interfaces/interface";
+import { IBook, IGoals, IGoalsType } from "@/src/interfaces/interface";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AiFillCheckCircle, AiOutlineBook, AiOutlineFieldTime } from "react-icons/ai";
@@ -15,9 +15,10 @@ import { BiMedal } from "react-icons/bi";
 import { BsFire } from "react-icons/bs";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { UserContext } from "../layout";
-import { FormAddGoalsWeek } from "@/src/components/Forms/FormAddGoalsWeek";
+import { FormAddGoals } from "@/src/components/Forms/FormAddGoals";
 import { RectangleSkeleton } from "@/src/components/Loaders/RectangleSkeleton";
 import { CircleSkeleton } from "@/src/components/Loaders/CircleSkeleton";
+import { FormEditGoals } from "@/src/components/Forms/FormEditGoals";
 
 export default function Dashboard() {
     const userContext = useContext(UserContext);
@@ -26,7 +27,9 @@ export default function Dashboard() {
     const loading = userContext ? userContext.loading : false;
     const updateUser = userContext?.updateUser;
 
-    const [openModalGoalsWeek, setOpenModalGoalsWeek] = useState(false);
+    const [openModalAddGoals, setOpenModalAddGoals] = useState(false);
+    const [openModalEditGoals, setOpenModalEditGoals] = useState(false);
+    const [goal, setGoal] = useState<IGoals>();
     
     const [favoriteBook, setFavoriteBook] = useState<IBook | undefined>(undefined);
 
@@ -65,6 +68,38 @@ export default function Dashboard() {
             favorite: true,
         };
         await generalRequest("/api/book-list", bookFavorite, "PATCH");
+    }
+
+    async function editGoalBook(typeGoal: IGoalsType ) {
+        console.log(typeGoal);
+        
+        if(favoriteBook && favoriteBook.goals?.length) {
+            favoriteBook.goals.forEach((goal) => {
+                if(goal.type === typeGoal) {
+                    setGoal(goal);
+                    setOpenModalEditGoals(true);
+                }
+            });
+        }
+    }
+
+    async function deleteGoalBook(typeGoal: IGoalsType ) {
+        if(favoriteBook) {
+            const requestBody = {
+                id: favoriteBook.id,
+                goals: [{type: typeGoal}]
+            };
+            
+            const response = await generalRequest("/api/book-goals", requestBody, "DELETE");
+
+            if(response?.error) {
+                console.error("Failed request");
+            } else {
+                if(updateUser) {
+                    updateUser();
+                }
+            }
+        }
     }
 
     if (loading) {
@@ -178,7 +213,7 @@ export default function Dashboard() {
                 
     }
 
-    function renderGoalsWeek() {
+    function renderGoals() {
         if (loading) {
             return (
                 <FavoriteSkeleton />
@@ -233,11 +268,14 @@ export default function Dashboard() {
                         return (
                             <CardBooks
                                 key={goal.type}
+                                id={goal.type}
                                 variant="secondary"
                                 description={goalType.name}
                                 complement={goalType.complement}
                                 progress={goal.partial}
                                 total={goal.total}
+                                onEdit={editGoalBook}
+                                onDelete={deleteGoalBook}
                             />
                         );
                     })
@@ -246,14 +284,24 @@ export default function Dashboard() {
         );
     }
 
-    function renderModalAddGoalWeek() {
-        if (!openModalGoalsWeek) return <></>;
+    function renderModalAddGoals() {
+        if (!openModalAddGoals) return <></>;
 
         if (!favoriteBook?.id) return <></>;
 
         return (
-            <FormAddGoalsWeek bookId={favoriteBook.id} onClose={() => setOpenModalGoalsWeek(false)}/>
+            <FormAddGoals bookId={favoriteBook.id} onClose={() => setOpenModalAddGoals(false)}/>
         );
+    }
+
+    function renderModalEditGoals() {
+        if (!openModalEditGoals) return <></>;
+
+        if (!favoriteBook?.id || !goal) return <></>;
+
+        return (
+            <FormEditGoals bookId={favoriteBook.id} goal={goal} onClose={() => setOpenModalEditGoals(false)}/>
+        );                
     }
 
     return (
@@ -295,12 +343,12 @@ export default function Dashboard() {
                                                 <div className="flex flex-col gap-4">
                                                     <div className="flex flex-row justify-between">
                                                         <div className="flex items-center gap-2">
-                                                            <p>Metas semanais</p>
-                                                            <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalGoalsWeek(true)}/>
+                                                            <p>Metas</p>
+                                                            <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalAddGoals(true)}/>
                                                         </div>
                                                         <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
                                                     </div>
-                                                    {renderGoalsWeek()}
+                                                    {renderGoals()}
                                                 </div>
                                             </div>
                                         </ScrollArea.Viewport>
@@ -321,7 +369,8 @@ export default function Dashboard() {
                     <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                 </div>
             </div>
-            {renderModalAddGoalWeek()}
+            {renderModalAddGoals()}
+            {renderModalEditGoals()}
         </>
     );
 }

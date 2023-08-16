@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorMessage, Formik } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { GenericModal } from "../../Modal/GenericModal";
 import { Button } from "../../Button";
@@ -8,10 +8,12 @@ import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { Input } from "../../Input";
+import { IGoals } from "@/src/interfaces/interface";
 
 interface PropTypes {
     onClose: () => void;
     bookId: string | number;
+    goal: IGoals;
 }
 
 export type OptionsPropsSelect = {
@@ -19,44 +21,49 @@ export type OptionsPropsSelect = {
     name: string;
 }
 
-// type IGoalsType = "days" | "time" | "chapters";
-
-export function FormAddGoalsWeek({ onClose, bookId }: PropTypes) {
+export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
-
+    
     const [messageError, setMessageError] = useState("");
 
     const validationSchema = Yup.object({
-        totalGoal: Yup.number().min(0, "Você não pode inserir números negativos"),
+        readingTime: Yup.number().min(1, "O valor total deve ser maior que zero")
     });
 
     const initialValues = {
-        totalGoal: 0
+        readingTime: goal.total
     };
   
     return (
-        <GenericModal title="Adição de metas semanais" onClose={onClose}>
+        <GenericModal title="Edição de metas do livro" onClose={onClose}>
             <div className="flex flex-col gap-2">
                 <Formik 
                     onSubmit={async (values, {setSubmitting}) => {
+                        const goals = [];
+                        
+                        goals.push({
+                            type: goal.type,
+                            total: values.readingTime
+                        });
+
                         const formBody = {
-                            bookId: bookId,
-                            totalGoals: values.totalGoal,                       
+                            id: bookId,
+                            goals                     
                         };
 
-                        // const response = await generalRequest("/api/book-list", formBody, "PATCH");
+                        const response = await generalRequest("/api/book-goals", formBody, "PATCH");
 
-                        // if(response?.error) {
-                        //     setMessageError(response.error);
-                        // } else {
-                        //     if(updateUser) {
-                        //         updateUser();
-                        //     }
+                        if(response?.error) {
+                            setMessageError(response.error);
+                        } else {
+                            if(updateUser) {
+                                updateUser();
+                            }
 
-                    //     setSubmitting(false);
-                    //     onClose();
-                    // }
+                            setSubmitting(false);
+                            onClose();
+                        }
                     }}
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -64,7 +71,7 @@ export function FormAddGoalsWeek({ onClose, bookId }: PropTypes) {
                     {(props) => (
                         <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                             <div className="flex flex-col gap-2">
-                                <Input label="Teste" name="totalGoal" type="text" required/>
+                                <Input name="readingTime" label="Tempo de leitura total (minutos)" type="number" error={props.errors.readingTime}/>
                             </div>
                             <Button type="submit" variant="info">SALVAR</Button>
                         </form>

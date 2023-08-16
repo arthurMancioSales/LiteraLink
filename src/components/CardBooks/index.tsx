@@ -1,14 +1,19 @@
+import { IGoalsType } from "@/src/interfaces/interface";
 import styles from "./CardBooks.module.css";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 type PropsTypes = {
     variant?: "primary" | "secondary";
-    id?: number | string;
+    id?: number | string | IGoalsType;
     title?: string;
     description: string;
     progress: number;
     total: number;
     onClick?: (id: number | string) => void;
     complement?: string;
+    onEdit?: (typeGoal: IGoalsType) => void;
+    onDelete?: (typeGoal: IGoalsType) => void;
 };
 
 const variantMap: {primary: string; secondary: string} = {
@@ -16,13 +21,25 @@ const variantMap: {primary: string; secondary: string} = {
     secondary: styles.secondary
 };
 
-export function CardBooks({id, title, description, progress, total, variant="primary", onClick, complement}: PropsTypes) {
+export function CardBooks({id, title, description, progress, total, variant="primary", onClick, complement, onEdit, onDelete}: PropsTypes) {
     const progressPercent = `${Math.round((progress/total)*100)}%`;
     const className: string[] = [styles.root, variantMap[variant]];
 
     function handleClick() {
         if (onClick && id) {            
             onClick(id);                                
+        }
+    }
+
+    function handleEdit() {
+        if (onEdit && id && (id === "time")) {
+            onEdit(id);                                
+        }
+    }
+
+    function handleDelete() {
+        if (onDelete && id && (id === "time" || id === "days")) {
+            onDelete(id);                                
         }
     }
  
@@ -35,9 +52,14 @@ export function CardBooks({id, title, description, progress, total, variant="pri
                 <div className="text-xl font-medium dark:text-dark-text">{title}</div>
             )}
             <div className={className.join(" ")}>
-                <div className="flex justify-between">
+                <div className="flex items-center gap-2">
                     <p>{description}</p>
-                    
+                    {id === "time" && onEdit && (
+                        <FaRegEdit className="cursor-pointer text-light-text dark:text-dark-text" size={20} onClick={handleEdit}/>
+                    )}
+                    {(id === "time" || id === "days") && onDelete && (
+                        <RiDeleteBin6Line className="cursor-pointer text-status-error" size={20} onClick={handleDelete}/>
+                    )}
                 </div>
                 <p>{`${progress}/${total} ${complement ? complement : ""}`}</p>
             </div>

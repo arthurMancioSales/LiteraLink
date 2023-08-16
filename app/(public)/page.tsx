@@ -13,7 +13,7 @@ export default function Home() {
                     <Button redirectTo="/sign-up" variant="info">Cadastrar</Button>
                 </div>
             </div>
-            <div className="flex justify-around items-center h-full px-20 bg-home">
+            <div className="flex justify-around items-center h-full px-20 bg-home bg-cover">
                 <div className="w-[520px] bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] p-4 rounded-lg">
                     <p className="text-4xl text-justify font-bold mb-4">Conheça a Magia da Organização e Conecte-se com leitores inspiradores!</p>
                     <p className="text-justify">Bem-vindo(a) à nossa comunidade exclusiva de leitores dedicados, onde a organização ganha vida! Nossa plataforma foi desenvolvida para potencializar suas habilidades e ajudá-lo(a) a definir metas ambiciosas e alcançáveis, impulsionando-o(a) a atingir seu potencial máximo.</p>
