@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { NextRequest } from "next/server";
 import { extname, join } from "path";
 
-export async function handleUpdate(req: NextRequest) {
+export async function handleUpload(req: NextRequest) {
     try {
         const request = await req.formData();
         

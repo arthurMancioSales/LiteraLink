@@ -40,7 +40,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
   
     return (
         <GenericModal title="Adicionar uma comunidade" onClose={onClose}>
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
                 <label className="w-[120px]">
                     <input
                         type="file"
