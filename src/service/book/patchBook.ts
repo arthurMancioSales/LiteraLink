@@ -5,7 +5,7 @@ import { userFormattedResponse } from "@/src/utils/formattedResponse";
 import { bookFormattedRequestRepo } from "@/src/utils/formattedRequest";
 import { CustomError } from "@/src/utils/customError";
 import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
-import { patchGoalParcialProgress } from "./patchGoalParcialProgress";
+import { patchGoalParcialProgress } from "./goals/patchGoalParcialProgress";
 
 const TAG = "SERVICE(PATCH): book ";
 

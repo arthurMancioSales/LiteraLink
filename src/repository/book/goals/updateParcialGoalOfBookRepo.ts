@@ -9,10 +9,11 @@ export async function updateParcialGoalOfBookRepo(
     userId : ObjectId, 
     bookId : string, 
     goals: {
-        type: IGoalsType;
-        partial: number;
-        total?: number;
-        createDate?: Date;
+        type: IGoalsType,
+        partial: number,
+        total?: number,
+        createDate?: Date,
+        lastVisitDate?: Date
     }[]
 ) {
     const dbConnect =  createMongoConnection();

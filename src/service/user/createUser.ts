@@ -5,6 +5,7 @@ import { checkExistingCredentials } from "@/src/repository/user/checkers/checkUs
 import { ObjectId } from "mongodb";
 import { hashPassword } from "@/src/utils/hashPassword";
 import imageUserDefault from "@/public/images/user/default_user_image.jpg";
+import { dateNow } from "@/src/utils/dateCorrect";
 
 const TAG = "SERVICE(POST): USER ";
 
@@ -44,7 +45,7 @@ export async function registerUser( requestUser: INewUser ) {
                 communities: [],
                 books: [],
                 statistics: {
-                    lastSequence: new Date,
+                    lastSequence: dateNow(),
                     readingTime: 0,
                     maxSequence: 0,
                     booksRead: 0,

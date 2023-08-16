@@ -1,21 +1,21 @@
+import { ObjectId } from "mongodb";
+
 jest.mock("mongodb");
 
 // Delete mocks
-jest.mock("@/src/repository/user/findUserRepo.ts");
+jest.mock("@/src/repository/user/findUserByIdRepo");
 jest.mock("@/src/service/book/patchBook");
 jest.mock("@/src/repository/book/findBook");
 jest.mock("@/src/repository/book/deleteBook");
 
 import { deleteBookFromUser } from "@/src/repository/book/deleteBook";
 import { findBook } from "@/src/repository/book/findBook";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { deleteBook } from "@/src/service/book/deleteBook";
-import { ObjectId } from "mongodb";
-import { postBook } from "@/src/service/book/postBook";
-
-
-import { bookMocked, updateBook, userMocked } from "@/src/utils/test_variables/mockedVariables";
 import { patchBook } from "@/src/service/book/patchBook";
+import { postBook } from "@/src/service/book/postBook";
+import { bookMocked, updateBook, userMocked } from "@/src/utils/test_variables/mockedVariables";
+
 
 
 describe("Service deleteBook", () => {

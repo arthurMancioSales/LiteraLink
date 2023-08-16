@@ -2,7 +2,7 @@ import { createMongoConnection } from "@/src/database/pool";
 import { CustomError } from "@/src/utils/customError";
 import { ObjectId } from "mongodb";
 
-const TAG = "SERVICE(POST-goal): book ";
+const TAG = "REPOSITORY(DELETE-goal): book ";
 
 export async function deleteGoalOfBookRepo(
     userId : ObjectId, 
