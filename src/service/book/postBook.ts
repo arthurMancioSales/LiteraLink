@@ -2,8 +2,9 @@ import { IBook } from "@/src/interfaces/interface";
 import { insertBook } from "@/src/repository/book/insertBook";
 import { CustomError } from "../../utils/customError";
 import { ObjectId } from "mongodb";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
+import { dateNow } from "@/src/utils/dateCorrect";
 
 const TAG = "SERVICE(POST): book ";
 
@@ -24,8 +25,8 @@ export async function postBook(id: string, requestBook : IBook) {
             totalPages: requestBook.totalPages,
             pagesRead: 0,
             favorite: false,
-            lastSequence: new Date,
-            goalExpire: new Date,
+            lastSequence: dateNow(),
+            goalExpire: dateNow(),
             goals: [],
             goalsAchieved: 0,
         };

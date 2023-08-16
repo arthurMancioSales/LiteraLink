@@ -1,10 +1,11 @@
-import { CustomError } from "../../utils/customError";
+import { CustomError } from "../../../utils/customError";
 import { ObjectId } from "mongodb";
 import { IGoals, IGoalsType } from "@/src/interfaces/interface";
 import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
-import { updateTotalGoalOfBookRepo } from "@/src/repository/book/updateTotalGoalOfBookRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
+import { updateTotalGoalOfBookRepo } from "@/src/repository/book/goals/updateTotalGoalOfBookRepo";
+import { dateNow } from "@/src/utils/dateCorrect";
 
 const TAG = "SERVICE(POST-goals): book ";
 
@@ -15,6 +16,7 @@ export async function patchGoalTotal(
         type: IGoalsType,
         partial?: number,
         createDate?: Date,
+        lastVisitDate?: Date
         total: number
     }
 ) {
@@ -32,9 +34,9 @@ export async function patchGoalTotal(
             throw new CustomError('Não existe essa meta para atulizar', 400);      
         }
         requestBody = {
-            type: requestBody.type,
             ...oldGoal,
-            total: requestBody.total
+            total: requestBody.total,
+            lastVisitDate: dateNow()
         }
         if (requestBody.total <= requestBody.partial!) {
             throw new CustomError(
