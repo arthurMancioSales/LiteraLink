@@ -32,14 +32,13 @@ export function CardBooks({id, title, description, progress, total, variant="pri
     }
 
     function handleEdit() {
-        if (onEdit && id && (id === "time")) {            
-            console.log("clicou");
+        if (onEdit && id && (id === "time")) {
             onEdit(id);                                
         }
     }
 
     function handleDelete() {
-        if (onDelete && id && (id === "time")) {            
+        if (onDelete && id && (id === "time" || id === "days")) {
             onDelete(id);                                
         }
     }
@@ -55,10 +54,10 @@ export function CardBooks({id, title, description, progress, total, variant="pri
             <div className={className.join(" ")}>
                 <div className="flex items-center gap-2">
                     <p>{description}</p>
-                    {id === "time" && onDelete && (
+                    {id === "time" && onEdit && (
                         <FaRegEdit className="cursor-pointer text-light-text dark:text-dark-text" size={20} onClick={handleEdit}/>
                     )}
-                    {id === "time" && onEdit && (
+                    {(id === "time" || id === "days") && onDelete && (
                         <RiDeleteBin6Line className="cursor-pointer text-status-error" size={20} onClick={handleDelete}/>
                     )}
                 </div>

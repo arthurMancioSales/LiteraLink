@@ -52,7 +52,7 @@ export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
                             goals                     
                         };
 
-                        const response = await generalRequest("/api/book-goals", formBody, "POST");
+                        const response = await generalRequest("/api/book-goals", formBody, "PATCH");
 
                         if(response?.error) {
                             setMessageError(response.error);

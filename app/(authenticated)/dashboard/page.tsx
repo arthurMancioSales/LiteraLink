@@ -85,15 +85,9 @@ export default function Dashboard() {
 
     async function deleteGoalBook(typeGoal: IGoalsType ) {
         if(favoriteBook) {
-            const goalRequest = [];
-
-            if(goal?.type === typeGoal) {
-                goalRequest.push(typeGoal);
-            }
-
             const requestBody = {
                 id: favoriteBook.id,
-                goals: goalRequest
+                goals: [{type: typeGoal}]
             };
             
             const response = await generalRequest("/api/book-goals", requestBody, "DELETE");

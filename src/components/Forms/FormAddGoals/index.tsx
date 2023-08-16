@@ -60,12 +60,6 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
     const validationSchema = Yup.object({
         checkboxSequence: Yup.boolean(),
         checkboxReadingTime: Yup.boolean(),
-        sequence: Yup.number().test("sequence", "A quantidade total deve ser maior que zero", function(value) {
-            if (this.parent.checkboxSequence) {
-                return Yup.number().min(1).required().isValidSync(value);
-            }
-            return true;
-        }),
         readingTime: Yup.number().test("readingTime", "A quantidade total deve ser maior que zero", function(value) {
             if (this.parent.checkboxReadingTime) {
                 return Yup.number().min(1).required().isValidSync(value);
@@ -77,7 +71,6 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
     const initialValues = {
         checkboxSequence: false,
         checkboxReadingTime: false,
-        sequence: "",
         readingTime: ""
     };
   
@@ -96,7 +89,6 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                         if (!disabledSequence) {
                             goals.push({
                                 type: "days",
-                                total: values.sequence
                             });
                         }
 
@@ -132,29 +124,16 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                         <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                             <div className="flex flex-col gap-2">
                                 {visibleInputTypeGoal("days") && (
-                                    <div>
-                                        <div className="flex gap-2">
-                                            <Field
-                                                type="checkbox"
-                                                name="checkboxSequence"
-                                                onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
-                                                    props.handleChange(e);
-                                                    setDisabledSequence(!disabledSequence);
-                                                }}
-                                            />
-                                            <p>{"Sequencia (diária)"}</p>
-                                        </div>
-                                        <div>
-                                            <Field
-                                                type="number"
-                                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] disabled:text-light-secondary"
-                                                name="sequence"
-                                                disabled={disabledSequence}
-                                            />
-                                            <div className="mt-[2px] min-h-[21px]">
-                                                <ErrorMessage name="sequence" className="text-status-error" component="span"/>
-                                            </div>
-                                        </div>
+                                    <div className="flex gap-2">
+                                        <Field
+                                            type="checkbox"
+                                            name="checkboxSequence"
+                                            onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
+                                                props.handleChange(e);
+                                                setDisabledSequence(!disabledSequence);
+                                            }}
+                                        />
+                                        <p>{"Sequencia (diária)"}</p>
                                     </div>
                                 )}
                                 {visibleInputTypeGoal("time") && (
