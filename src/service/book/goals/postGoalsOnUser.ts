@@ -1,8 +1,8 @@
-import { CustomError } from "../../utils/customError";
+import { CustomError } from "../../../utils/customError";
 import { ObjectId } from "mongodb";
 import { IGoals } from "@/src/interfaces/interface";
 import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
-import { addGoalToBookRepo } from "@/src/repository/book/addGoalToBookRepo";
+import { addGoalToBookRepo } from "@/src/repository/book/goals/addGoalToBookRepo";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST-goals): book ";
@@ -22,7 +22,8 @@ export async function postGoalsOnUser(
         }
         if (requestBody.length === 0) {
             throw new CustomError(
-                `Só pode haver 2 tipos de metas, 'days' e 'time', as 2 já foram definidas para esse livro`,
+                `Só pode haver 2 tipos de metas, 
+                'Semanal' e 'Minutos', as metas 2 já foram definidas para esse livro`,
                 400
             );
         }

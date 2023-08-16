@@ -124,6 +124,7 @@ export interface IGoals {
     partial: number;
     total: number;
     createDate: Date;
+    lastVisitDate: Date;
 }
 
 

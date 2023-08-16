@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { createCommunityRepo } from "@/src/repository/community/createCommunityRepo";
 import { CustomError } from "@/src/utils/customError";
 import { checkExistingCommunityName } from "@/src/repository/community/checkers/checkCommunityRepo";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { communityFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST): community ";

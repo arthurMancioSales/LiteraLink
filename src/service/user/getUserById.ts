@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { CustomError } from "../../utils/customError";
-import { findUserByIdRepo } from "@/src/repository/user/findUserRepo";
+import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(GET): USER ";

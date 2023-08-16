@@ -1,5 +1,6 @@
 import { IBook, IPatchBook, IUser } from "@/src/interfaces/interface";
 import { ObjectId } from "mongodb";
+import { dateNow } from "../dateCorrect";
 
 export const userMocked = {
     _id: new ObjectId("614c55a72a0a16a3b1e3d0e5"),
@@ -153,19 +154,22 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 15,
                     total: 15,
-                    createDate: new Date
+                    createDate: dateNow(),
+                    lastVisitDate: dateNow()
                 },
                 {
                     type: "chapters",
                     partial: 395,
                     total: 445,
-                    createDate: new Date
+                    createDate: dateNow(),
+                    lastVisitDate: dateNow()
                 },
                 {
                     type: "time",
                     partial: 15,
                     total: 60,
-                    createDate: new Date
+                    createDate: dateNow(),
+                    lastVisitDate: dateNow()
                 },
             ],
         },
@@ -185,7 +189,8 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 395,
                     total: 445,
-                    createDate: new Date
+                    createDate: dateNow(),
+                    lastVisitDate: dateNow()
                 },
             ],
             goalsAchieved: 0
@@ -206,7 +211,8 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 395,
                     total: 445,
-                    createDate: new Date
+                    createDate: dateNow(),
+                    lastVisitDate: dateNow()
                 },
             ],
             goalsAchieved: 0
@@ -227,7 +233,8 @@ export const userMocked2: IUser = {
                     type: "days",
                     partial: 395,
                     total: 445,
-                    createDate: new Date
+                    createDate: dateNow(),
+                    lastVisitDate: dateNow()
                 },
             ],
             goalsAchieved: 0
@@ -259,7 +266,8 @@ export const bookMocked: IBook = {
             type: "days",
             partial: 395,
             total: 445,
-            createDate: new Date
+            createDate: dateNow(),
+            lastVisitDate: dateNow()
         },
     ],
     goalsAchieved: 0
@@ -277,7 +285,8 @@ export const updateBook: IPatchBook = {
             type: "days",
             partial: 395,
             total: 445,
-            createDate: new Date
+            createDate: dateNow(),
+            lastVisitDate: dateNow()
         },
     ],
     goalsAchieved: 0

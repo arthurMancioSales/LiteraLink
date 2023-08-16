@@ -3,10 +3,10 @@ import { auth } from "@/src/utils/middlewares/auth";
 import { createResponse } from "@/src/utils/response";
 import { goalFormattedResquest } from "@/src/utils/formattedRequest";
 import { ObjectId } from "mongodb";
-import { postGoalsOnUser } from "@/src/service/book/postGoalsOnUser";
-import { patchGoalParcialProgress } from "@/src/service/book/patchGoalParcialProgress";
-import { patchGoalTotal } from "@/src/service/book/patchGoalTotal";
+import { postGoalsOnUser } from "@/src/service/book/goals/postGoalsOnUser";
+import { patchGoalParcialProgress } from "@/src/service/book/goals/patchGoalParcialProgress";
 import { CustomError } from "@/src/utils/customError";
+import { patchGoalTotal } from "@/src/service/book/goals/patchGoalTotal";
 
 export async function POST(req: NextRequest) {
     const Response = createResponse();
