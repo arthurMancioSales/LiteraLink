@@ -27,7 +27,7 @@ export async function POST(req:NextRequest) {
             is_admin: user.id
         };
         const community = await postCommunity(user, body);
-        await redis.rpush("cachedAllCommunities", JSON.stringify(community));
+        await redis.del("cachedAllCommunities");
         await redis.del(`userInfo:${user.id}`);
         Response.data = community;
         Response.status = 201;
