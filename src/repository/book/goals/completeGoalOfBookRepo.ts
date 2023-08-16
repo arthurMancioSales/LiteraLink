@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 
 const TAG = "REPOSITORY(DELETE-goal): book ";
 
-export async function deleteGoalOfBookRepo(
+export async function completeGoalOfBookRepo(
     userId : ObjectId, 
     bookId : string, 
     type: string
@@ -15,7 +15,10 @@ export async function deleteGoalOfBookRepo(
     try {
         const update = await collection.updateOne(
             { _id: userId, "books.id": bookId },
-            { $pull: { "books.$[book].goals": { "type": type } } },
+            {
+                $pull: { "books.$[book].goals": { "type": type } },
+                $inc: { "books.$[book].goalsAchieved": 1 }
+            },
             {
                 arrayFilters: [
                     { "book.id": bookId }
