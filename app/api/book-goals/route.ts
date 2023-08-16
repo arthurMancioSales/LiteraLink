@@ -8,8 +8,10 @@ import { patchGoalParcialProgress } from "@/src/service/book/goals/patchGoalParc
 import { CustomError } from "@/src/utils/customError";
 import { patchGoalTotal } from "@/src/service/book/goals/patchGoalTotal";
 import { deleteGoalsOfBook } from "@/src/service/book/goals/deleteGoalsOfBook";
+import { createRedisClient } from "@/src/database/redis/redis";
 
 export async function POST(req: NextRequest) {
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user = await auth(req);
@@ -21,6 +23,7 @@ export async function POST(req: NextRequest) {
             id,
             requestGoals
         );
+        await redis.del(`userInfo:${user.id}`);
         Response.data = responseDB;
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
@@ -33,6 +36,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user = await auth(req);
@@ -60,6 +64,7 @@ export async function PATCH(req: NextRequest) {
                 400
             );
         }
+        await redis.del(`userInfo:${user.id}`);
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
         console.log(error);
@@ -71,6 +76,7 @@ export async function PATCH(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+    const redis = createRedisClient();
     const Response = createResponse();
     try {
         const user = await auth(req);
@@ -82,6 +88,7 @@ export async function DELETE(req: NextRequest) {
             id,
             requestGoals
         );
+        await redis.del(`userInfo:${user.id}`);
         Response.data = responseDB;
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
