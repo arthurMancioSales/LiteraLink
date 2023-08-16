@@ -19,7 +19,7 @@ export type OptionsPropsSelect = {
     name: string;
 }
 
-export function FormAddGoalsWeek({ bookId, onClose }: PropTypes) {
+export function FormAddGoals({ bookId, onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
 
