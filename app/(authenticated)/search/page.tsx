@@ -11,7 +11,6 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 export default function SearchCommunity() {
     const [communities, setCommunities] = useState<ICommunity[]>([]);
     const [loading, setLoading] = useState(true);
-    const [searchValue, setSearchValue] = useState("");
 
     const userContext = useContext(UserContext);
     
@@ -19,6 +18,7 @@ export default function SearchCommunity() {
 
     useEffect(() => {
         async function getCommunities() {
+            setLoading(true);
             const community: ICommunity[] | null = await generalRequest("/api/c");
 
             if(!community) {
@@ -58,11 +58,19 @@ export default function SearchCommunity() {
     }
 
     const handleSearch = async (value: string) => {
-        setSearchValue(value);
+        const communitySearch = await generalRequest(`/api/search/${value}`);
         
-        const communitySearch = await generalRequest(`/api/c/${value}`);
-        setCommunities(communitySearch);
-        console.log("Realizar a busca com o valor:", value);
+        if(value === "") {
+            const community: ICommunity[] | null = await generalRequest("/api/c");
+            if(!community) {
+                setCommunities([]);
+            } else {
+                setCommunities(community);
+            }
+            return;                       
+        }
+        setCommunities(communitySearch.community);
+
     };
 
     function renderCommunities() {
@@ -112,14 +120,13 @@ export default function SearchCommunity() {
                 </ScrollArea.Scrollbar>
                 <ScrollArea.Corner className="bg-black" />
             </ScrollArea.Root>
-            
         );        
     }
 
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen gap-5 p-4 bg-light-secondary dark:bg-dark-tertiary">
             <div className="w-full">
-                <SearchForm onSearch={handleSearch} value={searchValue}/>
+                <SearchForm onSearch={handleSearch}/>
             </div>
             <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
                 {renderCommunities()}
