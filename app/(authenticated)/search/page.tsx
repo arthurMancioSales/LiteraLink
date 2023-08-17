@@ -3,28 +3,27 @@
 import { CardCommunity } from "@/src/components/CardCommunity";
 import { SearchForm } from "@/src/components/SearchBar";
 import { generalRequest } from "@/src/functions/generalRequest";
-import { ICommunity, IUser } from "@/src/interfaces/interface";
+import { ICommunity } from "@/src/interfaces/interface";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../layout";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { GenericModal } from "@/src/components/Modal/GenericModal";
 
 export default function SearchCommunity() {
     const [communities, setCommunities] = useState<ICommunity[]>([]);
     const [loading, setLoading] = useState(true);
-    const [searchValue, setSearchValue] = useState("");
+    const [openModalMessageError, setOpenModalMessageError] = useState(false);
+    const [messageError, setMessageError] = useState("");
 
     const userContext = useContext(UserContext);
     
     const userData = userContext?.userData;
-
-    const handleSearch = (value: string) => {
-        setSearchValue(value);
-        console.log("Realizar a busca com o valor:", value);
-    };
+    const updateUser = userContext?.updateUser;
 
     useEffect(() => {
         async function getCommunities() {
-            const community: ICommunity[] | null = await generalRequest("/api/c/");
+            setLoading(true);
+            const community: ICommunity[] | null = await generalRequest("/api/c");
 
             if(!community) {
                 setCommunities([]);
@@ -38,11 +37,72 @@ export default function SearchCommunity() {
         getCommunities();
     }, []);
 
+    if(loading) {
+        return(
+            <div className="flex flex-col items-center justify-center w-screen h-screen gap-5 p-4 bg-light-secondary dark:bg-dark-tertiary">
+                <div className="w-full">
+                    <div className="h-[53px] w-full bg-light-tertiary dark:bg-dark-secondary rounded-md"></div>
+                </div>
+                <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
+                    <div>     
+                        <div className="grid w-[97%] h-[calc(100%-32px)] grid-cols-5 gap-x-6 gap-y-4 p-4">
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const handleSearch = async (value: string) => {
+        const communitySearch = await generalRequest(`/api/search/${value}`);
+        
+        if(value === "") {
+            const community: ICommunity[] | null = await generalRequest("/api/c");
+            if(!community) {
+                setCommunities([]);
+            } else {
+                setCommunities(community);
+            }
+            return;                       
+        }
+        setCommunities(communitySearch.community);
+    };
+
+    async function participationCommunity(nameCommunity: string, isMember: boolean) {
+        setLoading(true);
+        if(isMember) {
+            const response = await generalRequest("/api/community/remove-member", {name: nameCommunity}, "DELETE");
+    
+            if(response?.error) {
+                setMessageError(response.error);
+                setOpenModalMessageError(true);
+            }
+        } else {
+            const response = await generalRequest("/api/community/add-member", {name: nameCommunity}, "POST");
+
+            if(response?.error) {
+                setMessageError(response.error);
+                setOpenModalMessageError(true);
+            }
+        }
+        if(updateUser) updateUser();
+    
+        setLoading(false);
+    }
+
     function renderCommunities() {
         if (!communities.length) {
             return (
                 <div className="flex items-center justify-center h-full dark:text-dark-text">
-                    <p>Não possui comunidades cadastradas</p>                
+                    <p>Não possui comunidades cadastradas ou a sua pesquisa não foi encontrada</p>                
                 </div>
             );
         }
@@ -71,6 +131,7 @@ export default function SearchCommunity() {
                                 <CardCommunity
                                     page={`/c/${community.name}`}
                                     community={community}
+                                    handleCommunity={participationCommunity}
                                     isMember={verifyIsMember(community._id)}
                                 />
                             </div>
@@ -85,34 +146,18 @@ export default function SearchCommunity() {
                 </ScrollArea.Scrollbar>
                 <ScrollArea.Corner className="bg-black" />
             </ScrollArea.Root>
-            
         );        
     }
 
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen gap-5 p-4 bg-light-secondary dark:bg-dark-tertiary">
             <div className="w-full">
-                <SearchForm onSearch={handleSearch} value={searchValue}/>
+                <SearchForm onSearch={handleSearch}/>
             </div>
             <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
-                {
-                    loading ? (
-                        <div>
-                                
-                            <div className="grid w-[97%] h-[calc(100%-32px)] grid-cols-5 gap-x-6 gap-y-4 p-4">
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                            </div>
-                        </div>
-                    ): renderCommunities()
-                }
+                {renderCommunities()}
             </div>
+            {openModalMessageError && <GenericModal styleSize={{textAlign: "center"}} onClose={() => setOpenModalMessageError(false)} title="Aviso">{messageError}</GenericModal>}
         </div>
     );
 }

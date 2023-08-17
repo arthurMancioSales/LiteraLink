@@ -4,7 +4,7 @@ import { IGoals, IGoalsType } from "@/src/interfaces/interface";
 import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
 import { userFormattedResponse } from "@/src/utils/formattedResponse";
 import { updateParcialGoalOfBookRepo } from "@/src/repository/book/goals/updateParcialGoalOfBookRepo";
-import { deleteGoalOfBookRepo } from "@/src/repository/book/goals/deleteGoalOfBookRepo";
+import { completeGoalOfBookRepo } from "@/src/repository/book/goals/completeGoalOfBookRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { dateNow } from "@/src/utils/dateCorrect";
 
@@ -70,7 +70,7 @@ async function verifyCompleteGoals(
 ) {
     for (const element of goals) {
         if (element.partial >= element.total) {
-            await deleteGoalOfBookRepo(id, bookId, element.type);
+            await completeGoalOfBookRepo(id, bookId, element.type);
         }
     }
 }
