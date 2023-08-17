@@ -53,7 +53,7 @@ export interface ICommunity {
     _id: string;
     name: string;
     description: string;
-    favoriteBook?: string;
+    communityGenre: string;
     image: string;
     is_admin: number;
     members: ICommunityUser[];
@@ -67,7 +67,7 @@ export interface ICreateCommunity {
     id?: ObjectId;
     name: string;
     description: string;
-    favoriteBook: string;
+    communityGenre: string;
     image?: string;
     is_admin: string;
     members?: [] | IUserCommunity[];

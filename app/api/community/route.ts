@@ -15,29 +15,29 @@ export async function POST(req:NextRequest) {
     try {
         const user = await auth(req);
         const request = await handleUpload(req);
-        
         if (Object.entries(request).length == 0) {
             throw new CustomError("Error: nenhum campo foi selecionado", 400);
         }
 
-        const {name , description, image} = request;
+        const {name , description, image, communityGenre} = request;
         new NameCommunityValidator(name);
         const body:{
             name:string, 
             description: string,
-            favoriteBook:string,
+            communityGenre:string,
             is_admin: string,
             image?: string
         } = {
             name: name,
             description: description,
-            favoriteBook: "",
+            communityGenre: communityGenre,
             is_admin: user.id,
             image: image,
         };
         const community = await postCommunity(user, body);
         await redis.del("cachedAllCommunities");
         await redis.del(`userInfo:${user.id}`);
+        console.log(community);
         Response.data = community;
         Response.status = 201;
         return NextResponse.json(Response, {status: Response.status});

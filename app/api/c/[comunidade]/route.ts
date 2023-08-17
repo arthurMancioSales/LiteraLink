@@ -13,7 +13,7 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
             const community =  await getCommunity(communityName);
             console.log(community)
             Response.data = community;
-            NextResponse.json(Response, {status: Response.status});
+            return NextResponse.json(Response, {status: Response.status});
         } else {
             throw new CustomError("Error: id não existente", 404);
         }

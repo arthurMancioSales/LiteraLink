@@ -23,7 +23,7 @@ export async function postCommunity(user: {id: string, name: string}, request: I
             _id: new ObjectId(),
             name: request.name,
             description: request.description,
-            favoriteBook: "",
+            communityGenre: request.communityGenre,
             image: request.image,
             is_admin: user.id,
             members: [
