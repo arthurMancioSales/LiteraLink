@@ -12,7 +12,7 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
             new NameCommunityValidator(communityName);
             const community =  await getCommunity(communityName);
             Response.data = community;
-            NextResponse.json(Response, {status: Response.status});
+            return NextResponse.json(Response, {status: Response.status});
         }
         throw new CustomError("Error: id não existente", 404);
     } catch (error: any) {
