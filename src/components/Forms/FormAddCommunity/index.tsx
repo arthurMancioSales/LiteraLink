@@ -74,6 +74,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                     formData.append("name", values.nameCommunity);
                     formData.append("description", values.descriptionCommunity);
                     formData.append("communityGenre", values.communityGenre);
+                    formData.append("userImage", userContext?.userData?.image as string);
 
                     if(selectedFile) {
                         formData.append("image", selectedFile);
@@ -113,16 +114,16 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                             </div>
                             <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark- mb-[23px] text"  name="communityGenre">
                                 <option selected disabled value="" hidden>Selecione uma opção</option>
-                                <option value="ficcao">Ficção</option>
-                                <option value="fantasia">Fantasia</option>
-                                <option value="terror">Terror</option>
-                                <option value="romance">Romance</option>
-                                <option value="drama">Drama</option>
-                                <option value="aventura">Aventura</option>
-                                <option value="historico">Histórico</option>
-                                <option value="biografia">Biografia</option>
-                                <option value="autoajuda">Autoajuda</option>
-                                <option value="poesia">Poesia</option>
+                                <option value="Ficção">Ficção</option>
+                                <option value="Fantasia">Fantasia</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Histórico">Histórico</option>
+                                <option value="Biografia">Biografia</option>
+                                <option value="Autoajuda">Autoajuda</option>
+                                <option value="Poesia">Poesia</option>
                             </Field>
                             <TextArea name="descriptionCommunity" label="Descrição" type="text"/>
                         </div>
