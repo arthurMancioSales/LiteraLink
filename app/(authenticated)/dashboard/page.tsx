@@ -363,7 +363,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className="flex w-1/3 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">/
+                <div className="flex w-1/3 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
                     <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                 </div>
             </div>
