@@ -11,7 +11,6 @@ async function createCommunityRepo(id: ObjectId, community: ICreateCommunity){
     const collectionCommunity = client.db("literalink-dev").collection("community");
     const collectionUser= client.db("literalink-dev").collection("users");
     try {
-        
         const response  = await collectionCommunity.insertOne(community);
         const responseComplete = await collectionCommunity.findOne({ _id: response.insertedId});
         if (!responseComplete) {

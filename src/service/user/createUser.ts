@@ -41,7 +41,7 @@ export async function registerUser( requestUser: INewUser ) {
                 name: requestUser.name,
                 email: requestUser.email,
                 password: hashedPassword,
-                image: imageUserDefault,
+                image: "/images/user/default_user_image.jpg",
                 communities: [],
                 books: [],
                 statistics: {

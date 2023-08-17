@@ -109,13 +109,13 @@ export function Sidebar() {
                     <Button icon={<TbLayoutDashboard size={iconSize} />} redirectTo="/dashboard">DashBoard</Button>
                     <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search">Pesquisar</Button>
                 </div>
-                <div className="h-full">
+                <div className="h-[calc(100%-442px)]">
                     <div className="flex justify-between">
                         <span>Comunidades</span>
                         <div className="cursor-pointer" title="Adicionar comunidade" onClick={() => setOpenModalAddCommunity(true)}><AiOutlineUsergroupAdd size={iconSize}/></div>
                     </div>
                     <ScrollArea.Root 
-                        className="h-[calc(100%-36px)] overflow-clip"
+                        className="h-full overflow-clip"
                         type="always"
                     >
                         <ScrollArea.Viewport className="w-[90%] max-w-full max-h-full rounded">

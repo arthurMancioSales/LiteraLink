@@ -16,6 +16,7 @@ services:
     image: "redis:alpine"
     networks:
       - stage-network
+    restart: on-failure
   
   mongo-stage:
     image: mongo
