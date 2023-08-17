@@ -8,15 +8,13 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
     const Response = createResponse();
     try {
         const communityName = params.comunidade;
-        if(communityName) {
-            new NameCommunityValidator(communityName);
-            const community =  await getCommunity(communityName);
-            console.log(community)
-            Response.data = community;
-            return NextResponse.json(Response, {status: Response.status});
-        } else {
-            throw new CustomError("Error: id não existente", 404);
+        new NameCommunityValidator(communityName);
+        const community =  await getCommunity(communityName);
+        if(!community) {
+            throw new CustomError("Comunidade não existente", 404);
         }
+        Response.data = community;
+        return NextResponse.json(Response, {status: Response.status});
     } catch (error: any) {
         console.log(error);
         Response.message = "Error";
