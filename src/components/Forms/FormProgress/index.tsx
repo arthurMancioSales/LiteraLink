@@ -8,7 +8,7 @@ import { Button } from "../../Button";
 import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
-import { IGoalsType } from "@/src/interfaces/interface";
+import { IBook, IGoals, IGoalsType } from "@/src/interfaces/interface";
 
 interface PropTypes {
     onClose: () => void;
@@ -24,8 +24,10 @@ export function FormProgress({ onClose }: PropTypes) {
     const updateUser = userContext?.updateUser;
 
     const [bookStatusSelected, setBookStatusSelected] = useState<string>("");
-    const [bookPagesRead, setBookPagesRead] = useState<number | string>("");
+    const [bookPagesRead, setBookPagesRead] = useState<number>(0);
     const [bookTotalPages, setBookTotalPages] = useState<number>(0);
+    const [bookGoalPartialTime, setBookGoalPartialTime] = useState<number>(0);
+    const [bookGoalTotalTime, setBookGoalTotalTime] = useState<number>(0);
     const [idBookSelected, setIdBookSelected] = useState<number | string>("");
     const [messageError, setMessageError] = useState("");
 
@@ -71,7 +73,11 @@ export function FormProgress({ onClose }: PropTypes) {
                 if(book.id == idBookSelected) {
                     if(book.goals?.length) {
                         const searchType = book.goals.find((goal) => (goal.type === goalType));
-                        if (searchType) return true;
+
+                        if (searchType) {
+                            setGoalType(searchType);
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -100,6 +106,18 @@ export function FormProgress({ onClose }: PropTypes) {
         }
     }
 
+    function getPartialPagesBook(id: string) {
+        if (booksUser) {
+            const pagesCount: IBook[] = booksUser.filter((book) => {
+                if(book.id === id) {
+                    return true;
+                }
+                return false;
+            });
+            return pagesCount[0].pagesRead;
+        }
+    }
+
     function getTotalPagesBook(id: string) {
         if (booksUser) {
             const pagesCount = booksUser.filter((book) => {
@@ -112,11 +130,18 @@ export function FormProgress({ onClose }: PropTypes) {
         }
     }
 
+    function setGoalType(goal: IGoals) {
+        if(goal.type === "time") {
+            setBookGoalPartialTime(goal.partial);
+            setBookGoalTotalTime(goal.total);
+        }
+    }
+
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
-        bookStatus: Yup.string().required("É necessário escolher um estado"),
-        pagesRead: Yup.number().max(bookTotalPages, `O máximo são ${bookTotalPages} páginas`).min(0, "Não existe páginas negativas").required("Adicione uma quantidade de páginas"),
-        readingTime: Yup.number().max(1440, "O Tempo de leitura ultrapassa 1440 minutos").min(0, "Não existe tempo negativo")
+        bookStatus: Yup.string(),
+        pagesRead: Yup.number().max(bookTotalPages - bookPagesRead, `Restam apenas ${bookTotalPages - bookPagesRead} páginas`).min(0, "Não existe páginas negativas").required("Adicione uma quantidade de páginas"),
+        readingTime: Yup.number().max(bookGoalTotalTime - bookGoalPartialTime, `O Tempo de leitura ultrapassa o estipulado de ${bookGoalTotalTime - bookGoalPartialTime} minutos`).min(0, "Não existe tempo negativo")
     });
 
     const initialValues = {
@@ -193,9 +218,12 @@ export function FormProgress({ onClose }: PropTypes) {
                                         const statusBook = getStatusSelect(e.target.value);
                                         props.setFieldValue("bookStatus", statusBook);
                                         if(statusBook) setBookStatusSelected(statusBook);
-
+                                        
                                         const pagesBook = getTotalPagesBook(e.target.value);
                                         if(pagesBook) setBookTotalPages(pagesBook);
+                                        
+                                        const pagesReadBook = getPartialPagesBook(e.target.value);
+                                        if(pagesReadBook) setBookPagesRead(pagesReadBook);
 
                                         setIdBookSelected(e.target.value);
                                     }}
@@ -243,11 +271,6 @@ export function FormProgress({ onClose }: PropTypes) {
                                     type="number"
                                     className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="pagesRead"
-                                    onChange={(e: React.ChangeEvent<any>) => {
-                                        props.handleChange(e);
-                                        setBookPagesRead(e.target.value);
-                                    }}
-                                    value={bookPagesRead}
                                 />
                                 <div className="mt-[2px] min-h-[21px]">
                                     <ErrorMessage name="pagesRead" className="text-status-error" component="span"/>
