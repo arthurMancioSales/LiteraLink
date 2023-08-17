@@ -26,5 +26,5 @@ export async function auth(req: NextRequest | IncomingMessage) {
     if (typeof decodedJwt === "string") {
         throw new CustomError("Error: Cookie inválido.", 500);
     }
-    return {id: decodedJwt.id, name: decodedJwt.name};
+    return {id: decodedJwt.id, name: decodedJwt.name, image: ""};
 }

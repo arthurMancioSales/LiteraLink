@@ -5,7 +5,7 @@ import { userFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST-ADD): community ";
 
-export async function postAddUserCommunity(user:{id:string, name: string }, community_name: string) {
+export async function postAddUserCommunity(user:{id:string, name: string, image: string }, community_name: string) {
     try {
         const is_member = await isMember(user.name, community_name);
         if (is_member){

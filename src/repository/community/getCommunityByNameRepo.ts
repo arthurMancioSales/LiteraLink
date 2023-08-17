@@ -9,7 +9,7 @@ export async function getCommunityByNameRepo(community_name : string) {
     try {
         const returnedCommunity = await collection.findOne( {
             name: community_name
-        });
+        }, { projection: {"_id": false, "members.id": false} });
         return returnedCommunity;
     } catch (error) {
         console.log(TAG, error);

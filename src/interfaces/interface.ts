@@ -14,7 +14,7 @@ export interface IUser {
     name: string;
     email: string;
     password: string;
-    image?: string | StaticImageData;
+    image?: string;
     communities: IUserCommunity[];
     books: IBook[];
     statistics: IStatistic;
@@ -31,7 +31,7 @@ export interface INewUser {
     name: string;
     email: string;
     password: string;
-    image?: string | StaticImageData;
+    image?: string;
     communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;

@@ -18,7 +18,7 @@ export async function POST(req:NextRequest) {
         if (Object.entries(request).length == 0) {
             throw new CustomError("Error: nenhum campo foi selecionado", 400);
         }
-
+        user.image = request.userImage;
         const {name , description, image, communityGenre} = request;
         new NameCommunityValidator(name);
         const body:{
@@ -37,7 +37,6 @@ export async function POST(req:NextRequest) {
         const community = await postCommunity(user, body);
         await redis.del("cachedAllCommunities");
         await redis.del(`userInfo:${user.id}`);
-        console.log(community);
         Response.data = community;
         Response.status = 201;
         return NextResponse.json(Response, {status: Response.status});
