@@ -53,7 +53,7 @@ export default function CommunityChat({ params }: { params: { community: string 
                 }
                 
             };  
-            console.log(communityData)
+
             ws.addEventListener("open", () => {
                 ws.send(JSON.stringify(connection));
             });
@@ -243,8 +243,8 @@ export default function CommunityChat({ params }: { params: { community: string 
                         {loadingCommunity ? <ImageLoading size={125} /> : <Avatar src={communityData?.image} size={125} />}
                     </div>
                     <div className="flex flex-col w-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
-                        <p className="text-lg font-medium">Livro favorito</p>
-                        {loadingCommunity ? <TextLoading /> : <p>{communityData?.favoriteBook}</p>}
+                        <p className="text-lg font-medium">Gênero favorito</p>
+                        {loadingCommunity ? <TextLoading /> : <p>{communityData?.communityGenre}</p>}
                     </div>
                     <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
                         <p className="text-lg font-medium">Descrição</p>

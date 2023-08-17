@@ -14,7 +14,7 @@ export interface IUser {
     name: string;
     email: string;
     password: string;
-    image?: string | StaticImageData;
+    image?: string;
     communities: IUserCommunity[];
     books: IBook[];
     statistics: IStatistic;
@@ -31,7 +31,7 @@ export interface INewUser {
     name: string;
     email: string;
     password: string;
-    image?: string | StaticImageData;
+    image?: string;
     communities?: IUserCommunity[];
     books?: IBook[];
     statistics?: IStatistic;
@@ -53,7 +53,7 @@ export interface ICommunity {
     _id: string;
     name: string;
     description: string;
-    favoriteBook?: string;
+    communityGenre: string;
     image: string;
     is_admin: string;
     members: ICommunityUser[];
@@ -67,7 +67,7 @@ export interface ICreateCommunity {
     id?: ObjectId;
     name: string;
     description: string;
-    favoriteBook: string;
+    communityGenre: string;
     image?: string;
     is_admin: string;
     members?: [] | IUserCommunity[];

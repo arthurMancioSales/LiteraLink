@@ -249,10 +249,11 @@ export function FormProgress({ onClose }: PropTypes) {
                                         setBookStatusSelected(e.target.value);
                                     }}
                                     value={bookStatusSelected}
+                                    requried
                                 >
                                     {statusBookOptions.map((element) => {
-                                        if (element.id === 0) {
-                                            return (<option key={element.id} value={element.value} disabled>{element.name}</option>);
+                                        if (element.id === 1) {
+                                            return (<option key={element.id} value="" disabled selected>Selecione uma opção</option>);
                                         }
                                         return (<option key={element.id} value={element.value}>{element.name}</option>);
                                     })} 

@@ -10,8 +10,6 @@ import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { TextArea } from "../../TextArea";
 import { Avatar } from "../../Avatar";
-import { IBookApi } from "@/app/api/book-list/[apiExternal]/route";
-import { SearchBook } from "../FormAddBook/SearchBook";
 
 interface PropTypes {
     onClose: () => void;
@@ -32,13 +30,13 @@ export function FormAddCommunity({ onClose }: PropTypes) {
 
     const validationSchema = Yup.object({
         nameCommunity: Yup.string().required("É necessário um nome para comunidade"),
-        communityGenre: Yup.string().required("É necessário um nome para comunidade"),
         descriptionCommunity: Yup.string(),
     });
 
     const initialValues = {
         nameCommunity: "",
         descriptionCommunity: "",
+        communityGenre: ""
     };
   
     return (
@@ -75,6 +73,8 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                     const formData = new FormData();
                     formData.append("name", values.nameCommunity);
                     formData.append("description", values.descriptionCommunity);
+                    formData.append("communityGenre", values.communityGenre);
+                    formData.append("userImage", userContext?.userData?.image as string);
 
                     if(selectedFile) {
                         formData.append("image", selectedFile);
@@ -106,20 +106,25 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div>
                             <Input name="nameCommunity" label="Nome" error={props.errors.nameCommunity} type="text" required/>
-                            <label  className="dark:text-dark-text" htmlFor="communityGenre">
-                                Gênero favorito
-                            </label>
-                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"  name="communityGenre">
-                                <option disabled hidden>Selecione uma opção</option>
-                                <option value="red">Red</option>
-                                <option value="green">Green</option>
-                                <option value="blue">Blue</option>
-                            </Field>
-                            <div className="mt-[2px] min-h-[21px]">
-                                <ErrorMessage name="communityGenre">
-                                    {() => <span className="text-status-error">{props.errors.nameCommunity}</span>}
-                                </ErrorMessage>
+                            <div className="flex gap-2">
+                                <label  className="dark:text-dark-text" htmlFor="communityGenre">
+                                    Gênero favorito
+                                </label>
+                                <label className="text-status-error">*</label>
                             </div>
+                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark- mb-[23px] text"  name="communityGenre">
+                                <option selected disabled value="" hidden>Selecione uma opção</option>
+                                <option value="Ficção">Ficção</option>
+                                <option value="Fantasia">Fantasia</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Romance">Romance</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Histórico">Histórico</option>
+                                <option value="Biografia">Biografia</option>
+                                <option value="Autoajuda">Autoajuda</option>
+                                <option value="Poesia">Poesia</option>
+                            </Field>
                             <TextArea name="descriptionCommunity" label="Descrição" type="text"/>
                         </div>
                         <Button type="submit" variant="info">CRIAR</Button>

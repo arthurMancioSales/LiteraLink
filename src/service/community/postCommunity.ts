@@ -8,7 +8,9 @@ import { communityFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST): community ";
 
-export async function postCommunity(user: {id: string, name: string}, request: ICreateCommunity) {
+const avaliableGenres = ["Ficcao", "Fantasia", "Terror", "Romance", "Drama", "Aventura", "Historico", "Biografia", "Autoajuda", "Poesia"];
+
+export async function postCommunity(user: {id: string, name: string, image: string}, request: ICreateCommunity) {
     try {
         const userObjectId = ObjectId.createFromHexString(user.id);
         const userDB = await findUserByIdRepo(userObjectId);
@@ -19,17 +21,21 @@ export async function postCommunity(user: {id: string, name: string}, request: I
         if (checkCommunityName) {
             throw new CustomError("Nome da comunidade já está em uso", 403);
         }
+        if (!(avaliableGenres.includes(request.communityGenre))) {
+            throw new CustomError("Gênero literário inválido", 403);
+        }
         const body = {
             _id: new ObjectId(),
             name: request.name,
             description: request.description,
-            favoriteBook: "",
+            communityGenre: request.communityGenre,
             image: request.image,
             is_admin: user.id,
             members: [
                 {
                     id: user.id,
-                    name: user.name
+                    name: user.name,
+                    image: user.image
                 }
             ]
         };

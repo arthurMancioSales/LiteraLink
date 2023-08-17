@@ -77,7 +77,7 @@ export function FormUserConfig({ onClose }: PropTypes) {
                         formData.set("image", selectedFile);
                     }
                   
-                    const response = await fetch("api/update-user", {
+                    const response = await fetch("/api/update-user", {
                         method: "PATCH",
                         body: formData,
                         cache: "no-store"

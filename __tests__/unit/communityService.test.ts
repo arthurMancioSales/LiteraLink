@@ -325,7 +325,8 @@ describe("Service postAddUserCommunity", () => {
     it("should return error 'Esse usuário já faz parte dessa comunidade' if user is already a member of community", async () => {
         const user = {
             id: "12",
-            name: "teste"
+            name: "teste",
+            image: "/images/user/default_user_image.jpg"
         };
 
         jest.mocked(isMember).mockResolvedValue({} as ReturnType<typeof isMember>);
@@ -338,7 +339,8 @@ describe("Service postAddUserCommunity", () => {
     it("should return error 'Erro ao procurar o membro'", async () => {
         const user = {
             id: "12",
-            name: "teste"
+            name: "teste",
+            image: "/images/user/default_user_image.jpg"
         };
 
         jest.mocked(isMember).mockResolvedValue(null);
@@ -353,7 +355,8 @@ describe("Service postAddUserCommunity", () => {
     it("should add user to community", async () => {
         const user = {
             id: "12",
-            name: "teste"
+            name: "teste",
+            image: "/images/user/default_user_image.jpg"
         };
 
         jest.mocked(isMember).mockResolvedValue(null);
@@ -370,12 +373,13 @@ describe("Service postCommunity", () => {
     it("should return error 'Usuário não encontrado' if user was not found", async () => {
         const user = {
             id: "12",
-            name: "teste"
+            name: "teste",
+            image: "/images/user/default_user_image.jpg"
         };
 
         const community: ICreateCommunity = {
             description: "description",
-            favoriteBook: "favorite book",
+            communityGenre: "terror",
             is_admin: "2",
             name: "new community"
         };
@@ -390,15 +394,17 @@ describe("Service postCommunity", () => {
     it("should return error 'Nome da comunidade já está em uso' if community user is not avaliable", async () => {
         const user = {
             id: "12",
-            name: "teste"
+            name: "teste",
+            image: "/images/user/default_user_image.jpg"
         };
 
         const community: ICreateCommunity = {
             description: "description",
-            favoriteBook: "favorite book",
+            communityGenre: "terror",
             is_admin: "2",
             name: "new community"
         };
+
 
         jest.mocked(findUserByIdRepo).mockResolvedValue({} as ReturnType<typeof findUserByIdRepo>);
 
@@ -412,15 +418,17 @@ describe("Service postCommunity", () => {
     it("should create community", async () => {
         const user = {
             id: "12",
-            name: "teste"
+            name: "teste",
+            image: "/images/user/default_user_image.jpg"
         };
 
         const community: ICreateCommunity = {
             description: "description",
-            favoriteBook: "favorite book",
+            communityGenre: "terror",
             is_admin: "2",
             name: "new community"
         };
+
 
         jest.mocked(findUserByIdRepo).mockResolvedValue({} as ReturnType<typeof findUserByIdRepo>);
 

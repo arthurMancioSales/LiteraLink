@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest) {
     const Response = createResponse();
-    const redis = createRedisClient()
+    const redis = createRedisClient();
     try {
         const user = await auth(req);
         const request = await req.json();
