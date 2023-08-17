@@ -313,11 +313,14 @@ export default function Dashboard() {
                     { !favoriteBook ? (
                         <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary">
                             <p className="text-2xl dark:text-dark-text">Ainda não há nenhum livro cadastrado</p>
-                            <Image 
-                                alt=""
-                                src={emptyBook}
-                                className="mx-auto"
-                            ></Image>
+                            <div className="relative w-full h-full">
+                                <Image 
+                                    alt=""
+                                    src={emptyBook}
+                                    fill
+                                    className="mx-auto"
+                                ></Image>
+                            </div>
                         </div>
                     ) : (
                         <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary">

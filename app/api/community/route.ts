@@ -15,23 +15,22 @@ export async function POST(req:NextRequest) {
     try {
         const user = await auth(req);
         const request = await handleUpload(req);
-        
         if (Object.entries(request).length == 0) {
             throw new CustomError("Error: nenhum campo foi selecionado", 400);
         }
-
-        const {name , description, image} = request;
+        user.image = request.userImage;
+        const {name , description, image, communityGenre} = request;
         new NameCommunityValidator(name);
         const body:{
             name:string, 
             description: string,
-            favoriteBook:string,
+            communityGenre:string,
             is_admin: string,
             image?: string
         } = {
             name: name,
             description: description,
-            favoriteBook: "",
+            communityGenre: communityGenre,
             is_admin: user.id,
             image: image,
         };

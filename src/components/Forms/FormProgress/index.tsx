@@ -114,7 +114,7 @@ export function FormProgress({ onClose }: PropTypes) {
 
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
-        bookStatus: Yup.string(),
+        bookStatus: Yup.string().required("É necessário escolher um estado"),
         pagesRead: Yup.number().max(bookTotalPages, `O máximo são ${bookTotalPages} páginas`).min(0, "Não existe páginas negativas").required("Adicione uma quantidade de páginas"),
         readingTime: Yup.number().max(1440, "O Tempo de leitura ultrapassa 1440 minutos").min(0, "Não existe tempo negativo")
     });
@@ -221,10 +221,11 @@ export function FormProgress({ onClose }: PropTypes) {
                                         setBookStatusSelected(e.target.value);
                                     }}
                                     value={bookStatusSelected}
+                                    requried
                                 >
                                     {statusBookOptions.map((element) => {
-                                        if (element.id === 0) {
-                                            return (<option key={element.id} value={element.value} disabled>{element.name}</option>);
+                                        if (element.id === 1) {
+                                            return (<option key={element.id} value="" disabled selected>Selecione uma opção</option>);
                                         }
                                         return (<option key={element.id} value={element.value}>{element.name}</option>);
                                     })} 
