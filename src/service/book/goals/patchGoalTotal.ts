@@ -23,31 +23,31 @@ export async function patchGoalTotal(
     try{
         const oldBook = await findBookByUserIdRepo(id, bookId);
         if (!oldBook) {
-            throw new CustomError('Livro não encontrado', 404);
+            throw new CustomError("Livro não encontrado", 404);
         }
         if (oldBook.goals.length === 0) {
-            throw new CustomError('Não existe metas para atulizar', 400);            
+            throw new CustomError("Não existe metas para atulizar", 400);            
         }
 
         const oldGoal = oldBook.goals.find((goal: IGoals) => goal.type === requestBody.type);
         if (!oldGoal) {
-            throw new CustomError('Não existe essa meta para atulizar', 400);      
+            throw new CustomError("Não existe essa meta para atulizar", 400);      
         }
         requestBody = {
             ...oldGoal,
             total: requestBody.total,
             lastVisitDate: dateNow()
-        }
+        };
         if (requestBody.total <= requestBody.partial!) {
             throw new CustomError(
-                'Não é permitido colocar a meta total menor que a parcial',
+                "Não é permitido colocar a meta total menor que a parcial",
                 400
             );
         }
-        await updateTotalGoalOfBookRepo(id, bookId, requestBody)
+        await updateTotalGoalOfBookRepo(id, bookId, requestBody);
         const finalResponse = await findUserByIdRepo(id);
         if (!finalResponse) {
-            throw new CustomError('Usuário não encontrado', 404);
+            throw new CustomError("Usuário não encontrado", 404);
         }
         return userFormattedResponse(finalResponse);
     } catch (e: any) {

@@ -3,7 +3,7 @@
 import { CardCommunity } from "@/src/components/CardCommunity";
 import { SearchForm } from "@/src/components/SearchBar";
 import { generalRequest } from "@/src/functions/generalRequest";
-import { ICommunity, IUser } from "@/src/interfaces/interface";
+import { ICommunity } from "@/src/interfaces/interface";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../layout";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
@@ -17,14 +17,9 @@ export default function SearchCommunity() {
     
     const userData = userContext?.userData;
 
-    const handleSearch = (value: string) => {
-        setSearchValue(value);
-        console.log("Realizar a busca com o valor:", value);
-    };
-
     useEffect(() => {
         async function getCommunities() {
-            const community: ICommunity[] | null = await generalRequest("/api/c/");
+            const community: ICommunity[] | null = await generalRequest("/api/c");
 
             if(!community) {
                 setCommunities([]);
@@ -38,11 +33,43 @@ export default function SearchCommunity() {
         getCommunities();
     }, []);
 
+    if(loading) {
+        return(
+            <div className="flex flex-col items-center justify-center w-screen h-screen gap-5 p-4 bg-light-secondary dark:bg-dark-tertiary">
+                <div className="w-full">
+                    <div className="h-[53px] w-full bg-light-tertiary dark:bg-dark-secondary rounded-md"></div>
+                </div>
+                <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
+                    <div>     
+                        <div className="grid w-[97%] h-[calc(100%-32px)] grid-cols-5 gap-x-6 gap-y-4 p-4">
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                            <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const handleSearch = async (value: string) => {
+        setSearchValue(value);
+        
+        const communitySearch = await generalRequest(`/api/c/${value}`);
+        setCommunities(communitySearch);
+        console.log("Realizar a busca com o valor:", value);
+    };
+
     function renderCommunities() {
         if (!communities.length) {
             return (
                 <div className="flex items-center justify-center h-full dark:text-dark-text">
-                    <p>Não possui comunidades cadastradas</p>                
+                    <p>Não possui comunidades cadastradas ou a sua pesquisa não foi encontrada</p>                
                 </div>
             );
         }
@@ -95,23 +122,7 @@ export default function SearchCommunity() {
                 <SearchForm onSearch={handleSearch} value={searchValue}/>
             </div>
             <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
-                {
-                    loading ? (
-                        <div>
-                                
-                            <div className="grid w-[97%] h-[calc(100%-32px)] grid-cols-5 gap-x-6 gap-y-4 p-4">
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                                <div className="h-[255px] w-full bg-light-primary dark:bg-dark-secondary animate-pulse rounded-md"></div>   
-                            </div>
-                        </div>
-                    ): renderCommunities()
-                }
+                {renderCommunities()}
             </div>
         </div>
     );

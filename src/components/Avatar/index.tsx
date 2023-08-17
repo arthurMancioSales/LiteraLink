@@ -8,7 +8,6 @@ type PropsTypes = {
 };
 
 export function Avatar({src, alt, size}: PropsTypes) { 
-    console.log(src)
     return (
         <div
             className="relative overflow-hidden"

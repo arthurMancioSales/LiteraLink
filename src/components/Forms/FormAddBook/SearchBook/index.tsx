@@ -55,10 +55,10 @@ export function SearchBook({value}: PropTypes) {
         }
 
         return (
-            <div className="absolute top-[calc(100%+5px)] right-0 left-0">
-                <div id="dropdownSearchBook" className="absolute flex flex-col z-20 gap-3 p-2 rounded-md overflow-y-auto max-h-[200px] w-full bg-light-tertiary dark:bg-dark-primary">
+            <div className="absolute left-0 right-0 h-[calc(100%-56px)] top-14">
+                <div id="dropdownSearchBook" className="absolute z-20 flex flex-col w-full h-full gap-3 p-2 overflow-y-auto rounded-md bg-light-tertiary dark:bg-dark-primary">
                     {books.map((book) => (
-                        <div key={book.id} className="flex items-center justify-around py-2 cursor-pointer rounded-md bg-light-primary hover:bg-buttonHover dark:bg-dark-secondary" onClick={() => handleBook(book)}>
+                        <div key={book.id} className="flex items-center justify-around py-2 rounded-md cursor-pointer bg-light-primary hover:bg-buttonHover dark:bg-dark-secondary" onClick={() => handleBook(book)}>
                             <div className="h-[125px] w-1/5 relative">
                                 <Image className="object-cover" src={book.image} alt="" fill/>                
                             </div>
@@ -90,7 +90,7 @@ export function SearchBook({value}: PropTypes) {
     };
   
     return (
-        <div className="relative">
+        <div className="relative h-full">
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     requestApi(values.search);                    
@@ -100,7 +100,7 @@ export function SearchBook({value}: PropTypes) {
                 validationSchema={validationSchema}
             >
                 {(props) => (
-                    <form className="flex flex-col gap-2" onSubmit={props.handleSubmit}>
+                    <form className="flex flex-col h-full gap-2" onSubmit={props.handleSubmit}>
                         <div className="flex items-center gap-2">
                             <div className="w-full">
                                 <div className="flex gap-2">

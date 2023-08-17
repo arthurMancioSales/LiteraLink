@@ -24,7 +24,7 @@ export async function postCommunity(user: {id: string, name: string}, request: I
             name: request.name,
             description: request.description,
             favoriteBook: "",
-            image: "",
+            image: request.image,
             is_admin: user.id,
             members: [
                 {

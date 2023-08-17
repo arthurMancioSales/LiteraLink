@@ -16,7 +16,7 @@ export async function findBookByUserIdRepo(userId : ObjectId, bookId : string) {
             { $replaceRoot: { newRoot: "$books" } },
         ]).toArray();
         if(!foundBook){
-            throw new CustomError('Livro não encontrado', 404);
+            throw new CustomError("Livro não encontrado", 404);
         }
         return foundBook[0];
     } catch (error) {

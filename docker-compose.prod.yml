@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: production.Dockerfile
     restart: on-failure
+    volumes:
+      - web-uploads:/app/public/images/uploads
     networks:
       - prod-network
 
@@ -45,6 +47,7 @@ services:
 
 volumes:
   mongo-prod-data:
+  web-uploads:
   
 networks:
   prod-network:

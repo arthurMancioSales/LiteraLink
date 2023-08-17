@@ -71,8 +71,6 @@ export default function Dashboard() {
     }
 
     async function editGoalBook(typeGoal: IGoalsType ) {
-        console.log(typeGoal);
-        
         if(favoriteBook && favoriteBook.goals?.length) {
             favoriteBook.goals.forEach((goal) => {
                 if(goal.type === typeGoal) {

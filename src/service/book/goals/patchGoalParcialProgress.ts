@@ -24,12 +24,12 @@ export async function patchGoalParcialProgress(
     try{
         const oldBook = await findBookByUserIdRepo(id, bookId);
         if (!oldBook) {
-            throw new CustomError('Livro não encontrado', 404);
+            throw new CustomError("Livro não encontrado", 404);
         }
         if (oldBook.goals.length === 0) {
-            throw new CustomError('Não existe metas para atulizar', 400);            
+            throw new CustomError("Não existe metas para atulizar", 400);            
         }
-        requestBody = requestBody.filter(element => element.type !== 'days');
+        requestBody = requestBody.filter(element => element.type !== "days");
         requestBody.forEach((element, index) => {
             const oldGoal = oldBook.goals.find((goal: IGoals) => goal.type === element.type);
             if (!oldGoal) {
@@ -42,16 +42,16 @@ export async function patchGoalParcialProgress(
                 ...oldGoal,
                 partial: oldGoal.partial + element.partial,
                 lastVisitDate: dateNow()
-            }
+            };
         });
 
         await updateParcialGoalOfBookRepo(id, bookId, requestBody);
         const newBook = await findBookByUserIdRepo(id, bookId);
-        await verifyCompleteGoals(id, bookId, newBook.goals)
+        await verifyCompleteGoals(id, bookId, newBook.goals);
 
         const finalResponse = await findUserByIdRepo(id);
         if (!finalResponse) {
-            throw new CustomError('Usuário não encontrado', 404);
+            throw new CustomError("Usuário não encontrado", 404);
         }
         return userFormattedResponse(finalResponse);
     } catch (e: any) {

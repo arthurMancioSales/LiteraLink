@@ -14,18 +14,12 @@ export const SearchForm = ({value, onSearch}: PropTypes) => {
       
     return (
         <form className="w-full">
-            <div className="flex justify-between p-1 gap-2 rounded-lg bg-light-primary dark:bg-dark-text">
-                <select id="searchBar" className="bg-transparent">
-                    <option value="1">Comunidades</option>
-                    <option value="2">Autor</option>
-                    <option value="3">Categoria</option>
-                    <option value="4">Gênero</option>
-                </select>
+            <div className="flex justify-between p-1 gap-2 rounded-lg bg-light-primary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-text">
                 <input
                     type="search"
                     className="bg-transparent w-full px-2"
                     value={value}
-                    placeholder="Pesquisar"
+                    placeholder="Pesquisar uma comunidade"
                     onChange={(e) => onSearch(e.target.value)}
                 />
                 <div>

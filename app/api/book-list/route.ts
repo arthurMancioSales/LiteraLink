@@ -42,8 +42,6 @@ export async function POST(req: NextRequest) {
         const postedBook = await postBook(user.id, request);
 
         await redis.del(`userInfo:${user.id}`);
-        console.log("Livro adicionado: ", postedBook);
-
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
         console.log(error);
@@ -65,7 +63,6 @@ export async function DELETE(req: NextRequest) {
         const newBookList = await deleteBook(new ObjectId(user.id), id);
 
         await redis.del(`userInfo:${user.id}`);
-        console.log("Book list: ", newBookList);
         return NextResponse.json(Response, {status: Response.status});
       
     } catch (error : any) {
