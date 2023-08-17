@@ -39,8 +39,15 @@ export default function CommunityChat({ params }: { params: { community: string 
         getCommunityData();
         
         if (userData && wsClient == null) {
+            let ws: WebSocket | null;
             const host = window.location.host;
-            const ws = new WebSocket(`ws://${host}/api`); 
+            const protocol = window.location.protocol;
+            
+            if (protocol == "htpps:") {
+                ws = new WebSocket(`wss://${host}/api`); 
+            } else {
+                ws = new WebSocket(`ws://${host}/api`); 
+            }
             
             setWsClient(ws);
             
@@ -53,9 +60,8 @@ export default function CommunityChat({ params }: { params: { community: string 
                 }
                 
             };  
-            console.log(communityData)
             ws.addEventListener("open", () => {
-                ws.send(JSON.stringify(connection));
+                ws && ws.send(JSON.stringify(connection));
             });
             
             ws.addEventListener("message", (jsonMessage: MessageEvent) => {
