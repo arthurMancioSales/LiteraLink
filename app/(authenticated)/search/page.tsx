@@ -7,14 +7,18 @@ import { ICommunity } from "@/src/interfaces/interface";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../layout";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import { GenericModal } from "@/src/components/Modal/GenericModal";
 
 export default function SearchCommunity() {
     const [communities, setCommunities] = useState<ICommunity[]>([]);
     const [loading, setLoading] = useState(true);
+    const [openModalMessageError, setOpenModalMessageError] = useState(false);
+    const [messageError, setMessageError] = useState("");
 
     const userContext = useContext(UserContext);
     
     const userData = userContext?.userData;
+    const updateUser = userContext?.updateUser;
 
     useEffect(() => {
         async function getCommunities() {
@@ -70,8 +74,29 @@ export default function SearchCommunity() {
             return;                       
         }
         setCommunities(communitySearch.community);
-
     };
+
+    async function participationCommunity(nameCommunity: string, isMember: boolean) {
+        setLoading(true);
+        if(isMember) {
+            const response = await generalRequest("/api/community/remove-member", {name: nameCommunity}, "DELETE");
+    
+            if(response?.error) {
+                setMessageError(response.error);
+                setOpenModalMessageError(true);
+            }
+        } else {
+            const response = await generalRequest("/api/community/add-member", {name: nameCommunity}, "POST");
+
+            if(response?.error) {
+                setMessageError(response.error);
+                setOpenModalMessageError(true);
+            }
+        }
+        if(updateUser) updateUser();
+    
+        setLoading(false);
+    }
 
     function renderCommunities() {
         if (!communities.length) {
@@ -106,6 +131,7 @@ export default function SearchCommunity() {
                                 <CardCommunity
                                     page={`/c/${community.name}`}
                                     community={community}
+                                    handleCommunity={participationCommunity}
                                     isMember={verifyIsMember(community._id)}
                                 />
                             </div>
@@ -131,6 +157,7 @@ export default function SearchCommunity() {
             <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
                 {renderCommunities()}
             </div>
+            {openModalMessageError && <GenericModal styleSize={{textAlign: "center"}} onClose={() => setOpenModalMessageError(false)} title="Aviso">{messageError}</GenericModal>}
         </div>
     );
 }

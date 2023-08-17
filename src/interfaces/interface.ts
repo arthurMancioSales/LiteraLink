@@ -55,7 +55,7 @@ export interface ICommunity {
     description: string;
     favoriteBook?: string;
     image: string;
-    is_admin: number;
+    is_admin: string;
     members: ICommunityUser[];
 }
 export interface IUserCommunity {
