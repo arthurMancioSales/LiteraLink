@@ -17,7 +17,7 @@ services:
     image: "redis:alpine"
     networks:
       - dev-network
-    
+    restart: on-failure
   
   mongo-dev:
     image: mongo

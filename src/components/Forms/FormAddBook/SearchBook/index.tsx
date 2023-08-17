@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { ErrorMessage, Field, Formik } from "formik";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../Button";
 
 interface PropTypes {
@@ -17,11 +17,15 @@ export function SearchBook({value}: PropTypes) {
     const [showBooksSearch, setShowBooksSearch] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const formRef = useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const dropdown = document.querySelector("#dropdownSearchBook");
             if (dropdown && !dropdown.contains(event.target as Node)) {
                 setShowBooksSearch(false);
+                formRef.current && formRef.current.classList.remove("h-full");
+                formRef.current && formRef.current.classList.add("h-fit");
             }
         };
     
@@ -37,6 +41,8 @@ export function SearchBook({value}: PropTypes) {
     function handleBook(book: IBookApi) {
         value(book);
         setShowBooksSearch(false);        
+        formRef.current && formRef.current.classList.remove("h-full");
+        formRef.current && formRef.current.classList.add("h-fit");
     }
     
     function renderBooksSearch() {
@@ -76,6 +82,8 @@ export function SearchBook({value}: PropTypes) {
             const bookSearch: IBookApi[] = await generalRequest(`/api/book-list/${search}`);
 
             setShowBooksSearch(true);
+            formRef.current && formRef.current.classList.remove("h-fit");
+            formRef.current && formRef.current.classList.add("h-full");
             setBooks(bookSearch);
             setLoading(false);
         }
@@ -90,7 +98,7 @@ export function SearchBook({value}: PropTypes) {
     };
   
     return (
-        <div className="relative h-full">
+        <div className="relative h-full" ref={formRef}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     requestApi(values.search);                    
