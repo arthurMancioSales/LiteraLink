@@ -15,7 +15,7 @@ export async function postGoalsOnBook(
     try{
         const oldBook = await findBookByUserIdRepo(id, bookId);
         if (!oldBook) {
-            throw new CustomError('Livro não encontrado', 404);
+            throw new CustomError("Livro não encontrado", 404);
         }
         if (oldBook.goals.length > 0) {
             requestBody = hasSameTypeObject(oldBook.goals, requestBody);

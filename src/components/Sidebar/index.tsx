@@ -69,7 +69,7 @@ export function Sidebar() {
                     <div className="h-[45px]"><RectangleSkeleton/></div>
                     <div className="h-[45px]"><RectangleSkeleton/></div>
                 </div>
-                <div className="flex flex-col gap-2 h-full">
+                <div className="flex flex-col h-full gap-2">
                     <div className="flex justify-between">
                         <span>Comunidades</span>
                         <CircleSkeleton size={iconSize}/>

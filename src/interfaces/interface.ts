@@ -41,7 +41,7 @@ export interface IUserUpdate {
     name?: string;
     email?: string;
     password?: string;
-    image?: File;
+    image?: string;
 }
 
 export interface ApiError {
@@ -146,6 +146,10 @@ export interface IFormatedResquestCommunity {
     image?: string;
     is_admin?: ObjectId | string;
     members?: [] | Array<{id: string | ObjectId, name: string}>;
+}
+
+export interface IUploadBody {
+    [paramName: string]: string;
 }
 
 // Websocket Interfaces

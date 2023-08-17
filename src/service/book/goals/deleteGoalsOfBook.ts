@@ -16,7 +16,7 @@ export async function deleteGoalsOfBook(
     try{
         const oldBook = await findBookByUserIdRepo(id, bookId);
         if (!oldBook) {
-            throw new CustomError('Livro não encontrado', 404);
+            throw new CustomError("Livro não encontrado", 404);
         }
         for (const element of requestBody){
             const oldGoal = oldBook.goals.find((goal: IGoals) => goal.type === element.type);

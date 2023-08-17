@@ -31,7 +31,7 @@ export async function updateGoalDaysRepo(
             }
         );
         if (!update.acknowledged) {
-            throw new CustomError('Erro na atualização da meta', 500);
+            throw new CustomError("Erro na atualização da meta", 500);
         }
         return;
     } catch (error) {

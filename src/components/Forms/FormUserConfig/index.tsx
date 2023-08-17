@@ -40,7 +40,7 @@ export function FormUserConfig({ onClose }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Configurações do usuário" onClose={onClose}>
+        <GenericModal title="Atualizar perfil" onClose={onClose}>
             <div className="flex items-center justify-center">
                 <label className="w-[120px]">
                     <input
@@ -62,7 +62,7 @@ export function FormUserConfig({ onClose }: PropTypes) {
                         {selectedImage ? (
                             <Avatar src={selectedImage} size={120}/>
                         ): (
-                            <span>Insira uma imagem</span>
+                            <span className="text-lg">Enviar imagem</span>
                         )}
                     </div>
                 </label>
@@ -70,9 +70,9 @@ export function FormUserConfig({ onClose }: PropTypes) {
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
                     const formData = new FormData();
-                    formData.set("userName", values.userEmail);
-                    formData.set("userEmail", values.userEmail);
-                    formData.set("userPassword", values.userPassword);
+                    formData.set("name", values.userName);
+                    formData.set("email", values.userEmail);
+                    formData.set("password", values.userPassword);
                     if(selectedFile) {
                         formData.set("image", selectedFile);
                     }
@@ -101,9 +101,11 @@ export function FormUserConfig({ onClose }: PropTypes) {
                         <div className="flex flex-col gap-2">
                             <Input name="userName" label="Apelido" error={props.errors.userName} type="text"/>
                             <Input name="userEmail" label="E-mail" error={props.errors.userEmail} type="text"/>
-                            <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="text"/>
+                            <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="password"/>
                         </div>
-                        <Button type="submit" variant="info">SALVAR</Button>
+                        <div className="w-1/4 mx-auto">
+                            <Button type="submit" variant="info">SALVAR</Button>
+                        </div>
                     </form>
                 )}
             </Formik>

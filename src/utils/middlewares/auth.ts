@@ -14,6 +14,9 @@ export async function auth(req: NextRequest | IncomingMessage) {
         userCookie = sessionCookie?.split("=")[1];
     } else {
         userCookie = req.cookies.get("Session")?.value;
+        if(userCookie?.trim() === "") {
+            throw new CustomError("Error: Cookie inválido.", 500);
+        }
     }
 
     if (!userCookie) {

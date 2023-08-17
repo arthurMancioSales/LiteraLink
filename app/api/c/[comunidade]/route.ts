@@ -11,10 +11,12 @@ export async function GET(req:NextRequest, {params}: {params: { comunidade: stri
         if(communityName) {
             new NameCommunityValidator(communityName);
             const community =  await getCommunity(communityName);
+            console.log(community)
             Response.data = community;
             NextResponse.json(Response, {status: Response.status});
+        } else {
+            throw new CustomError("Error: id não existente", 404);
         }
-        throw new CustomError("Error: id não existente", 404);
     } catch (error: any) {
         console.log(error);
         Response.message = "Error";

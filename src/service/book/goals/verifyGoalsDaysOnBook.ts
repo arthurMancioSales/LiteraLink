@@ -21,8 +21,8 @@ export async function verifyGoalsDaysOnBook(
 
             for(const book of booksGoalsDays[0].books) {
                 num += 1;
-                const goal = book.goals.find((goal: IGoals) => goal.type === 'days')
-                const lastVisit:Date = new Date(goal.lastVisitDate)
+                const goal = book.goals.find((goal: IGoals) => goal.type === "days");
+                const lastVisit:Date = new Date(goal.lastVisitDate);
                 const operation = Math.abs(date_now.getTime() - lastVisit.getTime()); 
                 if (operation < one_DayInMilisseconds) {
                     continue;
@@ -35,7 +35,7 @@ export async function verifyGoalsDaysOnBook(
                         ...goal,
                         lastVisitDate: dateNow(),
                         partial: goal.partial+1
-                    }
+                    };
                     await updateGoalDaysRepo(
                         id,
                         book.id,
@@ -48,14 +48,14 @@ export async function verifyGoalsDaysOnBook(
                         ...goal,
                         lastVisitDate: dateNow(),
                         partial: 0
-                    }
+                    };
                     await updateGoalDaysRepo(
                         id,
                         book.id,
                         requestBody
                     );
                 }
-            };
+            }
         }
         return;
     } catch (e: any) {

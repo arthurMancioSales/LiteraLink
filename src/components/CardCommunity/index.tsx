@@ -16,13 +16,14 @@ export function CardCommunity({page, community, variantButton, isMember}: PropsT
     function handleDashBoard() {
         console.log("clicou");                 
     }
+    
     return (
         <div className="overflow-hidden rounded-lg relative w-full h-[255px] bg-light-primary hover:bg-buttonHover dark:hover:bg-dark-primary dark:text-dark-text dark:bg-dark-secondary transition-all duration-300 hover:scale-105 flex flex-col">
             <Link href={page} passHref>
                 <div className="h-[95px] relative">
                     <Image
                         className="object-cover"
-                        src={community.image}
+                        src={community.image ? community.image : "/images/user/default_community_image.jpg"}
                         alt=""
                         fill
                     />

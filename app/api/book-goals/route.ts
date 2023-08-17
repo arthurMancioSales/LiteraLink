@@ -42,7 +42,7 @@ export async function PATCH(req: NextRequest) {
         const user = await auth(req);
         const request = await req.json();
         const { id, goals } = request;
-        if ('partial' in goals[0]) {
+        if ("partial" in goals[0]) {
             const reponseParcial = await patchGoalParcialProgress(
                 new ObjectId(user.id),
                 id,
@@ -50,7 +50,7 @@ export async function PATCH(req: NextRequest) {
             );
             Response.data = reponseParcial;
         }
-        if ('total' in goals[0]) {
+        if ("total" in goals[0]) {
             const reponseTotal = await patchGoalTotal(
                 new ObjectId(user.id),
                 id,
@@ -60,7 +60,7 @@ export async function PATCH(req: NextRequest) {
         }
         if(!Response.data) {
             throw new CustomError(
-                'Não foi enviado o partial ou total para ser feita uma atualização',
+                "Não foi enviado o partial ou total para ser feita uma atualização",
                 400
             );
         }

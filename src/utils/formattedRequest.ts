@@ -84,7 +84,7 @@ export function goalFormattedResquest(
 ) {
     const requestBody:IGoals[] = [];
     goals.forEach(element => {
-        if (element.type === 'days') {
+        if (element.type === "days") {
             new GoalTypeValidator(element.type);
             const formattedResquestBody: IGoals = {
                 type: element.type,
@@ -119,7 +119,7 @@ export function goalDeleteFormattedResquest(
         new GoalTypeValidator(element.type);
         const formattedResquestBody: any = {
             type: element.type
-        }
+        };
         requestBody.push(formattedResquestBody);
     });
     return requestBody;
