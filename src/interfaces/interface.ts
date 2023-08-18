@@ -81,6 +81,10 @@ export interface IStatistic {
     actualSequence: number;
     goalsAchieved: number;
 }
+export interface IPatchStatistics {
+    readingTime?: number;
+    pagesRead?: number;
+}
 
 export interface IBook {
     id: string | number;
