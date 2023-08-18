@@ -7,7 +7,6 @@ import { Input } from "../../Input";
 import { Button } from "../../Button";
 import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
-import { generalRequest } from "@/src/functions/generalRequest";
 import { TextArea } from "../../TextArea";
 import { Avatar } from "../../Avatar";
 
@@ -23,6 +22,7 @@ export type OptionsPropsSelect = {
 export function FormAddCommunity({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
 
     const [selectedImage, setSelectedImage] = useState("");
     const [selectedFile, setSelectedFile] = useState<File>();
@@ -30,6 +30,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
 
     const validationSchema = Yup.object({
         nameCommunity: Yup.string().required("É necessário um nome para comunidade"),
+        communityGenre: Yup.string().required("É necessário escolher um gênero"),
         descriptionCommunity: Yup.string(),
     });
 
@@ -40,7 +41,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Adicionar comunidade" onClose={onClose}>
+        <GenericModal title="Adicionar comunidade" onClose={onClose} styleSize={{height: "fit-content"}}>
             <div className="flex items-center justify-center">
                 <label className="w-[120px]">
                     <input
@@ -79,13 +80,13 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                     if(selectedFile) {
                         formData.append("image", selectedFile);
                     }
-
+                    setLoading(true);
                     const req = await fetch("/api/community", {
                         method: "POST",
                         body: formData,
                         cache: "no-store"
                     });
-            
+                    setLoading(false);
                     const response = await req.json();
 
                     if(response?.error) {
@@ -112,7 +113,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                                 </label>
                                 <label className="text-status-error">*</label>
                             </div>
-                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark- mb-[23px] text"  name="communityGenre">
+                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"  name="communityGenre">
                                 <option selected disabled value="" hidden>Selecione uma opção</option>
                                 <option value="Ficção">Ficção</option>
                                 <option value="Fantasia">Fantasia</option>
@@ -125,9 +126,14 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                                 <option value="Autoajuda">Autoajuda</option>
                                 <option value="Poesia">Poesia</option>
                             </Field>
+                            <div className="mt-[2px] min-h-[21px]">
+                                <ErrorMessage name="communityGenre" className="text-status-error" component="span"/>
+                            </div>
                             <TextArea name="descriptionCommunity" label="Descrição" type="text"/>
                         </div>
-                        <Button type="submit" variant="info">CRIAR</Button>
+                        <div className="w-1/4 mx-auto">
+                            <Button type="submit" variant="info" isLoading={loading}>CRIAR</Button>
+                        </div>
                     </form>
                 )}
             </Formik>

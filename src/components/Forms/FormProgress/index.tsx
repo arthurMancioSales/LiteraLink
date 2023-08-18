@@ -22,6 +22,7 @@ export type OptionsPropsSelect = {
 export function FormProgress({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
 
     const [bookStatusSelected, setBookStatusSelected] = useState<string>("");
     const [bookPagesRead, setBookPagesRead] = useState<number>(0);
@@ -139,9 +140,9 @@ export function FormProgress({ onClose }: PropTypes) {
 
     const validationSchema = Yup.object({
         bookName: Yup.string().required("É necessário escolher um livro"),
-        bookStatus: Yup.string(),
+        bookStatus: Yup.string().required("É necessário escolher um estado"),
         pagesRead: Yup.number().max(bookTotalPages - bookPagesRead, `Restam apenas ${bookTotalPages - bookPagesRead} páginas`).min(0, "Não existe páginas negativas").required("Adicione uma quantidade de páginas"),
-        readingTime: Yup.number().max(bookGoalTotalTime - bookGoalPartialTime, `O Tempo de leitura ultrapassa o estipulado de ${bookGoalTotalTime - bookGoalPartialTime} minutos`).min(0, "Não existe tempo negativo")
+        readingTime: Yup.number().min(0, "Não existe tempo negativo")
     });
 
     const initialValues = {
@@ -185,9 +186,9 @@ export function FormProgress({ onClose }: PropTypes) {
                             return;
                         }
                     }
-
+                    setLoading(true);
                     const responseBookList = await generalRequest("/api/book-list", formBodyPages, "PATCH");
-
+                    setLoading(false);
                     if(responseBookList?.error) {
                         setMessageError(responseBookList.error);
                     } else {
@@ -206,12 +207,13 @@ export function FormProgress({ onClose }: PropTypes) {
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div className="flex flex-col gap-2">
                             <div>
-                                <label className="dark:text-dark-text">Livro<label className="text-status-error">*</label>
+                                <label className="dark:text-dark-text" htmlFor="bookName">Livro<label className="text-status-error" htmlFor="bookName">*</label>
                                 </label>
                                 <Field
                                     as="select"
                                     className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="bookName"
+                                    id="bookName"
                                     onChange={(e: React.ChangeEvent<any>) => {
                                         props.handleChange(e);
                                     
@@ -228,7 +230,7 @@ export function FormProgress({ onClose }: PropTypes) {
                                         setIdBookSelected(e.target.value);
                                     }}
                                 >
-                                    <option value="" disabled>Selecione um livro</option>
+                                    <option value="" hidden selected disabled>Selecione um livro</option>
                                     {booksList().map((element) => (
                                         <option key={element.id} value={element.id}>{element.name}</option>
                                     ))}
@@ -238,12 +240,13 @@ export function FormProgress({ onClose }: PropTypes) {
                                 </div>
                             </div>        
                             <div>
-                                <label className="dark:text-dark-text">Estado atual<label className="text-status-error">*</label>
+                                <label className="dark:text-dark-text" htmlFor="bookStatus">Estado atual<label className="text-status-error" htmlFor="bookStatus">*</label>
                                 </label>
                                 <Field
                                     as="select"
                                     className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="bookStatus"
+                                    id="bookStatus"
                                     onChange={(e: React.ChangeEvent<any>) => {
                                         props.handleChange(e);
                                         setBookStatusSelected(e.target.value);
@@ -253,7 +256,7 @@ export function FormProgress({ onClose }: PropTypes) {
                                 >
                                     {statusBookOptions.map((element) => {
                                         if (element.id === 1) {
-                                            return (<option key={element.id} value="" disabled selected>Selecione uma opção</option>);
+                                            return (<option key={element.id} value="" hidden disabled selected>Selecione uma opção</option>);
                                         }
                                         return (<option key={element.id} value={element.value}>{element.name}</option>);
                                     })} 
@@ -264,13 +267,14 @@ export function FormProgress({ onClose }: PropTypes) {
                             </div>
                             <div>
                                 <div className="flex justify-between">
-                                    <label className="dark:text-dark-text">Páginas lidas<label className="text-status-error">*</label></label>
+                                    <label className="dark:text-dark-text" htmlFor="pagesRead">Páginas lidas<label className="text-status-error" htmlFor="pagesRead">*</label></label>
                                     <small>{`Total de páginas: ${bookTotalPages}`}</small>
                                 </div>
                                 <Field
                                     type="number"
                                     className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"
                                     name="pagesRead"
+                                    id="pagesRead"
                                 />
                                 <div className="mt-[2px] min-h-[21px]">
                                     <ErrorMessage name="pagesRead" className="text-status-error" component="span"/>
@@ -278,7 +282,9 @@ export function FormProgress({ onClose }: PropTypes) {
                             </div>
                             {visibleInputTypeGoal("time") && <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>}
                         </div>
-                        <Button type="submit" variant="info">SALVAR</Button>
+                        <div className="w-1/4 mx-auto">
+                            <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+                        </div>
                     </form>
                 )}
             </Formik>

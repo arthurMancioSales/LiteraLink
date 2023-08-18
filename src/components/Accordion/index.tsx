@@ -14,8 +14,6 @@ interface IBookAccordion {
 }
 
 export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
-    console.log(userBooks);
-    console.log("a");
     function renderLoading() {
         return (
             <CardBooksSkeleton />

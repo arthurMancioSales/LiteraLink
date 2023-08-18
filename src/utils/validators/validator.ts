@@ -72,7 +72,7 @@ export class PasswordValidator extends RegexValidator {
 
 export class NameCommunityValidator extends RegexValidator {
     constructor(data: string) {
-        super(data, "Error: invalid Password.");
+        super(data, "Error: Invalid community name.");
     }
   
     protected get regex(): RegExp {

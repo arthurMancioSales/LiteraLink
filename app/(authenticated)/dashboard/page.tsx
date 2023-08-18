@@ -356,7 +356,13 @@ export default function Dashboard() {
                                                         <div className="flex flex-row justify-between">
                                                             <div className="flex items-center gap-2">
                                                                 <p>Metas</p>
-                                                                <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalAddGoals(true)}/>
+                                                                {!favoriteBook.pagesRead ? (
+                                                                    <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalAddGoals(true)}/>
+                                                                ) : (
+                                                                    favoriteBook.pagesRead < favoriteBook.totalPages && (
+                                                                        <MdAddCircle className="cursor-pointer fill-light-text dark:fill-dark-text" size={20} onClick={() => setOpenModalAddGoals(true)}/>
+                                                                    )
+                                                                ) }
                                                             </div>
                                                             <p>Realizadas: {favoriteBook ? favoriteBook.goalsAchieved : 0}</p>
                                                         </div>

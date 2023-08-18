@@ -22,6 +22,8 @@ export type OptionsPropsSelect = {
 export function FormAddGoals({ bookId, onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
+
 
     const books = userContext?.userData?.books;
     
@@ -53,7 +55,9 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
         }
         
         return (
-            <Button type="submit" variant="info">SALVAR</Button>
+            <div className="w-1/4 mx-auto">
+                <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+            </div>
         );
     }
 
@@ -75,7 +79,7 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Adição de metas do livro" onClose={onClose}>
+        <GenericModal title="Adicionar nova meta" onClose={onClose}>
             <div className="flex flex-col gap-2">
                 <Formik 
                     onSubmit={async (values, {setSubmitting}) => {
@@ -103,9 +107,9 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                             id: bookId,
                             goals                     
                         };
-
+                        setLoading(true);
                         const response = await generalRequest("/api/book-goals", formBody, "POST");
-
+                        setLoading(false);
                         if(response?.error) {
                             setMessageError(response.error);
                         } else {
@@ -149,17 +153,19 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                                             />
                                             <p>{"Tempo de leitura (minutos)"}</p>
                                         </div>
-                                        <div>
-                                            <Field
-                                                type="number"
-                                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] disabled:text-light-secondary"
-                                                name="readingTime"
-                                                disabled={disabledReadingTime}
-                                            />
-                                            <div className="mt-[2px] min-h-[21px]">
-                                                <ErrorMessage name="readingTime" className="text-status-error" component="span"/>
+                                        {!disabledReadingTime && (
+                                            <div>
+                                                <Field
+                                                    type="number"
+                                                    className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] disabled:text-light-secondary"
+                                                    name="readingTime"
+                                                    disabled={disabledReadingTime}
+                                                />
+                                                <div className="mt-[2px] min-h-[21px]">
+                                                    <ErrorMessage name="readingTime" className="text-status-error" component="span"/>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 )}
                             </div>

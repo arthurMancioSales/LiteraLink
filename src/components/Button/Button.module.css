@@ -15,14 +15,14 @@
 }
 
 .info {
-    @apply bg-status-info text-dark-text border-transparent border-2 hover:bg-transparent hover:border-status-info hover:border-solid hover:text-light-text
+    @apply bg-status-info text-dark-text border-transparent border-2 hover:bg-transparent hover:border-status-info hover:border-solid hover:text-light-text dark:text-dark-text
 }
 
 .error {
-    @apply bg-status-error text-dark-text border-transparent border-2 hover:bg-transparent hover:border-status-error hover:border-solid hover:text-light-text hover:dark:text-dark-text
+    @apply bg-status-error text-dark-text border-transparent border-2 hover:bg-transparent hover:border-status-error hover:border-solid hover:text-light-text hover:dark:text-dark-text dark:text-dark-text
 }
 
 .success {
-    @apply bg-status-success text-light-text max-w-full border-transparent border-2 hover:bg-transparent hover:border-status-success hover:border-solid hover:text-light-text hover:dark:text-dark-text;
+    @apply bg-status-success text-light-text max-w-full border-transparent border-2 hover:bg-transparent hover:border-status-success hover:border-solid hover:text-light-text hover:dark:text-dark-text dark:text-dark-text;
 }
 

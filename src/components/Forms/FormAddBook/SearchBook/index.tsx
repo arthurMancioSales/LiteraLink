@@ -61,8 +61,8 @@ export function SearchBook({value}: PropTypes) {
         }
 
         return (
-            <div className="absolute left-0 right-0 h-[calc(100%-56px)] top-14">
-                <div id="dropdownSearchBook" className="absolute z-20 flex flex-col w-full h-full gap-3 p-2 overflow-y-auto rounded-md bg-light-tertiary dark:bg-dark-primary">
+            <div className="absolute left-0 right-0 h-[calc(100%-64px)] top-14">
+                <div id="dropdownSearchBook" className="absolute z-20 flex flex-col w-full h-full gap-3 p-2 mt-2 overflow-y-auto rounded-md bg-light-tertiary dark:bg-dark-primary">
                     {books.map((book) => (
                         <div key={book.id} className="flex items-center justify-around py-2 rounded-md cursor-pointer bg-light-primary hover:bg-buttonHover dark:bg-dark-secondary" onClick={() => handleBook(book)}>
                             <div className="h-[125px] w-1/5 relative">
@@ -111,9 +111,9 @@ export function SearchBook({value}: PropTypes) {
                     <form className="flex flex-col h-full gap-2" onSubmit={props.handleSubmit}>
                         <div className="flex items-center gap-2">
                             <div className="w-full">
-                                <div className="flex gap-2">
+                                <div className="flex items-center gap-2 pt-2">
                                     <Field className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text" type="text" name="search" />
-                                    <div><Button type="submit" variant="info">PESQUISAR</Button></div>
+                                    <div><Button type="submit" variant="info" isLoading={loading}>PESQUISAR</Button></div>
                                 </div>
                                 <div className="mt-[2px] min-h-[21px]">
                                     <ErrorMessage className="text-status-error" component="span" name="search" />

@@ -15,6 +15,7 @@ interface PropTypes {
 export function FormAddBook({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
 
     const [book, setBook] = useState<IBookApi | undefined>();
     const [messageError, setMessageError] = useState("");
@@ -32,8 +33,9 @@ export function FormAddBook({ onClose }: PropTypes) {
             image: book.image,
             totalPages: book.pages
         };
-        
+        setLoading(true);
         const response = await generalRequest("/api/book-list", requestBody, "POST");
+        setLoading(false);
 
         if(response?.error) {
             setMessageError(response.error);
@@ -65,7 +67,9 @@ export function FormAddBook({ onClose }: PropTypes) {
                             <p>{book ? book.pages : "Nenhum livro adicionado"}</p>
                         </div>
                     </div>
-                    <Button type="submit" variant="info" onClick={saveBook}>ADICIONAR</Button>
+                    <div className="w-1/4 mx-auto">
+                        <Button type="submit" variant="info" onClick={saveBook} isLoading={loading}>ADICIONAR</Button>
+                    </div>
                 </div>
             )}
             <p className="text-status-error">{messageError}</p>
