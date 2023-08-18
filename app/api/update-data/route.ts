@@ -16,12 +16,12 @@ export async function POST(req: NextRequest) {
             throw new CustomError("Error: Faltou um campo ser mandado na requisição", 400);
         }
         const body: IStatistic = {
-            lastSequence: request.lastSequence,
-            booksRead: request.booksRead,
-            readingTime: request.readingTime,
-            maxSequence: request.maxSequence,
-            actualSequence: request.actualSequence,
-            goalsAchieved: request.goalsAchieved
+            lastSequence: request.lastSequence, 
+            booksRead: request.booksRead, // calcular baseado no status de "lido"
+            readingTime: request.readingTime, //passado pelo front
+            maxSequence: request.maxSequence, // maior numero de dias logados
+            actualSequence: request.actualSequence, // sequencia atual de dias logados
+            goalsAchieved: request.goalsAchieved // total de metas (de livros) cumpridas [todos os goalsAchieved de todos os livros]
         };
         await redis.del(`userInfo:${user.id}`);
         const userStatics = await postStatistics(user.id, body);

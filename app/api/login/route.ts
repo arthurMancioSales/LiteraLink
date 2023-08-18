@@ -17,7 +17,8 @@ export async function POST(req: NextRequest) {
         const user = await login(email, password);
         const jwt_cookie: string = jwt.sign({
             id: user.id,
-            name: user.name
+            name: user.name,
+            image: user.image
         }, JSON.stringify(process.env.secretKey));
         cookies().set("Session", jwt_cookie);
         if(user) {                                                      
