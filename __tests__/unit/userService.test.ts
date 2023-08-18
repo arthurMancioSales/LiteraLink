@@ -267,7 +267,8 @@ describe("Service updateUser", () => {
         const body: IUserUpdate = {
             email: "test@test.com",
             name: "test",
-            password: "123"
+            password: "123",
+            image: ""
         };
 
         jest.mocked(checkUserNameRepo).mockResolvedValue(null);
