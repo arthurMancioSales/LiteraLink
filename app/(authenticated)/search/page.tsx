@@ -8,6 +8,8 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../layout";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { GenericModal } from "@/src/components/Modal/GenericModal";
+import Image from "next/image";
+import notFound from "public/images/404.svg";
 
 export default function SearchCommunity() {
     const [communities, setCommunities] = useState<ICommunity[]>([]);
@@ -62,7 +64,9 @@ export default function SearchCommunity() {
     }
 
     const handleSearch = async (value: string) => {
+        setLoading(true);
         const communitySearch = await generalRequest(`/api/search/${value}`);
+        setLoading(false);
         
         if(value === "") {
             const community: ICommunity[] | null = await generalRequest("/api/c");
@@ -101,8 +105,15 @@ export default function SearchCommunity() {
     function renderCommunities() {
         if (!communities.length) {
             return (
-                <div className="flex items-center justify-center h-full dark:text-dark-text">
-                    <p>Não possui comunidades cadastradas ou a sua pesquisa não foi encontrada</p>                
+                <div className="flex flex-col items-center justify-around h-full dark:text-dark-text">
+                    <p className="text-2xl">Não foi possível encontrar nenhum resultado</p>        
+                    <div className="relative w-full mx-auto h-1/2">
+                        <Image
+                            alt=""
+                            src={notFound}
+                            fill
+                        ></Image>
+                    </div>        
                 </div>
             );
         }

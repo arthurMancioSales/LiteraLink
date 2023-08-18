@@ -7,7 +7,6 @@ import { Input } from "../../Input";
 import { Button } from "../../Button";
 import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
-import { generalRequest } from "@/src/functions/generalRequest";
 import { Avatar } from "../../Avatar";
 
 interface PropTypes {
@@ -22,6 +21,7 @@ export type OptionsPropsSelect = {
 export function FormUserConfig({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
 
     const [selectedImage, setSelectedImage] = useState("");
     const [selectedFile, setSelectedFile] = useState<File>();
@@ -76,12 +76,13 @@ export function FormUserConfig({ onClose }: PropTypes) {
                     if(selectedFile) {
                         formData.set("image", selectedFile);
                     }
-                  
+                    setLoading(true);
                     const response = await fetch("/api/update-user", {
                         method: "PATCH",
                         body: formData,
                         cache: "no-store"
                     });
+                    setLoading(false);
                     if(!response?.ok) {
                         setMessageError(response.statusText);
                         return;
@@ -104,7 +105,7 @@ export function FormUserConfig({ onClose }: PropTypes) {
                             <Input name="userPassword" label="Nova senha" error={props.errors.userPassword} type="password"/>
                         </div>
                         <div className="w-1/4 mx-auto">
-                            <Button type="submit" variant="info">SALVAR</Button>
+                            <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
                         </div>
                     </form>
                 )}

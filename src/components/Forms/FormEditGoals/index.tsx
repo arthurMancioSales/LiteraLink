@@ -24,6 +24,7 @@ export type OptionsPropsSelect = {
 export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
     
     const [messageError, setMessageError] = useState("");
 
@@ -51,9 +52,9 @@ export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
                             id: bookId,
                             goals                     
                         };
-
+                        setLoading(true);
                         const response = await generalRequest("/api/book-goals", formBody, "PATCH");
-
+                        setLoading(false);
                         if(response?.error) {
                             setMessageError(response.error);
                         } else {
@@ -73,7 +74,9 @@ export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
                             <div className="flex flex-col gap-2">
                                 <Input name="readingTime" label="Tempo de leitura total (minutos)" type="number" error={props.errors.readingTime}/>
                             </div>
-                            <Button type="submit" variant="info">SALVAR</Button>
+                            <div className="w-1/4 mx-auto">
+                                <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+                            </div>
                         </form>
                     )}
                 </Formik>
