@@ -23,7 +23,7 @@ export function GenericModal({ children, title, styleSize, onClose }: PropTypes)
                     <div className="w-full text-lg font-bold text-center">
                         <span className="text-4xl">{title}</span>
                     </div>
-                    <div className="cursor-pointer" onClick={onClose}>
+                    <div className="cursor-pointer hover:text-brand duration-100" onClick={onClose}>
                         <AiOutlineCloseCircle size={25}/>
                     </div>
                 </div>

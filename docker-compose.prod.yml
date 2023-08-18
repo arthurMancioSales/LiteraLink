@@ -5,7 +5,7 @@ services:
       dockerfile: production.Dockerfile
     restart: on-failure
     volumes:
-      - web-uploads:/app/public/images/uploads
+      - web-uploads:/home/arhutr/app/public/images/uploads
     networks:
       - prod-network
 
@@ -19,7 +19,7 @@ services:
     image: mongo
     restart: on-failure
     volumes:
-      - mongo-prod-data:/data/db
+      - mongo-prod-data:data/db
     networks:
       - prod-network
     env_file: .env.local
