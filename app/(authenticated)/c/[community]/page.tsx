@@ -43,7 +43,7 @@ export default function CommunityChat({ params }: { params: { community: string 
             const host = window.location.host;
             const protocol = window.location.protocol;
             
-            if (protocol == "htpps:") {
+            if (protocol == "https:") {
                 ws = new WebSocket(`wss://${host}/api`); 
             } else {
                 ws = new WebSocket(`ws://${host}/api`); 

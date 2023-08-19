@@ -73,6 +73,22 @@ module.exports = {
                     "50%": { transform: "translate3d(0, 15px, 0)" },
                     "100%": { transform: "translate3d(0, 0, 0)" }
                 },
+                slideDownAndFade: {
+                    from: { opacity: 0, transform: "translateY(-2px)" },
+                    to: { opacity: 1, transform: "translateY(0)" },
+                },
+                slideLeftAndFade: {
+                    from: { opacity: 0, transform: "translateX(2px)" },
+                    to: { opacity: 1, transform: "translateX(0)" },
+                },
+                slideUpAndFade: {
+                    from: { opacity: 0, transform: "translateY(2px)" },
+                    to: { opacity: 1, transform: "translateY(0)" },
+                },
+                slideRightAndFade: {
+                    from: { opacity: 0, transform: "translateX(-2px)" },
+                    to: { opacity: 1, transform: "translateX(0)" },
+                },
             },
             animation: {
                 slideDownAccordionContainer: "slideDownAccordionContainer 300ms cubic-bezier(0.87, 0, 0.13, 1)",
@@ -82,6 +98,10 @@ module.exports = {
                 jumpingAnimation1: "jumpingAnimation 800ms 0.1s ease-in infinite",
                 jumpingAnimation2: "jumpingAnimation 800ms 0.2s ease-in infinite",
                 jumpingAnimation3: "jumpingAnimation 800ms 0.3s ease-in infinite",
+                slideDownAndFade: "slideDownAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                slideLeftAndFade: "slideLeftAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                slideUpAndFade: "slideUpAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                slideRightAndFade: "slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)",
             },
         },
     },

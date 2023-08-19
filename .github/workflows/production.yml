@@ -23,7 +23,7 @@ jobs:
         run: docker compose -f ./docker-compose.prod.yml down
 
       - name: Clear unused files
-        run: docker system prune -a -f
+        run: docker system prune -a -f && docker volume prune -a -f
   
       - name: Deploy to production
         run: docker compose -f ./docker-compose.prod.yml up -d --build
