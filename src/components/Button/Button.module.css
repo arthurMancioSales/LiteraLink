@@ -11,7 +11,7 @@
 }
 
 .secondary {
-    @apply bg-transparent text-light-text border-2 inline-flex items-center border-light-text dark:text-dark-text dark:hover:bg-dark-secondary
+    @apply bg-transparent text-light-text border-2 inline-flex items-center border-light-text dark:text-dark-text dark:hover:bg-dark-primary
 }
 
 .info {

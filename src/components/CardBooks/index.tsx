@@ -67,10 +67,10 @@ export function CardBooks({id, title, description, progress, total, variant="pri
                 <div className="flex items-center gap-2">
                     <p>{description}</p>
                     {id === "time" && onEdit && (
-                        <FaRegEdit className="cursor-pointer text-light-text dark:text-dark-text" size={20} onClick={handleEdit}/>
+                        <FaRegEdit className="transition-all duration-150 cursor-pointer text-light-text dark:text-dark-text hover:opacity-70" size={20} onClick={handleEdit} title="Editar meta"/>
                     )}
                     {(id === "time" || id === "days") && onDelete && (
-                        <RiDeleteBin6Line className="cursor-pointer text-status-error" size={20} onClick={handleDelete}/>
+                        <RiDeleteBin6Line className="transition-all duration-150 cursor-pointer text-status-error hover:opacity-70" size={20} onClick={handleDelete} title="Excluir meta"/>
                     )}
                 </div>
                 <p>{`${progress}/${total} ${complement ? complement : ""}`}</p>

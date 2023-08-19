@@ -23,7 +23,7 @@ export function Toggle() {
     }
 
     return (
-        <div className="relative inline-flex items-center cursor-pointer">
+        <div className="relative inline-flex items-center cursor-pointer dark:text-dark-text">
             <div className="dark:hidden" onClick={handleCheck}> <BsFillMoonFill size={25}></BsFillMoonFill> </div>
             <div className="hidden dark:inline" onClick={handleCheck}> <FaSun size={25}></FaSun> </div>
         </div>
