@@ -72,7 +72,13 @@ export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
                     {(props) => (
                         <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                             <div className="flex flex-col gap-2">
-                                <Input name="readingTime" label="Tempo de leitura total (minutos)" type="number" error={props.errors.readingTime}/>
+                                <Input name="readingTime" 
+                                    label="Tempo de leitura total (minutos)" 
+                                    type="number" 
+                                    error={props.errors.readingTime}
+                                    haveTooltip
+                                    tooltipText="Tempo mínimo que você gostaria de ler"
+                                />
                             </div>
                             <div className="w-1/4 mx-auto">
                                 <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>

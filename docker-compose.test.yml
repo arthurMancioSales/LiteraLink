@@ -8,7 +8,6 @@ services:
     depends_on:
       - mongo-test
       - redis-test
-    restart: on-failure
     networks:
       - test-network
 
@@ -16,11 +15,9 @@ services:
     image: "redis:alpine"
     networks:
       - test-network
-    restart: on-failure
   
   mongo-test:
     image: mongo
-    restart: on-failure
     networks:
       - test-network
     env_file: .env.local
