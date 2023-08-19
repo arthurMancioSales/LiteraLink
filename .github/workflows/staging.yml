@@ -14,31 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 'latest'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: patch next
-        run: npx --yes next-ws-cli patch -y
-     
-      - name: Lint project
-        run: npm run lint -- --fix
+      - name: Clear unused files
+        run: docker system prune -a -f && docker volume prune -a -f
 
       - name: create env file
         run: echo "${{secrets.env_stage}}" > .env.local
 
       - name: Run tests with Jest
-        run: docker compose -f ./docker-compose.test.yml up --build --exit-code-from test
+        run: docker compose -f ./docker-compose.test.yml up --build --exit-code-from tests
 
-      - name: Build the project
-        run: npm run build 
-      
       - name: clear env file
         run: rm ./.env.local 
+
+      - name: Clear unused files
+        run: docker system prune -a -f && docker volume prune -a -f && docker volume prune -a -f
         
   deploy-staging:
     needs: [buildAndTest]
@@ -47,6 +36,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Clear unused files
+        run: docker system prune -a -f && docker volume prune -a -f
+        
       - name: create ssl crt
         run: echo "${{secrets.crt}}" > literalink.crt
         
@@ -60,7 +52,7 @@ jobs:
         run: docker compose -f ./docker-compose.stage.yml down
 
       - name: Clear unused files
-        run: docker system prune -a -f
+        run: docker system prune -a -f && docker volume prune -a -f
     
       - name: Deploy to stage
         run: docker compose -f ./docker-compose.stage.yml up -d --build
