@@ -5,39 +5,24 @@ on:
 
 jobs:
   buildAndTest:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Grant permission
-        run: chown -R arthur ./ 
-        
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Clear unused files
-        run: docker system prune -a -f && docker volume prune -a -f
 
       - name: create env file
         run: echo "${{secrets.env_stage}}" > .env.local
 
       - name: Run tests with Jest
         run: docker compose -f ./docker-compose.test.yml up --build --exit-code-from test
+      
+      - name: Clear unused files
+        run: docker compose -f ./docker-compose.test.yml down
 
       - name: clear env file
-        run: rm ./.env.local 
+        run: rm ./.env.local
 
-      - name: Clear unused files
-        run: docker system prune -a -f && docker volume prune -a -f && docker volume prune -a -f
-  
-  handle-fail:
-    needs: [buildAndTest]
-    if: failure()
-    runs-on: self-hosted
-
-    steps:
-      - name: Clear unused files
-        run: docker system prune -a -f && docker volume prune -a -f
-        
   deploy-staging:
     needs: [buildAndTest]
     if: github.ref == 'refs/heads/main'

@@ -332,6 +332,7 @@ export default function Dashboard() {
                                             src={favoriteBook ? favoriteBook.image : ""}
                                             alt="User favorite book"
                                             fill
+                                            priority
                                             className="object-cover rounded-l-md"
                                         >
                                         </Image>

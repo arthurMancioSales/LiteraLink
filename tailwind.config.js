@@ -48,10 +48,8 @@ module.exports = {
                 buttonHover: "#E5E5E5",
             },
             backgroundImage: {
-                "home": "url('/images/home/bg-index.png')",
-                "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-                "gradient-conic":
-                    "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+                "home": "url('/images/home/bg-home.svg')",
+                "home-dark": "url('/images/home/bg-home-dark.svg')"
             },
             keyframes: {
                 slideDownAccordionContainer: {

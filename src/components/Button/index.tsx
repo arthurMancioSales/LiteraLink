@@ -1,7 +1,6 @@
 import Link from "next/link";
 import styles from "./Button.module.css";
 import { ReactNode } from "react";
-import { TextLoading } from "../Loaders/TextLoading";
 
 export type VariantButton = "primary" | "secondary" | "info" | "success" | "error" | "loading";
 
