@@ -16,13 +16,13 @@ jobs:
 
       - name: Run tests with Jest
         run: docker compose -f ./docker-compose.test.yml up --build --exit-code-from test
+      
+      - name: Clear unused files
+        run: docker compose -f ./docker-compose.test.yml down
 
       - name: clear env file
         run: rm ./.env.local
 
-      - name: Clear unused files
-        run: docker compose -f ./docker-compose.test.yml down
-        
   deploy-staging:
     needs: [buildAndTest]
     if: github.ref == 'refs/heads/main'
