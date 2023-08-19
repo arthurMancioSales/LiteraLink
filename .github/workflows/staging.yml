@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Grant permission
-        run: chown -R arthur ./ 
-        
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -22,13 +19,7 @@ jobs:
 
       - name: clear env file
         run: rm ./.env.local
-  
-  handle-fail:
-    needs: [buildAndTest]
-    if: always()
-    runs-on: ubuntu-latest
 
-    steps:
       - name: Clear unused files
         run: docker compose -f ./docker-compose.test.yml down
         
