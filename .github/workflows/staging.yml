@@ -28,6 +28,15 @@ jobs:
 
       - name: Clear unused files
         run: docker system prune -a -f && docker volume prune -a -f && docker volume prune -a -f
+  
+  handle-fail:
+    needs: [buildAndTest]
+    if: failure()
+    runs-on: self-hosted
+
+    steps:
+      - name: Clear unused files
+        run: docker system prune -a -f && docker volume prune -a -f
         
   deploy-staging:
     needs: [buildAndTest]
