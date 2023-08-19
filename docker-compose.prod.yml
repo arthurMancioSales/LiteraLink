@@ -5,7 +5,7 @@ services:
       dockerfile: production.Dockerfile
     restart: on-failure
     volumes:
-      - web-uploads:/home/arhutr/app/public/images/uploads
+      - web-uploads:/app/public/images/uploads
     networks:
       - prod-network
 
