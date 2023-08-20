@@ -25,11 +25,6 @@ WORKDIR /app
 COPY --from=deps --link /app/node_modules ./node_modules
 COPY --link  . .
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
-
 RUN NODE_OPTIONS=\"--max_old_space_size=4096\" yarn build
 
 # If using npm comment out above and use below instead
@@ -40,10 +35,7 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-
-RUN \
-  addgroup --system --gid 1001 nodejs; \
-  adduser --system --uid 1001 nextjs
+ENV NEXT_TELEMETRY_DISABLED 1
 
 COPY --from=builder --link /app/public ./public
 
@@ -53,7 +45,7 @@ COPY --from=builder --link --chown=1001:1001 /app/.next/standalone ./
 COPY --from=builder --link --chown=1001:1001 /app/.next/static ./.next/static
 COPY ./.env.local ./.env.local 
 
-USER nextjs
+USER root
 
 EXPOSE 3000
 

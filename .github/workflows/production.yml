@@ -22,11 +22,11 @@ jobs:
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.prod.yml down
 
-      - name: Clear unused files
-        run: docker system prune -a -f && docker volume prune -a -f
-  
       - name: Deploy to production
         run: docker compose -f ./docker-compose.prod.yml up -d --build
+        
+      - name: Clear unused files
+        run: docker system prune -a -f && docker volume prune -a -f
 
       - name: clear previous tmp files
         run: rm ./literalink.crt && rm ./literalink.key && rm ./.env.local 
