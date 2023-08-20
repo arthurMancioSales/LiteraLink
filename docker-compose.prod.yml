@@ -19,7 +19,7 @@ services:
     image: mongo
     restart: on-failure
     volumes:
-      - mongo-prod-data:data/db
+      - mongo-prod-data:/data/db
     networks:
       - prod-network
     env_file: .env.local
