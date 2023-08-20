@@ -1,5 +1,4 @@
 import { ObjectId } from "mongodb";
-import { StaticImageData } from "next/image";
 import { WebSocket } from "ws";
 
 export interface ApiResponse {
@@ -173,7 +172,7 @@ export interface IWsEnterMessage {
     params: {
         room: string;
         username: string,
-        profilePicture: string | StaticImageData,
+        profilePicture: string,
     }
 }
 
@@ -182,7 +181,7 @@ export interface IWsSendMessage {
     params: {
         userId: string | ObjectId,
         username: string,
-        profilePicture: string | StaticImageData,
+        profilePicture: string,
         message: string,
         variant: "sender" | "reciever"
     }
@@ -191,7 +190,7 @@ export interface IWsSendMessage {
 export interface IChatContent {
     userId: string | ObjectId,
     username: string,
-    profilePicture: string | StaticImageData,
+    profilePicture: string,
     message: string,
     variant: "sender" | "reciever"
 }

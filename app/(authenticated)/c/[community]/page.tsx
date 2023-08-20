@@ -44,11 +44,11 @@ export default function CommunityChat({ params }: { params: { community: string 
             const protocol = window.location.protocol;
             
             if (protocol == "https:") {
-                ws = new WebSocket(`wss://${host}/api`); 
+                ws = new WebSocket(`wss://${host}/api/ws`); 
             } else {
-                ws = new WebSocket(`ws://${host}/api`); 
+                ws = new WebSocket(`ws://${host}/api/ws`); 
             }
-            
+            console.log(host, protocol, ws)
             setWsClient(ws);
             
             const connection: IWsEnterMessage = {
