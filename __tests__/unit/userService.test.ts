@@ -35,6 +35,7 @@ import { users } from "@/src/repository/users";
 import { updateUserRepo } from "@/src/repository/user/updateUserRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { findUserByNameRepo } from "@/src/repository/user/findUserByNameRepo";
+import { updateUserInCommunity } from "@/src/repository/community/updateUserInCommunity";
 
 // interfaces
 import { IStatistic, IUser, IUserUpdate } from "@/src/interfaces/interface";
@@ -289,7 +290,8 @@ describe("Service updateUser", () => {
         const body: IUserUpdate = {
             email: "test@test.com",
             name: "test",
-            password: "123"
+            password: "123",
+            image: ""
         };
 
         jest.mocked(checkUserNameRepo).mockResolvedValue(null);
