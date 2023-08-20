@@ -1,10 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { verifyPatch } = require("next-ws/server");
-verifyPatch()
+verifyPatch();
 
 /** @type {import('next').NextConfig} */
 module.exports = {
-    output: "standalone",
     images: {
         domains: ["books.google.com"],
         remotePatterns: [

@@ -1,4 +1,4 @@
-FROM nginx:1.23.3-alpine
+FROM nginx:latest
 
 COPY nginx.prod.conf /etc/nginx/nginx.conf
 COPY ./literalink.crt /ssl/literalink.crt
