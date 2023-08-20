@@ -7,13 +7,10 @@ const TAG = "REPOSITORY(PATCH): user in community ";
 
 export async function updateUserInCommunity(userId: ObjectId, user: IUserUpdate) {
     const objectString = userId.toString();
-    const pool  = createMongoConnection();
-    const client = await pool.connect();
+    const dbConnect  = createMongoConnection();
+    const client = await dbConnect.connect();
     const collectionCommunity = client.db("literalink-dev").collection("community");
-    try {
-        const test = await collectionCommunity.find({ "members.id": objectString}).toArray();
-        console.log(test);
-        
+    try {      
         if(user.name !== undefined && user.image !== undefined ) {
             const updatedCommunities = await collectionCommunity.updateMany(
                 { "members.id": objectString }, 
