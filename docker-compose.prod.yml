@@ -39,6 +39,8 @@ services:
     build:
       context: .
       dockerfile: nginx.prod.Dockerfile
+    volumes:
+      - web-uploads:/images/uploads
     ports:
       - "80:80"
       - "443:443"
