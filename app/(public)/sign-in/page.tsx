@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import { Input } from "@/src/components/Input";
 import * as Yup from "yup";
 import { Logo } from "@/src/components/Logo";
+import { Toggle } from "@/src/components/Toggle";
 
 export default function SignInPage() {
     const [messageError, setMessageError] = useState("");
@@ -28,13 +29,14 @@ export default function SignInPage() {
     };
   
     return (
-        <div className="flex w-screen h-screen bg-light-primary">
+        <div className="flex w-screen h-screen bg-light-primary dark:bg-dark-primary">
             <div className="flex flex-col w-1/2 gap-20">
-                <div className="flex items-center px-20 py-2 h-[62px]">
+                <div className="flex items-center px-20 py-2 h-[62px] justify-between">
                     <Logo/>
+                    <Toggle/>
                 </div>
-                <div className="flex flex-col gap-10 px-20 justify-center">
-                    <h2 className="text-3xl font-bold">Entrar</h2>
+                <div className="flex flex-col justify-center gap-10 px-20">
+                    <h2 className="text-3xl font-bold dark:text-dark-text">Entrar</h2>
                     <Formik
                         onSubmit={async (values, {setSubmitting}) => {
                             setLoadingPage(true);
@@ -68,8 +70,8 @@ export default function SignInPage() {
                             </form>
                         )}
                     </Formik>
-                    <div className="flex text-xs">
-                        <p>Ainda não possui conta? </p><Link className="underline"  rel="stylesheet" href="/sign-up"> Cadastre-se aqui</Link>
+                    <div className="flex text-xs dark:text-dark-text">
+                        <p>Ainda não possui conta? </p><Link className="underline transition-all duration-150 hover:font-semibold"  rel="stylesheet" href="/sign-up"> Cadastre-se aqui</Link>
                     </div>
                     <p className="text-status-error">{messageError}</p>
                 </div>

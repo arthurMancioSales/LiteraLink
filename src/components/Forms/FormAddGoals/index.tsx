@@ -8,6 +8,8 @@ import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { IGoalsType } from "@/src/interfaces/interface";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { AiOutlineQuestion } from "react-icons/ai";
 
 interface PropTypes {
     onClose: () => void;
@@ -22,6 +24,8 @@ export type OptionsPropsSelect = {
 export function FormAddGoals({ bookId, onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
+    const [loading, setLoading] = useState(false);
+
 
     const books = userContext?.userData?.books;
     
@@ -53,7 +57,9 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
         }
         
         return (
-            <Button type="submit" variant="info">SALVAR</Button>
+            <div className="w-1/4 mx-auto">
+                <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+            </div>
         );
     }
 
@@ -75,7 +81,7 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Adição de metas do livro" onClose={onClose}>
+        <GenericModal title="Adicionar nova meta" onClose={onClose}>
             <div className="flex flex-col gap-2">
                 <Formik 
                     onSubmit={async (values, {setSubmitting}) => {
@@ -103,9 +109,9 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                             id: bookId,
                             goals                     
                         };
-
+                        setLoading(true);
                         const response = await generalRequest("/api/book-goals", formBody, "POST");
-
+                        setLoading(false);
                         if(response?.error) {
                             setMessageError(response.error);
                         } else {
@@ -122,48 +128,94 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                 >
                     {(props) => (
                         <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
-                            <div className="flex flex-col gap-2">
-                                {visibleInputTypeGoal("days") && (
-                                    <div className="flex gap-2">
-                                        <Field
-                                            type="checkbox"
-                                            name="checkboxSequence"
-                                            onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
-                                                props.handleChange(e);
-                                                setDisabledSequence(!disabledSequence);
-                                            }}
-                                        />
-                                        <p>{"Sequencia (diária)"}</p>
-                                    </div>
-                                )}
-                                {visibleInputTypeGoal("time") && (
-                                    <div>
+                            <Tooltip.Provider>
+                                <div className="flex flex-col gap-2">
+                                    {visibleInputTypeGoal("days") && (
+                                        
                                         <div className="flex gap-2">
                                             <Field
                                                 type="checkbox"
-                                                name="checkboxReadingTime"
+                                                name="checkboxSequence"
                                                 onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
                                                     props.handleChange(e);
-                                                    setDisabledReadingTime(!disabledReadingTime);
+                                                    setDisabledSequence(!disabledSequence);
                                                 }}
                                             />
-                                            <p>{"Tempo de leitura (minutos)"}</p>
-                                        </div>
-                                        <div>
-                                            <Field
-                                                type="number"
-                                                className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] disabled:text-light-secondary"
-                                                name="readingTime"
-                                                disabled={disabledReadingTime}
-                                            />
-                                            <div className="mt-[2px] min-h-[21px]">
-                                                <ErrorMessage name="readingTime" className="text-status-error" component="span"/>
+                                            <div className="flex justify-between w-full items-center">
+                                                <p>{"Sequencia (diária)"}</p>
+                                                <Tooltip.Root
+                                                    delayDuration={10}
+                                                >
+                                                    <Tooltip.Trigger asChild>
+                                                        <button className="text-light-text shadow-blackA7 hover:bg-brand inline-flex h-[17px] w-[17px] items-center justify-center rounded-full bg-white shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px] focus:shadow-black">
+                                                            <AiOutlineQuestion size={12}></AiOutlineQuestion>
+                                                        </button>
+                                                    </Tooltip.Trigger>
+                                                    <Tooltip.Portal>
+                                                        <Tooltip.Content
+                                                            className="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none rounded-[4px] bg-white px-1 py-1 text-[15px] leading-none will-change-[transform,opacity] z-50 outline-1 outline w-32"
+                                                            sideOffset={5}
+                                                        >
+                                                            <p>Número de dias seguidos que você planeja ler esse livro</p>
+                                                            <Tooltip.Arrow className="fill-white" />
+                                                        </Tooltip.Content>
+                                                    </Tooltip.Portal>
+                                                </Tooltip.Root>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                            {renderButton()}
+                                    )}
+                                    {visibleInputTypeGoal("time") && (
+                                        <div>
+                                            <div className="flex gap-2">
+                                                <Field
+                                                    type="checkbox"
+                                                    name="checkboxReadingTime"
+                                                    onChange={ (e: React.ChangeEvent<HTMLInputElement>) => {
+                                                        props.handleChange(e);
+                                                        setDisabledReadingTime(!disabledReadingTime);
+                                                    }}
+                                                />
+                                                <div className="flex justify-between items-center w-full">
+                                                    <p>{"Tempo de leitura (minutos)"}</p>
+
+                                                    <Tooltip.Root
+                                                        delayDuration={10}
+                                                    >
+                                                        <Tooltip.Trigger asChild>
+                                                            <button className="text-light-text shadow-blackA7 hover:bg-brand inline-flex h-[17px] w-[17px] items-center justify-center rounded-full bg-white shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px] focus:shadow-black">
+                                                                <AiOutlineQuestion size={12}></AiOutlineQuestion>
+                                                            </button>
+                                                        </Tooltip.Trigger>
+                                                        <Tooltip.Portal>
+                                                            <Tooltip.Content
+                                                                className="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-violet11 select-none rounded-[4px] bg-white px-1 py-1 text-[15px] leading-none will-change-[transform,opacity] z-50 outline-1 outline w-32"
+                                                                sideOffset={5}
+                                                            >
+                                                                <p>Tempo mínimo que você gostaria de ler</p>
+                                                                <Tooltip.Arrow className="fill-white" />
+                                                            </Tooltip.Content>
+                                                        </Tooltip.Portal>
+                                                    </Tooltip.Root>
+                                                </div>
+                                            </div>
+                                            {!disabledReadingTime && (
+                                                <div>
+                                                    <Field
+                                                        type="number"
+                                                        className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] disabled:text-light-secondary dark:bg-dark-secondary"
+                                                        name="readingTime"
+                                                        disabled={disabledReadingTime}
+                                                    />
+                                                    <div className="mt-[2px] min-h-[21px]">
+                                                        <ErrorMessage name="readingTime" className="text-status-error" component="span"/>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                {renderButton()}
+                            </Tooltip.Provider>
                         </form>
                     )}
                 </Formik>

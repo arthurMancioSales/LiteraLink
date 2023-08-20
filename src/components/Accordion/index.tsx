@@ -14,7 +14,6 @@ interface IBookAccordion {
 }
 
 export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
-
     function renderLoading() {
         return (
             <CardBooksSkeleton />
@@ -26,13 +25,25 @@ export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
         if (books?.length === 0) {
             return <p>Não há livros</p>;
         }
-
-        const booksNotFavorite = userBooks?.filter(book => !book.favorite);
-
+        
         return (
-            <>
-                {booksNotFavorite ?
-                    booksNotFavorite.map((book) => (
+            books && (
+                books.map((book) => (
+                    book.favorite ? (
+                        <div
+                            key={book.id}
+                            className="mt-4 first:mb-4 first:mt-0 opacity-70"
+                        >
+                            <CardBooks
+                                id={book.id}
+                                title={book.title}
+                                description="Páginas"
+                                progress={book.pagesRead ? book.pagesRead : 0}
+                                total={book.totalPages}
+                                fixed={true}
+                            />
+                        </div>
+                    ) : (
                         <div
                             key={book.id}
                             className="mt-4 first:mb-4 first:mt-0"
@@ -44,11 +55,13 @@ export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
                                 progress={book.pagesRead ? book.pagesRead : 0}
                                 total={book.totalPages}
                                 onClick={onClick}
+                                fixed={false}
                             />
                         </div>
-                    )) : <></>
-                }
-            </>
+                    )
+                
+                ))
+            )
         );
     }
 
@@ -88,7 +101,7 @@ export function BookAccordion({ userBooks, loading, onClick }: IBookAccordion) {
                         </Accordion.Trigger>
                         <Accordion.Content className="data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden h-[calc(100%-(var(--accordionHeight)))]">
                             <ScrollArea.Root className="h-full p-5 overflow-hidden border border-b-2 border-light-secondary bg-light-tertiary dark:bg-dark-primary" type="always">
-                                <ScrollArea.Viewport className="w-[90%] pr-1 pb-1 max-h-full rounded flex flex-col mb-2 text-gray-500 dark:text-gray-400">
+                                <ScrollArea.Viewport className="w-[calc(100%-10px)] pr-1 pb-1 max-h-full rounded flex flex-col mb-2 text-gray-500 dark:text-gray-400">
                                     {section.content}
                                 </ScrollArea.Viewport>
                                 <ScrollArea.Scrollbar

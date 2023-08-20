@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+  web-test:
+    build:
+      context: .
+      dockerfile: staging.Dockerfile
+    depends_on:
+      - mongo-test
+      - redis-test
+    networks:
+      - test-network
+
+  redis-test:
+    image: "redis:alpine"
+    networks:
+      - test-network
+  
+  mongo-test:
+    image: mongo
+    networks:
+      - test-network
+    env_file: .env.local
+
+  test:
+    build: 
+      context: .
+      dockerfile: test.Dockerfile
+    depends_on:
+      - web-test
+    networks:
+      - test-network
+
+networks:
+  test-network:
