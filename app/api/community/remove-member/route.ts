@@ -5,7 +5,7 @@ import { createResponse } from "@/src/utils/response";
 import { NameCommunityValidator } from "@/src/utils/validators/validator";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req:NextRequest) {
+export async function POST(req:NextRequest) {
     const Response = createResponse();
     const redis = createRedisClient();
     try {

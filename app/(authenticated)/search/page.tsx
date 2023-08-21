@@ -83,7 +83,7 @@ export default function SearchCommunity() {
     async function participationCommunity(nameCommunity: string, isMember: boolean) {
         setLoading(true);
         if(isMember) {
-            const response = await generalRequest("/api/community/remove-member", {name: nameCommunity}, "DELETE");
+            const response = await generalRequest("/api/community/remove-member", {name: nameCommunity}, "POST");
     
             if(response?.error) {
                 setMessageError(response.error);
