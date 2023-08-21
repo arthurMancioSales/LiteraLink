@@ -1,7 +1,5 @@
 import { createMongoConnection } from "@/src/database/pool";
 import { ObjectId } from "mongodb";
-import { CustomError } from "@/src/utils/customError";
-import { IPatchStatistics, IStatistic } from "@/src/interfaces/interface";
 import { dateNow } from "@/src/utils/dateCorrect";
 
 const TAG = "REPOSITORY(PATCH): statistics ";
@@ -42,26 +40,24 @@ export async function updateBooksRead(userId: ObjectId) {
     const collection = client.db("literalink-dev").collection("users"); 
     try {
         const response = await collection.aggregate([
-            { $match: { _id: userId } },
             {
-                $addFields: {
-                    booksRead: {
-                        $reduce: {
-                            input: "$books",
-                            initialValue: 0,
-                            in: {
-                                $cond: [
-                                    { $eq: ["$$this.pagesRead", "$$this.totalPages"] },
-                                    { $add: ["$$value", 1] },
-                                    "$$value"
-                                ]
+                $match: { _id: new ObjectId(userId) }
+            },
+            {
+                $project: {
+                    booksReadCount: {
+                        $size: {
+                            $filter: {
+                                input: "$books",
+                                as: "book",
+                                cond: { $eq: ["$$book.status", "lido"] }
                             }
                         }
                     }
                 }
             }
         ]).toArray();
-        const booksRead = response[0].booksRead;
+        const booksRead = response[0].booksReadCount;
         const updatedReadStatistics = await collection.updateOne(
             {_id: userId},
             { $set: { "statistics.booksRead": booksRead } }
@@ -84,7 +80,6 @@ export async function updateReadingTime(userId: ObjectId, readingTime: number) {
             {_id : userId},
             { $inc: { "statistics.readingTime": readingTime } }
         );
-        console.log("reading time: ", updatedReadingTime);
         return updatedReadingTime;
     } catch (error) {
         console.log(TAG, error);
@@ -116,7 +111,6 @@ export async function updateSequences(userId: ObjectId) {
                     $set: { "statistics.lastSequence": date } 
                 });
             if(actualSequence >= maxSequence) {
-                console.log("old actual: ", actualSequence, "old max: ", maxSequence);
                 await collection.updateOne(
                     { _id: userId },
                     { $set: { "statistics.maxSequence": actualSequence + 1 } }

@@ -8,6 +8,8 @@ import { deleteBook } from "@/src/service/book/deleteBook";
 import { bookFormattedRequest } from "@/src/utils/formattedRequest";
 import { ObjectId } from "mongodb";
 import { createRedisClient } from "@/src/database/redis/redis";
+import { updateStatistics } from "@/src/service/user/updateStatistics";
+
 
 export async function PATCH(req: NextRequest) {
     const redis = createRedisClient();
@@ -18,9 +20,13 @@ export async function PATCH(req: NextRequest) {
         if (Object.entries(request).length === 0) {
             throw new CustomError("Erro na requisição", 400);
         }
-        await redis.del(`userInfo:${user.id}`);
         const body = bookFormattedRequest(request);
         const userBookUpdate = await patchBook(user.id, body);
+        if(request.identifier !== undefined) {
+            await updateStatistics(user.id, undefined);
+        }
+        
+        await redis.del(`userInfo:${user.id}`);
         Response.data = userBookUpdate;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {
