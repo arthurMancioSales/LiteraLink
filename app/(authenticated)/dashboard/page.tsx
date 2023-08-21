@@ -104,8 +104,8 @@ export default function Dashboard() {
     if (loading) {
         return (
             <>
-                <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
-                    <div className="flex flex-col w-3/4 h-full gap-4 mr-2">
+                <div className="flex w-full max-h-screen gap-4 px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
+                    <div className="flex flex-col w-3/4 h-full gap-4">
                         <div className="flex justify-between w-full p-4 rounded-md h-[calc(25%-8px)] bg-light-tertiary dark:bg-dark-primary">
                             <div className="w-[130px]"><RectangleSkeleton/></div>
                             <div className="w-[130px]"><RectangleSkeleton/></div>
@@ -113,7 +113,7 @@ export default function Dashboard() {
                             <div className="w-[130px]"><RectangleSkeleton/></div>
                             <div className="w-[130px]"><RectangleSkeleton/></div>
                         </div>
-                        <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary">
+                        <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary min-w-[725px]">
                             <div>
                                 <TextLoading size="large"></TextLoading>
                             </div>
@@ -158,7 +158,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex w-1/4 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
+                    <div className="flex w-1/3 h-full overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
                         <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                     </div>
                 </div>
@@ -305,13 +305,13 @@ export default function Dashboard() {
 
     return (
         <>
-            <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
-                <div className="flex flex-col w-2/3 h-full gap-4 mr-2">
-                    <div className="flex justify-between w-full p-4 rounded-md h-[calc(25%-8px)] bg-light-tertiary dark:bg-dark-primary">
+            <div className="flex w-full max-h-screen gap-4 px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
+                <div className="flex flex-col w-2/3 h-full gap-4 min-w-[725px]">
+                    <div className="flex justify-between w-full p-4 rounded-md h-[calc(25%-8px)] bg-light-tertiary dark:bg-dark-primary min-w-[725px]">
                         {renderGoalsGlobal()}
                     </div>
                     { !favoriteBook ? (
-                        <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary">
+                        <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary min-w-[725px]">
                             <p className="text-2xl dark:text-dark-text">Ainda não há nenhum livro cadastrado</p>
                             <div className="relative w-full h-full">
                                 <Image 
@@ -323,7 +323,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     ) : (
-                        <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary">
+                        <div className="flex flex-col w-full gap-4 p-4 rounded-md h-[calc(75%-8px)] bg-light-tertiary dark:bg-dark-primary min-w-[725px]">
                             <p className="text-2xl dark:text-dark-text">{favoriteBook.title}</p>
                             <div className="w-full h-[calc(100%-64px)]">
                                 <div className="flex w-full h-full gap-4">
@@ -385,7 +385,7 @@ export default function Dashboard() {
                         </div>
                     )}
                 </div>
-                <div className="flex w-1/3 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
+                <div className="flex w-1/3 h-full overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
                     <BookAccordion userBooks={userData?.books} loading={loading} onClick={handleBookFavorite} />
                 </div>
             </div>
