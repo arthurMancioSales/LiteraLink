@@ -159,7 +159,8 @@ export function FormProgress({ onClose }: PropTypes) {
                     const formBodyPages = {
                         id: values.bookName,
                         status: values.bookStatus,
-                        pagesRead: values.pagesRead,                        
+                        pagesRead: values.pagesRead,  
+                        identifier: "statistics"                      
                     };
 
                     if(visibleInputTypeGoal("time")) {
