@@ -108,6 +108,7 @@ export interface IPatchBook {
     goals?: IGoals[];
     goalExpire?: Date;
     goalsAchieved?: number;
+    identifier?: string;
 }
 
 export interface IPatchBookRepo {
