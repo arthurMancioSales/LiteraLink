@@ -30,6 +30,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Clear unused files
         run: docker system prune -a -f && docker volume prune -a -f
         
