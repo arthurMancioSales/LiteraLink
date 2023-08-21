@@ -14,7 +14,8 @@ export async function updateParcialGoalOfBookRepo(
         total?: number,
         createDate?: Date,
         lastVisitDate?: Date
-    }[]
+    }[],
+    status: string | null
 ) {
     const dbConnect =  createMongoConnection();
     const client = await dbConnect.connect();
@@ -33,6 +34,15 @@ export async function updateParcialGoalOfBookRepo(
             );
             if (!update.acknowledged) {
                 throw new CustomError("Erro na atualização da meta", 500);
+            }
+            if (status) {
+                const updateStatus = await collection.updateOne(
+                    { _id: userId, "books.id": bookId },
+                    { $set: { "books.$.status": status } }
+                )
+                if (!updateStatus.acknowledged) {
+                    throw new CustomError("Erro na atualização da meta", 500);
+                }
             }
         }
         return;
