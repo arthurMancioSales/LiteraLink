@@ -5,6 +5,7 @@ import { updateUserRepo } from "@/src/repository/user/updateUserRepo";
 import { hashPassword } from "@/src/utils/hashPassword";
 import { checkUserNameRepo } from "@/src/repository/user/checkers/checkUserNameRepo";
 import { checkUserEmailRepo } from "@/src/repository/user/checkers/checkUserEmailRepo";
+import { updateUserInCommunity } from "@/src/repository/community/updateUserInCommunity";
 
 const TAG = "SERVICE(PATCH): USER ";
 
@@ -31,6 +32,9 @@ export async function updateUser (user_id: string, body: IUserUpdate) {
             body.password = hashNewPassword;
         }
         const responseDB = await updateUserRepo(userObjectId, body);
+        if(body.image !== undefined || body.name !== undefined) {
+            await updateUserInCommunity(userObjectId, body);
+        }
         if (!responseDB) {
             throw new CustomError("Erro na busca dos dados do usuário", 500);
         }

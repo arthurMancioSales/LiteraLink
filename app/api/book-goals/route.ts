@@ -9,6 +9,7 @@ import { CustomError } from "@/src/utils/customError";
 import { patchGoalTotal } from "@/src/service/book/goals/patchGoalTotal";
 import { deleteGoalsOfBook } from "@/src/service/book/goals/deleteGoalsOfBook";
 import { createRedisClient } from "@/src/database/redis/redis";
+import { updateStatistics } from "@/src/service/user/updateStatistics";
 
 export async function POST(req: NextRequest) {
     const redis = createRedisClient();
@@ -64,7 +65,9 @@ export async function PATCH(req: NextRequest) {
                 400
             );
         }
+        await updateStatistics(user.id, goals[0].partial);
         await redis.del(`userInfo:${user.id}`);
+        
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
         console.log(error);

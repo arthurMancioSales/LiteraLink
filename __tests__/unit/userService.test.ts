@@ -10,6 +10,7 @@ jest.mock("@/src/utils/hashPassword");
 jest.mock("@/src/repository/user/findUserByIdRepo");
 jest.mock("@/src/repository/user/findUserByNameRepo");
 jest.mock("@/public/images/user/default_user_image.jpg", () => "@/src/utils/test_variables/imageMock.ts");
+jest.mock("@/src/repository/community/updateUserInCommunity");
 
 import { MongoClient, ObjectId } from "mongodb";
 jest.mocked(MongoClient).mockReturnValue(new MongoClient(""));
@@ -35,6 +36,7 @@ import { users } from "@/src/repository/users";
 import { updateUserRepo } from "@/src/repository/user/updateUserRepo";
 import { findUserByIdRepo } from "@/src/repository/user/findUserByIdRepo";
 import { findUserByNameRepo } from "@/src/repository/user/findUserByNameRepo";
+import { updateUserInCommunity } from "@/src/repository/community/updateUserInCommunity";
 
 // interfaces
 import { IStatistic, IUser, IUserUpdate } from "@/src/interfaces/interface";
@@ -267,7 +269,8 @@ describe("Service updateUser", () => {
         const body: IUserUpdate = {
             email: "test@test.com",
             name: "test",
-            password: "123"
+            password: "123",
+            image: ""
         };
 
         jest.mocked(checkUserNameRepo).mockResolvedValue(null);
@@ -277,6 +280,8 @@ describe("Service updateUser", () => {
         jest.mocked(hashPassword).mockResolvedValue("abc");
 
         jest.mocked(updateUserRepo).mockResolvedValue(null);
+
+        jest.mocked(updateUserInCommunity).mockResolvedValue({} as ReturnType<typeof updateUserInCommunity>);
 
         await expect(() =>
             updateUser(`${user._id}`, body)
@@ -288,7 +293,8 @@ describe("Service updateUser", () => {
         const body: IUserUpdate = {
             email: "test@test.com",
             name: "test",
-            password: "123"
+            password: "123",
+            image: ""
         };
 
         jest.mocked(checkUserNameRepo).mockResolvedValue(null);
@@ -298,6 +304,8 @@ describe("Service updateUser", () => {
         jest.mocked(hashPassword).mockResolvedValue("abc");
 
         jest.mocked(updateUserRepo).mockResolvedValue({} as ReturnType<typeof updateUserRepo>);
+
+        jest.mocked(updateUserInCommunity).mockResolvedValue({} as ReturnType<typeof updateUserInCommunity>);
 
         expect(() =>
             updateUser(`${user._id}`, body)

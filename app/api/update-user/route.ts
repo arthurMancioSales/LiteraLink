@@ -27,7 +27,7 @@ export async function PATCH(req: NextRequest) {
         const body = await formattedBody(request);
         
         const userUpdate = await updateUser(user.id, body);
-        const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name }, JSON.stringify(process.env.secretKey));
+        const jwt_cookie: string = jwt.sign({ id: userUpdate._id, name: userUpdate.name, image: userUpdate.image }, JSON.stringify(process.env.secretKey));
         cookies().delete("Session");
         cookies().set("Session", jwt_cookie);
         await redis.del(`userInfo:${user.id}`);

@@ -11,7 +11,7 @@ export async function login (email: string, password: string ) {
         if (user) {
             const verifyHash = await verifyPassword(password, process.env.SALT!, user.password,);
             if (verifyHash) {
-                return {id: user._id, name: user.name};
+                return {id: user._id, name: user.name, image: user.image};
             }
             throw new CustomError("Senha ou Email incorreto!", 401);
         }
