@@ -2,19 +2,20 @@ import { CustomError } from "../../utils/customError";
 import { ObjectId } from "mongodb";
 import { findBookByUserIdRepo } from "@/src/repository/book/findBookByUserIdRepo";
 import { createResponse } from "@/src/utils/response";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { updateBooksRead, updateGoalsAchieved, updateReadingTime, updateSequences} from "@/src/repository/user/updateStatisticsRepo";
 
 const TAG = "SERVICE(PATCH-GoalsAchieved): statistics ";
 
-export async function updateStatistics(userId: ObjectId, readingTime: number) {
+export async function updateStatistics(userId: ObjectId, readingTime: number | undefined) {
     const Response = createResponse();
-    try { // Necessário fazer algumas validações e tratamentos de erro ainda;
+    try { 
         userId = new ObjectId(userId);
-        if(readingTime) {
+        if(readingTime !== undefined) {
             const totalReadingTime = await updateReadingTime(userId, readingTime);
             if(!totalReadingTime.acknowledged)
-                throw new CustomError("Falha ao atualizar o número total de leitura", 500);  
+                throw new CustomError("Falha ao atualizar o valor total de leitura", 500);  
+            return;
         }
 
         const updatedGoalsAchieved = await updateGoalsAchieved(userId);

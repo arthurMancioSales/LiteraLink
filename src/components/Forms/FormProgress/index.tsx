@@ -160,11 +160,13 @@ export function FormProgress({ onClose }: PropTypes) {
                         id: string,
                         status: string,
                         pagesRead: string,
-                        goals?: {type:string, partial:string}[], 
+                        goals?: {type:string, partial:string}[],
+                        identifier: string | undefined
                     } = {
                         id: values.bookName,
                         status: values.bookStatus,
-                        pagesRead: values.pagesRead,                     
+                        pagesRead: values.pagesRead,  
+                        identifier: "statistics"            
                     };
 
                     if(visibleInputTypeGoal("time")) {
