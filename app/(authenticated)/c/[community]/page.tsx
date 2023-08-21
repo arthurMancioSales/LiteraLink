@@ -13,6 +13,8 @@ import { Field, Form, Formik } from "formik";
 import { object, string } from "yup";
 import { AiOutlineSend } from "react-icons/ai";
 import ChatMessage from "@/src/components/ChatMessage";
+import { GrAddCircle } from "react-icons/gr"
+import { BiLogOut } from "react-icons/bi";
 
 export default function CommunityChat({ params }: { params: { community: string } }) {
     const [communityData, setCommunityData] = useState<ICommunity | null>(null);
@@ -22,6 +24,7 @@ export default function CommunityChat({ params }: { params: { community: string 
     
     const userContext = useContext(UserContext);
     const userData = userContext?.userData;
+    const updateUser = userContext?.updateUser;
     const loadingUser = userContext ? userContext.loading : false;
     
     const memberOfCommunity = userData?.communities ? userData?.communities.find((community) => community.name == communityData?.name) : false;
@@ -94,6 +97,20 @@ export default function CommunityChat({ params }: { params: { community: string 
     const initialValues = {
         message: "",
     };
+
+    async function handleCommunity(nameCommunity: string, isMember: boolean) {
+        setLoadingCommunity(true);
+        if(isMember) {
+            await generalRequest("/api/community/remove-member", {name: nameCommunity}, "DELETE");
+    
+        } else {
+            await generalRequest("/api/community/add-member", {name: nameCommunity}, "POST");
+
+        }
+        if(updateUser) updateUser();
+    
+        setLoadingCommunity(false);
+    }
     
     return (
         <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
@@ -243,10 +260,18 @@ export default function CommunityChat({ params }: { params: { community: string 
                 <aside className="flex flex-col items-center w-full gap-4 p-4 rounded-lg bg-light-tertiary dark:bg-dark-primary dark:text-dark-text">
                     <div className="flex items-center justify-between w-full">
                         {loadingCommunity ? <TextLoading /> : <p className="text-2xl font-bold">{communityData?.name}</p>}
-                        {loadingUser ? <TextLoading /> : memberOfCommunity ? <p>sair</p> : <p>entrar</p>}
+                        {loadingUser ? <TextLoading /> : memberOfCommunity ? (
+                            <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="text-red-600 cursor-pointer" title="Sair da comunidade">
+                                <BiLogOut size={25} />
+                            </div>
+                        ) : (
+                            <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="cursor-pointer text-status-success" title="Entrar na comunidade">
+                                <GrAddCircle ></GrAddCircle>
+                            </div>
+                        )}
                     </div>
                     <div className="flex flex-col items-center gap-3 text-center">
-                        {loadingCommunity ? <ImageLoading size={125} /> : <Avatar src={communityData?.image} size={125} />}
+                        {loadingCommunity ? <ImageLoading size={125} /> : <Avatar src={communityData?.image ? communityData?.image : "/images/user/default_community_image.jpg"} size={125} />}
                     </div>
                     <div className="flex flex-col w-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
                         <p className="text-lg font-medium">Gênero favorito</p>
