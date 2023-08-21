@@ -10,6 +10,7 @@ jest.mock("@/src/utils/hashPassword");
 jest.mock("@/src/repository/user/findUserByIdRepo");
 jest.mock("@/src/repository/user/findUserByNameRepo");
 jest.mock("@/public/images/user/default_user_image.jpg", () => "@/src/utils/test_variables/imageMock.ts");
+jest.mock("@/src/repository/community/updateUserInCommunity");
 
 import { MongoClient, ObjectId } from "mongodb";
 jest.mocked(MongoClient).mockReturnValue(new MongoClient(""));
@@ -280,6 +281,8 @@ describe("Service updateUser", () => {
 
         jest.mocked(updateUserRepo).mockResolvedValue(null);
 
+        jest.mocked(updateUserInCommunity).mockResolvedValue({} as ReturnType<typeof updateUserInCommunity>);
+
         await expect(() =>
             updateUser(`${user._id}`, body)
         ).rejects.toThrow(expect.objectContaining({ message: "Erro na busca dos dados do usuário" }));
@@ -301,6 +304,8 @@ describe("Service updateUser", () => {
         jest.mocked(hashPassword).mockResolvedValue("abc");
 
         jest.mocked(updateUserRepo).mockResolvedValue({} as ReturnType<typeof updateUserRepo>);
+
+        jest.mocked(updateUserInCommunity).mockResolvedValue({} as ReturnType<typeof updateUserInCommunity>);
 
         expect(() =>
             updateUser(`${user._id}`, body)
