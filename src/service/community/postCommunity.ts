@@ -8,7 +8,7 @@ import { communityFormattedResponse } from "@/src/utils/formattedResponse";
 
 const TAG = "SERVICE(POST): community ";
 
-const avaliableGenres = ["Ficcao", "Fantasia", "Terror", "Romance", "Drama", "Aventura", "Historico", "Biografia", "Autoajuda", "Poesia"];
+const avaliableGenres = ["Ficção", "Fantasia", "Terror", "Romance", "Drama", "Aventura", "Histórico", "Biografia", "Autoajuda", "Poesia"];
 
 export async function postCommunity(user: {id: string, name: string, image: string}, request: ICreateCommunity) {
     try {
