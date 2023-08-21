@@ -3,6 +3,10 @@ import { CustomError } from "@/src/utils/customError";
 import jwt from "jsonwebtoken";
 import { IncomingMessage } from "http";
 
+export function verifyToken(cookie: string) {
+    return jwt.verify(cookie, JSON.stringify(process.env.secretKey));    
+}
+
 export async function auth(req: NextRequest | IncomingMessage) {
     let userCookie; 
     
@@ -22,7 +26,7 @@ export async function auth(req: NextRequest | IncomingMessage) {
     if (!userCookie) {
         throw new CustomError("Error: usuário não está logado", 403);
     }
-    const decodedJwt = jwt.verify(userCookie, JSON.stringify(process.env.secretKey));
+    const decodedJwt = verifyToken(userCookie);
     if (typeof decodedJwt === "string") {
         throw new CustomError("Error: Cookie inválido.", 500);
     }
