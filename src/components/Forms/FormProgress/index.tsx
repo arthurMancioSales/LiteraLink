@@ -142,49 +142,43 @@ export function FormProgress({ onClose }: PropTypes) {
         bookName: Yup.string().required("É necessário escolher um livro"),
         bookStatus: Yup.string().required("É necessário escolher um estado"),
         pagesRead: Yup.number().max(bookTotalPages - bookPagesRead, `Restam apenas ${bookTotalPages - bookPagesRead} páginas`).min(0, "Não existe páginas negativas").required("Adicione uma quantidade de páginas"),
-        readingTime: Yup.number().min(0, "Não existe tempo negativo")
+        readingTime: Yup.number().min(1, "Não possível atribuir um valor menor que um.")
     });
 
     const initialValues = {
         bookName: "",
         bookStatus: "",
         pagesRead: "",
-        readingTime: 0
+        readingTime: ""
     };
   
     return (
         <GenericModal title="Progresso de leitura" onClose={onClose}>
             <Formik 
                 onSubmit={async (values, {setSubmitting}) => {
-                    const formBodyPages = {
+                    const formBodyPages:{
+                        id: string,
+                        status: string,
+                        pagesRead: string,
+                        goals?: {type:string, partial:string}[],
+                        identifier: string | undefined
+                    } = {
                         id: values.bookName,
                         status: values.bookStatus,
                         pagesRead: values.pagesRead,  
-                        identifier: "statistics"                      
+                        identifier: "statistics"            
                     };
 
                     if(visibleInputTypeGoal("time")) {
-                        const goals = [];
     
                         if (values.readingTime) {
-                            goals.push(
+                            const goal:{type:string, partial:string}[] = [
                                 {
                                     type: "time",
                                     partial: values.readingTime
                                 }
-                            );                        
-                        }
-    
-                        const formBodyGoals = {
-                            id: values.bookName,
-                            goals                       
-                        };
-
-                        const responseBookGoals = await generalRequest("/api/book-goals", formBodyGoals, "PATCH");
-
-                        if(responseBookGoals?.error) {
-                            setMessageError(responseBookGoals?.error);
-                            return;
+                            ]; 
+                            formBodyPages.goals = goal;        
                         }
                     }
                     setLoading(true);
@@ -226,6 +220,7 @@ export function FormProgress({ onClose }: PropTypes) {
                                         if(pagesBook) setBookTotalPages(pagesBook);
                                         
                                         const pagesReadBook = getPartialPagesBook(e.target.value);
+                                        props.setFieldValue("pagesRead", 0);
                                         if(pagesReadBook) setBookPagesRead(pagesReadBook);
 
                                         setIdBookSelected(e.target.value);

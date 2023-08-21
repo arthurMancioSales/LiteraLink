@@ -88,8 +88,8 @@ export default function Dashboard() {
                 id: favoriteBook.id,
                 goals: [{type: typeGoal}]
             };
-            
-            const response = await generalRequest("/api/book-goals", requestBody, "DELETE");
+
+            const response = await generalRequest("/api/book-goals/delete", requestBody, "POST");
 
             if(response?.error) {
                 console.error("Failed request");

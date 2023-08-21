@@ -101,7 +101,7 @@ export default function CommunityChat({ params }: { params: { community: string 
     async function handleCommunity(nameCommunity: string, isMember: boolean) {
         setLoadingCommunity(true);
         if(isMember) {
-            await generalRequest("/api/community/remove-member", {name: nameCommunity}, "DELETE");
+            await generalRequest("/api/community/remove-member", {name: nameCommunity}, "POST");
     
         } else {
             await generalRequest("/api/community/add-member", {name: nameCommunity}, "POST");
