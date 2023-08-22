@@ -103,7 +103,7 @@ export async function updateSequences(userId: ObjectId) {
         const lastSequence = new Date(user?.statistics.lastSequence).getTime();
         const actualSequence = user?.statistics.actualSequence;
         const maxSequence = user?.statistics.maxSequence;
-        if(dateToday - lastSequence < twentyFourHours ) {
+        if(dateToday - lastSequence < twentyFourHours && actualSequence !== 0) {
             return null;
 
         } else if(dateToday - lastSequence > 2*twentyFourHours) {
@@ -112,15 +112,13 @@ export async function updateSequences(userId: ObjectId) {
                 { $set: { "statistics.lastSequence": date, "statistics.actualSequence": 1 } }
             );         
             return updatedSequence;
-        } else if (dateToday - lastSequence < 2*twentyFourHours && dateToday - lastSequence > twentyFourHours) {
+        } else if (dateToday - lastSequence < 2*twentyFourHours && dateToday - lastSequence > twentyFourHours || actualSequence === 0) {
             const updatedSequence = await collection.updateOne(
                 { _id: userId },
                 {
                     $inc: { "statistics.actualSequence": 1 } ,
                     $set: { "statistics.lastSequence": date } 
                 });
-            
-            console.log("retorno: ", updatedSequence);
             if(actualSequence >= maxSequence) {
                 await collection.updateOne(
                     { _id: userId },

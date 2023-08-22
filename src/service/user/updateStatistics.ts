@@ -11,7 +11,11 @@ export async function updateStatistics(userId: ObjectId, readingTime: number) {
     const Response = createResponse();
     try { 
         userId = new ObjectId(userId);
-
+        if(readingTime !== 0) {
+            const totalReadingTime = await updateReadingTime(userId, readingTime);
+            if(!totalReadingTime.acknowledged)
+                throw new CustomError("Falha ao atualizar o valor total de leitura", 500);
+        }
         const updatedGoalsAchieved = await updateGoalsAchieved(userId);
         if(!updatedGoalsAchieved.acknowledged)
             throw new CustomError("Falha ao atualizar o número total de Goals.", 500);
@@ -24,11 +28,7 @@ export async function updateStatistics(userId: ObjectId, readingTime: number) {
         if(updatedSequences?.acknowledged === false || null)
             throw new CustomError("Falha ao atualizar as sequências do usuário.", 500);
 
-        const totalReadingTime = await updateReadingTime(userId, readingTime);
-        if(!totalReadingTime.acknowledged)
-            throw new CustomError("Falha ao atualizar o valor total de leitura", 500);
         
-    
         
     } catch (error: any) {
         console.log(error);
