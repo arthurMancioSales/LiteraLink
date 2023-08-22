@@ -9,6 +9,7 @@ import { bookFormattedRequest } from "@/src/utils/formattedRequest";
 import { ObjectId } from "mongodb";
 import { createRedisClient } from "@/src/database/redis/redis";
 import { updateStatistics } from "@/src/service/user/updateStatistics";
+import { verifyGoalsDaysOnBook } from "@/src/service/book/goals/verifyGoalsDaysOnBook";
 
 
 export async function PATCH(req: NextRequest) {
@@ -21,6 +22,11 @@ export async function PATCH(req: NextRequest) {
             throw new CustomError("Erro na requisição", 400);
         }
         const body = bookFormattedRequest(request);
+        if ('pagesRead' in body) {
+            if (body.pagesRead! > 0) {
+                await verifyGoalsDaysOnBook(new ObjectId(user.id), body.id);
+            }
+        }
         const userBookUpdate = await patchBook(user.id, body);
         if(request.identifier === "statistics") {
             if(request.goals) {
@@ -30,6 +36,7 @@ export async function PATCH(req: NextRequest) {
                 await updateStatistics(user.id, 0);
             }
         }
+        
         await redis.del(`userInfo:${user.id}`);
         Response.data = userBookUpdate;
         return NextResponse.json(Response, {status: Response.status});

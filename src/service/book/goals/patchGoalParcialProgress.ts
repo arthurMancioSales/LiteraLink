@@ -44,11 +44,8 @@ export async function patchGoalParcialProgress(
                 lastVisitDate: dateNow()
             };
         });
-        let status: string|null = null;
-        if (oldBook.status === 'ler') {
-            status = 'lendo';
-        }
-        await updateParcialGoalOfBookRepo(id, bookId, requestBody, status);
+
+        await updateParcialGoalOfBookRepo(id, bookId, requestBody);
         const newBook = await findBookByUserIdRepo(id, bookId);
         await verifyCompleteGoals(id, bookId, newBook.goals);
 
