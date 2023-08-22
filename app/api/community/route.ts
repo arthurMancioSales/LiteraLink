@@ -9,6 +9,8 @@ import { createRedisClient } from "@/src/database/redis/redis";
 import { handleUpload } from "@/src/utils/handleUpload";
 import { CustomError } from "@/src/utils/customError";
 
+const avaliableGenres = ["Ficção", "Fantasia", "Terror", "Romance", "Drama", "Aventura", "Histórico", "Biografia", "Autoajuda", "Poesia"];
+
 export async function POST(req:NextRequest) {
     const Response = createResponse();
     const redis = createRedisClient();
@@ -52,9 +54,30 @@ export async function PATCH(req:NextRequest) {
     const redis = createRedisClient();
     const Response = createResponse();
     try {
-        const user =  await auth(req);
-        const request = await req.json();
-        const body = formattedBody(request);
+        const user = await auth(req);
+        const request = await handleUpload(req);
+        if (Object.entries(request).length == 0) {
+            throw new CustomError("Error: nenhum campo foi selecionado", 400);
+        }
+        user.image = request.userImage;
+        const {id, oldName, name , description, image, communityGenre} = request;
+
+        if (communityGenre && !(avaliableGenres.includes(request.communityGenre))) {
+            throw new CustomError("Gênero literário inválido", 403);
+        }
+
+        const reqFields: IPatchCommunity= {
+            id: id,
+            oldName: oldName,
+            name: name,
+            description: description,
+            communityGenre: communityGenre,
+            is_admin: user.id,
+            image: image,
+        };
+
+        const body = formattedBody(reqFields);
+        
         const updateCommunity = await patchCommunity(user.id, body);
         await redis.del("cachedAllCommunities");
         await redis.del(`userInfo:${user.id}`);
@@ -82,16 +105,18 @@ export async function DELETE(req:NextRequest) {
 
 function formattedBody(req: IPatchCommunity) {
     const body: IPatchCommunity = {
+        id: req.id,
         oldName: req.oldName
     };
     if (req.name) {
+        new NameCommunityValidator(req.name);
         body.name = req.name;
     }
     if (req.description) {
         body.description = req.description;
     }
-    if (req.favoriteBook) {
-        body.favoriteBook = req.favoriteBook;
+    if (req.communityGenre) {
+        body.communityGenre = req.communityGenre;
     }
     if (req.image) {
         body.image = req.image;
