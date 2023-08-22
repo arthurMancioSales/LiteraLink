@@ -32,7 +32,7 @@ export const SearchForm = ({onSearch}: PropTypes) => {
                     e.preventDefault();
                     props.handleSubmit(e);
                 }}>
-                    <div className="flex justify-between p-1 gap-2 rounded-lg bg-light-primary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-primary">
+                    <div className="flex justify-between p-1 gap-2 rounded-lg bg-light-primary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-primary dark:text-dark-text">
                         <Field name="search" type="search" className="w-full px-2 bg-transparent" placeholder="Pesquisar uma comunidade"/>
                         <div>
                             <Button icon={<AiOutlineSearch size={25}/>} type="submit">Pesquisar</Button>
