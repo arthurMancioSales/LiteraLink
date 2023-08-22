@@ -94,35 +94,39 @@ export async function updateSequences(userId: ObjectId) {
     const client = await dbConnect.connect();
     const collection = client.db("literalink-dev").collection("users");
     const date = dateNow();
-    const dateAgo = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+    const dateToday = date.getTime();
+    const twentyFourHours = 24*60*60*1000;
     try {
         const user = await collection.findOne(
             {_id: userId}
         );
-        const lastSequence = new Date(user?.statistics.lastSequence);
+        const lastSequence = new Date(user?.statistics.lastSequence).getTime();
         const actualSequence = user?.statistics.actualSequence;
         const maxSequence = user?.statistics.maxSequence;
-             
-        if(lastSequence >= dateAgo && lastSequence < date) {
+        if(dateToday - lastSequence < twentyFourHours ) {
+            return null;
+
+        } else if(dateToday - lastSequence > 2*twentyFourHours) {
+            const updatedSequence = await collection.updateOne (
+                { _id: userId },
+                { $set: { "statistics.lastSequence": date, "statistics.actualSequence": 1 } }
+            );         
+            return updatedSequence;
+        } else if (dateToday - lastSequence < 2*twentyFourHours && dateToday - lastSequence > twentyFourHours) {
             const updatedSequence = await collection.updateOne(
                 { _id: userId },
                 {
                     $inc: { "statistics.actualSequence": 1 } ,
                     $set: { "statistics.lastSequence": date } 
                 });
+            
+            console.log("retorno: ", updatedSequence);
             if(actualSequence >= maxSequence) {
                 await collection.updateOne(
                     { _id: userId },
                     { $set: { "statistics.maxSequence": actualSequence + 1 } }
                 );
             }
-            return updatedSequence;
-
-        } else if(lastSequence < dateAgo) {
-            const updatedSequence = await collection.updateOne (
-                { _id: userId },
-                { $set: { "statistics.lastSequence": date, "statistics.actualSequence": 1 } }
-            );
             return updatedSequence;
         }
     } catch (error) {

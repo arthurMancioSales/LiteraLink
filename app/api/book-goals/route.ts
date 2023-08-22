@@ -64,8 +64,7 @@ export async function PATCH(req: NextRequest) {
                 "Não foi enviado o partial ou total para ser feita uma atualização",
                 400
             );
-        }
-        await updateStatistics(user.id, goals[0].partial);
+        } 
         await redis.del(`userInfo:${user.id}`);
         return NextResponse.json(Response, {status:Response.status});
     } catch (error: any) {
