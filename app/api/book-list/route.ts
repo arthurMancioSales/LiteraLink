@@ -22,10 +22,12 @@ export async function PATCH(req: NextRequest) {
         }
         const body = bookFormattedRequest(request);
         const userBookUpdate = await patchBook(user.id, body);
-        if(request.identifier !== undefined) {
-            await updateStatistics(user.id, undefined);
+        if(request.identifier === "statistics") {
+            if(!request.goals[0]?.parcial)
+                await updateStatistics(user.id, 0);
+            else
+                await updateStatistics(user.id, request.goals[0].parcial);
         }
-        
         await redis.del(`userInfo:${user.id}`);
         Response.data = userBookUpdate;
         return NextResponse.json(Response, {status: Response.status});
