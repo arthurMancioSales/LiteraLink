@@ -62,7 +62,7 @@ async function verifyOPGoalDays(
                 bookId,
                 requestBody
             );
-        } ;
+        }
         return;
     }
     if (
