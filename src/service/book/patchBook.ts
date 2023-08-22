@@ -22,9 +22,7 @@ export async function patchBook(id: string , body: IPatchBook) {
                 requestBodyRepo.status = 'lendo';
             }
             requestBodyRepo.pagesRead += oldBook.pagesRead;
-            console.log(requestBodyRepo.pagesRead! >= oldBook.totalPages, 'verificacao')
             if (requestBodyRepo.pagesRead! >= oldBook.totalPages) {
-                console.log('entrou')
                 requestBodyRepo.status = 'lido';
             }
             // garante que o número de páginas lidas é igual ao número total de páginas do livro
