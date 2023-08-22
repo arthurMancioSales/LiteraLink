@@ -10,8 +10,8 @@ export function CommunityFormattedRequest (request: any) {
     if ("description" in request) {
         formattedBody.description = request.description;
     }
-    if ("favoriteBook" in request) {
-        formattedBody.favoriteBook = request.favoriteBook;
+    if ("communityGenre" in request) {
+        formattedBody.communityGenre = request.communityGenre;
     }
     if ("image" in request) {
         formattedBody.image = request.image;

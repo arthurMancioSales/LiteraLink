@@ -15,12 +15,18 @@ import { AiOutlineSend } from "react-icons/ai";
 import ChatMessage from "@/src/components/ChatMessage";
 import { GrAddCircle } from "react-icons/gr"
 import { BiLogOut } from "react-icons/bi";
+import { IoIosSettings, IoMdAddCircle } from "react-icons/io";
+import { FormCommunityConfig } from "@/src/components/Forms/FormCommunityConfig";
+import { useRouter } from "next/navigation";
 
 export default function CommunityChat({ params }: { params: { community: string } }) {
     const [communityData, setCommunityData] = useState<ICommunity | null>(null);
     const [loadingCommunity, setLoadingCommunity] = useState(true);
     const [wsClient, setWsClient] = useState<WebSocket | null>(null);
     const [messages, setMessages] = useState<IChatContent[] | null>(null);
+    const [openModalCommunityConfig, setOpenModalCommunityConfig] = useState(false);
+
+    const navigate = useRouter();
     
     const userContext = useContext(UserContext);
     const userData = userContext?.userData;
@@ -51,7 +57,6 @@ export default function CommunityChat({ params }: { params: { community: string 
             } else {
                 ws = new WebSocket(`ws://${host}/api/ws`); 
             }
-            console.log(host, protocol, ws)
             setWsClient(ws);
             
             const connection: IWsEnterMessage = {
@@ -113,178 +118,183 @@ export default function CommunityChat({ params }: { params: { community: string 
     }
     
     return (
-        <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
-            <div className="flex flex-col w-3/4 h-full gap-4 mr-2">
-                
-                <Tabs.Root
-                    className="flex flex-col w-full h-full"
-                    defaultValue="chat"
-                >
-                    <Tabs.List className="flex shrink-0" aria-label="Manage your account">
-                        <Tabs.Trigger
-                            className="px-5 py-2 w-fit flex items-center justify-center text-[15px] leading-none select-none rounded-t-md hover:text-brand dark:hover:text-brand dark:text-dark-text data-[state=active]:text-brand border-none border-b-2 dark:border-white border-black data-[state=active]:border-solid data-[state=active]:dark:bg-dark-primary data-[state=active]:bg-light-tertiary data-[state=active]:focus:relative outline-none cursor-default"
+        <>
+        
+            <div className="flex w-full max-h-screen px-4 py-4 bg-light-secondary dark:bg-dark-tertiary overflow-clip">
+                <div className="flex flex-col w-3/4 h-full gap-4 mr-2">
+                    
+                    <Tabs.Root
+                        className="flex flex-col w-full h-full"
+                        defaultValue="chat"
+                    >
+                        <Tabs.List className="flex shrink-0" aria-label="Manage your account">
+                            <Tabs.Trigger
+                                className="px-5 py-2 w-fit flex items-center justify-center text-[15px] leading-none select-none rounded-t-md hover:text-brand dark:hover:text-brand dark:text-dark-text data-[state=active]:text-brand border-none border-b-2 dark:border-white border-black data-[state=active]:border-solid data-[state=active]:dark:bg-dark-primary data-[state=active]:bg-light-tertiary data-[state=active]:focus:relative outline-none cursor-default"
+                                value="chat"
+                            >
+                            Chat   
+                            </Tabs.Trigger>
+                            <Tabs.Trigger
+                                className="px-5 py-2 w-fit flex items-center justify-center text-[15px] leading-none select-none rounded-t-md hover:text-brand dark:hover:text-brand dark:text-dark-text data-[state=active]:text-brand border-none border-b-2 dark:border-white border-black data-[state=active]:border-solid data-[state=active]:dark:bg-dark-primary data-[state=active]:bg-light-tertiary data-[state=active]:focus:relative outline-none cursor-default"
+                                value="members"
+                            >
+                            Membros
+                            </Tabs.Trigger>
+                        
+                        </Tabs.List>
+                        <Tabs.Content
+                            className="h-full outline-none grow rounded-b-md rounded-tr-md max-h-[calc(100%-35px)]"
                             value="chat"
                         >
-                        Chat   
-                        </Tabs.Trigger>
-                        <Tabs.Trigger
-                            className="px-5 py-2 w-fit flex items-center justify-center text-[15px] leading-none select-none rounded-t-md hover:text-brand dark:hover:text-brand dark:text-dark-text data-[state=active]:text-brand border-none border-b-2 dark:border-white border-black data-[state=active]:border-solid data-[state=active]:dark:bg-dark-primary data-[state=active]:bg-light-tertiary data-[state=active]:focus:relative outline-none cursor-default"
+                            <div className="flex flex-col w-full h-full gap-4 p-4 dark:bg-dark-primary bg-light-tertiary rounded-b-md rounded-tr-md">
+                                <div className="flex w-full h-[calc(100%-56px)] bg-light-secondary dark:bg-dark-secondary rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
+                                    <ScrollArea.Root 
+                                        className="w-full h-full overflow-hidden"
+                                        type="always"
+                                    >
+                                        <ScrollArea.Viewport className="w-[96%] h-full rounded flex flex-col">
+                                            <div className="flex flex-col w-full h-full gap-4 p-4 pr-0" id="chat">
+                                                {messages?.map((message, index) => {
+                                                    
+                                                    return (
+                                                        <ChatMessage
+                                                            message={message}
+                                                            key={`chat-${index}`}
+                                                        ></ChatMessage>
+                                                    );
+                                                })}
+                                            </div>
+                                        </ScrollArea.Viewport>
+                                        <ScrollArea.Scrollbar
+                                            className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                                            orientation="vertical"
+                                        >
+                                            <ScrollArea.Thumb id="scroll" className="flex-1 bg-light-tertiary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px] dark:bg-dark-secondary" />
+                                        </ScrollArea.Scrollbar>
+                                        <ScrollArea.Corner className="bg-black" />
+                                    </ScrollArea.Root>
+                                </div>
+                                <div className="flex w-full h-min">
+                                    <Formik
+                                        onSubmit={(values, helpers) => {
+                                            if (!userData) {
+                                                return;
+                                            }
+                                            const message: IWsSendMessage = {
+                                                type: "message",
+                                                params: {
+                                                    userId: userData?._id,
+                                                    message: values.message,
+                                                    profilePicture: userData?.image || "",
+                                                    username: userData?.name || "",
+                                                    variant: "reciever"
+                                                }
+                                            }; 
+                                            
+                                            wsClient?.send(JSON.stringify(message));
+
+                                            helpers.resetForm();
+                                            const localMessage: IChatContent = {
+                                                userId: message.params.userId,
+                                                message: message.params.message,
+                                                profilePicture: message.params.profilePicture,
+                                                username: message.params.username,
+                                                variant: "sender",
+                                            };
+                                            setMessages((messages) => {
+                                                if (messages === null) {
+                                                    return [localMessage];
+                                                } 
+
+                                                return [...messages, localMessage];
+                                            });
+                                        }}
+                                        initialValues={initialValues}
+                                        validationSchema={validationSchema}
+                                    >
+                                        {(props) => (
+                                            <Form 
+                                                onSubmit={(e) => {
+                                                    e.preventDefault(); 
+                                                    props.handleSubmit(e);
+                                                }}
+                                                className="flex w-full h-full gap-2"
+                                            >
+                                                <div className="flex flex-col w-full">
+                                                    <Field type="text" name="message" placeholder="Escreva aqui" className={"w-full h-10 px-2 rounded-md bg-light-secondary dark:bg-dark-secondary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] resize-none dark:text-dark-text"} />
+                                                </div>
+                                                <button type="submit" className="flex items-center justify-center w-10 h-10 rounded-md bg-light-secondary dark:bg-dark-secondary group drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] hover:scale-105 transition-transform duration-100"> <AiOutlineSend className="duration-100 group-hover:text-brand dark:text-dark-text" size={25}></AiOutlineSend> </button>
+                                            </Form>
+                                        )}
+                                    </Formik>
+                                </div>
+                            </div>
+                        </Tabs.Content>
+                        <Tabs.Content
+                            className="h-full outline-none grow rounded-b-md rounded-tr-md max-h-[calc(100%-35px)]"
                             value="members"
                         >
-                        Membros
-                        </Tabs.Trigger>
-                    
-                    </Tabs.List>
-                    <Tabs.Content
-                        className="h-full outline-none grow rounded-b-md rounded-tr-md max-h-[calc(100%-35px)]"
-                        value="chat"
-                    >
-                        <div className="flex flex-col w-full h-full gap-4 p-4 dark:bg-dark-primary bg-light-tertiary rounded-b-md rounded-tr-md">
-                            <div className="flex w-full h-[calc(100%-56px)] bg-light-secondary dark:bg-dark-secondary rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
-                                <ScrollArea.Root 
-                                    className="w-full h-full overflow-hidden"
-                                    type="always"
-                                >
-                                    <ScrollArea.Viewport className="w-[96%] h-full rounded flex flex-col">
-                                        <div className="flex flex-col w-full h-full gap-4 p-4 pr-0" id="chat">
-                                            {messages?.map((message, index) => {
-                                                
-                                                return (
-                                                    <ChatMessage
-                                                        message={message}
-                                                        key={`chat-${index}`}
-                                                    ></ChatMessage>
-                                                );
-                                            })}
-                                        </div>
-                                    </ScrollArea.Viewport>
-                                    <ScrollArea.Scrollbar
-                                        className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-                                        orientation="vertical"
+                            <div className="flex flex-col w-full h-full gap-4 p-4 rounded-md dark:bg-dark-primary bg-light-tertiary">
+                                <div className="flex flex-col w-full h-full gap-4">
+                                    <p className="text-2xl dark:text-dark-text">Membros da comunidade</p>
+                                    <ScrollArea.Root 
+                                        className="w-full h-full overflow-hidden"
+                                        type="always"
                                     >
-                                        <ScrollArea.Thumb id="scroll" className="flex-1 bg-light-tertiary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px] dark:bg-dark-secondary" />
-                                    </ScrollArea.Scrollbar>
-                                    <ScrollArea.Corner className="bg-black" />
-                                </ScrollArea.Root>
-                            </div>
-                            <div className="flex w-full h-min">
-                                <Formik
-                                    onSubmit={(values, helpers) => {
-                                        if (!userData) {
-                                            return;
-                                        }
-                                        const message: IWsSendMessage = {
-                                            type: "message",
-                                            params: {
-                                                userId: userData?._id,
-                                                message: values.message,
-                                                profilePicture: userData?.image || "",
-                                                username: userData?.name || "",
-                                                variant: "reciever"
-                                            }
-                                        }; 
-                                        
-                                        wsClient?.send(JSON.stringify(message));
-
-                                        helpers.resetForm();
-                                        const localMessage: IChatContent = {
-                                            userId: message.params.userId,
-                                            message: message.params.message,
-                                            profilePicture: message.params.profilePicture,
-                                            username: message.params.username,
-                                            variant: "sender",
-                                        };
-                                        setMessages((messages) => {
-                                            if (messages === null) {
-                                                return [localMessage];
-                                            } 
-
-                                            return [...messages, localMessage];
-                                        });
-                                    }}
-                                    initialValues={initialValues}
-                                    validationSchema={validationSchema}
-                                >
-                                    {(props) => (
-                                        <Form 
-                                            onSubmit={(e) => {
-                                                e.preventDefault(); 
-                                                props.handleSubmit(e);
-                                            }}
-                                            className="flex w-full h-full gap-2"
-                                        >
-                                            <div className="flex flex-col w-full">
-                                                <Field type="text" name="message" placeholder="Escreva aqui" className={"w-full h-10 px-2 rounded-md bg-light-secondary dark:bg-dark-secondary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] resize-none dark:text-dark-text"} />
+                                        <ScrollArea.Viewport className="w-[95%] h-full max-h-full rounded flex flex-col mb-2">
+                                            <div className="flex flex-col gap-4 pb-2 pr-2 ">
+                                                {communityData?.members ? (
+                                                    communityData?.members.map((user, index) => (
+                                                        <CardUserCommunity key={`user-${index}`} imageUser={user.image} user={user.name}/>            
+                                                    ))
+                                                ) : ""}
                                             </div>
-                                            <button type="submit" className="flex items-center justify-center w-10 h-10 rounded-md bg-light-secondary dark:bg-dark-secondary group drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] hover:scale-105 transition-transform duration-100"> <AiOutlineSend className="duration-100 group-hover:text-brand dark:text-dark-text" size={25}></AiOutlineSend> </button>
-                                        </Form>
-                                    )}
-                                </Formik>
+                                        </ScrollArea.Viewport>
+                                        <ScrollArea.Scrollbar
+                                            className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                                            orientation="vertical"
+                                        >
+                                            <ScrollArea.Thumb className="flex-1 bg-light-secondary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px] dark:bg-dark-secondary" />
+                                        </ScrollArea.Scrollbar>
+                                        <ScrollArea.Corner className="bg-black" />
+                                    </ScrollArea.Root>
+                                </div>
                             </div>
+                        </Tabs.Content>
+                    </Tabs.Root>
+                </div>
+                <div className="flex w-1/4 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
+                    <aside className="flex flex-col items-center w-full gap-4 p-4 rounded-lg bg-light-tertiary dark:bg-dark-primary dark:text-dark-text">
+                        <div className="flex items-center justify-between w-full">
+                            {loadingCommunity ? <TextLoading /> : <p className="text-2xl font-bold">{communityData?.name}</p>}
+                            {loadingUser ? <TextLoading /> : memberOfCommunity ? (
+                                <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="text-red-600 cursor-pointer" title="Sair da comunidade">
+                                    <BiLogOut size={25} />
+                                </div>
+                            ) : (
+                                <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="cursor-pointer " title="Entrar na comunidade">
+                                    <IoMdAddCircle size={25} className="transition-all duration-150 text-status-success hover:-rotate-90" ></IoMdAddCircle>
+                                </div>
+                            )}
                         </div>
-                    </Tabs.Content>
-                    <Tabs.Content
-                        className="h-full outline-none grow rounded-b-md rounded-tr-md max-h-[calc(100%-35px)]"
-                        value="members"
-                    >
-                        <div className="flex flex-col w-full h-full gap-4 p-4 rounded-md dark:bg-dark-primary bg-light-tertiary">
-                            <div className="flex flex-col w-full h-full gap-4">
-                                <p className="text-2xl dark:text-dark-text">Membros da comunidade</p>
-                                <ScrollArea.Root 
-                                    className="w-full h-full overflow-hidden"
-                                    type="always"
-                                >
-                                    <ScrollArea.Viewport className="w-[95%] h-full max-h-full rounded flex flex-col mb-2">
-                                        <div className="flex flex-col gap-4 pb-2 pr-2 ">
-                                            {communityData?.members ? (
-                                                communityData?.members.map((user) => (
-                                                    <CardUserCommunity key={user.id} imageUser={user.image} user={user.name}/>            
-                                                ))
-                                            ) : ""}
-                                        </div>
-                                    </ScrollArea.Viewport>
-                                    <ScrollArea.Scrollbar
-                                        className="flex select-none touch-none p-0.5 mr-2 transition-colors duration-[160ms] ease-out data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
-                                        orientation="vertical"
-                                    >
-                                        <ScrollArea.Thumb className="flex-1 bg-light-secondary rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px] dark:bg-dark-secondary" />
-                                    </ScrollArea.Scrollbar>
-                                    <ScrollArea.Corner className="bg-black" />
-                                </ScrollArea.Root>
-                            </div>
+                        <div className="flex flex-col items-center gap-3 text-center">
+                            {loadingCommunity ? <ImageLoading size={125} /> : <Avatar src={communityData?.image ? communityData?.image : "/images/user/default_community_image.jpg"} size={125} />}
                         </div>
-                    </Tabs.Content>
-                </Tabs.Root>
+                        <div className="relative flex w-full justify-normal">
+                            <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalCommunityConfig(true)}></IoIosSettings>
+                        </div>
+                        <div className="flex flex-col w-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
+                            <p className="text-lg font-medium">Gênero favorito</p>
+                            {loadingCommunity ? <TextLoading /> : <p>{communityData?.communityGenre}</p>}
+                        </div>
+                        <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
+                            <p className="text-lg font-medium">Descrição</p>
+                            {loadingCommunity ? <TextLoading /> : <p className="truncate">{communityData?.description}</p>}
+                        </div>
+                    </aside>
+                </div>
             </div>
-            <div className="flex w-1/4 h-full ml-2 overflow-hidden rounded-md bg-light-tertiary dark:bg-dark-primary">
-                <aside className="flex flex-col items-center w-full gap-4 p-4 rounded-lg bg-light-tertiary dark:bg-dark-primary dark:text-dark-text">
-                    <div className="flex items-center justify-between w-full">
-                        {loadingCommunity ? <TextLoading /> : <p className="text-2xl font-bold">{communityData?.name}</p>}
-                        {loadingUser ? <TextLoading /> : memberOfCommunity ? (
-                            <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="text-red-600 cursor-pointer" title="Sair da comunidade">
-                                <BiLogOut size={25} />
-                            </div>
-                        ) : (
-                            <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="cursor-pointer text-status-success" title="Entrar na comunidade">
-                                <GrAddCircle ></GrAddCircle>
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex flex-col items-center gap-3 text-center">
-                        {loadingCommunity ? <ImageLoading size={125} /> : <Avatar src={communityData?.image ? communityData?.image : "/images/user/default_community_image.jpg"} size={125} />}
-                    </div>
-                    <div className="flex flex-col w-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
-                        <p className="text-lg font-medium">Gênero favorito</p>
-                        {loadingCommunity ? <TextLoading /> : <p>{communityData?.communityGenre}</p>}
-                    </div>
-                    <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
-                        <p className="text-lg font-medium">Descrição</p>
-                        {loadingCommunity ? <TextLoading /> : <p className="truncate">{communityData?.description}</p>}
-                    </div>
-                </aside>
-            </div>
-        </div>
-        
-        
+            {openModalCommunityConfig && <FormCommunityConfig onClose={() => setOpenModalCommunityConfig(false)} community={communityData} router={navigate} />}
+        </>
     );
 }
