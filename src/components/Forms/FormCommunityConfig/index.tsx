@@ -7,19 +7,19 @@ import { Input } from "../../Input";
 import { Button } from "../../Button";
 import { useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
-import { TextArea } from "../../TextArea";
 import { Avatar } from "../../Avatar";
+import { TextArea } from "../../TextArea";
+import { ICommunity } from "@/src/interfaces/interface";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
+
 
 interface PropTypes {
     onClose: () => void;
+    community: ICommunity | null;
+    router: AppRouterInstance;
 }
 
-export type OptionsPropsSelect = {
-    id: string | number;
-    name: string;
-}
-
-export function FormAddCommunity({ onClose }: PropTypes) {
+export function FormCommunityConfig({ onClose, community, router }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
     const [loading, setLoading] = useState(false);
@@ -29,9 +29,9 @@ export function FormAddCommunity({ onClose }: PropTypes) {
     const [messageError, setMessageError] = useState("");
 
     const validationSchema = Yup.object({
-        nameCommunity: Yup.string().required("É necessário um nome para comunidade"),
-        communityGenre: Yup.string().required("É necessário escolher um gênero"),
-        descriptionCommunity: Yup.string().required("É necessário inserir uma descrição"),
+        nameCommunity: Yup.string(),
+        communityGenre: Yup.string(),
+        descriptionCommunity: Yup.string(),
     });
 
     const initialValues = {
@@ -41,7 +41,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
     };
   
     return (
-        <GenericModal title="Adicionar comunidade" onClose={onClose} styleSize={{height: "fit-content"}}>
+        <GenericModal title="Atualizar comunidade" onClose={onClose} styleSize={{height: "fit-content"}}>
             <div className="flex items-center justify-center">
                 <label className="w-[120px]">
                     <input
@@ -76,13 +76,15 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                     formData.append("description", values.descriptionCommunity);
                     formData.append("communityGenre", values.communityGenre);
                     formData.append("userImage", userContext?.userData?.image as string);
+                    formData.append("oldName", community?.name as string);
+                    formData.append("id", community?._id as string);
 
                     if(selectedFile) {
                         formData.append("image", selectedFile);
                     }
                     setLoading(true);
                     const req = await fetch("/api/community", {
-                        method: "POST",
+                        method: "PATCH",
                         body: formData,
                         cache: "no-store"
                     });
@@ -97,6 +99,10 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                         }
 
                         setSubmitting(false);
+                        if (values?.nameCommunity && (values.nameCommunity != community?.name as string)) {
+                            router.replace(`/c/${values.nameCommunity}`);
+                        }
+                        
                         onClose();
                     }
                 }}
@@ -106,16 +112,15 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                 {(props) => (
                     <form className="flex flex-col gap-6" onSubmit={props.handleSubmit}>
                         <div>
-                            <Input name="nameCommunity" label="Nome" error={props.errors.nameCommunity} type="text" required/>
+                            <Input name="nameCommunity" label="Nome" error={props.errors.nameCommunity} type="text"/>
                             <div className="flex gap-2">
                                 <label  className="dark:text-dark-text" htmlFor="communityGenre">
                                     Gênero favorito
                                 </label>
-                                <label className="text-status-error">*</label>
                             </div>
-                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"  name="communityGenre" id="communityGenre" value="">
-                                <option disabled value="" hidden>Selecione uma opção</option>
+                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"  name="communityGenre" id="communityGenre" value="" >
                                 <option value="Ficção">Ficção</option>
+                                <option disabled value="" hidden>Selecione uma opção</option>
                                 <option value="Fantasia">Fantasia</option>
                                 <option value="Terror">Terror</option>
                                 <option value="Romance">Romance</option>
@@ -129,10 +134,10 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                             <div className="mt-[2px] min-h-[21px]">
                                 <ErrorMessage name="communityGenre" className="text-status-error" component="span"/>
                             </div>
-                            <TextArea name="descriptionCommunity" label="Descrição" type="text" required />
+                            <TextArea name="descriptionCommunity" label="Descrição" type="text"/>
                         </div>
                         <div className="w-1/4 mx-auto">
-                            <Button type="submit" variant="info" isLoading={loading}>CRIAR</Button>
+                            <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
                         </div>
                     </form>
                 )}

@@ -256,6 +256,7 @@ describe("Service patchCommunity", () => {
     it("should return error 'Esse nome de comunidade já está em uso' if new names is already in use", async () => {
         
         const body: IPatchCommunity = {
+            id: "objectId",
             oldName: "abc",
             name: "123"
         };
@@ -271,6 +272,7 @@ describe("Service patchCommunity", () => {
     it("should return error 'Usuário não é administrado da comunidade' if new names is already in use", async () => {
         
         const body: IPatchCommunity = {
+            id: "objectId",
             oldName: "abc",
             name: "123"
         };
@@ -287,6 +289,7 @@ describe("Service patchCommunity", () => {
     it("should return error 'Ocorreu um erro na atualização da comunidade", async () => {
         
         const body: IPatchCommunity = {
+            id: "objectId",
             oldName: "abc",
             name: "123"
         };
@@ -305,6 +308,7 @@ describe("Service patchCommunity", () => {
     it("should patch the community", async () => {
         
         const body: IPatchCommunity = {
+            id: "objectId",
             oldName: "abc",
             name: "123"
         };

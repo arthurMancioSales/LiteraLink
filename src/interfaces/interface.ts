@@ -133,11 +133,11 @@ export interface IGoals {
 
 
 export interface IPatchCommunity{
-    id?: string;
+    id: string;
     oldName: string;
     name?: string;
     description?: string;
-    favoriteBook?: string;
+    communityGenre?: string;
     image?: string;
     is_admin?: ObjectId | string;
     members?: [] | Array<{id: string | ObjectId, name: string}>;
@@ -146,7 +146,7 @@ export interface IPatchCommunity{
 export interface IFormatedResquestCommunity {
     name?: string;
     description?: string;
-    favoriteBook?: string;
+    communityGenre?: string;
     image?: string;
     is_admin?: ObjectId | string;
     members?: [] | Array<{id: string | ObjectId, name: string}>;
