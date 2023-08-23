@@ -3,7 +3,7 @@
 import { GenericModal } from "../../Modal/GenericModal";
 import { Button } from "../../Button";
 import { SearchBook } from "./SearchBook";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { IBookApi } from "@/app/api/book-list/[apiExternal]/route";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { UserContext } from "@/app/(authenticated)/layout";
@@ -16,6 +16,7 @@ export function FormAddBook({ onClose }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
     const [loading, setLoading] = useState(false);
+    const [modalSize, setModalSize] = useState<null | string>(null);
 
     const [book, setBook] = useState<IBookApi | undefined>();
     const [messageError, setMessageError] = useState("");
@@ -51,12 +52,12 @@ export function FormAddBook({ onClose }: PropTypes) {
     return (
         <GenericModal
             title="Adicionar livro"
-            styleSize={{height: "85%"}}
+            styleSize={{height: modalSize ? modalSize : "fit-content"}}
             onClose={onClose}
         >
-            <SearchBook value={handleBook} />
+            <SearchBook value={handleBook} sizeController={setModalSize} />
             {book && (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col flex-1 gap-6 pt-4">
                     <div className="flex flex-col gap-2">
                         <label>Livro</label>
                         <div className="bg-light-tertiary opacity-70 p-1 rounded-md drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text">
@@ -67,8 +68,13 @@ export function FormAddBook({ onClose }: PropTypes) {
                             <p>{book ? book.pages : "Nenhum livro adicionado"}</p>
                         </div>
                     </div>
-                    <div className="w-1/4 mx-auto">
-                        <Button type="submit" variant="info" onClick={saveBook} isLoading={loading}>ADICIONAR</Button>
+                    <div className="flex w-full justify-items-end">
+                        <div className="w-1/4 mx-auto">
+                            <Button onClick={onClose} variant="error" isLoading={loading}>Cancelar</Button>
+                        </div>
+                        <div className="w-1/4 mx-auto">
+                            <Button type="submit" variant="success" onClick={saveBook} isLoading={loading}>Adicionar</Button>
+                        </div>
                     </div>
                 </div>
             )}

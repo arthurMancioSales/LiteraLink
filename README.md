@@ -1,34 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bem-vindo ao LiteraLink!
+O LiteraLink nasceu como resposta ao desafio **Descomplica** - desafio do ciclo 2 da turma **Hopper** do Alpha Edtech.
 
-## Getting Started
+Aqui, você encontrará o código-fonte e os detalhes desse projeto que se tornou uma plataforma para incentivar a leitura por meio de metas e comunidades. Sinta-se à vontade para explorar e contribuir.
 
-First, run the development server:
+## Contribuidores
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+ - Anderson Lima - Frontend
+ - Arthur Mancio - Infraestrutura e Frontend
+ - Eduardo Henrique - Backend
+ - Henrique Seiti - Backend
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ - Framework
+	 - Next js 13
+ - Desenvolvimento
+	 - React
+	 - Tailwind css
+	 - Node js
+	 - Typescript
+	 - Websocket
+	 - Git/Github
+	 - Jest
+ - Infraestrutura
+	 - Mongo DB
+	 - Redis
+	 - Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Rodando o projeto localmente
 
-## Learn More
+Graças ao uso do docker, rodar o projeto localmente é muito simples. Basta ter o docker instalado, e rodar o seguinte comando:
 
-To learn more about Next.js, take a look at the following resources:
+ - Ambiente de desenvolvimento
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    npm install
+    npx next-ws-cli patch -y
+    docker compose -f ./docker-compose.dev.yml up -d --build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+ - Ambiente de testes
+ 
 
-## Deploy on Vercel
+     docker compose -f ./docker-compose.test.yml up -d --build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+ - Ambiente de produção
+ 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+     docker compose -f ./docker-compose.prod.yml up -d --build
+
+*Lembre-se de preencher o dotenv devidamente*

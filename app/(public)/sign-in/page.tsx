@@ -30,12 +30,12 @@ export default function SignInPage() {
   
     return (
         <div className="flex w-screen h-screen bg-light-primary dark:bg-dark-primary">
-            <div className="flex flex-col w-1/2 gap-20">
+            <div className="flex flex-col w-1/2">
                 <div className="flex items-center px-20 py-2 h-[62px] justify-between">
                     <Logo/>
                     <Toggle/>
                 </div>
-                <div className="flex flex-col justify-center gap-10 px-20">
+                <div className="flex flex-col justify-center h-full gap-10 px-20">
                     <h2 className="text-3xl font-bold dark:text-dark-text">Entrar</h2>
                     <Formik
                         onSubmit={async (values, {setSubmitting}) => {
@@ -66,7 +66,9 @@ export default function SignInPage() {
                                     <Input name="email" label="Email" type="email" error={props.errors.email} required/>
                                     <Input name="password" label="Senha" type="password" error={props.errors.password} required/>
                                 </div>
-                                <Button type="submit" variant="info" isLoading={loadingPage}>ENTRAR</Button>
+                                <div className="w-1/4">
+                                    <Button type="submit" variant="brand" isLoading={loadingPage}>ENTRAR</Button>
+                                </div>
                             </form>
                         )}
                     </Formik>

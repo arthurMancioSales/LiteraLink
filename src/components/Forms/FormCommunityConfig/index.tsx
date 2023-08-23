@@ -136,8 +136,13 @@ export function FormCommunityConfig({ onClose, community, router }: PropTypes) {
                             </div>
                             <TextArea name="descriptionCommunity" label="Descrição" type="text"/>
                         </div>
-                        <div className="w-1/4 mx-auto">
-                            <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+                        <div className="flex w-full">
+                            <div className="w-1/4 mx-auto">
+                                <Button onClick={onClose} variant="error" isLoading={loading}>Cancelar</Button>
+                            </div>
+                            <div className="w-1/4 mx-auto">
+                                <Button type="submit" variant="success" isLoading={loading}>Salvar</Button>
+                            </div>
                         </div>
                     </form>
                 )}

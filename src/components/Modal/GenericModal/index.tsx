@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface PropTypes {
@@ -11,13 +11,27 @@ interface PropTypes {
   }
   
 export function GenericModal({ children, title, styleSize, onClose }: PropTypes) {
+    const modalRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (modalRef.current) {
+            modalRef.current.focus();
+        }
+        
+    }, [modalRef]);
     
     function stopPropagation(e: React.MouseEvent<HTMLDivElement>): void {
         e.stopPropagation();
     }
 
+    function handleClose(e: React.KeyboardEvent<HTMLDivElement>) {
+        if (e.key == "Escape") {
+            onClose();
+        }
+    }
+
     return (
-        <div className="w-full h-full bg-[#00000066] fixed top-0 left-0 flex justify-center items-center z-10 dark:text-dark-text" onClick={onClose}>
+        <div className="w-full h-full bg-[#00000066] fixed top-0 left-0 flex justify-center items-center z-10 dark:text-dark-text" onClick={onClose} onKeyDown={handleClose} tabIndex={-1} ref={modalRef}>
             <div style={styleSize} className="flex flex-col w-[40%] max-h-[99vh] rounded-lg drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] bg-light-primary dark:bg-dark-tertiary" onClick={stopPropagation}>
                 <div className="flex justify-between px-4 py-4">
                     <div className="w-full text-lg font-bold text-center">

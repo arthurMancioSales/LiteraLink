@@ -236,7 +236,7 @@ export default function Dashboard() {
             switch (goalType) {
                 case "days": {
                     const goalTypeSelected = {
-                        name: "Sequência (semanal)",
+                        name: "Sequência diária",
                         complement: "dias"
                     };                               
                     return goalTypeSelected;
