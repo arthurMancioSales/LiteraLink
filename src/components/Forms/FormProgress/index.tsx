@@ -225,8 +225,9 @@ export function FormProgress({ onClose }: PropTypes) {
 
                                         setIdBookSelected(e.target.value);
                                     }}
+                                    value=""
                                 >
-                                    <option value="" hidden selected disabled>Selecione um livro</option>
+                                    <option value="" hidden disabled>Selecione um livro</option>
                                     {booksList().map((element) => (
                                         <option key={element.id} value={element.id}>{element.name}</option>
                                     ))}
@@ -247,12 +248,11 @@ export function FormProgress({ onClose }: PropTypes) {
                                         props.handleChange(e);
                                         setBookStatusSelected(e.target.value);
                                     }}
-                                    value={bookStatusSelected}
-                                    requried
+                                    value={bookStatusSelected || ""}
                                 >
                                     {statusBookOptions.map((element) => {
                                         if (element.id === 1) {
-                                            return (<option key={element.id} value="" hidden disabled selected>Selecione uma opção</option>);
+                                            return (<option key={element.id} value="" hidden disabled>Selecione uma opção</option>);
                                         }
                                         return (<option key={element.id} value={element.value}>{element.name}</option>);
                                     })} 
@@ -278,8 +278,13 @@ export function FormProgress({ onClose }: PropTypes) {
                             </div>
                             {visibleInputTypeGoal("time") && <Input name="readingTime" label="Tempo de leitura (minutos)" error={props.errors.readingTime} type="number"/>}
                         </div>
-                        <div className="w-1/4 mx-auto">
-                            <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+                        <div className="flex w-full">
+                            <div className="w-1/4 mx-auto">
+                                <Button onClick={onClose} variant="error" isLoading={loading}>Cancelar</Button>
+                            </div>
+                            <div className="w-1/4 mx-auto">
+                                <Button type="submit" variant="success" isLoading={loading}>Salvar</Button>
+                            </div>
                         </div>
                     </form>
                 )}

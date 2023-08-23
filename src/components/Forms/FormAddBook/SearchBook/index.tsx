@@ -5,14 +5,15 @@ import * as Yup from "yup";
 import { generalRequest } from "@/src/functions/generalRequest";
 import { ErrorMessage, Field, Formik } from "formik";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "../../../Button";
 
 interface PropTypes {
     value: (value: IBookApi) => void;
+    sizeController: Dispatch<SetStateAction<string | null>>
 }
 
-export function SearchBook({value}: PropTypes) {
+export function SearchBook({value, sizeController}: PropTypes) {
     const [books, setBooks] = useState<IBookApi[]>([]);
     const [showBooksSearch, setShowBooksSearch] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ export function SearchBook({value}: PropTypes) {
             const dropdown = document.querySelector("#dropdownSearchBook");
             if (dropdown && !dropdown.contains(event.target as Node)) {
                 setShowBooksSearch(false);
+                sizeController("fit-content");
                 formRef.current && formRef.current.classList.remove("h-full");
                 formRef.current && formRef.current.classList.add("h-fit");
             }
@@ -40,7 +42,8 @@ export function SearchBook({value}: PropTypes) {
     
     function handleBook(book: IBookApi) {
         value(book);
-        setShowBooksSearch(false);        
+        setShowBooksSearch(false); 
+        sizeController("fit-content");
         formRef.current && formRef.current.classList.remove("h-full");
         formRef.current && formRef.current.classList.add("h-fit");
     }
@@ -82,6 +85,7 @@ export function SearchBook({value}: PropTypes) {
             const bookSearch: IBookApi[] = await generalRequest(`/api/book-list/${search}`);
 
             setShowBooksSearch(true);
+            sizeController("85%");
             formRef.current && formRef.current.classList.remove("h-fit");
             formRef.current && formRef.current.classList.add("h-full");
             setBooks(bookSearch);
@@ -90,7 +94,7 @@ export function SearchBook({value}: PropTypes) {
     }
 
     const validationSchema = Yup.object({
-        search: Yup.string().required("É necessário escolher um livro"),
+        search: Yup.string().required("É necessário escolher um livro").min(3, "O livro pesquisado deve ter no mínimo 3 caractéres"),
     });
 
     const initialValues = {
@@ -113,7 +117,7 @@ export function SearchBook({value}: PropTypes) {
                             <div className="w-full">
                                 <div className="flex items-center gap-2 pt-2">
                                     <Field className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text" type="text" name="search" />
-                                    <div><Button type="submit" variant="info" isLoading={loading}>PESQUISAR</Button></div>
+                                    <div><Button type="submit" variant="brand" isLoading={loading}>Pesquisar</Button></div>
                                 </div>
                                 <div className="mt-[2px] min-h-[21px]">
                                     <ErrorMessage className="text-status-error" component="span" name="search" />

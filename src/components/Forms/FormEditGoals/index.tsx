@@ -80,8 +80,13 @@ export function FormEditGoals({ bookId, goal, onClose }: PropTypes) {
                                     tooltipText="Tempo mínimo que você gostaria de ler"
                                 />
                             </div>
-                            <div className="w-1/4 mx-auto">
-                                <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+                            <div className="flex w-full">
+                                <div className="w-1/4 mx-auto">
+                                    <Button onClick={onClose} variant="error" isLoading={loading}>Cancelar</Button>
+                                </div>
+                                <div className="w-1/4 mx-auto">
+                                    <Button type="submit" variant="success" isLoading={loading}>Salvar</Button>
+                                </div>
                             </div>
                         </form>
                     )}
