@@ -29,10 +29,12 @@ export async function PATCH(req: NextRequest) {
         }
         const userBookUpdate = await patchBook(user.id, body);
         if(request.identifier === "statistics") {
-            if(!request.goals[0]?.parcial)
+            if(request.goals) {
+                await updateStatistics(user.id, request.goals[0].partial);
+            }
+            else if(!request.goals){
                 await updateStatistics(user.id, 0);
-            else
-                await updateStatistics(user.id, request.goals[0].parcial);
+            }
         }
         
         await redis.del(`userInfo:${user.id}`);
