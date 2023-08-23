@@ -31,7 +31,7 @@ export function FormCommunityConfig({ onClose, community, router }: PropTypes) {
     const validationSchema = Yup.object({
         nameCommunity: Yup.string(),
         communityGenre: Yup.string(),
-        descriptionCommunity: Yup.string(),
+        descriptionCommunity: Yup.string().max(500, "Tamanho limite atingido"),
     });
 
     const initialValues = {

@@ -287,9 +287,9 @@ export default function CommunityChat({ params }: { params: { community: string 
                             <p className="text-lg font-medium">Gênero favorito</p>
                             {loadingCommunity ? <TextLoading /> : <p>{communityData?.communityGenre}</p>}
                         </div>
-                        <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
+                        <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg overflow-clip bg-light-primary dark:bg-dark-secondary">
                             <p className="text-lg font-medium">Descrição</p>
-                            {loadingCommunity ? <TextLoading /> : <p className="truncate">{communityData?.description}</p>}
+                            {loadingCommunity ? <TextLoading /> : <p className="break-words whitespace-pre-wrap">{communityData?.description}</p>}
                         </div>
                     </aside>
                 </div>
