@@ -49,7 +49,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
     });
 });
 
-describe('teste da rota /api/c/[comunidade]', () =>{
+describe('teste da rota /api/community', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
         const body = {
             name: 'communidade 3 &176',
@@ -59,6 +59,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
         }
         const user = await createUserForTest('user4');
         const userCookie = await createCookie(user!);
+
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set(userCookie)
@@ -73,6 +74,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
             image: '/imagem',
             communityGenre: 'Terror'
         }
+
         const user = await createUserForTest('user5');
         const userCookie = await createCookie(user!);
         const res = await request('http://web-test:6060')
