@@ -48,3 +48,35 @@ describe('teste da rota /api/c/[comunidade]', () =>{
         expect(res.status).toEqual(200);
     });
 });
+
+describe('teste da rota /api/c/[comunidade]', () =>{
+    it('Should return 400 if the request input is invalid.', async () =>{
+        const body = {
+            name: 'communidade 3 &176',
+            description: 'descrição da comunidade 3',
+            image: '/imagem',
+            communityGenre: 'Terror'
+        }
+
+        const res = await request('http://web-test:6060')
+        .post(`/api/community`)
+        .send(body);
+        expect(res.status).toEqual(400);
+    });
+
+    it('Should return 200 if the request is successful.', async () =>{
+        const body = {
+            name: 'communidade 3',
+            description: 'descrição da comunidade 3',
+            image: '/imagem',
+            communityGenre: 'Terror'
+        }
+        const user = await createUserForTest('user1');
+        const userCookie = await createCookie(user!);
+        const res = await request('http://web-test:6060')
+        .post(`/api/community`)
+        .set(userCookie)
+        .send(body);
+        expect(res.status).toEqual(200);
+    });
+});
