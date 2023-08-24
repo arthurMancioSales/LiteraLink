@@ -62,7 +62,9 @@ describe('teste da rota /api/community', () =>{
 
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
-        .cookies().set('Session', userCookie)
+        .set('Cookie', [
+            `session=${userCookie}`,
+        ])
         .send(body);
         expect(res.status).toEqual(400);
     });
@@ -79,7 +81,9 @@ describe('teste da rota /api/community', () =>{
         const userCookie = await createCookie(user!);
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
-        .cookies('Session', userCookie)
+        .set('Cookie', [
+            `session=${userCookie}`,
+        ])
         .send(body);
         expect(res.status).toEqual(200);
     });
