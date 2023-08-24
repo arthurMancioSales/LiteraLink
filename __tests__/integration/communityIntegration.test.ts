@@ -63,7 +63,7 @@ describe('teste da rota /api/community', () =>{
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
-            `session=${userCookie}`,
+            `Session=${userCookie}`,
         ])
         .send(body);
         expect(res.status).toEqual(400);
@@ -82,7 +82,7 @@ describe('teste da rota /api/community', () =>{
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
-            `session=${userCookie}`,
+            `Session=${userCookie}`,
         ])
         .send(body);
         expect(res.status).toEqual(200);
