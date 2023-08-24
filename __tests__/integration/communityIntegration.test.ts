@@ -4,6 +4,14 @@ import { createCommunityForTest } from "../../src/utils/test_util/createCommunit
 import { createCookie } from "../../src/utils/test_util/createCookie";
 import { createUserForTest } from "../../src/utils/test_util/createUserForTest";
 
+let user: any;
+let userCookie: any;
+
+beforeAll(async () => {
+    user = await createUserForTest('userGeral');
+    userCookie = await createCookie(user!);
+})
+
 describe('teste da rota /api/c', () =>{
     it('Should return 404 if there is no registered community.', async () =>{
         const res = await request('http://web-test:6060')
@@ -52,13 +60,11 @@ describe('teste da rota /api/c/[comunidade]', () =>{
 describe('teste da rota /api/community', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
         const body = {
-            name: 'communidade 3 &176',
+            name: 'communidade 3;.,',
             description: 'descrição da comunidade 3',
             image: '/imagem',
             communityGenre: 'Terror'
         }
-        const user = await createUserForTest('user4');
-        const userCookie = await createCookie(user!);
 
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
@@ -77,8 +83,6 @@ describe('teste da rota /api/community', () =>{
             communityGenre: 'Terror'
         }
 
-        const user = await createUserForTest('user5');
-        const userCookie = await createCookie(user!);
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
