@@ -31,7 +31,7 @@ export function FormAddCommunity({ onClose }: PropTypes) {
     const validationSchema = Yup.object({
         nameCommunity: Yup.string().required("É necessário um nome para comunidade"),
         communityGenre: Yup.string().required("É necessário escolher um gênero"),
-        descriptionCommunity: Yup.string().required("É necessário inserir uma descrição"),
+        descriptionCommunity: Yup.string().required("É necessário inserir uma descrição").max(500, "Tamanho limite atingido"),
     });
 
     const initialValues = {
