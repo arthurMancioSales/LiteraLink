@@ -1,5 +1,5 @@
 .root {
-    @apply w-full px-2.5 py-2.5 gap-2 rounded-md text-sm font-medium hover:bg-buttonHover max-w-full transition-all duration-300;
+    @apply w-full px-2.5 py-2.5 gap-2 rounded-md text-sm font-medium hover:bg-buttonHover max-w-full transition-all duration-300 text-center;
 }
 
 .loading {
@@ -15,7 +15,7 @@
 }
 
 .tertiary {
-    @apply bg-light-secondary dark:bg-dark-tertiary text-light-text inline-flex items-center dark:text-dark-text dark:hover:bg-dark-secondary hover:bg-light-tertiary
+    @apply bg-light-secondary dark:bg-dark-tertiary border-transparent border-2 text-light-text inline-flex items-center dark:text-dark-text dark:hover:bg-dark-secondary hover:bg-light-tertiary
 }
 
 .info {

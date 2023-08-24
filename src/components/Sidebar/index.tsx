@@ -96,7 +96,7 @@ export function Sidebar() {
                             <Avatar src={userData?.image} size={120} />
                             <div className="relative flex justify-center w-full">
                                 <p className="pt-3">{userData?.name}</p>
-                                <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
+                                <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)} title="Configurações do usuário"></IoIosSettings>
                             </div>
                         </>
                     </div>

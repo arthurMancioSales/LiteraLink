@@ -5,7 +5,7 @@ import { Field, Formik } from "formik";
 
 type PropTypes = {
     variant?: "primary" | "secondary";
-    onSearch: (value: string) => void;
+    onSearch?: (value: string) => void;
 };
 
 export const SearchForm = ({onSearch}: PropTypes) => {
@@ -20,8 +20,11 @@ export const SearchForm = ({onSearch}: PropTypes) => {
     return (
         <Formik 
             onSubmit={async (values, {setSubmitting}) => {
+                if (!onSearch) {
+                    return;
+                }
                 onSearch(values.search);
-
+                
                 setSubmitting(false);
             }}
             initialValues={initialValues}
