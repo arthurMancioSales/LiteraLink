@@ -13,7 +13,7 @@ describe('teste das rotas de community', () =>{
 
     it('teste na rota /api/c', async () =>{
         const user = await createUserForTest('user1');
-        await createCommunityForTest(user!, 'comunidade1');
+        const community = await createCommunityForTest(user!, 'comunidade1');
         const res = await request('http://web-test:6060')
         .get(`/api/c`);
         expect(res.status).toEqual(200);

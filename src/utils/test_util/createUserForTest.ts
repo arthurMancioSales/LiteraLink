@@ -11,8 +11,10 @@ export async function createUserForTest(name: string) {
             password: 'senha123'
         };
         const newUser = await registerUser(insertValues);
+        let userID = JSON.stringify(newUser.insertedId)
+        userID = userID.replace(/["]/gim, "");
         const user = {
-            id: JSON.stringify(newUser.insertedId),
+            id: userID,
             name: insertValues.name,
             email: insertValues.email,
             image: '/imagem/teste' 
