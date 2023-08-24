@@ -1,8 +1,8 @@
 const request = require('supertest');
 
-import { createCommunityForTest } from "../util/createCommunityForTest";
-import { createCookie } from "../util/createCookie";
-import { createUserForTest } from "../util/createUserForTest";
+import { createCommunityForTest } from "../../src/utils/test_util/createCommunityForTest";
+import { createCookie } from "../../src/utils/test_util/createCookie";
+import { createUserForTest } from "../../src/utils/test_util/createUserForTest";
 
 describe('teste das rotas de community', () =>{
     it('teste na rota /api/c', async () =>{
