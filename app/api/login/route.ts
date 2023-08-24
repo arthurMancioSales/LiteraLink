@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { createRedisClient } from "@/src/database/redis/redis";
 import { createResponse } from "@/src/utils/response"; //
 import { EmailValidator, PasswordValidator } from "@/src/utils/validators/validator";
+import { expireSequence } from "@/src/service/user/updateStatistics";
 
 export async function POST(req: NextRequest) {
     const Response = createResponse();
@@ -21,7 +22,8 @@ export async function POST(req: NextRequest) {
             image: user.image
         }, JSON.stringify(process.env.secretKey));
         cookies().set("Session", jwt_cookie);
-        if(user) {                                                      
+        if(user) {          
+            await expireSequence(user.id);                                           
             await redis.set(`user:${user.id}`, JSON.stringify(user), "EX", 86400);
         }                                                              
 
