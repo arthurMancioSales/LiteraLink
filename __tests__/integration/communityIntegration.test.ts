@@ -57,9 +57,11 @@ describe('teste da rota /api/c/[comunidade]', () =>{
             image: '/imagem',
             communityGenre: 'Terror'
         }
-
+        const user = await createUserForTest('user4');
+        const userCookie = await createCookie(user!);
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
+        .set(userCookie)
         .send(body);
         expect(res.status).toEqual(400);
     });
@@ -71,7 +73,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
             image: '/imagem',
             communityGenre: 'Terror'
         }
-        const user = await createUserForTest('user1');
+        const user = await createUserForTest('user5');
         const userCookie = await createCookie(user!);
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
