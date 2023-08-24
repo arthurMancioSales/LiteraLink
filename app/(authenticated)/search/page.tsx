@@ -10,12 +10,15 @@ import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { GenericModal } from "@/src/components/Modal/GenericModal";
 import Image from "next/image";
 import notFound from "public/images/404.svg";
+import { FormCommunityConfig } from "@/src/components/Forms/FormCommunityConfig";
 
 export default function SearchCommunity() {
     const [communities, setCommunities] = useState<ICommunity[]>([]);
     const [loading, setLoading] = useState(true);
     const [openModalMessageError, setOpenModalMessageError] = useState(false);
     const [messageError, setMessageError] = useState("");
+    const [openModalCommunityConfig, setOpenModalCommunityConfig] = useState(false);
+    const [communityConfig, setCommunityConfig] = useState<ICommunity | null>(null);
 
     const userContext = useContext(UserContext);
     
@@ -23,27 +26,16 @@ export default function SearchCommunity() {
     const updateUser = userContext?.updateUser;
 
     useEffect(() => {
-        async function getCommunities() {
-            setLoading(true);
-            const community: ICommunity[] | null = await generalRequest("/api/c");
-
-            if(!community) {
-                setCommunities([]);
-            } else {
-                setCommunities(community);
-            }
-
-            setLoading(false);
+        if (communities.length == 0) {
+            getCommunities();
         }
-        
-        getCommunities();
-    }, []);
+    }, [communities.length]);
 
     if(loading) {
         return(
             <div className="flex flex-col items-center justify-center w-screen h-screen gap-5 p-4 bg-light-secondary dark:bg-dark-tertiary">
                 <div className="w-full">
-                    <div className="h-[53px] w-full bg-light-tertiary dark:bg-dark-secondary rounded-md"></div>
+                    <SearchForm/>
                 </div>
                 <div className="w-full h-full overflow-auto rounded-lg bg-light-tertiary dark:bg-dark-primary">
                     <div>     
@@ -80,6 +72,19 @@ export default function SearchCommunity() {
         setCommunities(communitySearch.community);
     };
 
+    async function getCommunities() {
+        setLoading(true);
+        const community: ICommunity[] | null = await generalRequest("/api/c");
+        
+        if(!community) {
+            setCommunities([]);
+        } else {
+            setCommunities(community);
+        }
+
+        setLoading(false);
+    }
+
     async function participationCommunity(nameCommunity: string, isMember: boolean) {
         setLoading(true);
         if(isMember) {
@@ -98,8 +103,9 @@ export default function SearchCommunity() {
             }
         }
         if(updateUser) updateUser();
-    
-        setLoading(false);
+
+        
+        getCommunities();
     }
 
     function renderCommunities() {
@@ -130,6 +136,17 @@ export default function SearchCommunity() {
             return true;
         }
 
+        function verifyIsAdmin(adminId: string) {
+            if(!userData?.communities) {
+                return false;
+            }
+
+            if(userData._id !== adminId) return false;
+            
+            return true;
+        }
+
+
         return (
             <ScrollArea.Root
                 className="w-full h-full overflow-hidden"
@@ -144,6 +161,9 @@ export default function SearchCommunity() {
                                     community={community}
                                     handleCommunity={participationCommunity}
                                     isMember={verifyIsMember(community._id)}
+                                    isAdmin={verifyIsAdmin(community.is_admin)}
+                                    handleConfigModal={setOpenModalCommunityConfig}
+                                    handleConfigCommunity={setCommunityConfig}
                                 />
                             </div>
                         ))}
@@ -169,6 +189,7 @@ export default function SearchCommunity() {
                 {renderCommunities()}
             </div>
             {openModalMessageError && <GenericModal styleSize={{textAlign: "center"}} onClose={() => setOpenModalMessageError(false)} title="Aviso">{messageError}</GenericModal>}
+            {openModalCommunityConfig && <FormCommunityConfig onClose={() => setOpenModalCommunityConfig(false)} community={communityConfig} handleUpdate={getCommunities} />}
         </div>
     );
 }

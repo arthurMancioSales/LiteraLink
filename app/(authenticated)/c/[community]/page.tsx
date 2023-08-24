@@ -13,9 +13,10 @@ import { Field, Form, Formik } from "formik";
 import { object, string } from "yup";
 import { AiOutlineSend } from "react-icons/ai";
 import ChatMessage from "@/src/components/ChatMessage";
-import { GrAddCircle } from "react-icons/gr"
+import { GrAddCircle } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
 import { IoIosSettings, IoMdAddCircle } from "react-icons/io";
+import { CircleSkeleton } from "@/src/components/Loaders/CircleSkeleton";
 import { FormCommunityConfig } from "@/src/components/Forms/FormCommunityConfig";
 import { useRouter } from "next/navigation";
 
@@ -35,11 +36,13 @@ export default function CommunityChat({ params }: { params: { community: string 
     
     const memberOfCommunity = userData?.communities ? userData?.communities.find((community) => community.name == communityData?.name) : false;
     
+    const communityName = decodeURI(params.community);
+    
     useEffect(() => {
         
         async function getCommunityData() {
             
-            const community: ICommunity = await generalRequest(`/api/c/${decodeURI(params.community)}`);
+            const community: ICommunity = await generalRequest(`/api/c/${communityName}`);
             
             setCommunityData(community);
             setLoadingCommunity(false);
@@ -93,7 +96,7 @@ export default function CommunityChat({ params }: { params: { community: string 
             });
         }
 
-    }, [params.community, userData, wsClient]);
+    }, [communityName, params.community, userData, wsClient]);
 
     const validationSchema = object({
         message: string().required("Não é possível enviar uma mensagem vazia")
@@ -115,6 +118,52 @@ export default function CommunityChat({ params }: { params: { community: string 
         if(updateUser) updateUser();
     
         setLoadingCommunity(false);
+    }
+
+    function renderButtonConfig() {
+        if(loadingUser || loadingCommunity) {
+            return (
+                <div className="relative flex justify-end w-full">
+                    <CircleSkeleton size={25}/>            
+                </div>
+            );
+        }
+
+        if(userData?._id === communityData?.is_admin) {
+            return (
+                <div className="relative flex w-full justify-normal">
+                    <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalCommunityConfig(true)} title="Configurações da comunidade"></IoIosSettings>
+                </div>
+            );
+        }
+    }
+
+    function renderCommunityButtons() {
+        if(loadingUser || loadingCommunity) {
+            return (
+                <div className="relative flex justify-end w-full" >
+                    <CircleSkeleton size={25}/>            
+                </div>
+            );
+        }
+
+        if(userData?._id === communityData?.is_admin) {
+            return (
+                <div className="">
+                    <IoIosSettings size={25} className="transition-all cursor-pointer w-fit hover:rotate-180 hover:opacity-70" onClick={() => setOpenModalCommunityConfig(true)} title="Configurações da comunidade"></IoIosSettings>
+                </div>
+            );
+        }
+
+        if (memberOfCommunity) {
+            return (
+                <BiLogOut className="text-red-400 cursor-pointer hover:opacity-70" title="Sair da comunidade" size={25} onClick={() => handleCommunity(communityName, memberOfCommunity ? true : false)} />
+            );
+        }
+
+        return (
+            <IoMdAddCircle size={25} className="transition-all duration-150 cursor-pointer text-status-success hover:-rotate-90 hover:opacity-70" title="Entrar na comunidade" onClick={() => handleCommunity(communityName, memberOfCommunity ? true : false)} ></IoMdAddCircle>
+        );
     }
     
     return (
@@ -267,29 +316,18 @@ export default function CommunityChat({ params }: { params: { community: string 
                     <aside className="flex flex-col items-center w-full gap-4 p-4 rounded-lg bg-light-tertiary dark:bg-dark-primary dark:text-dark-text">
                         <div className="flex items-center justify-between w-full">
                             {loadingCommunity ? <TextLoading /> : <p className="text-2xl font-bold">{communityData?.name}</p>}
-                            {loadingUser ? <TextLoading /> : memberOfCommunity ? (
-                                <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="text-red-600 cursor-pointer" title="Sair da comunidade">
-                                    <BiLogOut size={25} />
-                                </div>
-                            ) : (
-                                <div onClick={() => handleCommunity(decodeURI(params.community), memberOfCommunity ? true : false)} className="cursor-pointer " title="Entrar na comunidade">
-                                    <IoMdAddCircle size={25} className="transition-all duration-150 text-status-success hover:-rotate-90" ></IoMdAddCircle>
-                                </div>
-                            )}
+                            {renderCommunityButtons()}
                         </div>
                         <div className="flex flex-col items-center gap-3 text-center">
                             {loadingCommunity ? <ImageLoading size={125} /> : <Avatar src={communityData?.image ? communityData?.image : "/images/user/default_community_image.jpg"} size={125} />}
-                        </div>
-                        <div className="relative flex w-full justify-normal">
-                            <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalCommunityConfig(true)}></IoIosSettings>
                         </div>
                         <div className="flex flex-col w-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
                             <p className="text-lg font-medium">Gênero favorito</p>
                             {loadingCommunity ? <TextLoading /> : <p>{communityData?.communityGenre}</p>}
                         </div>
-                        <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg bg-light-primary dark:bg-dark-secondary">
+                        <div className="flex flex-col w-full h-full gap-2 p-4 rounded-lg overflow-clip bg-light-primary dark:bg-dark-secondary">
                             <p className="text-lg font-medium">Descrição</p>
-                            {loadingCommunity ? <TextLoading /> : <p className="truncate">{communityData?.description}</p>}
+                            {loadingCommunity ? <TextLoading /> : <p className="break-words whitespace-pre-wrap">{communityData?.description}</p>}
                         </div>
                     </aside>
                 </div>
