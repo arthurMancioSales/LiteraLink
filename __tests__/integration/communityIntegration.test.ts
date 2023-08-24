@@ -32,11 +32,9 @@ describe('teste da rota /api/c/[comunidade]', () =>{
 
     it('Should return 404 if not found a community.', async () =>{
         const queryCommunity = 'comunidade'
-        // const user = await createUserForTest('user2');
-        // await createCommunityForTest(user!, 'comunidade2');
 
         const res = await request('http://web-test:6060')
-        .get(`/api/c${queryCommunity}`);
+        .get(`/api/c/${queryCommunity}`);
         expect(res.status).toEqual(404);
     });
     
@@ -46,7 +44,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
         await createCommunityForTest(user!, 'comunidade2');
 
         const res = await request('http://web-test:6060')
-        .get(`/api/c${queryCommunity}`);
+        .get(`/api/c/${queryCommunity}`);
         expect(res.status).toEqual(200);
     });
 });
