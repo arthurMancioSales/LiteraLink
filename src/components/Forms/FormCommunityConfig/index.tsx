@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { GenericModal } from "../../Modal/GenericModal";
 import { Input } from "../../Input";
 import { Button } from "../../Button";
-import { useContext, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { UserContext } from "@/app/(authenticated)/layout";
 import { Avatar } from "../../Avatar";
 import { TextArea } from "../../TextArea";
@@ -16,10 +16,11 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 interface PropTypes {
     onClose: () => void;
     community: ICommunity | null;
-    router: AppRouterInstance;
+    router?: AppRouterInstance;
+    handleUpdate?: () => void;
 }
 
-export function FormCommunityConfig({ onClose, community, router }: PropTypes) {
+export function FormCommunityConfig({ onClose, community, router, handleUpdate }: PropTypes) {
     const userContext = useContext(UserContext);
     const updateUser = userContext?.updateUser;
     const [loading, setLoading] = useState(false);
@@ -99,8 +100,12 @@ export function FormCommunityConfig({ onClose, community, router }: PropTypes) {
                         }
 
                         setSubmitting(false);
-                        if (values?.nameCommunity && (values.nameCommunity != community?.name as string)) {
+                        if ((values?.nameCommunity && (values.nameCommunity != community?.name as string) && router)) {
                             router.replace(`/c/${values.nameCommunity}`);
+                        }
+
+                        if (handleUpdate) {
+                            handleUpdate();
                         }
                         
                         onClose();
