@@ -134,3 +134,21 @@ export async function updateSequences(userId: ObjectId) {
         client.close();
     }
 }
+
+export async function resetSequence(userId : ObjectId) {
+    const dbConnect = createMongoConnection();
+    const client = await dbConnect.connect();
+    const collection = client.db("literalink-dev").collection("users");
+    try {
+        const resetedSequence = await collection.updateOne (
+            { _id: userId },
+            { $set: { "statistics.actualSequence": 0 } }
+        );
+        return resetedSequence;
+    } catch (error) {
+        console.log(TAG, error);
+        throw error;
+    } finally {
+        client.close();
+    }
+}
