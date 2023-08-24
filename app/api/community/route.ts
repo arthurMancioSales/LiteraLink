@@ -37,7 +37,6 @@ export async function POST(req:NextRequest) {
             image: image,
         };
         const community = await postCommunity(user, body);
-        await redis.del("cachedAllCommunities");
         await redis.del(`userInfo:${user.id}`);
         Response.data = community;
         Response.status = 201;
@@ -79,7 +78,6 @@ export async function PATCH(req:NextRequest) {
         const body = formattedBody(reqFields);
         
         const updateCommunity = await patchCommunity(user.id, body);
-        await redis.del("cachedAllCommunities");
         await redis.del(`userInfo:${user.id}`);
         Response.data = updateCommunity;
         return NextResponse.json(Response, {status: Response.status});
