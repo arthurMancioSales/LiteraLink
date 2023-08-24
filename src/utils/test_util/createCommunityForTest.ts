@@ -14,13 +14,6 @@ export async function createCommunityForTest(
     communityName: string
 ) {
     try {
-
-        // const insertedUser ={
-        //     id: userID,
-        //     name: user.name,
-        //     email: user.email,
-        //     image: user.image
-        // }
         const newCommunity: ICreateCommunity = {
             name: communityName,
             description: 'description',
@@ -29,7 +22,6 @@ export async function createCommunityForTest(
             image: '/imagem/comunidade'
         }
         const communityTest = await postCommunity(user, newCommunity);
-        console.log(communityTest, 'comunidade');
         return communityTest;
     } catch (e: any) {
         console.log(TAG, e);
