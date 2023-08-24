@@ -12,7 +12,8 @@ export async function getUserById(user_id: string) {
         if (!responseDB) {
             throw new CustomError("Error: Usuário não encontrado", 404);
         }
-        return userFormattedResponse(responseDB);
+        delete responseDB.password
+        return responseDB;
     } catch (e: any) {
         console.log(TAG, e);
         if (!e.status) {
