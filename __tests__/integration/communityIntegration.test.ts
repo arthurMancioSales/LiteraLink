@@ -59,34 +59,38 @@ describe('teste da rota /api/c/[comunidade]', () =>{
 
 describe('teste da rota /api/community', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
-        const body = {
-            name: 'comunidade teste ;&%',
-            description: 'descrição da comunidade 3',
-            communityGenre: 'Terror'
-        }
+        // const body = {
+        //     name: 'comunidade teste ;&%',
+        //     description: 'descrição da comunidade 3',
+        //     communityGenre: 'Terror'
+        // }
 
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
             `Session=${userCookie}`,
         ])
-        .send(body);
+        .field('name', 'comunidade teste ;&%')
+        .field('description', 'descrição da comunidade 3')
+        .field('communityGenre', 'Terror')
         expect(res.status).toBe(400);
     });
 
     it('Should return 200 if the request is successful.', async () =>{
-        const body = {
-            name: 'communidade 3',
-            description: 'descrição da comunidade 3',
-            communityGenre: 'Terror'
-        }
+        // const body = {
+        //     name: 'communidade 3',
+        //     description: 'descrição da comunidade 3',
+        //     communityGenre: 'Terror'
+        // }
 
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
             `Session=${userCookie}`,
         ])
-        .send(body);
+        .field('name', 'comunidade 3')
+        .field('description', 'descrição da comunidade 3')
+        .field('communityGenre', 'Terror')
         expect(res.status).toEqual(201);
     });
 });
