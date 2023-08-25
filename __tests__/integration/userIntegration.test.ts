@@ -1,6 +1,5 @@
 import { createCookie } from "@/src/utils/test_util/createCookie";
 import { createUserForTest } from "@/src/utils/test_util/createUserForTest";
-import { eraseDatabase } from "@/src/utils/test_util/eraseDatabase";
 
 const request = require('supertest');
 

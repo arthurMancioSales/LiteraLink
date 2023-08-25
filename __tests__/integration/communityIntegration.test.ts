@@ -1,6 +1,5 @@
 const request = require('supertest');
 
-import { eraseDatabase } from "@/src/utils/test_util/eraseDatabase";
 import { createCommunityForTest } from "../../src/utils/test_util/createCommunityForTest";
 import { createCookie } from "../../src/utils/test_util/createCookie";
 import { createUserForTest } from "../../src/utils/test_util/createUserForTest";
