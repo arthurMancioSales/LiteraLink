@@ -113,8 +113,8 @@ export function FormAddCommunity({ onClose }: PropTypes) {
                                 </label>
                                 <label className="text-status-error">*</label>
                             </div>
-                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"  name="communityGenre" id="communityGenre" value="">
-                                <option disabled value="" hidden>Selecione uma opção</option>
+                            <Field as="select" className="w-full h-10 px-2 rounded-md bg-light-tertiary drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)] dark:bg-dark-secondary dark:text-dark-text"  name="communityGenre" id="communityGenre">
+                                <option value="" disabled selected hidden>Selecione uma opção</option>
                                 <option value="Ficção">Ficção</option>
                                 <option value="Fantasia">Fantasia</option>
                                 <option value="Terror">Terror</option>
