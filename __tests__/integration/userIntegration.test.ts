@@ -92,7 +92,7 @@ describe('Test for the /api/new-user Route', () =>{
 describe('Test for the /api/update-user Route', () =>{
     it('Should return 400 if the request input name is invalid.', async () =>{
         const res = await request('http://web-test:6060')
-        .post(`/api/update-user`)
+        .patch(`/api/update-user`)
         .set('Cookie', [
             `Session=${cookie}`,
         ])
@@ -103,7 +103,7 @@ describe('Test for the /api/update-user Route', () =>{
 
     it('Should return 400 if the request input email is invalid.', async () =>{
         const res = await request('http://web-test:6060')
-        .post(`/api/update-user`)
+        .patch(`/api/update-user`)
         .set('Cookie', [
             `Session=${cookie}`,
         ])
@@ -114,7 +114,7 @@ describe('Test for the /api/update-user Route', () =>{
 
     it('Should return 400 if the request input password is invalid.', async () =>{
         const res = await request('http://web-test:6060')
-        .post(`/api/update-user`)
+        .patch(`/api/update-user`)
         .set('Cookie', [
             `Session=${cookie}`,
         ])
@@ -126,7 +126,7 @@ describe('Test for the /api/update-user Route', () =>{
 
     it('Should return 200 if the request is successful.', async () =>{
         const res = await request('http://web-test:6060')
-        .post(`/api/update-user`)
+        .patch(`/api/update-user`)
         .set('Cookie', [
             `Session=${cookie}`,
         ])
@@ -135,60 +135,60 @@ describe('Test for the /api/update-user Route', () =>{
     });
 });
 
-// describe('Test for the /api/login', () =>{
-//     it('Should return 400 if the request input name is invalid.', async () =>{
-//         const body ={
-//             email: 'email$%email.com',
-//             password: 'senha123'
-//         }
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .send(body);
-//         expect(res.status).toEqual(400);
-//     });
+describe('Test for the /api/login', () =>{
+    it('Should return 400 if the request input name is invalid.', async () =>{
+        const body ={
+            email: 'email$%email.com',
+            password: 'senha123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/login`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .send(body);
+        expect(res.status).toEqual(400);
+    });
 
-//     it('Should return 400 if the request input email is invalid.', async () =>{
-//         const body ={
-//             email: 'email@email.com',
-//             password: 'senha 123'
-//         }
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .send(body);
-//         expect(res.status).toEqual(400);
-//     });
+    it('Should return 400 if the request input email is invalid.', async () =>{
+        const body ={
+            email: 'email@email.com',
+            password: 'senha 123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/login`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .send(body);
+        expect(res.status).toEqual(400);
+    });
 
-//     it('Should return 404 if the user not exist.', async () =>{
-//         const body ={
-//             email: 'email@email.com',
-//             password: 'senha123'
-//         }
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .send(body);
-//         expect(res.status).toEqual(400);
-//     });
+    it('Should return 404 if the user not exist.', async () =>{
+        const body ={
+            email: 'email@email.com',
+            password: 'senha123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/login`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .send(body);
+        expect(res.status).toEqual(400);
+    });
 
-//     it('Should return 200 if the request is successful.', async () =>{
-//         const body ={
-//             email: user?.email,
-//             password: 'senha123'
-//         }
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .send(body);
-//         expect(res.status).toEqual(200);
-//     });
-// });
+    it('Should return 200 if the request is successful.', async () =>{
+        const body ={
+            email: user?.email,
+            password: 'senha123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/login`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .send(body);
+        expect(res.status).toEqual(200);
+    });
+});
