@@ -12,7 +12,7 @@ beforeAll(async () => {
     userCookie = await createCookie(user!);
 })
 
-describe('teste da rota /api/c', () =>{
+describe('Test for the /api/c Route', () =>{
     it('Should return 404 if there is no registered community.', async () =>{
         const res = await request('http://web-test:6060')
         .get(`/api/c`);
@@ -29,7 +29,7 @@ describe('teste da rota /api/c', () =>{
     });
 });
 
-describe('teste da rota /api/c/[comunidade]', () =>{
+describe('Test for the /api/c/[comunidade] Route', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
         const queryCommunity = 'comunidade teste ;&%'
 
@@ -57,7 +57,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
     });
 });
 
-describe('teste da rota POST: /api/community', () =>{
+describe('Test for the POST: /api/community Route', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
@@ -82,7 +82,8 @@ describe('teste da rota POST: /api/community', () =>{
         expect(res.status).toEqual(201);
     });
 });
-describe('teste da rota PATCH: /api/community', () =>{
+
+describe('Test for the PATCH: /api/community Route', () =>{
     it('Should return 400 if the request name is invalid.', async () =>{
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
