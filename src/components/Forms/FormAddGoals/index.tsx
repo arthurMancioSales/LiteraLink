@@ -52,13 +52,27 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
     function renderButton() {
         if(!visibleInputTypeGoal("days") && !visibleInputTypeGoal("time")) {
             return (
-                <p className="text-center">Você já cadastrou todas as metas deste livro</p>
+                <>
+                    <div>
+                        <p className="text-center">Você já cadastrou todas as metas deste livro</p>
+                    </div>
+                    <div className="flex w-full">
+                        <div className="w-1/4 mx-auto">
+                            <Button onClick={onClose} variant="error" isLoading={loading}>Cancelar</Button>
+                        </div>
+                    </div>
+                </>
             );
         }
         
         return (
-            <div className="w-1/4 mx-auto">
-                <Button type="submit" variant="info" isLoading={loading}>SALVAR</Button>
+            <div className="flex w-full">
+                <div className="w-1/4 mx-auto">
+                    <Button onClick={onClose} variant="error" isLoading={loading}>Cancelar</Button>
+                </div>
+                <div className="w-1/4 mx-auto">
+                    <Button type="submit" variant="success" isLoading={loading}>Salvar</Button>
+                </div>
             </div>
         );
     }
@@ -141,8 +155,8 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                                                     setDisabledSequence(!disabledSequence);
                                                 }}
                                             />
-                                            <div className="flex justify-between w-full items-center">
-                                                <p>{"Sequencia (diária)"}</p>
+                                            <div className="flex items-center justify-between w-full">
+                                                <p>{"Sequência diária"}</p>
                                                 <Tooltip.Root
                                                     delayDuration={10}
                                                 >
@@ -175,7 +189,7 @@ export function FormAddGoals({ bookId, onClose }: PropTypes) {
                                                         setDisabledReadingTime(!disabledReadingTime);
                                                     }}
                                                 />
-                                                <div className="flex justify-between items-center w-full">
+                                                <div className="flex items-center justify-between w-full">
                                                     <p>{"Tempo de leitura (minutos)"}</p>
 
                                                     <Tooltip.Root

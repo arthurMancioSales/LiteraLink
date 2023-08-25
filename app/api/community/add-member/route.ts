@@ -15,7 +15,6 @@ export async function POST(req:NextRequest) {
         new NameCommunityValidator(name);
         const responseDB = await postAddUserCommunity(user, name);
         await redis.del(`userInfo:${user.id}`);
-        await redis.del("cachedAllCommunities");
         Response.data = responseDB;
         return NextResponse.json(Response, {status: Response.status});
     } catch (e: any) {

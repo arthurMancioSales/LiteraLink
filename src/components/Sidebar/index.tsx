@@ -71,7 +71,7 @@ export function Sidebar() {
                 </div>
                 <div className="flex flex-col h-full gap-2">
                     <div className="flex justify-between">
-                        <span>Comunidades</span>
+                        <span>Minhas comunidades</span>
                         <CircleSkeleton size={iconSize}/>
                     </div>
                     <div className="h-[45px]"><RectangleSkeleton/></div>
@@ -96,26 +96,25 @@ export function Sidebar() {
                             <Avatar src={userData?.image} size={120} />
                             <div className="relative flex justify-center w-full">
                                 <p className="pt-3">{userData?.name}</p>
-                                <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)}></IoIosSettings>
+                                <IoIosSettings size={25} className="absolute bottom-0 right-0 transition-all cursor-pointer hover:rotate-180" onClick={() => setOpenModalUserConfig(true)} title="Configurações do usuário"></IoIosSettings>
                             </div>
                         </>
                     </div>
                     <div className="">
-                        <Button icon={<TbProgress size={iconSize} />} onClick={() => setOpenModalProgress(true)}>Atualizar Progresso</Button>
-                        <Button icon={<BiSolidBookAdd size={iconSize} />} onClick={() => setOpenModalAddBook(true)}>Novo Livro</Button>
+                        <Button icon={<TbLayoutDashboard size={iconSize} />} redirectTo="/dashboard">DashBoard</Button>
                     </div>
                 </div>
                 <div className="py-2 border-solid border-y-2 border-light-text dark:border-dark-text">
-                    <Button icon={<TbLayoutDashboard size={iconSize} />} redirectTo="/dashboard">DashBoard</Button>
-                    <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search">Pesquisar</Button>
+                    <Button icon={<TbProgress size={iconSize} />} onClick={() => setOpenModalProgress(true)}>Atualizar Progresso</Button>
+                    <Button icon={<BiSolidBookAdd size={iconSize} />} onClick={() => setOpenModalAddBook(true)}>Novo Livro</Button>
                 </div>
                 <div className="h-[calc(100%-442px)]">
                     <div className="flex justify-between">
-                        <span>Comunidades</span>
+                        <span>Minhas comunidades</span>
                         <div className="cursor-pointer" title="Adicionar comunidade" onClick={() => setOpenModalAddCommunity(true)}><AiOutlineUsergroupAdd size={iconSize}/></div>
                     </div>
                     <ScrollArea.Root 
-                        className="h-full overflow-clip"
+                        className="h-[calc(100%-30px)] overflow-clip"
                         type="always"
                     >
                         <ScrollArea.Viewport className="w-[90%] max-w-full max-h-full rounded">
@@ -141,6 +140,9 @@ export function Sidebar() {
                         </ScrollArea.Scrollbar>
                         <ScrollArea.Corner className="bg-black" />
                     </ScrollArea.Root>
+                </div>
+                <div className="pt-2 border-t-2 border-solid border-light-text dark:border-dark-text">
+                    <Button icon={<AiOutlineSearch size={iconSize} />} redirectTo="/search" variant="tertiary">Procurar comunidades</Button>
                 </div>
             </div>
             {openModalProgress && <FormProgress onClose={() => setOpenModalProgress(false)}/>}

@@ -2,7 +2,7 @@ import Link from "next/link";
 import styles from "./Button.module.css";
 import { ReactNode } from "react";
 
-export type VariantButton = "primary" | "secondary" | "info" | "success" | "error" | "loading";
+export type VariantButton = "primary" | "secondary" | "info" | "success" | "error" | "loading" | "brand" | "tertiary";
 
 type VariantMap = {
     primary: string;
@@ -11,6 +11,8 @@ type VariantMap = {
     success: string;
     error: string;
     loading: string;
+    brand: string;
+    tertiary: string;
 }
 
 type PropTypes = {
@@ -30,6 +32,8 @@ const variantMap: VariantMap = {
     success: styles.success,
     error: styles.error,
     loading: styles.loading,
+    brand: styles.brand,
+    tertiary: styles.tertiary
 };
 
 

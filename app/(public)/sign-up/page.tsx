@@ -39,7 +39,7 @@ export default function SignUpPage() {
                     <Logo/>
                     <Toggle/>
                 </div>
-                <div className="flex flex-col justify-center h-full gap-4 px-20">
+                <div className="flex flex-col justify-center h-full gap-10 px-20">
                     <h2 className="text-3xl font-bold dark:text-dark-text">Criar conta</h2>
                     <Formik
                         onSubmit={async (values, {setSubmitting}) => {
@@ -73,7 +73,9 @@ export default function SignUpPage() {
                                     <Input name="password" label="Senha" type="password" error={props.errors.password} required />
                                     <Input name="verifyPassword" label="Confirmar a senha" type="password" error={props.errors.verifyPassword} required />
                                 </div>
-                                <Button type="submit" variant="info" isLoading={loadingPage}>CADASTRAR</Button>
+                                <div className="w-1/4">
+                                    <Button type="submit" variant="brand" isLoading={loadingPage}>CADASTRAR</Button>
+                                </div>
                             </form>
                         )}
                     </Formik>
