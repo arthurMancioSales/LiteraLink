@@ -12,10 +12,6 @@ beforeAll( async () =>{
     cookie = createCookie(user!);
 });
 
-// afterAll(async () => {
-//     await eraseDatabase();
-// });
-
 describe('Test for the /api/user Route', () =>{
     it('Should return 404 if there is no registered user.', async () =>{
         const fakeUser ={
@@ -93,51 +89,51 @@ describe('Test for the /api/new-user Route', () =>{
     });
 });
 
-// describe('Test for the /api/update-user Route', () =>{
-//     it('Should return 400 if the request input name is invalid.', async () =>{
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .field('name', 'nome99 %$.')
-//         .field('email', 'nome99#$emai.');
-//         expect(res).toEqual(400);
-//     });
+describe('Test for the /api/update-user Route', () =>{
+    it('Should return 400 if the request input name is invalid.', async () =>{
+        const res = await request('http://web-test:6060')
+        .post(`/api/update-user`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .field('name', 'nome %$.')
+        .field('email', 'nome#$emai.');
+        expect(res).toEqual(400);
+    });
 
-//     it('Should return 400 if the request input email is invalid.', async () =>{
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .field('name', 'nome')
-//         .field('email', 'nome#$emai.');
-//         expect(res.status).toEqual(400);
-//     });
+    it('Should return 400 if the request input email is invalid.', async () =>{
+        const res = await request('http://web-test:6060')
+        .post(`/api/update-user`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .field('name', 'nome')
+        .field('email', 'nome#$emai.');
+        expect(res.status).toEqual(400);
+    });
 
-//     it('Should return 400 if the request input password is invalid.', async () =>{
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .field('name', 'nome')
-//         .field('email', 'nome@email.com')
-//         .field('password', 'nome emai123');
-//         expect(res.status).toEqual(400);
-//     });
+    it('Should return 400 if the request input password is invalid.', async () =>{
+        const res = await request('http://web-test:6060')
+        .post(`/api/update-user`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .field('name', 'nome')
+        .field('email', 'nome@email.com')
+        .field('password', 'nome emai123');
+        expect(res.status).toEqual(400);
+    });
 
-//     it('Should return 200 if the request is successful.', async () =>{
-//         const res = await request('http://web-test:6060')
-//         .post(`/api/update-user`)
-//         .set('Cookie', [
-//             `Session=${cookie}`,
-//         ])
-//         .field('name', 'nomeAlterado');
-//         expect(res.status).toEqual(200);
-//     });
-// });
+    it('Should return 200 if the request is successful.', async () =>{
+        const res = await request('http://web-test:6060')
+        .post(`/api/update-user`)
+        .set('Cookie', [
+            `Session=${cookie}`,
+        ])
+        .field('name', 'nomeAlterado');
+        expect(res.status).toEqual(200);
+    });
+});
 
 // describe('Test for the /api/login', () =>{
 //     it('Should return 400 if the request input name is invalid.', async () =>{
