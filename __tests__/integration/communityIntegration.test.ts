@@ -13,10 +13,6 @@ beforeAll(async () => {
     userCookie = await createCookie(user!);
 })
 
-// afterAll(async () => {
-//     await eraseDatabase();
-// })
-
 describe('Test for the /api/c Route', () =>{
     it('Should return 404 if there is no registered community.', async () =>{
         const res = await request('http://web-test:6060')
