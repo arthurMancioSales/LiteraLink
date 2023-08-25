@@ -9,7 +9,7 @@ let cookie: any;
 
 beforeAll( async () =>{
     user = await createUserForTest('userGeralUser');
-    cookie = createCookie(user!);
+    cookie = await createCookie(user!);
 });
 
 describe('Test for the /api/user Route', () =>{
@@ -98,7 +98,7 @@ describe('Test for the /api/update-user Route', () =>{
         ])
         .field('name', 'nome %$.')
         .field('email', 'emailUser%%email.com');
-        expect(res).toEqual(400);
+        expect(res.sattus).toEqual(400);
     });
 
     it('Should return 400 if the request input email is invalid.', async () =>{
@@ -143,9 +143,6 @@ describe('Test for the /api/login', () =>{
         }
         const res = await request('http://web-test:6060')
         .post(`/api/login`)
-        .set('Cookie', [
-            `Session=${cookie}`,
-        ])
         .send(body);
         expect(res.status).toEqual(400);
     });
@@ -157,9 +154,6 @@ describe('Test for the /api/login', () =>{
         }
         const res = await request('http://web-test:6060')
         .post(`/api/login`)
-        .set('Cookie', [
-            `Session=${cookie}`,
-        ])
         .send(body);
         expect(res.status).toEqual(400);
     });
@@ -171,9 +165,6 @@ describe('Test for the /api/login', () =>{
         }
         const res = await request('http://web-test:6060')
         .post(`/api/login`)
-        .set('Cookie', [
-            `Session=${cookie}`,
-        ])
         .send(body);
         expect(res.status).toEqual(404);
     });
@@ -185,9 +176,6 @@ describe('Test for the /api/login', () =>{
         }
         const res = await request('http://web-test:6060')
         .post(`/api/login`)
-        .set('Cookie', [
-            `Session=${cookie}`,
-        ])
         .send(body);
         expect(res.status).toEqual(200);
     });
