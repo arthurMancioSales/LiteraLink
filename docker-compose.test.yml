@@ -12,7 +12,9 @@ services:
       - test-network
 
   redis-test:
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: redis.Dockerfile
     networks:
       - test-network
   

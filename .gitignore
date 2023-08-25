@@ -41,3 +41,5 @@ ssl
 *.key
 
 uploads
+
+redis.conf
