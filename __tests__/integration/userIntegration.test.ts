@@ -1,5 +1,6 @@
 import { createCookie } from "@/src/utils/test_util/createCookie";
 import { createUserForTest } from "@/src/utils/test_util/createUserForTest";
+import { eraseDatabase } from "@/src/utils/test_util/eraseDatabase";
 
 const request = require('supertest');
 
@@ -9,7 +10,11 @@ let cookie: any;
 beforeAll( async () =>{
     user = await createUserForTest('userGeral');
     cookie = createCookie(user!);
-})
+});
+
+afterAll(async () => {
+    await eraseDatabase();
+});
 
 describe('Test for the /api/user Route', () =>{
     it('Should return 404 if there is no registered user.', async () =>{
