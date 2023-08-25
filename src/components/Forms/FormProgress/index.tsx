@@ -225,9 +225,8 @@ export function FormProgress({ onClose }: PropTypes) {
 
                                         setIdBookSelected(e.target.value);
                                     }}
-                                    value=""
                                 >
-                                    <option value="" hidden disabled>Selecione um livro</option>
+                                    <option value="" selected hidden disabled>Selecione um livro</option>
                                     {booksList().map((element) => (
                                         <option key={element.id} value={element.id}>{element.name}</option>
                                     ))}
