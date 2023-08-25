@@ -12,9 +12,9 @@ beforeAll( async () =>{
     cookie = createCookie(user!);
 });
 
-afterAll(async () => {
-    await eraseDatabase();
-});
+// afterAll(async () => {
+//     await eraseDatabase();
+// });
 
 describe('Test for the /api/user Route', () =>{
     it('Should return 404 if there is no registered user.', async () =>{

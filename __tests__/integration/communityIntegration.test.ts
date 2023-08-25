@@ -13,9 +13,9 @@ beforeAll(async () => {
     userCookie = await createCookie(user!);
 })
 
-afterAll(async () => {
-    await eraseDatabase();
-})
+// afterAll(async () => {
+//     await eraseDatabase();
+// })
 
 describe('Test for the /api/c Route', () =>{
     it('Should return 404 if there is no registered community.', async () =>{
