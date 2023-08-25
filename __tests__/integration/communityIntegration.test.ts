@@ -83,7 +83,6 @@ describe('teste da rota POST: /api/community', () =>{
     });
 });
 describe('teste da rota PATCH: /api/community', async () =>{
-    const communityGeral = await createCommunityForTest(user!, 'comunidadeGeral');
     it('Should return 400 if the request name is invalid.', async () =>{
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
@@ -107,6 +106,7 @@ describe('teste da rota PATCH: /api/community', async () =>{
     });
 
     it('Should return 200 if the request is successful.', async () =>{
+        const communityGeral = await createCommunityForTest(user!, 'comunidadeGeral');
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
         .set('Cookie', [
