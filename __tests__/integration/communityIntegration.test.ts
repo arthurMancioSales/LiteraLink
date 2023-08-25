@@ -82,7 +82,7 @@ describe('teste da rota POST: /api/community', () =>{
         expect(res.status).toEqual(201);
     });
 });
-describe('teste da rota PATCH: /api/community', async () =>{
+describe('teste da rota PATCH: /api/community', () =>{
     it('Should return 400 if the request name is invalid.', async () =>{
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
