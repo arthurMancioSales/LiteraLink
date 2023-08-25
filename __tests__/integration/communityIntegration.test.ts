@@ -62,7 +62,6 @@ describe('teste da rota /api/community', () =>{
         const body = {
             name: 'comunidade teste ;&%',
             description: 'descrição da comunidade 3',
-            image: '/imagem',
             communityGenre: 'Terror'
         }
 
@@ -72,14 +71,13 @@ describe('teste da rota /api/community', () =>{
             `Session=${userCookie}`,
         ])
         .send(body);
-        expect(res).toBe({});
+        expect(res.status).toBe(400);
     });
 
     it('Should return 200 if the request is successful.', async () =>{
         const body = {
             name: 'communidade 3',
             description: 'descrição da comunidade 3',
-            image: '/imagem',
             communityGenre: 'Terror'
         }
 
