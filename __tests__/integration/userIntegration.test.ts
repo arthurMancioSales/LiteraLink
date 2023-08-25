@@ -21,19 +21,19 @@ describe('Test for the /api/c Route', () =>{
         }
         const fakeCookie = await createCookie(fakeUser);
         const res = await request('http://web-test:6060')
+        .get(`/api/user`)
         .set('Cookie', [
             `Session=${fakeCookie}`,
-        ])
-        .get(`/api/user`);
+        ]);
         expect(res.status).toEqual(404);
     });
 
     it('Should return 200 if the request is successful.', async () =>{
         const res = await request('http://web-test:6060')
+        .get(`/api/user`)
         .set('Cookie', [
             `Session=${cookie}`,
-        ])
-        .get(`/api/user`);
+        ]);
         expect(res.status).toEqual(200);
     });
 });
