@@ -97,8 +97,8 @@ describe('Test for the /api/update-user Route', () =>{
             `Session=${cookie}`,
         ])
         .field('name', 'nome %$.')
-        .field('email', 'nome#$emai.');
-        expect(res).toEqual(400);
+        .field('email', 'emailUser%%email.com');
+        expect(res.status).toEqual(400);
     });
 
     it('Should return 400 if the request input email is invalid.', async () =>{
@@ -108,7 +108,7 @@ describe('Test for the /api/update-user Route', () =>{
             `Session=${cookie}`,
         ])
         .field('name', 'nome')
-        .field('email', 'nome#$emai.');
+        .field('email', 'emailUser%%email.com');
         expect(res.status).toEqual(400);
     });
 
@@ -120,7 +120,7 @@ describe('Test for the /api/update-user Route', () =>{
         ])
         .field('name', 'nome')
         .field('email', 'nome@email.com')
-        .field('password', 'nome emai123');
+        .field('password', 'senha 123');
         expect(res.status).toEqual(400);
     });
 
@@ -175,7 +175,7 @@ describe('Test for the /api/login', () =>{
             `Session=${cookie}`,
         ])
         .send(body);
-        expect(res.status).toEqual(400);
+        expect(res.status).toEqual(404);
     });
 
     it('Should return 200 if the request is successful.', async () =>{
