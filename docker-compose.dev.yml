@@ -14,7 +14,9 @@ services:
       - dev-network
 
   redis-dev:
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: redis.Dockerfile
     networks:
       - dev-network
     restart: on-failure

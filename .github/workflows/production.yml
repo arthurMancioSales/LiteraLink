@@ -19,6 +19,9 @@ jobs:
       - name: create env file
         run: echo "${{secrets.env_prod}}" > .env.local 
 
+      - name: create redis.conf file
+        run: echo "${{secrets.redis_conf}}" > redis.conf
+
       - name: Clear previous containers
         run: docker compose -f ./docker-compose.prod.yml down
 

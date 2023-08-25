@@ -10,7 +10,9 @@ services:
       - prod-network
 
   redis:
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: redis.Dockerfile
     networks:
       - prod-network
     restart: on-failure

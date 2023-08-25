@@ -13,7 +13,9 @@ services:
       - stage-network
 
   redis-stage:
-    image: "redis:alpine"
+    build:
+      context: .
+      dockerfile: redis.Dockerfile
     networks:
       - stage-network
     restart: on-failure
