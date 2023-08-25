@@ -6,9 +6,11 @@ import { createUserForTest } from "../../src/utils/test_util/createUserForTest";
 
 let user: any;
 let userCookie: any;
+let communityGeral: any;
 
 beforeAll(async () => {
     user = await createUserForTest('userGeral');
+    communityGeral = await createCommunityForTest(user!, 'comunidadeGeral');
     userCookie = await createCookie(user!);
 })
 
@@ -57,14 +59,8 @@ describe('teste da rota /api/c/[comunidade]', () =>{
     });
 });
 
-describe('teste da rota /api/community', () =>{
+describe('teste da rota POST: /api/community', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
-        // const body = {
-        //     name: 'comunidade teste ;&%',
-        //     description: 'descrição da comunidade 3',
-        //     communityGenre: 'Terror'
-        // }
-
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
@@ -77,12 +73,6 @@ describe('teste da rota /api/community', () =>{
     });
 
     it('Should return 200 if the request is successful.', async () =>{
-        // const body = {
-        //     name: 'communidade 3',
-        //     description: 'descrição da comunidade 3',
-        //     communityGenre: 'Terror'
-        // }
-
         const res = await request('http://web-test:6060')
         .post(`/api/community`)
         .set('Cookie', [
@@ -92,5 +82,41 @@ describe('teste da rota /api/community', () =>{
         .field('description', 'descrição da comunidade 3')
         .field('communityGenre', 'Terror')
         expect(res.status).toEqual(201);
+    });
+});
+describe('teste da rota PATCH: /api/community', () =>{
+    it('Should return 400 if the request input is invalid.', async () =>{
+        const res = await request('http://web-test:6060')
+        .patch(`/api/community`)
+        .set('Cookie', [
+            `Session=${userCookie}`,
+        ])
+        .field('name', 'comunidade teste ;&%')
+        expect(res.status).toBe(400);
+    });
+
+    it('Should return 200 if the request is successful.', async () =>{
+        const res = await request('http://web-test:6060')
+        .patch(`/api/community`)
+        .set('Cookie', [
+            `Session=${userCookie}`,
+        ])
+        .field('name', 'comunidade 3')
+        .field('description', 'descrição da comunidade 3')
+        .field('communityGenre', 'terror')
+        expect(res.status).toEqual(403);
+    });
+
+    it('Should return 200 if the request is successful.', async () =>{
+        const res = await request('http://web-test:6060')
+        .patch(`/api/community`)
+        .set('Cookie', [
+            `Session=${userCookie}`,
+        ])
+        .field('id', `123`)
+        .field('name', 'comunidadeGeral')
+        .field('description', 'descrição da comunidade 3')
+        .field('communityGenre', 'Terror')
+        expect(res.status).toEqual(200);
     });
 });
