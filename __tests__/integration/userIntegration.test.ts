@@ -98,7 +98,7 @@ describe('Test for the /api/update-user Route', () =>{
         ])
         .field('name', 'nome %$.')
         .field('email', 'emailUser%%email.com');
-        expect(res.status).toEqual(400);
+        expect(res).toEqual(400);
     });
 
     it('Should return 400 if the request input email is invalid.', async () =>{
