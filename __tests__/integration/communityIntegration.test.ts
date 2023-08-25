@@ -60,7 +60,7 @@ describe('teste da rota /api/c/[comunidade]', () =>{
 describe('teste da rota /api/community', () =>{
     it('Should return 400 if the request input is invalid.', async () =>{
         const body = {
-            name: 'communidade 3;.,',
+            name: 'comunidade teste ;&%',
             description: 'descrição da comunidade 3',
             image: '/imagem',
             communityGenre: 'Terror'
