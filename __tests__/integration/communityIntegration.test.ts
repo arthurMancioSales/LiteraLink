@@ -6,11 +6,9 @@ import { createUserForTest } from "../../src/utils/test_util/createUserForTest";
 
 let user: any;
 let userCookie: any;
-let communityGeral: any;
 
 beforeAll(async () => {
     user = await createUserForTest('userGeral');
-    communityGeral = await createCommunityForTest(user!, 'comunidadeGeral');
     userCookie = await createCookie(user!);
 })
 
@@ -84,8 +82,9 @@ describe('teste da rota POST: /api/community', () =>{
         expect(res.status).toEqual(201);
     });
 });
-describe('teste da rota PATCH: /api/community', () =>{
-    it('Should return 400 if the request input is invalid.', async () =>{
+describe('teste da rota PATCH: /api/community', async () =>{
+    const communityGeral = await createCommunityForTest(user!, 'comunidadeGeral');
+    it('Should return 400 if the request name is invalid.', async () =>{
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
         .set('Cookie', [
@@ -95,7 +94,7 @@ describe('teste da rota PATCH: /api/community', () =>{
         expect(res.status).toBe(400);
     });
 
-    it('Should return 200 if the request is successful.', async () =>{
+    it('Should return 403 if communityGenre is invalid.', async () =>{
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
         .set('Cookie', [
@@ -113,8 +112,7 @@ describe('teste da rota PATCH: /api/community', () =>{
         .set('Cookie', [
             `Session=${userCookie}`,
         ])
-        .field('id', `123`)
-        .field('name', 'comunidadeGeral')
+        .field('name', `${communityGeral?.name}`)
         .field('description', 'descrição da comunidade 3')
         .field('communityGenre', 'Terror')
         expect(res.status).toEqual(200);
