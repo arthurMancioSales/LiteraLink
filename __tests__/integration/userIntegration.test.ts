@@ -8,7 +8,7 @@ let user: any;
 let cookie: any;
 
 beforeAll( async () =>{
-    user = await createUserForTest('userGeral');
+    user = await createUserForTest('userGeralUser');
     cookie = createCookie(user!);
 });
 
@@ -47,7 +47,7 @@ describe('Test for the /api/new-user Route', () =>{
     it('Should return 400 if the request input name is invalid.', async () =>{
         const body ={
             name: 'nome %$.',
-            email: 'email@email.com',
+            email: 'emailUser@email.com',
             password: 'senha123'
         }
         const res = await request('http://web-test:6060')
@@ -58,8 +58,8 @@ describe('Test for the /api/new-user Route', () =>{
 
     it('Should return 400 if the request input email is invalid.', async () =>{
         const body ={
-            name: 'nome',
-            email: 'email%%email.com',
+            name: 'nome99',
+            email: 'emailUser%%email.com',
             password: 'senha123'
         }
         const res = await request('http://web-test:6060')
@@ -70,8 +70,8 @@ describe('Test for the /api/new-user Route', () =>{
 
     it('Should return 400 if the request input password is invalid.', async () =>{
         const body ={
-            name: 'nome',
-            email: 'email@email.com',
+            name: 'nome99',
+            email: 'emailUser@email.com',
             password: 'senha 123'
         }
         const res = await request('http://web-test:6060')
@@ -82,8 +82,8 @@ describe('Test for the /api/new-user Route', () =>{
 
     it('Should return 200 if the request is successful.', async () =>{
         const body ={
-            name: 'nome',
-            email: 'email@email.com',
+            name: 'nome99',
+            email: 'emailUser@email.com',
             password: 'senha123'
         }
         const res = await request('http://web-test:6060')
@@ -100,8 +100,8 @@ describe('Test for the /api/new-user Route', () =>{
 //         .set('Cookie', [
 //             `Session=${cookie}`,
 //         ])
-//         .field('name', 'nome %$.')
-//         .field('email', 'nome#$emai.');
+//         .field('name', 'nome99 %$.')
+//         .field('email', 'nome99#$emai.');
 //         expect(res).toEqual(400);
 //     });
 

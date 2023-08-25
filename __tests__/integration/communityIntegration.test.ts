@@ -9,7 +9,7 @@ let user: any;
 let userCookie: any;
 
 beforeAll(async () => {
-    user = await createUserForTest('userGeral');
+    user = await createUserForTest('userGeralCommunity');
     userCookie = await createCookie(user!);
 })
 
