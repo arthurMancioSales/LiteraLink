@@ -11,10 +11,10 @@ beforeAll( async () =>{
     cookie = createCookie(user!);
 })
 
-describe('Test for the /api/c Route', () =>{
+describe('Test for the /api/user Route', () =>{
     it('Should return 404 if there is no registered user.', async () =>{
         const fakeUser ={
-            id: 'string',
+            id: '603f650a0aaf5211c0ccdb2f',
             name: 'string',
             email: 'email@email.com',
             image: '/imageFake'
@@ -34,6 +34,56 @@ describe('Test for the /api/c Route', () =>{
         .set('Cookie', [
             `Session=${cookie}`,
         ]);
+        expect(res.status).toEqual(200);
+    });
+});
+
+describe('Test for the /api/new-user Route', () =>{
+    it('Should return 400 if the request input name is invalid.', async () =>{
+        const body ={
+            name: 'nome %$.',
+            email: 'email@email.com',
+            password: 'senha123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/user`)
+        .send(body);
+        expect(res.status).toEqual(404);
+    });
+
+    it('Should return 400 if the request input email is invalid.', async () =>{
+        const body ={
+            name: 'nome',
+            email: 'email%%email.com',
+            password: 'senha123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/user`)
+        .send(body);
+        expect(res.status).toEqual(404);
+    });
+
+    it('Should return 400 if the request input password is invalid.', async () =>{
+        const body ={
+            name: 'nome',
+            email: 'email@email.com',
+            password: 'senha 123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/user`)
+        .send(body);
+        expect(res.status).toEqual(404);
+    });
+
+    it('Should return 200 if the request is successful.', async () =>{
+        const body ={
+            name: 'nome',
+            email: 'email@email.com',
+            password: 'senha123'
+        }
+        const res = await request('http://web-test:6060')
+        .post(`/api/user`)
+        .send(body);
         expect(res.status).toEqual(200);
     });
 });
