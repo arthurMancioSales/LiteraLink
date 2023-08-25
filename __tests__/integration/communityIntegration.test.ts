@@ -106,15 +106,15 @@ describe('teste da rota PATCH: /api/community', () =>{
     });
 
     it('Should return 200 if the request is successful.', async () =>{
-        const communityGeral = await createCommunityForTest(user!, 'comunidadeGeral');
+        await createCommunityForTest(user!, 'comunidadeGeral');
         const res = await request('http://web-test:6060')
         .patch(`/api/community`)
         .set('Cookie', [
             `Session=${userCookie}`,
         ])
         .field('id', `123`)
-        .field('oldName', `${communityGeral?.name}`)
-        .field('name', `${communityGeral?.name}`)
+        .field('oldName', `comunidadeGeral`)
+        .field('name', `comunidade 123`)
         .field('description', 'descrição da comunidade 3')
         .field('communityGenre', 'Terror')
         expect(res.status).toEqual(200);
