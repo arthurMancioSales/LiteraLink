@@ -112,6 +112,8 @@ describe('teste da rota PATCH: /api/community', () =>{
         .set('Cookie', [
             `Session=${userCookie}`,
         ])
+        .field('id', `123`)
+        .field('oldName', `${communityGeral?.name}`)
         .field('name', `${communityGeral?.name}`)
         .field('description', 'descrição da comunidade 3')
         .field('communityGenre', 'Terror')
