@@ -72,7 +72,7 @@ describe('teste da rota /api/community', () =>{
             `Session=${userCookie}`,
         ])
         .send(body);
-        expect(res.data).toEqual(400);
+        expect(res).toBe({});
     });
 
     it('Should return 200 if the request is successful.', async () =>{
